@@ -16,8 +16,8 @@
 
 """This module contains tests for the Calibrator.calibrate method."""
 
-import glob
-import os
+import shutil
+import tempfile
 from typing import Any
 from unittest.mock import MagicMock, patch
 
@@ -188,75 +188,108 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
     bounds = np.array([[0.01, 0.01], [1.00, 1.00]])
     bounds_step = np.array([0.01, 0.01])
 
-    batch_size = 2
-    random_sampler = RandomUniformSampler(batch_size=batch_size)
-    halton_sampler = HaltonSampler(batch_size=batch_size)
+    saving_folder: str
 
-    model = NormalMV
-    real_data = model(true_params, N=100, seed=0)
-    loss = MethodOfMomentsLoss()
+    @classmethod
+    def setup_class(cls) -> None:
+        """Set up the test class."""
+        cls.saving_folder = tempfile.mktemp()
 
-    # initialize a Calibrator object
-    cal = Calibrator(
-        samplers=[
-            random_sampler,
-            halton_sampler,
-        ],
-        real_data=real_data,
-        model=model,
-        parameters_bounds=bounds,
-        parameters_precision=bounds_step,
-        ensemble_size=2,
-        loss_function=loss,
-        saving_folder="saving_folder",
-        n_jobs=1,
-    )
+    def test_run(self) -> None:  # pylint: disable=too-many-locals
+        """Run the test."""
+        true_params = np.array([0.50, 0.50])
+        bounds = np.array([[0.0, 0.0], [1.00, 1.00]])
+        bounds_step = np.array([0.01, 0.01])
 
-    _, _ = cal.calibrate(2)
+        batch_size = 2
+        random_sampler = RandomUniformSampler(batch_size=batch_size)
+        halton_sampler = HaltonSampler(batch_size=batch_size)
+        gaussian_sampler = GaussianProcessSampler(batch_size=batch_size, max_iters=10)
+        best_batch_sampler = BestBatchSampler(batch_size=batch_size)
+        r_sequence_sampler = RSequenceSampler(batch_size=batch_size)
+        random_forest_sampler = RandomForestSampler(
+            batch_size=batch_size, n_estimators=10
+        )
 
-    cal_restored = Calibrator.restore_from_checkpoint("saving_folder", model=model)
+        model = md.NormalMV
+        real_data = model(true_params, N=100, seed=0)
+        loss = MethodOfMomentsLoss()
 
-    # loop over all attributes of the classes
-    vars_cal = vars(cal)
-    for key in vars_cal:
-        # if the attribute is an object just check the equality of their names
-        if key == "samplers":
-            for method1, method2 in zip(vars_cal["samplers"], cal_restored.samplers):
-                assert type(method1).__name__ == type(method2).__name__
-        elif key == "loss_function":
-            assert (
-                type(vars_cal["loss_function"]).__name__
-                == type(cal_restored.loss_function).__name__  # noqa
-            )
-        elif key == "param_grid":
-            assert (
-                type(vars_cal["param_grid"]).__name__
-                == type(cal_restored.param_grid).__name__  # noqa
-            )
-        elif key == "_random_generator":
-            assert (
-                vars_cal[key].bit_generator.state
-                == cal_restored.random_generator.bit_generator.state
-            )
-        # otherwise check the equality of numerical values
-        else:
-            assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
+        # initialize a Calibrator object
+        cal = Calibrator(
+            methods_list=[
+                random_sampler,
+                halton_sampler,
+                gaussian_sampler,
+                best_batch_sampler,
+                r_sequence_sampler,
+                random_forest_sampler,
+            ],
+            real_data=real_data,
+            model=model,
+            parameters_bounds=bounds,
+            parameters_precision=bounds_step,
+            ensemble_size=2,
+            loss_function=loss,
+            saving_folder=self.saving_folder,
+            n_jobs=1,
+        )
 
-    # testt the setting of a new sampler to the calibrator object
-    best_batch_sampler = BestBatchSampler(batch_size=2)
-    cal.set_samplers(
+        _, _ = cal.calibrate(2)
+
+        cal_restored = Calibrator.restore_from_checkpoint(
+            self.saving_folder, model=model
+        )
+
+        # loop over all attributes of the classes
+        vars_cal = vars(cal)
+        for key in vars_cal:
+            # if the attribute is an object just check the equality of their names
+            if key == "methods_list":
+                for method1, method2 in zip(
+                    vars_cal["methods_list"], cal_restored.methods_list
+                ):
+                    assert type(method1).__name__ == type(method2).__name__
+            elif key == "loss_function":
+                assert (
+                    type(vars_cal["loss_function"]).__name__
+                    == type(cal_restored.loss_function).__name__  # noqa
+                )
+            elif key == "param_grid":
+                assert (
+                    type(vars_cal["param_grid"]).__name__
+                    == type(cal_restored.param_grid).__name__  # noqa
+                )
+            elif key == "_random_generator":
+                assert (
+                    vars_cal[key].bit_generator.state
+                    == cal_restored.random_generator.bit_generator.state
+                )
+            # otherwise check the equality of numerical values
+            else:
+                assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
+
+        
+        # testt the setting of a new sampler to the calibrator object
+        best_batch_sampler = BestBatchSampler(batch_size=2)
+        cal.set_samplers(
         [random_sampler, best_batch_sampler]
-    )  # note: only the second sampler is new
-    assert len(cal.samplers) == 2
-    assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
-    assert len(cal.samplers_id_table) == 3
-    assert cal.samplers_id_table["BestBatchSampler"] == 2
+        )  # note: only the second sampler is new
+        assert len(cal.samplers) == 2
+        assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
+        assert len(cal.samplers_id_table) == 3
+        assert cal.samplers_id_table["BestBatchSampler"] == 2
 
-    # remove the test folder
-    files = glob.glob("saving_folder/*")
-    for f in files:
-        os.remove(f)
-    os.rmdir("saving_folder")
+        # remove the test folder
+        files = glob.glob("saving_folder/*")
+        for f in files:
+            os.remove(f)
+            os.rmdir("saving_folder")
+
+    @classmethod
+    def teardown_class(cls) -> None:
+        """Teardown the class."""
+        shutil.rmtree(cls.saving_folder)
 
 
 def test_new_sampling_method() -> None:

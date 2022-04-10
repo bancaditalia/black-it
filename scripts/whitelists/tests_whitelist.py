@@ -17,3 +17,4 @@ _.side_effect  # unused attribute (tests/test_utils/test_sqlite3_checkpointing.p
 _.return_value  # unused attribute (tests/test_utils/test_sqlite3_checkpointing.py:123)
 sim_data_ensemble  # unused variable (tests/test_losses/test_base.py:41:)
 _.disabled  # unused attribute (tests/test_plot/base.py:42)
+_.teardown_class  # unused method (tests/test_calibrator.py:268)
