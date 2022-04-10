@@ -18,11 +18,11 @@
 from typing import Optional, Tuple
 
 import numpy as np
-from numpy.random import default_rng
 from numpy.typing import NDArray
 from sklearn.ensemble import RandomForestClassifier
 
-from black_it.samplers.base import BaseSampler
+from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
+from black_it.samplers.random_uniform import RandomUniformSampler
 from black_it.search_space import SearchSpace
 from black_it.utils.base import digitize_data
 
@@ -33,7 +33,8 @@ class RandomForestSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        internal_seed: int = 0,
+        random_state: Optional[int] = None,
+        max_deduplication_passes: int = _DEFAULT_MAX_DEDUPLICATION_PASSES,
         candidate_pool_size: Optional[int] = None,
         n_estimators: int = 500,
         criterion: str = "gini",
@@ -45,34 +46,40 @@ class RandomForestSampler(BaseSampler):
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
-            internal_seed: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            max_deduplication_passes: the maximum number of deduplication passes
             candidate_pool_size: number of randomly sampled points on which the random forest predictions are evaluated
             n_estimators: number of trees in the forest
             criterion: The function to measure the quality of a split.
         """
-        super().__init__(batch_size, internal_seed)
+        super().__init__(batch_size, random_state, max_deduplication_passes)
 
-        self.n_estimators = n_estimators
-        self.criterion = criterion
+        self._n_estimators = n_estimators
+        self._criterion = criterion
 
         if candidate_pool_size is not None:
-            self.candidate_pool_size = candidate_pool_size
+            self._candidate_pool_size = candidate_pool_size
         else:
-            self.candidate_pool_size = 1000 * batch_size
+            self._candidate_pool_size = 1000 * batch_size
 
-    def single_sample(  # noqa
-        self,
-        seed: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        raise NotImplementedError(
-            "for RandomForestSampler the parallelization is hard coded in sample"
-        )
+    @property
+    def n_estimators(self) -> int:
+        """Get the number of estimators."""
+        return self._n_estimators
 
-    def sample(
+    @property
+    def criterion(self) -> str:
+        """Get the criterion."""
+        return self._criterion
+
+    @property
+    def candidate_pool_size(self) -> int:
+        """Get the candidate pool size."""
+        return self._candidate_pool_size
+
+    def sample_batch(
         self,
+        nb_samples: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
@@ -81,6 +88,7 @@ class RandomForestSampler(BaseSampler):
         Sample from the search space.
 
         Args:
+            nb_samples: the number of points to sample
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled
             existing_losses: the loss corresponding to the sampled parameters
@@ -89,7 +97,11 @@ class RandomForestSampler(BaseSampler):
             the sampled parameters
         """
         # Get large candidate pool
-        candidates = self._get_candidates(existing_points, search_space)
+        candidates = RandomUniformSampler(
+            self.candidate_pool_size, random_state=self._get_random_seed()
+        ).sample_batch(
+            self.candidate_pool_size, search_space, existing_points, existing_losses
+        )
 
         # Train surrogate
         x: NDArray[np.float64]
@@ -102,7 +114,7 @@ class RandomForestSampler(BaseSampler):
             n_estimators=self.n_estimators,
             criterion=self.criterion,
             n_jobs=-1,
-            random_state=self.internal_seed,
+            random_state=self._get_random_seed(),
         )
         classifier.fit(x, y)
         # Predict quantiles
@@ -112,8 +124,6 @@ class RandomForestSampler(BaseSampler):
         sampled_points: NDArray[np.float64] = candidates[sorting_indices][
             : self.batch_size
         ]
-
-        self.internal_seed += self.batch_size
 
         return digitize_data(sampled_points, search_space.param_grid)
 
@@ -152,45 +162,3 @@ class RandomForestSampler(BaseSampler):
         y_cat = y_cat - 1
 
         return x, y_cat, quantiles
-
-    def _get_candidates(
-        self, existing_points: NDArray[np.float64], search_space: SearchSpace
-    ) -> NDArray[np.float64]:
-        """
-        Get the set of candidate parameters.
-
-        Args:
-            existing_points: the parameters already sampled
-            search_space: the search space
-
-        Returns:
-            the list of candidates, without duplicates.
-        """
-
-        def sample(nb_samples: int) -> NDArray[np.float64]:
-            random_generator = default_rng(self.internal_seed)
-            candidates = np.zeros((nb_samples, search_space.dims))
-            for i, params in enumerate(search_space.param_grid):
-                candidates[:, i] = random_generator.choice(params, size=(nb_samples,))
-            return candidates
-
-        samples = sample(self.candidate_pool_size)
-
-        for n in range(self.max_duplication_passes):
-
-            duplicates = self.find_and_get_duplicates(samples, existing_points)
-
-            num_duplicates = len(duplicates)
-
-            if num_duplicates == 0:
-                break
-            new_samples = sample(num_duplicates)
-            samples[duplicates] = new_samples
-
-            if n == self.max_duplication_passes - 1:
-                print(
-                    f"Warning: Repeated samples still found after {self.max_duplication_passes} duplication passes."
-                    " This is probably due to a small search space."
-                )
-
-        return samples

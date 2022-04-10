@@ -21,21 +21,21 @@ from black_it.search_space import SearchSpace
 
 expected_params = np.array(
     [
-        [0.5, 0.33],
-        [0.25, 0.67],
-        [0.75, 0.11],
-        [0.13, 0.44],
-        [0.63, 0.78],
-        [0.38, 0.22],
-        [0.88, 0.56],
-        [0.06, 0.89],
+        [0.1, 0.39],
+        [0.6, 0.72],
+        [0.35, 0.17],
+        [0.85, 0.5],
+        [0.22, 0.84],
+        [0.72, 0.28],
+        [0.47, 0.61],
+        [0.97, 0.95],
     ]
 )
 
 
 def test_halton_2d() -> None:
     """Test the Halton sampler, 2d."""
-    sampler = HaltonSampler(batch_size=8, internal_seed=0)
+    sampler = HaltonSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),

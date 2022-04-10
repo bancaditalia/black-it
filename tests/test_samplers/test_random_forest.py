@@ -14,15 +14,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the random forest sampler."""
-from unittest.mock import MagicMock
 
 import numpy as np
-import pytest
 
 from black_it.samplers.random_forest import RandomForestSampler
 from black_it.search_space import SearchSpace
 
-expected_params = np.array([[0.0, 0.07], [0.04, 0.03], [0.05, 0.01], [0.09, 0.01]])
+expected_params = np.array([[0.26, 0.06], [0.02, 0.1], [0.24, 0.01], [0.16, 0.1]])
 
 
 def test_random_forest_2d() -> None:
@@ -36,12 +34,12 @@ def test_random_forest_2d() -> None:
     for x in xs:
         for y in ys:
             xys_list.append([x, y])
-            losses_list.append(x**2 + y**2)
+            losses_list.append(x ** 2 + y ** 2)
 
     xys = np.array(xys_list)
     losses = np.array(losses_list)
 
-    sampler = RandomForestSampler(batch_size=4, internal_seed=0)
+    sampler = RandomForestSampler(batch_size=4, random_state=0, n_estimators=5)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),
@@ -50,16 +48,6 @@ def test_random_forest_2d() -> None:
     new_params = sampler.sample(param_grid, xys, losses)
 
     assert np.allclose(expected_params, new_params)
-
-
-def test_random_forest_single_sample_raises_error() -> None:
-    """Test that 'RandomForestSampler.single_sample' raises NotImplementedError."""
-    sampler = RandomForestSampler(batch_size=4, internal_seed=0)
-    with pytest.raises(
-        NotImplementedError,
-        match="for RandomForestSampler the parallelization is hard coded in sample",
-    ):
-        sampler.single_sample(MagicMock(), MagicMock(), MagicMock(), MagicMock())
 
 
 def test_random_forest_candidate_pool_size() -> None:
@@ -72,6 +60,7 @@ def test_random_forest_candidate_pool_size() -> None:
 
     expected_candidate_pool_size = 32
     sampler2 = RandomForestSampler(
-        batch_size=batch_size, candidate_pool_size=expected_candidate_pool_size
+        batch_size=batch_size,
+        candidate_pool_size=expected_candidate_pool_size,
     )
     assert sampler2.candidate_pool_size == expected_candidate_pool_size

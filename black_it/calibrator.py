@@ -270,6 +270,16 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         """Get new random seed from the current random generator."""
         return get_random_seed(self._random_generator)
 
+    @property
+    def _has_calibration_started(self) -> bool:
+        """Check whether the calibration has already started."""
+        return self.current_batch_index != 0
+
+    def _set_calibration_seed(self) -> None:
+        """Set the calibration seed."""
+        for sampler in self.methods_list:
+            sampler.random_state = self._get_random_seed()
+
     def simulate_model(self, params: NDArray) -> NDArray:
         """
         Simulate the model.
@@ -310,6 +320,10 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             The sampled parameters and the corresponding sampled losses.
             Both arrays are sorted by increasing loss values
         """
+        if not self._has_calibration_started:
+            # we only set the samplers' random state at the start of a calibration
+            self._set_calibration_seed()
+
         for _ in range(n_batches):
             print()
             print(f"BATCH NUMBER:   {self.current_batch_index + 1}")

@@ -116,7 +116,7 @@ When the calibration terminates (~half a minute), towards the end  of the output
 you should see the following messages:
 ```
 True parameters:       [0.2, 0.2, 0.75]
-Best parameters found: [0.19 0.18 0.68]
+Best parameters found: [0.21 0.21 0.73]
 ```
 
 ## Docs

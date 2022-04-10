@@ -17,7 +17,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-from black_it.samplers.base import BaseSampler
+from black_it.samplers.base import BaseSampler, find_and_get_duplicates
 from black_it.search_space import SearchSpace
 
 
@@ -28,10 +28,7 @@ def test_find_and_get_duplicates() -> None:
         [[0, 1, 2], [0, 1, 2], [3, 4, 5], [9, 10, 11], [12, 13, 14], [12, 13, 14]]
     )
 
-    BaseSampler.__abstractmethods__ = frozenset()
-
-    sampler = BaseSampler(batch_size=1)  # type: ignore  # pylint: disable=abstract-class-instantiated
-    duplicates = sampler.find_and_get_duplicates(new_points, existing_points)
+    duplicates = find_and_get_duplicates(new_points, existing_points)
 
     assert duplicates == [0, 1, 2, 4, 5]
 
@@ -43,19 +40,18 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
         """
         Custom sampler for testing purposes.
 
-        Test that two consecutive samples with the same give the same result.
+        Test that two consecutive samples with the same seed give the same result.
         """
 
-        def single_sample(
+        def sample_batch(
             self,
-            seed: int,
+            nb_samples: int,
             search_space: SearchSpace,
             existing_points: NDArray[np.float64],
             existing_losses: NDArray[np.float64],
         ) -> NDArray[np.float64]:
-            """Sample a single parameter."""
-            np.random.seed(seed)
-            return np.random.rand(3)
+            """Sample a batch of parameters."""
+            return self.random_generator.normal(size=(nb_samples, search_space.dims))
 
     def setup(self) -> None:
         """Set up the tests."""
@@ -64,7 +60,7 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
         self.default_seed = 42
         self.batch_size = 32
         self.sampler = TestSetInternalSeed.MyCustomSampler(
-            self.batch_size, internal_seed=self.default_seed
+            self.batch_size, random_state=self.default_seed
         )
         self.search_space = SearchSpace(self.bounds, self.bounds_step, False)
         self.existing_points = np.zeros((0, self.bounds.shape[1]))
@@ -73,14 +69,14 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
     def test_set_internal_seed_gives_same_result(self) -> None:
         """Test sampler gives same result after setting internal seed."""
         seed = 11
-        self.sampler.set_internal_seed(seed)
+        self.sampler.random_state = seed
         expected_result_1 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
         expected_result_2 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
-        self.sampler.set_internal_seed(seed)
+        self.sampler.random_state = seed
         actual_result_1 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
@@ -92,6 +88,6 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
 
     def test_set_internal_seed_works_correctly(self) -> None:
         """Test 'BaseSampler.set_internal_seed' actually sets the internal seed."""
-        assert self.sampler.internal_seed == self.default_seed
-        self.sampler.set_internal_seed(1)
-        assert self.sampler.internal_seed == 1
+        assert self.sampler.random_state == self.default_seed
+        self.sampler.random_state = 1
+        assert self.sampler.random_state == 1

@@ -17,11 +17,11 @@ if __name__ == "__main__":
     bounds_step = [0.01, 0.01]  # Step size in range between bounds
 
     batch_size = 8
-    random_sampler = RandomUniformSampler(batch_size=batch_size, internal_seed=0)
-    rseq_sampler = RSequenceSampler(batch_size=batch_size, internal_seed=0)
-    halton_sampler = HaltonSampler(batch_size=batch_size, internal_seed=0)
-    best_batch_sampler = BestBatchSampler(batch_size=batch_size, internal_seed=0)
-    random_forest_sampler = RandomForestSampler(batch_size=batch_size, internal_seed=0)
+    random_sampler = RandomUniformSampler(batch_size=batch_size, random_state=0)
+    rseq_sampler = RSequenceSampler(batch_size=batch_size, random_state=0)
+    halton_sampler = HaltonSampler(batch_size=batch_size, random_state=0)
+    best_batch_sampler = BestBatchSampler(batch_size=batch_size, random_state=0)
+    random_forest_sampler = RandomForestSampler(batch_size=batch_size, random_state=0)
 
     # generate a synthetic dataset to test the calibrator
     N = 10

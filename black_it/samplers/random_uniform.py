@@ -15,45 +15,47 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the random uniform sampler."""
+from typing import Optional
 
 import numpy as np
-from numpy import random
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
-from black_it.samplers.base import BaseSampler
+from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
 from black_it.search_space import SearchSpace
 
 
 class RandomUniformSampler(BaseSampler):
     """Random uniform sampling."""
 
-    def single_sample(
+    def __init__(
         self,
-        seed: int,
+        batch_size: int,
+        random_state: Optional[int] = None,
+        max_deduplication_passes: int = _DEFAULT_MAX_DEDUPLICATION_PASSES,
+    ) -> None:
+        """Initialize the random uniform sampler."""
+        super().__init__(batch_size, random_state, max_deduplication_passes)
+
+    def sample_batch(
+        self,
+        nb_samples: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """
-        Sample a single point uniformly within the search space.
+        Sample uniformly from the search space.
 
         Args:
-            seed: random seed
+            nb_samples: the number of points to sample
             search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled (not used)
-            existing_losses: the loss corresponding to the sampled parameters (not used)
+            existing_points: the parameters already sampled
+            existing_losses: the loss corresponding to the sampled parameters
 
         Returns:
-            the parameter sampled
+            the sampled parameters (an array of shape `(self.batch_size, search_space.dims)`)
         """
-        random_generator: random.Generator = default_rng(seed)
-
-        sampled_point: NDArray[np.float64] = np.zeros(
-            shape=search_space.dims, dtype=np.float64
-        )
-
+        candidates = np.zeros((nb_samples, search_space.dims))
         for i, params in enumerate(search_space.param_grid):
-            sampled_point[i] = random_generator.choice(params)
-
-        return sampled_point
+            candidates[:, i] = self._random_generator.choice(params, size=(nb_samples,))
+        return candidates

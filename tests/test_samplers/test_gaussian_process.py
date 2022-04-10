@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Gaussian process sampler."""
 from typing import Optional, Tuple, cast
-from unittest.mock import MagicMock
 
 import numpy as np
 import pytest
@@ -52,22 +51,22 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
             [
                 "mean",
                 1,
-                np.array([[0.01, 0.0], [0.01, 0.01], [0.02, 0.0], [0.01, 0.02]]),
+                np.array([[0.01, 0.0], [0.01, 0.01], [0.03, 0.0], [0.02, 0.02]]),
             ],
             [
                 "mean",
                 5,
-                np.array([[0.01, 0.0], [0.01, 0.01], [0.02, 0.0], [0.01, 0.02]]),
+                np.array([[0.01, 0.0], [0.01, 0.01], [0.03, 0.0], [0.02, 0.02]]),
             ],
             [
                 "expected_improvement",
                 1,
-                None,  # skip this due to reproducibility issue
+                np.array([[0.03, 0.0], [0.01, 0.04], [0.02, 0.03], [0.05, 0.03]]),
             ],
             [
                 "expected_improvement",
                 5,
-                None,  # skip this due to reproducibility issue
+                np.array([[0.03, 0.0], [0.01, 0.04], [0.02, 0.03], [0.05, 0.03]]),
             ],
         ],
     )
@@ -80,7 +79,7 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         """Test the Gaussian process sampler, 2d."""
         sampler = GaussianProcessSampler(
             batch_size=4,
-            internal_seed=0,
+            random_state=0,
             optimize_restarts=optimize_restarts,
             acquisition=acquisition,
         )
@@ -91,27 +90,12 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         )
         new_params = sampler.sample(param_grid, self.xys, self.losses)
 
-        if expected_params is None:
-            pytest.skip(
-                "The test with acquisition=expected_improvement is temporarily "
-                "skipped due to reproducibility issues."
-            )
         assert np.allclose(cast(NDArray, expected_params), new_params)
-
-
-def test_gaussian_process_single_sample_raises_not_implemented_error() -> None:
-    """Test that 'GaussianProcessSampler.single_sample' raises NotImplementedError."""
-    sampler = GaussianProcessSampler(4)
-    with pytest.raises(
-        NotImplementedError,
-        match="single_sample is not supported by GaussianProcessSampler",
-    ):
-        sampler.single_sample(MagicMock(), MagicMock(), MagicMock(), MagicMock())
 
 
 def test_gaussian_process_sample_warning_too_large_dataset() -> None:
     """Test GaussianProcessSampler.sample wiht too many existing points."""
-    sampler = GaussianProcessSampler(batch_size=4, internal_seed=0, acquisition="mean")
+    sampler = GaussianProcessSampler(batch_size=4, random_state=0, acquisition="mean")
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),

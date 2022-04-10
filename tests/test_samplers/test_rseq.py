@@ -21,26 +21,26 @@ from black_it.search_space import SearchSpace
 
 expected_params = np.array(
     [
-        [0.25, 0.07],
-        [0.01, 0.64],
-        [0.76, 0.21],
-        [0.52, 0.78],
-        [0.27, 0.35],
-        [0.03, 0.92],
-        [0.78, 0.49],
-        [0.54, 0.06],
+        [0.58, 0.94],
+        [0.2, 0.69],
+        [0.81, 0.45],
+        [0.43, 0.2],
+        [0.05, 0.96],
+        [0.67, 0.71],
+        [0.29, 0.47],
+        [0.9, 0.22],
     ]
 )
 
 
 def test_rsequence_2d() -> None:
     """Test the r-sequence sampler, 2d."""
-    sampler = RSequenceSampler(batch_size=8, internal_seed=0)
+    sampler = RSequenceSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),
         verbose=False,
     )
     new_params = sampler.sample(param_grid, np.zeros((0, 2)), np.zeros((0, 2)))
-    print(new_params)
+
     assert np.allclose(expected_params, new_params)
