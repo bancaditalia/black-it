@@ -111,7 +111,7 @@ bandit-files: ## run bandit for specific files (specified with files="file1 file
 	bandit $(files)
 
 safety: ## run safety
-	safety check -i 44715 -i 44716 -i 44717
+	safety check -i 44715 -i 44716 -i 44717 -i 47794
 
 pylint: ## run pylint
 	pylint black_it tests scripts examples
