@@ -40,7 +40,8 @@ def test_sqlite3_checkpointing() -> None:  # pylint: disable=too-many-locals
     convergence_precision = 0.1
     verbose = True
     saving_file = "test"
-    model_seed = 0
+    random_state = 0
+    random_generator_state = np.random.default_rng(random_state).bit_generator.state
     model_name = "model"
     samplers = ["method_a", "method_b"]  # list of objects
     loss_function = "loss_a"  # object
@@ -64,7 +65,8 @@ def test_sqlite3_checkpointing() -> None:  # pylint: disable=too-many-locals
             convergence_precision,
             verbose,
             saving_file,
-            model_seed,
+            random_state,
+            random_generator_state,
             model_name,
             samplers,  # type: ignore
             loss_function,  # type: ignore
@@ -78,11 +80,11 @@ def test_sqlite3_checkpointing() -> None:  # pylint: disable=too-many-locals
 
         loaded_state = load_calibrator_state(checkpoint_dir)
 
-        assert np.allclose(loaded_state[14], params_samp)
-        assert np.allclose(loaded_state[15], losses_samp)
-        assert np.allclose(loaded_state[16], series_samp)
-        assert np.allclose(loaded_state[17], batch_num_samp)
-        assert np.allclose(loaded_state[18], method_samp)
+        assert np.allclose(loaded_state[15], params_samp)
+        assert np.allclose(loaded_state[16], losses_samp)
+        assert np.allclose(loaded_state[17], series_samp)
+        assert np.allclose(loaded_state[18], batch_num_samp)
+        assert np.allclose(loaded_state[19], method_samp)
 
 
 @patch("sqlite3.connect")
@@ -118,6 +120,6 @@ def test_sqlite3_checkpointing_saving_when_error_occurs(
     connection_mock = MagicMock()
     connection_mock.cursor.side_effect = ValueError(error_message)
     connect_mock.return_value = connection_mock
-    mock_args = [MagicMock()] * 20
+    mock_args = [MagicMock()] * 21
     with pytest.raises(ValueError, match=error_message):
         save_calibrator_state(*mock_args)

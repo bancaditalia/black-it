@@ -83,9 +83,12 @@ best_batch_sampler = BestBatchSampler(batch_size=batch_size)
 model = md.MarkovC_KP
 
 # generate a synthetic dataset to test the calibrator
-N = 1500
+N = 2000
 seed = 1
 real_data = model(true_params, N, seed)
+
+# define the calibration seed
+calibration_seed = 1
 
 # define a loss
 loss = MethodOfMomentsLoss()
@@ -99,10 +102,11 @@ cal = Calibrator(
     parameters_precision=np.asarray(bounds_step),
     ensemble_size=1,
     loss_function=loss,
+    random_state=calibration_seed,
 )
 
 # calibrate the model
-params, losses = cal.calibrate(n_batches=4)
+params, losses = cal.calibrate(n_batches=5)
 
 print(f"True parameters:       {true_params}")
 print(f"Best parameters found: {params[0]}")
@@ -112,7 +116,7 @@ When the calibration terminates (~half a minute), towards the end  of the output
 you should see the following messages:
 ```
 True parameters:       [0.2, 0.2, 0.75]
-Best parameters found: [0.21 0.2  0.76]
+Best parameters found: [0.19 0.18 0.68]
 ```
 
 ## Docs

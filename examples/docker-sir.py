@@ -28,6 +28,9 @@ if __name__ == "__main__":
     seed = 10000
     real_data = SIR(true_params, N, seed)
 
+    # define the calibration seed
+    calibration_seed = 1
+
     # initialize a loss function
     loss = MinkowskiLoss()
 
@@ -47,6 +50,7 @@ if __name__ == "__main__":
         parameters_precision=np.asarray(bounds_step),
         ensemble_size=2,
         saving_folder=None,
+        random_state=calibration_seed,
     )
 
     # calibrate the model

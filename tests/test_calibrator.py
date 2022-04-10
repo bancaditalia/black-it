@@ -65,63 +65,66 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         # define a loss
         self.loss = MethodOfMomentsLoss()
 
+        # set calibrator random state
+        self.random_state = 0
+
     @pytest.mark.parametrize("n_jobs", [1, 2])
     def test_calibrator_calibrate(self, n_jobs: int) -> None:
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
         expected_params = np.array(
             [
-                [0.7, 0.61],
-                [0.86, 0.75],
-                [0.86, 0.64],
-                [0.82, 0.76],
-                [0.91, 0.68],
-                [0.02, 0.64],
-                [0.88, 0.65],
-                [0.75, 0.12],
-                [0.51, 0.34],
-                [0.52, 0.78],
-                [0.48, 0.52],
-                [0.84, 0.27],
-                [0.77, 0.22],
-                [0.82, 0.09],
-                [0.13, 0.45],
-                [0.99, 0.99],
-                [0.02, 0.02],
-                [0.26, 0.67],
-                [1.0, 0.98],
                 [0.26, 0.08],
-                [0.72, 0.96],
+                [0.99, 0.99],
+                [0.02, 0.64],
+                [0.86, 0.64],
+                [0.77, 0.22],
+                [0.22, 0.14],
+                [0.82, 0.09],
+                [0.34, 0.32],
+                [0.51, 0.34],
+                [0.07, 0.68],
+                [0.48, 0.52],
+                [0.75, 0.12],
+                [0.25, 0.14],
+                [1.0, 0.98],
+                [0.84, 0.27],
                 [0.01, 0.02],
-                [0.9, 0.76],
-                [0.86, 0.7],
+                [0.02, 0.02],
+                [1.0, 1.0],
+                [0.13, 0.45],
+                [0.26, 0.67],
+                [0.95, 1.0],
+                [0.26, 0.03],
+                [0.37, 0.1],
+                [0.52, 0.78],
             ]
         )
 
         expected_losses = [
-            0.3972552,
-            0.42686962,
-            0.43481878,
-            0.73160366,
-            0.73603323,
-            0.8516071,
-            0.90245126,
-            0.97365625,
-            1.06424397,
-            1.11547266,
-            1.17847713,
-            1.2153038,
-            1.25877588,
-            1.26424663,
-            1.49182603,
-            1.60069072,
-            1.60835184,
-            1.69164426,
-            1.71154007,
-            2.00411593,
-            2.28922901,
-            2.36455155,
-            2.61220382,
-            3.60022745,
+            1.174553491734691,
+            1.3891072320548732,
+            1.4033517465381713,
+            1.4766587358695233,
+            1.8313071903141118,
+            1.8559857117524237,
+            1.9497253936659635,
+            2.074813592467837,
+            2.361751268236483,
+            2.5243926838913766,
+            2.539292855647074,
+            2.5962844719103173,
+            2.598419881376461,
+            2.865944529948774,
+            3.4394697799382894,
+            3.528840144893899,
+            3.5391410836069412,
+            3.6001780764823117,
+            3.6277781908085545,
+            3.6749452059000647,
+            3.859143390755239,
+            3.9670969776600344,
+            3.9978025003736204,
+            4.117017349446866,
         ]
 
         cal = Calibrator(
@@ -140,6 +143,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             ensemble_size=3,
             loss_function=self.loss,
             saving_folder=None,
+            random_state=self.random_state,
             n_jobs=n_jobs,
         )
 
@@ -228,6 +232,11 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
             assert (
                 type(vars_cal["param_grid"]).__name__
                 == type(cal_restored.param_grid).__name__  # noqa
+            )
+        elif key == "_random_generator":
+            assert (
+                vars_cal[key].bit_generator.state
+                == cal_restored.random_generator.bit_generator.state
             )
         # otherwise check the equality of numerical values
         else:

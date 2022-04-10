@@ -26,9 +26,12 @@ if __name__ == "__main__":
     model = md.MarkovC_KP
 
     # generate a synthetic dataset to test the calibrator
-    N = 1500
+    N = 2000
     seed = 1
     real_data = model(true_params, N, seed)
+
+    # define the calibration seed
+    calibration_seed = 1
 
     # define a loss
     loss = MethodOfMomentsLoss()
@@ -42,10 +45,11 @@ if __name__ == "__main__":
         parameters_precision=np.asarray(bounds_step),
         ensemble_size=1,
         loss_function=loss,
+        random_state=calibration_seed,
     )
 
     # calibrate the model
-    params, losses = cal.calibrate(n_batches=4)
+    params, losses = cal.calibrate(n_batches=5)
 
     print(f"True parameters:       {true_params}")
     print(f"Best parameters found: {params[0]}")
