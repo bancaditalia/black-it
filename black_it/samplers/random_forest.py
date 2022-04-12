@@ -121,9 +121,7 @@ class RandomForestSampler(BaseSampler):
         predicted_points_quantiles: NDArray[np.float64] = classifier.predict(candidates)
         # Sort params by predicted quantile
         sorting_indices: NDArray[np.float64] = np.argsort(predicted_points_quantiles)
-        sampled_points: NDArray[np.float64] = candidates[sorting_indices][
-            : self.batch_size
-        ]
+        sampled_points: NDArray[np.float64] = candidates[sorting_indices][:nb_samples]
 
         return digitize_data(sampled_points, search_space.param_grid)
 

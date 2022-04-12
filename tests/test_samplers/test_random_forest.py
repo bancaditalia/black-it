@@ -34,7 +34,7 @@ def test_random_forest_2d() -> None:
     for x in xs:
         for y in ys:
             xys_list.append([x, y])
-            losses_list.append(x ** 2 + y ** 2)
+            losses_list.append(x**2 + y**2)
 
     xys = np.array(xys_list)
     losses = np.array(losses_list)
