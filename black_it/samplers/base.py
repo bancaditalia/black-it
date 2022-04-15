@@ -144,7 +144,7 @@ class BaseSampler(ABC):
         self,
         batch_size: int,
         random_state: Optional[int] = None,
-        max_deduplication_passes: int = 0,
+        max_deduplication_passes: int = _DEFAULT_MAX_DEDUPLICATION_PASSES,
     ) -> None:
         """
         Initialize the sampler.

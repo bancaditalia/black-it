@@ -23,7 +23,6 @@ from numpy.typing import NDArray
 
 from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data
 
 _MIN_SEQUENCE_START_INDEX = 20
 _MAX_SEQUENCE_START_INDEX = 2**16
@@ -96,9 +95,7 @@ class RSequenceSampler(BaseSampler):
         return batch
 
     def single_sample(
-        self,
-        seed: int,
-        search_space: SearchSpace
+        self, seed: int, search_space: SearchSpace
     ) -> NDArray[np.float64]:
         """
         Sample a single point uniformly within the search space.
