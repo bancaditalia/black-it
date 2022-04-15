@@ -23,67 +23,10 @@ from numpy.typing import NDArray
 
 from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import check_arg, digitize_data
+from black_it.utils.base import digitize_data
 
 _MIN_SEQUENCE_START_INDEX = 20
 _MAX_SEQUENCE_START_INDEX = 2**16
-
-
-class _NPhiApproximator:
-    """
-    Helper class to compute n-dimensional approximation of the golden ratio.
-
-    Its main purpose is to memoize already computed approximation of Phi^n.
-    """
-
-    def __init__(self) -> None:
-        """Initialize the object."""
-        self._cached_phi = np.array([], dtype=np.float64)
-
-    def get_phi_vector(self, nb_dims: int) -> NDArray[np.float64]:
-        """
-        Get the vector of [phi^1, phi^2, ..., phi^n].
-
-        Args:
-            nb_dims: the number of dimensions.
-
-        Returns:
-            The n-dimensional vector of phis.
-        """
-        nb_cached_phis = len(self._cached_phi)
-        if nb_dims <= nb_cached_phis:
-            return self._cached_phi[:nb_dims]
-
-        new_phis = self.compute_phi_vector(nb_cached_phis + 1, nb_dims)
-        self._cached_phi = np.append(self._cached_phi, new_phis)
-        assert len(self._cached_phi) == nb_dims
-        return self._cached_phi
-
-    @classmethod
-    def compute_phi_vector(cls, start_dim: int, end_dim: int) -> NDArray[np.float64]:
-        """
-        Compute phi vector.
-
-        Args:
-            start_dim: the starting dimension for phi.
-            end_dim: the ending dimension for phi.
-
-        Returns:
-            the phi vector [phi^{start_dim}, phi^{start_dim+1}, ..., phi^{end_dim}]
-        """
-        check_arg(
-            1 <= start_dim <= end_dim,
-            "start_dim and end_dim should be such that 0 <= start_dim <= end_dim; "
-            f"got {start_dim} and {end_dim}",
-        )
-        nb_phis = end_dim - start_dim + 1
-        previous_phis = 2.0 * np.ones(shape=nb_phis, dtype=np.float64)
-        exponents = [1.0 / (dim + 1) for dim in range(start_dim, end_dim + 1)]
-        current_phis = np.power(1 + previous_phis, exponents)
-        while not np.allclose(current_phis, previous_phis, rtol=0.0, atol=0.0):
-            previous_phis = current_phis
-            current_phis = np.power(1 + current_phis, exponents)
-        return current_phis
 
 
 class RSequenceSampler(BaseSampler):
@@ -107,7 +50,6 @@ class RSequenceSampler(BaseSampler):
         super().__init__(batch_size, random_state, max_deduplication_passes)
 
         self._reset()
-        self._phi_approximator = _NPhiApproximator()
 
     @property
     def random_state(self) -> Optional[int]:
@@ -128,25 +70,6 @@ class RSequenceSampler(BaseSampler):
         )
         self._sequence_start = self.random_generator.random()
 
-    def _r_sequence(self, nb_samples: int, dims: int) -> NDArray[np.float64]:
-        """
-        Compute the R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
-
-        Args:
-            nb_samples: number of points to sample
-            dims: the number of dimensions
-
-        Returns:
-            Set of params uniformly placed in d-dimensional unit cube.
-        """
-        phis = self._phi_approximator.get_phi_vector(dims)
-        alpha: NDArray[np.float64] = (1 / phis).reshape((1, -1))
-        end_index = self._sequence_index + nb_samples
-        indexes = np.arange(self._sequence_index, end_index).reshape((-1, 1))
-        points: NDArray[np.float64] = (self._sequence_start + indexes.dot(alpha)) % 1
-        self._sequence_index += end_index
-        return points
-
     def sample_batch(
         self,
         nb_samples: int,
@@ -166,9 +89,57 @@ class RSequenceSampler(BaseSampler):
         Returns:
             the parameter sampled
         """
-        unit_cube_points: NDArray[np.float64] = self._r_sequence(
-            nb_samples, search_space.dims
+        batch = np.zeros((nb_samples, search_space.dims))
+        for i in range(nb_samples):
+            batch[i] = self.single_sample(self._sequence_index, search_space)
+            self._sequence_index += 1
+        return batch
+
+    def single_sample(
+        self,
+        seed: int,
+        search_space: SearchSpace
+    ) -> NDArray[np.float64]:
+        """
+        Sample a single point uniformly within the search space.
+        Args:
+            seed: random seed
+            search_space: an object containing the details of the parameter search space
+        Returns:
+            the parameter sampled
+        """
+        sampled_point: NDArray[np.float64] = np.zeros(
+            shape=search_space.dims, dtype=np.float64
         )
+        unit_cube_points: NDArray[np.float64] = self._r_sequence(
+            seed=seed, dims=search_space.dims
+        )
+
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
-        sampled_points = p_bounds[0] + unit_cube_points * (p_bounds[1] - p_bounds[0])
-        return digitize_data(sampled_points, search_space.param_grid)
+        for param_index in range(search_space.dims):
+            sampled_point[param_index] = p_bounds[0][param_index] + unit_cube_points[
+                param_index
+            ] * (p_bounds[1][param_index] - p_bounds[0][param_index])
+
+        return sampled_point
+
+    def _r_sequence(self, seed: int, dims: int) -> NDArray[np.float64]:
+        """
+        Build R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+        Args:
+            seed: seed of the sequence
+            dims: Size of space.
+        Returns:
+            Array of params uniformly placed in d-dimensional unit cube.
+        """
+        phi: float = 2.0
+        for _ in range(10):
+            phi = pow(1 + phi, 1.0 / (dims + 1))
+
+        # FROM ORIGINAL ARTICLE:
+        alpha: NDArray[np.float64] = np.zeros(dims, dtype=np.float64)
+        for i in range(dims):
+            alpha[i] = pow(1 / phi, i + 1) % 1
+
+        points: NDArray[np.float64] = (self._sequence_start + alpha * (seed + 1)) % 1
+        return points
