@@ -113,9 +113,12 @@ class GaussianProcessSampler(BaseSampler):
         """Get the candidate pool for sampling a batch."""
         candidate_pool_size = self._get_candidate_pool_size(nb_samples)
         sampler = RandomUniformSampler(
-            batch_size=candidate_pool_size, random_state=self.random_state
+            batch_size=candidate_pool_size, random_state=self._get_random_seed()
         )
-        candidates = sampler.sample(search_space, existing_points, existing_losses)
+        # note the "sample_batch" method does not remove duplicates while the "sample" method does
+        candidates = sampler.sample_batch(
+            candidate_pool_size, search_space, existing_points, existing_losses
+        )
         return candidates
 
     @staticmethod
@@ -177,6 +180,9 @@ class GaussianProcessSampler(BaseSampler):
             1e-9, 1e6, warning=False
         )  # constrain_positive(warning=False)
 
+        # we need to set the seed globally for GPy optimisations
+        # to give reproducible results
+        np.random.seed(self._get_random_seed())
         if self.max_iters > 0:
             # --- update the model maximizing the marginal likelihood.
             if self.optimize_restarts == 1:
@@ -208,7 +214,7 @@ class GaussianProcessSampler(BaseSampler):
 
         sorting_indices = np.argsort(candidates_score)
 
-        sampled_points = candidates[sorting_indices][: self.batch_size, :]
+        sampled_points = candidates[sorting_indices][:nb_samples, :]
 
         return digitize_data(sampled_points, search_space.param_grid)
 
