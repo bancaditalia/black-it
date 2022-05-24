@@ -23,6 +23,7 @@ from numpy.typing import NDArray
 
 from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
 from black_it.search_space import SearchSpace
+from black_it.utils.base import digitize_data
 
 _MIN_SEQUENCE_START_INDEX = 20
 _MAX_SEQUENCE_START_INDEX = 2**16
@@ -92,16 +93,18 @@ class RSequenceSampler(BaseSampler):
         for i in range(nb_samples):
             batch[i] = self.single_sample(self._sequence_index, search_space)
             self._sequence_index += 1
-        return batch
+
+        return digitize_data(batch, search_space.param_grid)
 
     def single_sample(
         self, seed: int, search_space: SearchSpace
     ) -> NDArray[np.float64]:
-        """
-        Sample a single point uniformly within the search space.
+        """Sample a single point uniformly within the search space.
+
         Args:
             seed: random seed
             search_space: an object containing the details of the parameter search space
+
         Returns:
             the parameter sampled
         """
@@ -121,11 +124,12 @@ class RSequenceSampler(BaseSampler):
         return sampled_point
 
     def _r_sequence(self, seed: int, dims: int) -> NDArray[np.float64]:
-        """
-        Build R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+        """Build R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+
         Args:
             seed: seed of the sequence
             dims: Size of space.
+
         Returns:
             Array of params uniformly placed in d-dimensional unit cube.
         """
