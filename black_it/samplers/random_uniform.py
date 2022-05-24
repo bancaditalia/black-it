@@ -27,7 +27,7 @@ from black_it.search_space import SearchSpace
 class RandomUniformSampler(BaseSampler):
     """Random uniform sampling."""
 
-    def __init__(
+    def __init__(  # pylint: disable=useless-super-delegation
         self,
         batch_size: int,
         random_state: Optional[int] = None,

@@ -121,7 +121,6 @@ SQL_SAVE_USER_VERSION = f"""
 SQL_DDL = """
     CREATE TABLE IF NOT EXISTS checkpoint (
         -- initialization parameters
-        samplers_pickled        BLOB,
         parameters_bounds           NDARRAY,
         parameters_precision        NDARRAY,
         real_data                   NDARRAY,
@@ -134,13 +133,13 @@ SQL_DDL = """
         initial_random_seed         INTEGER,
         random_generator_state_json TEXT,
         model_name                  TEXT,
-        samplers_pickled        BLOB,
+        samplers_pickled            BLOB,
         loss_function_pickled       BLOB,
         -- arrays resulting from calibration
         current_batch_index         INTEGER,
         params_samp                 NDARRAY,
         losses_samp                 NDARRAY,
-        series_samp                 NDARRAY,
+        series_samp                 GZ_NDARRAY,
         batch_num_samp              NDARRAY,
         method_samp                 NDARRAY
     );
