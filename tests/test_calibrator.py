@@ -16,6 +16,8 @@
 
 """This module contains tests for the Calibrator.calibrate method."""
 
+import glob
+import os
 import shutil
 import tempfile
 from typing import Any
@@ -73,58 +75,58 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
         expected_params = np.array(
             [
-                [0.75, 0.29],
-                [0.8, 0.06],
-                [0.18, 0.39],
-                [0.75, 0.24],
+                [0.11, 0.36],
+                [0.58, 0.64],
                 [0.68, 0.72],
-                [0.8, 0.01],
-                [0.39, 0.56],
-                [0.28, 0.03],
-                [0.66, 0.27],
+                [0.58, 0.59],
+                [0.18, 0.39],
                 [0.53, 0.74],
-                [0.89, 0.04],
+                [0.11, 0.31],
+                [0.8, 0.06],
+                [0.2, 0.22],
+                [0.19, 0.37],
+                [0.41, 0.49],
                 [0.16, 0.13],
-                [0.84, 0.47],
-                [0.86, 0.32],
-                [0.7, 0.33999999999999997],
-                [1.0, 0.01],
-                [0.99, 0.01],
-                [0.46, 0.32],
-                [0.97, 0.02],
-                [0.02, 0.32],
-                [0.81, 0.039999999999999994],
+                [0.32, 0.93],
+                [0.65, 0.36],
+                [0.82, 0.08],
+                [0.03, 0.01],
+                [1.0, 0.98],
+                [0.06, 0.41],
+                [0.07, 0.5],
                 [0.03, 0.83],
+                [0.02, 0.03],
+                [0.98, 1.0],
                 [0.43, 0.17],
-                [1.0, 0.97],
+                [0.46, 0.32],
             ]
         )
 
         expected_losses = [
-            0.6585830515274957,
-            1.2280786477228915,
-            1.260626501687519,
-            1.6218125530022585,
-            1.6661438072477879,
-            1.982785145747591,
-            2.0340565857327135,
-            2.0689998762461297,
-            2.299759825486881,
-            2.431600074108909,
-            2.549408756013992,
-            2.658744474318467,
-            2.71340145115507,
-            2.768034174821375,
-            3.0154223270845475,
-            3.1499456323013866,
-            3.3988167862934806,
-            3.6063790543299827,
-            3.79966498125939,
-            3.8605206216189374,
-            3.881089255394746,
-            4.108100304315644,
-            4.151791364121314,
-            4.16215960324845,
+            0.40391037,
+            0.55369057,
+            0.61424068,
+            0.74831741,
+            0.75115352,
+            0.7947552,
+            0.81273763,
+            0.84385951,
+            1.01089835,
+            1.61112201,
+            1.61341081,
+            1.7291749,
+            1.76300457,
+            1.85015661,
+            1.88723244,
+            1.89303475,
+            1.94197351,
+            1.94259241,
+            2.19809781,
+            2.5383914,
+            2.67175361,
+            2.81332498,
+            3.25878897,
+            3.50099742,
         ]
 
         cal = Calibrator(
@@ -149,6 +151,8 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         params, losses = cal.calibrate(2)
 
+        print(params)
+        print(losses)
         assert np.allclose(params, expected_params)
         assert np.allclose(losses, expected_losses)
 
@@ -182,11 +186,8 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         assert "Achieved convergence loss, stopping search." in captured_output.out
 
 
-def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
+class test_calibrator_restore_from_checkpoint_and_set_sampler:
     """Test 'Calibrator.restore_from_checkpoint', positive case, and 'Calibrator.set_sampler'."""
-    true_params = np.array([0.50, 0.50])
-    bounds = np.array([[0.01, 0.01], [1.00, 1.00]])
-    bounds_step = np.array([0.01, 0.01])
 
     saving_folder: str
 
@@ -211,13 +212,13 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
             batch_size=batch_size, n_estimators=10
         )
 
-        model = md.NormalMV
+        model = NormalMV
         real_data = model(true_params, N=100, seed=0)
         loss = MethodOfMomentsLoss()
 
         # initialize a Calibrator object
         cal = Calibrator(
-            methods_list=[
+            samplers=[
                 random_sampler,
                 halton_sampler,
                 gaussian_sampler,
@@ -245,9 +246,9 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
         vars_cal = vars(cal)
         for key in vars_cal:
             # if the attribute is an object just check the equality of their names
-            if key == "methods_list":
+            if key == "samplers":
                 for method1, method2 in zip(
-                    vars_cal["methods_list"], cal_restored.methods_list
+                    vars_cal["samplers"], cal_restored.samplers
                 ):
                     assert type(method1).__name__ == type(method2).__name__
             elif key == "loss_function":
@@ -269,11 +270,10 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
             else:
                 assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
 
-        
         # testt the setting of a new sampler to the calibrator object
         best_batch_sampler = BestBatchSampler(batch_size=2)
         cal.set_samplers(
-        [random_sampler, best_batch_sampler]
+            [random_sampler, best_batch_sampler]
         )  # note: only the second sampler is new
         assert len(cal.samplers) == 2
         assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
@@ -308,7 +308,7 @@ def test_new_sampling_method() -> None:
             """Sample a batch of points."""
 
     cal = Calibrator(
-        methods_list=[MyCustomSampler(batch_size=2, max_deduplication_passes=0)],
+        samplers=[MyCustomSampler(batch_size=2, max_deduplication_passes=0)],
         real_data=MagicMock(),
         model=MagicMock(),
         parameters_bounds=np.array([MagicMock(), MagicMock()]),
