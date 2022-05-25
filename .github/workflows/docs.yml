@@ -1,0 +1,49 @@
+name: docs
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'poetry.lock'
+jobs:
+  run:
+    continue-on-error: True
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
+
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@master
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install tox poetry
+
+        # Install markdown-spellcheck
+        sudo npm install -g markdown-spellcheck
+
+        # Install the black-it package (needed by mkdocstrings)
+        pip install .
+    - name: Install dependencies for documentation building
+      run: |
+        pip install -r <(./scripts/list-poetry-dependencies.sh \
+          mkdocs                                               \
+          mkdocs-material                                      \
+          mknotebooks                                          \
+          markdown-include                                     \
+          pymdown-extensions                                   \
+          markdown                                             \
+          mkdocstrings                                         \
+          mkdocs-autorefs                                      \
+        )
+    - name: Generate Documentation
+      run: make docs
+    - name: Install markdown-spellcheck
+      run: tox -e spell_check

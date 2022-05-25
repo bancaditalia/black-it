@@ -1,0 +1,58 @@
+# markdown-spellcheck spelling configuration file
+# Format - lines beginning # are comments
+# global dictionary is at the start, file overrides afterwards
+# one word per line, to define a file override use ' - filename'
+# where filename is relative to this configuration file
+
+ABMs
+AGPLv3
+Aldo
+ABMs
+Banca
+Benedetti
+CONTRIBUTING.md
+Catapano
+Corbo
+Davide
+Favorito
+GLS-div
+Gennaro
+Gini
+GitHub
+Glielmo
+Jupyter
+Lamperti
+Magnanimi
+Minkowski
+Muci
+PyPI
+README.md
+Salesforce
+Sclavis
+Watts-Strogatz
+abm
+bancaditalia.it
+d'Italia
+ginormous
+linters
+lockdown
+modeled
+rumors
+ - AUTHORS.md
+i
+o
+u
+ - docs/description.md
+_e
+frac
+mathbf
+sum_
+ - docs/examples.md
+beta_1
+beta_2
+geq
+p_1
+p_2
+ - docs/index.md
+v3
+v3.8

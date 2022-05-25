@@ -1,0 +1,91 @@
+[tool.poetry]
+name = "black-it"
+version = "0.1.0"
+description = "black-it: Black-box abm calibration kit"
+authors = [
+    "Applied Research Team <appliedresearchteam@bancaditalia.it>",
+    "Gennaro Catapano <gennaro.catapano@bancaditalia.it>",
+    "Francesco De Sclavis <desclavis@bancaditalia.it>",
+    "Marco Favorito <marco.favorito@bancaditalia.it>",
+    "Aldo Glielmo <aldo.glielmo@bancaditalia.it>",
+    "Davide Magnanimi <davide.magnanimi@bancaditalia.it>",
+    "Antonio Muci <antonio.muci@bancaditalia.it>",
+]
+license = "AGPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://github.com/bancaditalia/black-it"
+repository = "https://github.com/bancaditalia/black-it.git"
+documentation = "https://bancaditalia.github.io/black-it"
+keywords = []
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+    'Natural Language :: English',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+    'Topic :: Scientific/Engineering'
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/bancaditalia/black-it/issues"
+"Pull Requests" = "https://github.com/bancaditalia/black-it/pulls"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+GPy = "^1.10.0"
+ipywidgets = "^7.7.0"
+matplotlib = "^3.5.2"
+numpy = "^1.22.3"
+pandas = "^1.4.2"
+scikit-learn = "^1.1.0"
+seaborn = "^0.11.2"
+statsmodels = "^0.13.2"
+
+[tool.poetry.dev-dependencies]
+bandit = "^1.7.4"
+black = "^22.3.0"
+codecov = "^2.1.12"
+darglint = "^1.8.1"
+flake8 = "^4.0.1"
+flake8-bugbear = "^22.4.25"
+flake8-docstrings = "^1.6.0"
+flake8-eradicate = "^1.2.1"
+flake8-isort = "^4.1.1"
+hypothesis = "^6.46.5"
+ipython = "^8.3.0"
+isort = "^5.10.1"
+jupyter = "^1.0.0"
+Markdown = "^3.3.7"
+markdown-include = "^0.6.0"
+Mesa = "^0.9.0"
+mistletoe = "^0.8.2"
+mkdocs = "^1.3.0"
+mkdocs-autorefs = "^0.4.1"
+mkdocs-material = "^8.2.15"
+mkdocstrings = "^0.18.1"
+mknotebooks = "^0.7.1"
+mypy = "^0.950"
+nbmake = "^1.3.0"
+ndlib = "^5.1.1"
+pydocstyle = "^6.1.1"
+pylint = "^2.13.9"
+pymdown-extensions = "^9.4"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-randomly = "^3.12.0"
+safety = "^1.10.3"
+tox = "^3.25.0"
+twine = "^4.0.0"
+vulture = "^2.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.vulture]
+exclude = ["examples/models"]
+ignore_decorators = []
+ignore_names = []
+verbose = false

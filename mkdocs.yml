@@ -1,0 +1,69 @@
+site_name: black-it documentation
+repo_name: 'bancaditalia/black-it'
+repo_url: https://github.com/bancaditalia/black-it
+
+nav:
+- Home: index.md
+- How it works: description.md
+- Examples and tutorials:
+  - Overview: examples.md
+  - Toy model: tests_on_toy_model.ipynb
+  - Simple shock model: slack_stock_price_shock.ipynb
+  - SIR model: finding_the_parameters_of_a_SIR_model.ipynb
+  - Boltzmann wealth model: boltzmann_wealth_model.ipynb
+  - Different samplers: overview_of_the_different_samplers.ipynb
+  - Benchmarking samplers: benchmarking_samplers.ipynb
+  - Plotting tutorial: overview_of_plotting_functions.ipynb
+- Further reading: furtherinfo.md
+- Extending black-it: contributing.md
+- Code Reference:
+  - Calibrator: calibrator.md
+  - Samplers: samplers.md
+  - Loss functions: losses.md
+  - Search space: search_space.md
+
+plugins:
+- mknotebooks
+- search
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        selection:
+          docstring_style: google
+          filters:
+            - "!^_"  # exlude all members starting with _
+            - "^__init__$"  # but always include __init__ modules and methods
+    watch:
+      - black_it
+
+theme:
+  name: material
+  feature:
+    tabs: true
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate 
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  logo: logo/monogram_512.png
+
+
+strict: false
+
+
+markdown_extensions:
+- codehilite
+- pymdownx.arithmatex
+- pymdownx.superfences
+- pymdownx.highlight
+- admonition
+- markdown_include.include:
+    base_path: docs
+
+extra_javascript:
+- 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'

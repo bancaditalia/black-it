@@ -1,0 +1,226 @@
+######################################################################################
+
+#
+# EXPERIMENTS DESCRIPTION
+#
+
+# --------------------------------
+
+# Experiment 1
+# iid Normal (p0,1)
+
+MODEL        =  'NormalMV'
+true_params  =  [1.00,1.00]
+BOUNDS       = [[0.00,0.05],
+                [2.00,2.00]] # UPPER BOUNDS
+INIT_THETA   =  [0.50,0.50]
+
+# --------------------------------
+
+# Experiment 2
+# AR(1)
+
+# STD GRID SEARCH 1D EXPERIMENT
+
+MODEL        =  'AR1'
+true_params  =  [0.70]
+BOUNDS       = [[0.01],
+                [0.99]] # UPPER BOUNDS
+INIT_THETA   =  [0.50]
+
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 3
+# AR(1)
+
+# STD GRID SEARCH 1D EXPERIMENT
+
+MODEL        =  'AR1_2P'
+true_params  =  [0.70, 0.50]
+BOUNDS       = [[0.10, 0.10],
+                [1.00, 1.00]] # UPPER BOUNDS
+INIT_THETA   =  [0.50, 0.50]
+
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 4
+# ARMA(1,1)
+
+# STD GRID SEARCH 2D EXPERIMENT
+
+MODEL        =  'ARMA2'
+true_params  =  [0.20, 0.70]
+BOUNDS       = [[0.01, 0.01],
+                [0.99, 0.99]] # UPPER BOUNDS
+INIT_THETA   =  [0.50, 0.50]
+
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 5
+# ARMA(2,2) ARCH(2)
+# param set 1: [a0,a1]
+
+MODEL        =  'ARMAARCH2'
+true_params  =  [0.00,0.70]
+BOUNDS       = [[0.01,0.01],
+                [0.99,0.80]] # UPPER BOUNDS
+INIT_THETA   =  [0.50,0.50]
+
+# obsN = 1000
+# simN = 1000
+
+# typical transients (approx):
+# BAY-MH: 75
+# BAY-GB: 75
+# MSM-PS: 100
+# GSL-PS: 50
+
+# --------------------------------
+
+# Experiment 6
+# ARMA(2,2) ARCH(2)
+# param set 2: [b1,b2,c0,c1,c2]
+
+MODEL        =  'ARMAARCH4'
+true_params  =  [0.20,0.20,0.25,0.50,0.30]
+BOUNDS       = [[0.01,0.01,0.01,0.01,0.01],
+                [0.99,0.99,0.99,0.99,0.99]] # UPPER BOUNDS
+INIT_THETA   =  [0.50,0.50,0.50,0.50,0.50]
+
+# obsN = 1000
+# simN = 1000
+
+# typical transients (approx):
+# BAY-MH: 100
+# BAY-GB: 100
+# MSM-PS: 75
+# GSL-PS: 75/100
+
+# --------------------------------
+
+# Experiment 7
+# RW with structural break
+# param set 1: [tau]
+
+# PLS modify the return for the 'getObsX' as follows:
+# return getattr(md, MODEL)([int(theta[0])], N)
+
+MODEL        =  'RWSB1'
+true_params  =  [700.0]
+BOUNDS       = [[0],
+                [1000]] # UPPER BOUNDS
+INIT_THETA   =  [500]
+
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 8
+# RW with structural break
+# param set 1: [sigma1,sigma2]
+
+# true_params = [0.1,0.2]
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 9
+# From Brock and Hommes 1998:
+# 4.1.2. Fundamentalists versus trend chasers
+# BH98 4.1.2 - Fig2(a)
+# param set: [g1,b1,  g2,b2] [0.0,0.0,  1.2,0.0]
+# beta = 3.6
+# sigma, a, R = 1.0, 1.0, 1.1
+
+MODEL        =  'BH2'
+true_params =   [ 0.00, 0.00,  1.20, 0.00]
+BOUNDS       = [[-0.01,-0.01, -1.50,-0.50],
+                [ 0.01, 0.01,  1.50, 0.50]] # UPPER BOUNDS
+INIT_THETA   =  [ 0.00, 0.00,  0.00, 0.00]
+
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 10
+# Model:
+# From Brock and Hommes 1998:
+# 4.3 Four belief types: Fundamentalists versus trend versus bias
+
+# To replicate: From Donovan Platt 2019
+# all params: [g1,b1,  g2,b2,  g3,b3,  g4,b4,  r,β] = [0,0,  0.9,0.2,  0.9,-0.2,  1.01,0,  0.01,1]
+# param set 1: [g2, b2] = [0.9, 0.2]
+
+MODEL        =  'BH4'
+true_params =   [ 0.000, 0.000,  0.90, 0.20,  0.90,-0.20]
+BOUNDS       = [[-0.001,-0.001,  0.00, 0.00,  0.00,-1.00],
+                [ 0.001, 0.001,  1.00, 1.00,  1.00, 0.00]] # UPPER BOUNDS
+INIT_THETA   =  [ 0.000, 0.000,  0.50, 0.90,  0.50,-0.05]
+
+# obsN = 1000
+# simN = 1000
+# β = 93 (as in BH)
+# r = 0.01
+
+# --------------------------------
+
+# Experiment 11
+# Model:
+# From Brock and Hommes 1998:
+# 4.3 Four belief types: Fundamentalists versus trend versus bias
+# Replicate: From Donovan Platt 2019
+# all params: [g1,b1,  g2,b2,  g3,b3,  g4,b4,  r,β] = [0,0,  0.9,0.2,  0.9,-0.2,  1.01,0,  0.01,1]
+# param set 2: [g2, b2, g3, b3] = [0.9,0.2,  0.9,-0.2]
+
+# true_params = [0,0,  0.9,0.2,  0.9,-0.2]
+# obsN = 1000
+# simN = 1000
+
+# --------------------------------
+
+# Experiment 12
+# Model: INET RE - A.Carro (mostly)
+# params:
+    '''
+       i - MARKET_AVERAGE_PRICE_DECAY,
+      ii - P_FUNDAMENTALIST,
+     iii - HPA_EXPECTATION_FACTOR,
+      iv - FUNDAMENTALIST_CAP_GAIN_COEFF,
+       v - TREND_CAP_GAIN_COEFF,
+      vi - HPA_YEARS_TO_CHECK,
+     vii - DESIRED_RENT_INCOME_FRACTION,
+    viii - PSYCHOLOGICAL_COST_OF_RENTING,
+      ix - SENSITIVITY_RENT_OR_PURCHASE,
+       x - BANK_BALANCE_FOR_CASH_DOWNPAYMENT,
+      xi - BUY_SCALE,
+     xii - DESIRED_BANK_BALANCE_BETA,
+    xiii - DECISION_TO_SELL_ALPHA,
+     xiv - BTL_CHOICE_INTENSITY
+    '''
+    
+# ATTENTION:
+# use floats/doubles for all params. If ints are passed, the connector wont work.
+    
+# true_params = [0.25, 0.1, 0.01, 0.1, 0.1, 5, 0.3, 0.05, 0.05, 2.0, 2.0, 4.0, 0.5, 0.1]
+# param_num   = [   i,  ii,  iii,  iv,   v,vi, vii, viii,   ix,   x,  xi, xii,xiii, xiv]
+# obsN = 1000
+# simN = 1000
+
+MODEL        =  'REP'
+true_params  =  [0.25, 0.10, 0.01, 0.10, 0.10, 5.00, 0.30, 0.05, 0.05, 2.00, 2.00, 4.00, 0.50, 0.10]
+BOUNDS       = [[0.05, 0.05, 0.00, 0.05, 0.05, 1.00, 0.05, 0.05, 0.05, 0.10, 0.10, 0.10, 0.05, 0.05],
+                [0.95, 0.95, 0.10, 0.95, 0.95, 9.00, 0.95, 0.95, 0.95, 4.95, 4.95, 9.95, 0.95, 0.95]] # UPPER BOUNDS
+INIT_THETA   =  [0.50, 0.50, 0.05, 0.50, 0.50, 4.00, 0.50, 0.50, 0.50, 2.50, 2.50, 5.00, 0.50, 0.50]
+
