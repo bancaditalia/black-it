@@ -1,8 +1,12 @@
 
 <p align="center">
-<img src="docs/logo/logo_1024.png" width="500">
+<img src="https://raw.githubusercontent.com/bancaditalia/black-it/main/docs/logo/logo_1024.png" width="500">
 <sup><a href="#footnote-1">*</a></sup>
 </p>
+
+<a href="https://pypi.org/project/black-it">
+    <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/black-it" />
+</a>
 
 <a href="https://github.com/bancaditalia/black-it/blob/main/LICENSE">
     <img alt="GitHub" src="https://img.shields.io/github/license/bancaditalia/black-it">
@@ -113,7 +117,7 @@ Best parameters found: [0.21 0.2  0.76]
 
 ## Docs
 
-To view the documentation click [here](https://bancaditalia.github.io/black-it/).
+Black-it extensive documentation is available at [this dedicated website](https://bancaditalia.github.io/black-it/).
 
 ## Disclaimer
 
