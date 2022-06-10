@@ -16,7 +16,7 @@
 
 """This module defines the 'BaseSampler' base class."""
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import List
 
 import numpy as np
@@ -69,7 +69,6 @@ class BaseSampler(ABC):
         """Get new random seed from the current random generator."""
         return get_random_seed(self._random_generator)
 
-    @abstractmethod
     def single_sample(
         self,
         seed: int,
@@ -85,10 +84,8 @@ class BaseSampler(ABC):
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled
             existing_losses: the loss corresponding to the sampled parameters
-
-        Returns:
-            the parameter sampled
         """
+        raise NotImplementedError
 
     def sample_batch(
         self,
