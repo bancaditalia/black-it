@@ -40,6 +40,17 @@ def assert_(
         raise exc_cls(message)
 
 
+def check_arg(condition: bool, message: str) -> None:
+    """
+    Check a condition over an argument (i.e. raises ValueError in case it is false).
+
+    Args:
+        condition: the condition to check
+        message: the error message
+    """
+    assert_(condition, message, exc_cls=ValueError)
+
+
 def digitize_data(
     data: NDArray[np.float64], param_grid: List[NDArray[np.float64]]
 ) -> NDArray[np.float64]:
@@ -97,6 +108,21 @@ def is_symmetric(a: NDArray[np.float64]) -> bool:
         True if the matrix is symmetric
     """
     return a.shape[0] == a.shape[1] and (a == a.T).all()
+
+
+def get_random_seed(random_generator: np.random.Generator) -> int:
+    """
+    Get a random seed from a random generator.
+
+    Sample an integer in the range [0, 2^32 - 1].
+
+    Args:
+        random_generator: the random generator to be used for sampling the random seed.
+
+    Returns:
+        the random seed.
+    """
+    return random_generator.integers(2**32 - 1)
 
 
 class NumpyArrayEncoder(JSONEncoder):

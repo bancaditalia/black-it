@@ -15,12 +15,19 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation fo the Halton sampler."""
+import itertools
+from typing import Iterator, List, Optional
 
 import numpy as np
+from numpy.random import default_rng
 from numpy.typing import NDArray
 
-from black_it.samplers.base import BaseSampler
+from black_it.samplers.base import _DEFAULT_MAX_DEDUPLICATION_PASSES, BaseSampler
 from black_it.search_space import SearchSpace
+from black_it.utils.base import check_arg, digitize_data
+
+_MIN_SEQUENCE_START_INDEX = 20
+_MAX_SEQUENCE_START_INDEX = 2**16
 
 
 class HaltonSampler(BaseSampler):
@@ -31,18 +38,56 @@ class HaltonSampler(BaseSampler):
     a sequence of *Van der Corput* in n-dimensions.
     """
 
-    def single_sample(
+    def __init__(
         self,
-        seed: int,
+        batch_size: int,
+        random_state: Optional[int] = None,
+        max_deduplication_passes: int = _DEFAULT_MAX_DEDUPLICATION_PASSES,
+    ) -> None:
+        """
+        Initialize the sampler.
+
+        Args:
+            batch_size: the number of points sampled every time the sampler is called
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            max_deduplication_passes: the maximum number of sample deduplication passes.
+        """
+        super().__init__(batch_size, random_state, max_deduplication_passes)
+        self._prime_number_generator = _CachedPrimesCalculator()
+
+        # drop first N entries to avoid linear correlation
+        self._reset_sequence_index()
+
+    @property
+    def random_state(self) -> Optional[int]:
+        """Get the random state."""
+        return self._random_state
+
+    @random_state.setter
+    def random_state(self, random_state: Optional[int]) -> None:
+        """Set the random state."""
+        self._random_state = random_state
+        self._random_generator = default_rng(self.random_state)
+        self._reset_sequence_index()
+
+    def _reset_sequence_index(self) -> None:
+        """Reset the sequence index pointer."""
+        self._sequence_index = self.random_generator.integers(
+            _MIN_SEQUENCE_START_INDEX, _MAX_SEQUENCE_START_INDEX
+        )
+
+    def sample_batch(
+        self,
+        nb_samples: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """
-        Sample a single point uniformly within the search space.
+        Sample points using Halton sequence.
 
         Args:
-            seed: random seed
+            nb_samples: the number of samples
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled (not used)
             existing_losses: the loss corresponding to the sampled parameters (not used)
@@ -50,98 +95,131 @@ class HaltonSampler(BaseSampler):
         Returns:
             the parameter sampled
         """
-        sampled_point: NDArray[np.float64] = np.zeros(
-            shape=search_space.dims, dtype=np.float64
+        unit_cube_points: NDArray[np.float64] = self._halton(
+            nb_samples, search_space.dims
         )
-        unit_cube_points: NDArray[np.float64] = HaltonSampler.halton(
-            seed=seed, dims=search_space.dims
-        )
-
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
-        for param_index in range(search_space.dims):
-            sampled_point[param_index] = p_bounds[0][param_index] + unit_cube_points[
-                param_index
-            ] * (p_bounds[1][param_index] - p_bounds[0][param_index])
+        sampled_points = p_bounds[0] + unit_cube_points * (p_bounds[1] - p_bounds[0])
+        return digitize_data(sampled_points, search_space.param_grid)
 
-        return sampled_point
-
-    @staticmethod
-    def primes_from_2_to_n(n: int) -> NDArray[np.int64]:
+    def _halton(self, nb_samples: int, dims: int) -> NDArray[np.float64]:
         """
-        Prime numbers from 2 to n.
+        Get a Halton sequence.
 
-        From `StackOverflow <https://stackoverflow.com/questions/2068372>`_.
+        It uses a simple prime number generator, which takes the first `dims` primes.
 
         Args:
-            n: sup bound with ``n >= 6``.
-
-        Returns:
-            primes in 2 <= p < n.
-        """
-        sieve = np.ones(n // 3 + (n % 6 == 2), dtype=np.bool_)
-        for i in range(1, int(n**0.5) // 3 + 1):
-            if sieve[i]:
-                k = 3 * i + 1 | 1
-                sieve[k * k // 3 :: 2 * k] = False
-                sieve[k * (k - 2 * (i & 1) + 4) // 3 :: 2 * k] = False
-        return np.r_[2, 3, ((3 * np.nonzero(sieve)[0][1:] + 1) | 1)]
-
-    @staticmethod
-    def van_der_corput(
-        sample_size: int, base: int = 2, n_start: int = 0
-    ) -> NDArray[np.float64]:
-        """
-        Van der Corput sequence, generalized as to accept a starting point in the sequence.
-
-        Args:
-            sample_size:  number of element of the sequence
-            base: base of the sequence
-            n_start: starting point of the sequence
-
-        Returns:
-            sequence of Van der Corput
-        """
-        sequence: NDArray[np.float64] = np.zeros(shape=sample_size - n_start)
-        for index in range(n_start, sample_size):
-            n_th_number: float = 0.0
-            denom: float = 1.0
-            i: int = index
-            while i > 0:
-                i, remainder = divmod(i, base)
-                denom *= base
-                n_th_number += remainder / denom
-            sequence[index - n_start] = n_th_number
-        return sequence
-
-    @staticmethod
-    def halton(seed: int = 0, dims: int = 1) -> NDArray[np.float64]:
-        """
-        Halton sequence.
-
-        Changed in order to accept a starting point in the sequence and to adapt to the calibration program.
-
-        Args:
-            seed: seed of sequence
-            dims: dimension
+            nb_samples: number of samples
+            dims: the number of dimensions of the space to sample from the unitary cube
 
         Returns:
             sequence of Halton.
         """
-        big_number: int = 10
-        while "Not enough primes":
-            bases: NDArray[np.int64] = HaltonSampler.primes_from_2_to_n(big_number)[
-                :dims
-            ]
-            if len(bases) == dims:
-                break
-            big_number += 1000
+        bases: NDArray[np.int64] = self._prime_number_generator.get_n_primes(dims)
+        # Generate a sample using a Halton sequence.
+        sample: NDArray[np.float64] = halton(
+            sample_size=nb_samples, bases=bases, n_start=self._sequence_index
+        )
 
-        n_samples: int = 1
-        # Generate a sample using a Van der Corput sequence per dimension.
-        sample: NDArray[np.float64] = np.zeros(shape=dims)
-        for i, prime in enumerate(bases):
-            sample[i] = HaltonSampler.van_der_corput(
-                sample_size=n_samples + 1 + seed, base=prime, n_start=seed
-            )[1:]
-
+        # increment sequence start index for the next sampling
+        self._sequence_index += nb_samples
         return sample
+
+
+class _PrimesIterator:
+    """
+    This class implements an iterator that iterates over all primes via unbounded Sieve of Erathosthenes.
+
+    Adapted from:
+
+        https://wthwdik.wordpress.com/2007/08/30/an-unbounded-sieve-of-eratosthenes/
+
+    It caches the sequence of primes up to the highest n.
+    """
+
+    def __init__(self) -> None:
+        """Initialize the iterator."""
+        self._primes = [[2, 2]]
+        self._candidate = 2
+
+    def __iter__(self) -> Iterator:
+        """Make the class iterable."""
+        return self
+
+    def __next__(self) -> int:
+        """Get the next prime number."""
+        while True:
+            self._candidate = self._candidate + 1
+            for i in self._primes:
+                while self._candidate > i[1]:
+                    i[1] = i[0] + i[1]
+
+                if self._candidate == i[1]:
+                    break
+            else:
+                # if here, we have i == primes[-1]:
+                self._primes.append([self._candidate, self._candidate])
+                return self._candidate
+
+
+class _CachedPrimesCalculator:  # pylint: disable=too-few-public-methods
+    """Utility class to compute and cache the first n prime numbers."""
+
+    def __init__(self) -> None:
+        """Initialize the object."""
+        self._primes_iterator = _PrimesIterator()
+        self._cached_primes: List[int] = [2]
+
+    def get_n_primes(self, n: int) -> NDArray[np.int64]:
+        """
+        Get the first n primes.
+
+        Args:
+            n: the number of primes.
+
+        Returns:
+            a list containing the first n primes.
+        """
+        check_arg(n >= 1, "input must be greater than 0")
+        if n <= len(self._cached_primes):
+            return np.array(self._cached_primes[:n])
+
+        nb_next_primes = n - len(self._cached_primes)
+        next_primes = itertools.islice(self._primes_iterator, nb_next_primes)
+        self._cached_primes.extend(next_primes)
+        return np.array(self._cached_primes[:n])
+
+
+def halton(
+    sample_size: int, bases: NDArray[np.int64], n_start: int
+) -> NDArray[np.float64]:
+    """
+    Van der Corput sequence, generalized as to accept a starting point in the sequence.
+
+    Args:
+        sample_size:  number of element of the sequence
+        bases: bases of the sequence
+        n_start: starting point of the sequence
+
+    Returns:
+        sequence of Halton
+    """
+    check_arg(sample_size > 0, "sample size must be greater than zero")
+    check_arg(bool((bases > 1).all()), "based must be greater than one")
+    check_arg(n_start >= 0, "n_start must be greater or equal zero")
+    nb_bases = len(bases)
+    sequence: NDArray[np.float64] = np.zeros(shape=(sample_size, nb_bases))
+    for index in range(n_start + 1, sample_size + n_start + 1):
+        n_th_numbers: NDArray[np.float64] = np.zeros(shape=nb_bases)
+        denoms: NDArray[np.float64] = np.ones(shape=nb_bases)
+        done: NDArray[np.bool8] = np.zeros(shape=nb_bases, dtype=np.bool8)
+        i = np.repeat(np.int64(index), repeats=nb_bases)
+        while (i > 0).any():
+            i, remainders = np.divmod(i, bases)
+            denoms *= bases
+            # mask reminders in case i = 0
+            remainders[done] = 0.0
+            n_th_numbers += remainders / denoms
+            done[i == 0] = True
+        sequence[index - 1 - n_start, :] = n_th_numbers
+    return sequence

@@ -18,6 +18,8 @@
 
 import glob
 import os
+import shutil
+import tempfile
 from typing import Any
 from unittest.mock import MagicMock, patch
 
@@ -65,63 +67,66 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         # define a loss
         self.loss = MethodOfMomentsLoss()
 
+        # set calibrator random state
+        self.random_state = 0
+
     @pytest.mark.parametrize("n_jobs", [1, 2])
     def test_calibrator_calibrate(self, n_jobs: int) -> None:
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
         expected_params = np.array(
             [
-                [0.7, 0.61],
-                [0.86, 0.75],
-                [0.86, 0.64],
-                [0.82, 0.76],
-                [0.91, 0.68],
-                [0.02, 0.64],
-                [0.88, 0.65],
-                [0.75, 0.12],
-                [0.51, 0.34],
-                [0.52, 0.78],
-                [0.48, 0.52],
-                [0.84, 0.27],
-                [0.77, 0.22],
-                [0.82, 0.09],
-                [0.13, 0.45],
-                [0.99, 0.99],
-                [0.02, 0.02],
-                [0.26, 0.67],
+                [0.11, 0.36],
+                [0.58, 0.64],
+                [0.68, 0.72],
+                [0.58, 0.59],
+                [0.18, 0.39],
+                [0.53, 0.74],
+                [0.11, 0.31],
+                [0.8, 0.06],
+                [0.2, 0.22],
+                [0.19, 0.37],
+                [0.41, 0.49],
+                [0.16, 0.13],
+                [0.32, 0.93],
+                [0.65, 0.36],
+                [0.82, 0.08],
+                [0.03, 0.01],
                 [1.0, 0.98],
-                [0.26, 0.08],
-                [0.72, 0.96],
-                [0.01, 0.02],
-                [0.9, 0.76],
-                [0.86, 0.7],
+                [0.06, 0.41],
+                [0.07, 0.5],
+                [0.03, 0.83],
+                [0.02, 0.03],
+                [0.98, 1.0],
+                [0.43, 0.17],
+                [0.46, 0.32],
             ]
         )
 
         expected_losses = [
-            0.3972552,
-            0.42686962,
-            0.43481878,
-            0.73160366,
-            0.73603323,
-            0.8516071,
-            0.90245126,
-            0.97365625,
-            1.06424397,
-            1.11547266,
-            1.17847713,
-            1.2153038,
-            1.25877588,
-            1.26424663,
-            1.49182603,
-            1.60069072,
-            1.60835184,
-            1.69164426,
-            1.71154007,
-            2.00411593,
-            2.28922901,
-            2.36455155,
-            2.61220382,
-            3.60022745,
+            0.40391037,
+            0.55369057,
+            0.61424068,
+            0.74831741,
+            0.75115352,
+            0.7947552,
+            0.81273763,
+            0.84385951,
+            1.01089835,
+            1.61112201,
+            1.61341081,
+            1.7291749,
+            1.76300457,
+            1.85015661,
+            1.88723244,
+            1.89303475,
+            1.94197351,
+            1.94259241,
+            2.19809781,
+            2.5383914,
+            2.67175361,
+            2.81332498,
+            3.25878897,
+            3.50099742,
         ]
 
         cal = Calibrator(
@@ -129,9 +134,9 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
                 self.random_sampler,
                 self.halton_sampler,
                 self.rseq_sampler,
+                self.gauss_sampler,
                 self.forest_sampler,
                 self.bb_sampler,
-                self.gauss_sampler,
             ],
             real_data=self.real_data,
             model=self.model,
@@ -140,11 +145,14 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             ensemble_size=3,
             loss_function=self.loss,
             saving_folder=None,
+            random_state=self.random_state,
             n_jobs=n_jobs,
         )
 
         params, losses = cal.calibrate(2)
 
+        print(params)
+        print(losses)
         assert np.allclose(params, expected_params)
         assert np.allclose(losses, expected_losses)
 
@@ -155,9 +163,9 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
                 self.random_sampler,
                 self.halton_sampler,
                 self.rseq_sampler,
+                self.gauss_sampler,
                 self.forest_sampler,
                 self.bb_sampler,
-                self.gauss_sampler,
             ],
             real_data=self.real_data,
             model=self.model,
@@ -178,76 +186,110 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         assert "Achieved convergence loss, stopping search." in captured_output.out
 
 
-def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
+class test_calibrator_restore_from_checkpoint_and_set_sampler:
     """Test 'Calibrator.restore_from_checkpoint', positive case, and 'Calibrator.set_sampler'."""
-    true_params = np.array([0.50, 0.50])
-    bounds = np.array([[0.01, 0.01], [1.00, 1.00]])
-    bounds_step = np.array([0.01, 0.01])
 
-    batch_size = 2
-    random_sampler = RandomUniformSampler(batch_size=batch_size)
-    halton_sampler = HaltonSampler(batch_size=batch_size)
+    saving_folder: str
 
-    model = NormalMV
-    real_data = model(true_params, N=100, seed=0)
-    loss = MethodOfMomentsLoss()
+    @classmethod
+    def setup_class(cls) -> None:
+        """Set up the test class."""
+        cls.saving_folder = tempfile.mktemp()
 
-    # initialize a Calibrator object
-    cal = Calibrator(
-        samplers=[
-            random_sampler,
-            halton_sampler,
-        ],
-        real_data=real_data,
-        model=model,
-        parameters_bounds=bounds,
-        parameters_precision=bounds_step,
-        ensemble_size=2,
-        loss_function=loss,
-        saving_folder="saving_folder",
-        n_jobs=1,
-    )
+    def test_run(self) -> None:  # pylint: disable=too-many-locals
+        """Run the test."""
+        true_params = np.array([0.50, 0.50])
+        bounds = np.array([[0.0, 0.0], [1.00, 1.00]])
+        bounds_step = np.array([0.01, 0.01])
 
-    _, _ = cal.calibrate(2)
+        batch_size = 2
+        random_sampler = RandomUniformSampler(batch_size=batch_size)
+        halton_sampler = HaltonSampler(batch_size=batch_size)
+        gaussian_sampler = GaussianProcessSampler(batch_size=batch_size, max_iters=10)
+        best_batch_sampler = BestBatchSampler(batch_size=batch_size)
+        r_sequence_sampler = RSequenceSampler(batch_size=batch_size)
+        random_forest_sampler = RandomForestSampler(
+            batch_size=batch_size, n_estimators=10
+        )
 
-    cal_restored = Calibrator.restore_from_checkpoint("saving_folder", model=model)
+        model = NormalMV
+        real_data = model(true_params, N=100, seed=0)
+        loss = MethodOfMomentsLoss()
 
-    # loop over all attributes of the classes
-    vars_cal = vars(cal)
-    for key in vars_cal:
-        # if the attribute is an object just check the equality of their names
-        if key == "samplers":
-            for method1, method2 in zip(vars_cal["samplers"], cal_restored.samplers):
-                assert type(method1).__name__ == type(method2).__name__
-        elif key == "loss_function":
-            assert (
-                type(vars_cal["loss_function"]).__name__
-                == type(cal_restored.loss_function).__name__  # noqa
-            )
-        elif key == "param_grid":
-            assert (
-                type(vars_cal["param_grid"]).__name__
-                == type(cal_restored.param_grid).__name__  # noqa
-            )
-        # otherwise check the equality of numerical values
-        else:
-            assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
+        # initialize a Calibrator object
+        cal = Calibrator(
+            samplers=[
+                random_sampler,
+                halton_sampler,
+                gaussian_sampler,
+                best_batch_sampler,
+                r_sequence_sampler,
+                random_forest_sampler,
+            ],
+            real_data=real_data,
+            model=model,
+            parameters_bounds=bounds,
+            parameters_precision=bounds_step,
+            ensemble_size=2,
+            loss_function=loss,
+            saving_folder=self.saving_folder,
+            n_jobs=1,
+        )
 
-    # testt the setting of a new sampler to the calibrator object
-    best_batch_sampler = BestBatchSampler(batch_size=2)
-    cal.set_samplers(
-        [random_sampler, best_batch_sampler]
-    )  # note: only the second sampler is new
-    assert len(cal.samplers) == 2
-    assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
-    assert len(cal.samplers_id_table) == 3
-    assert cal.samplers_id_table["BestBatchSampler"] == 2
+        _, _ = cal.calibrate(2)
 
-    # remove the test folder
-    files = glob.glob("saving_folder/*")
-    for f in files:
-        os.remove(f)
-    os.rmdir("saving_folder")
+        cal_restored = Calibrator.restore_from_checkpoint(
+            self.saving_folder, model=model
+        )
+
+        # loop over all attributes of the classes
+        vars_cal = vars(cal)
+        for key in vars_cal:
+            # if the attribute is an object just check the equality of their names
+            if key == "samplers":
+                for method1, method2 in zip(
+                    vars_cal["samplers"], cal_restored.samplers
+                ):
+                    assert type(method1).__name__ == type(method2).__name__
+            elif key == "loss_function":
+                assert (
+                    type(vars_cal["loss_function"]).__name__
+                    == type(cal_restored.loss_function).__name__  # noqa
+                )
+            elif key == "param_grid":
+                assert (
+                    type(vars_cal["param_grid"]).__name__
+                    == type(cal_restored.param_grid).__name__  # noqa
+                )
+            elif key == "_random_generator":
+                assert (
+                    vars_cal[key].bit_generator.state
+                    == cal_restored.random_generator.bit_generator.state
+                )
+            # otherwise check the equality of numerical values
+            else:
+                assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
+
+        # testt the setting of a new sampler to the calibrator object
+        best_batch_sampler = BestBatchSampler(batch_size=2)
+        cal.set_samplers(
+            [random_sampler, best_batch_sampler]
+        )  # note: only the second sampler is new
+        assert len(cal.samplers) == 2
+        assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
+        assert len(cal.samplers_id_table) == 3
+        assert cal.samplers_id_table["BestBatchSampler"] == 2
+
+        # remove the test folder
+        files = glob.glob("saving_folder/*")
+        for f in files:
+            os.remove(f)
+            os.rmdir("saving_folder")
+
+    @classmethod
+    def teardown_class(cls) -> None:
+        """Teardown the class."""
+        shutil.rmtree(cls.saving_folder)
 
 
 def test_new_sampling_method() -> None:
@@ -256,17 +298,17 @@ def test_new_sampling_method() -> None:
     class MyCustomSampler(BaseSampler):
         """Custom sampler."""
 
-        def single_sample(
+        def sample_batch(
             self,
-            seed: int,
+            nb_samples: int,
             search_space: SearchSpace,
             existing_points: NDArray[np.float64],
             existing_losses: NDArray[np.float64],
         ) -> NDArray[np.float64]:
-            """Do a single sample."""
+            """Sample a batch of points."""
 
     cal = Calibrator(
-        samplers=[MyCustomSampler(MagicMock(), MagicMock(), MagicMock())],
+        samplers=[MyCustomSampler(batch_size=2, max_deduplication_passes=0)],
         real_data=MagicMock(),
         model=MagicMock(),
         parameters_bounds=np.array([MagicMock(), MagicMock()]),

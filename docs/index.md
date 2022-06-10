@@ -45,6 +45,9 @@ To write a basic script, it is enough to instantiate a `Calibrator` object and u
 The following example will refer to **`examples/main.py`**.
 
 ```python
+# define the calibration seed
+calibration_seed = 1
+
 # define a loss
 loss = MethodOfMomentsLoss()
 
@@ -57,10 +60,11 @@ cal = Calibrator(
     parameters_precision=np.asarray(bounds_step),
     ensemble_size=1,
     loss_function=loss,
+    random_state=calibration_seed,
 )
 
 # calibrate the model
-params, losses = cal.calibrate(n_batches=4)
+params, losses = cal.calibrate(n_batches=5)
 ```
 The calibrator constructor accepts as inputs:
 

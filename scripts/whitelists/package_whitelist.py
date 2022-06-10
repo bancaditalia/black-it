@@ -20,6 +20,8 @@ GaussianProcessSampler  # unused class (black_it/samplers/gaussian_process.py:15
 Calibrator  # unused class (black_it/calibrator.py:23)
 MEAN  # unused variable (black_it/samplers/gaussian_process.py:36)
 get_mom_ts  # unused function (black-it/black_it/utils/time_series.py)
+RSequenceSampler  # unused class (black_it/samplers/r_sequence.py:89)
+HaltonSampler  # unused class (black_it/samplers/halton.py:33)
 FourierLoss  # unused class (black_it/loss_functions/fourier.py:26)
 ideal_low_pass_filter  # unused function (black-it/black_it/loss_functions/fourier.py:26)
 set_samplers  # unused method (black-it/black_it/calibrator.py:153)

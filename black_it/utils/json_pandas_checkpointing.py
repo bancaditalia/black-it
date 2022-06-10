@@ -19,7 +19,7 @@ import gzip
 import json
 import pickle  # nosec B403
 from pathlib import Path
-from typing import Optional, Sequence, Tuple
+from typing import Mapping, Optional, Sequence, Tuple
 
 import numpy as np
 import pandas as pd
@@ -54,8 +54,11 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     params_samp = np.vstack(params_samp_list).T
 
+    with open(checkpoint_path / "random_generator_state.json", "r") as f:
+        random_generator_state = json.load(f)
+
     with open(checkpoint_path / "samplers_pickled.pickle", "rb") as fb:
-        samplers = pickle.load(fb)  # nosec B301
+        samplers = pickle.load(fb)
 
     with open(checkpoint_path / "loss_function_pickled.pickle", "rb") as fb:
         loss_function = pickle.load(fb)  # nosec B301
@@ -74,7 +77,8 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
         cp["convergence_precision"],
         cp["verbose"],
         cp["saving_file"],
-        cp["model_seed"],
+        cp["initial_random_seed"],
+        random_generator_state,
         cp["model_name"],
         samplers,
         loss_function,
@@ -101,7 +105,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     convergence_precision: Optional[float],
     verbose: bool,
     saving_file: Optional[str],
-    model_seed: int,
+    initial_random_seed: Optional[int],
+    random_generator_state: Mapping,
     model_name: str,
     samplers: Sequence[BaseSampler],
     loss_function: BaseLoss,
@@ -128,7 +133,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
         convergence_precision: the convergence precision
         verbose: the verbosity mode
         saving_file: the saving file
-        model_seed: the model seed
+        initial_random_seed: initial random seed for the calibration task
+        random_generator_state: the state of the random generator
         model_name: the model name
         samplers: the ordered list of samplers to use in the calibration
         loss_function: the loss function
@@ -156,7 +162,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
         convergence_precision=convergence_precision,
         verbose=verbose,
         saving_file=saving_file,
-        model_seed=model_seed,
+        initial_random_seed=initial_random_seed,
+        random_generator_state=random_generator_state,
         model_name=model_name,
         current_batch_index=current_batch_index,
         n_sampled_params=n_sampled_params,
@@ -165,6 +172,10 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     # save calibration parameters in a json dictionary
     with open(checkpoint_path / "calibration_params.json", "w") as f:
         json.dump(calibration_params, f, cls=NumpyArrayEncoder)
+
+    # save random generator state in a json dictionary
+    with open(checkpoint_path / "random_generator_state.json", "w") as f:
+        json.dump(random_generator_state, f)
 
     # save instantiated samplers and loss functions
     with open(checkpoint_path / "samplers_pickled.pickle", "wb") as fb:
