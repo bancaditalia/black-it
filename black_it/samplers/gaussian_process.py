@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the Gaussian process-based sampling."""
+import random
 from enum import Enum
 from typing import Optional, Tuple, cast
 
@@ -53,7 +54,7 @@ class GaussianProcessSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        internal_seed: int = 0,
+        random_state: int = 0,
         candidate_pool_size: Optional[int] = None,
         max_iters: int = 1000,
         optimize_restarts: int = 5,
@@ -64,7 +65,7 @@ class GaussianProcessSampler(BaseSampler):
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
-            internal_seed: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
             candidate_pool_size: number of randomly sampled points on which the random forest predictions are evaluated
             max_iters: maximum number of iteration in the optimization of the GP hyperparameters
             optimize_restarts: number of independent random trials of the optimization of the GP hyperparameters
@@ -72,7 +73,7 @@ class GaussianProcessSampler(BaseSampler):
         """
         self._validate_acquisition(acquisition)
 
-        super().__init__(batch_size, internal_seed)
+        super().__init__(batch_size, random_state)
         self.max_iters = max_iters
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
@@ -132,8 +133,6 @@ class GaussianProcessSampler(BaseSampler):
         Returns:
             the sampled parameters
         """
-        np.random.seed(self.internal_seed)
-
         X, Y = existing_points, np.atleast_2d(existing_losses).T
 
         if X.shape[0] > 500:
@@ -154,6 +153,10 @@ class GaussianProcessSampler(BaseSampler):
             1e-9, 1e6, warning=False
         )  # constrain_positive(warning=False)
 
+        # we need to set the seed globally for GPy optimisations
+        # to give reproducible results
+        np.random.seed(self._get_random_seed())
+        random.seed(self._get_random_seed())
         if self.max_iters > 0:
             # --- update the model maximizing the marginal likelihood.
             if self.optimize_restarts == 1:
@@ -173,7 +176,7 @@ class GaussianProcessSampler(BaseSampler):
 
         # Get large candidate pool
         candidates: NDArray[np.float64] = RandomUniformSampler(
-            batch_size=self.candidate_pool_size, internal_seed=self.internal_seed
+            batch_size=self.candidate_pool_size, random_state=self._get_random_seed()
         ).sample(search_space, existing_points, existing_losses)
 
         # predict mean or expected improvement on the full sample set
@@ -186,8 +189,6 @@ class GaussianProcessSampler(BaseSampler):
         sorting_indices = np.argsort(candidates_score)
 
         sampled_points = candidates[sorting_indices][: self.batch_size, :]
-
-        self.internal_seed += self.batch_size
 
         return digitize_data(sampled_points, search_space.param_grid)
 
@@ -215,7 +216,7 @@ class GaussianProcessSampler(BaseSampler):
         return gpmodel.predict(gpmodel.X)[0].min()
 
     def _predict_EI(
-        self, X: NDArray[np.float64], jitter: float = 1e-3
+        self, X: NDArray[np.float64], jitter: float = 0.1
     ) -> NDArray[np.float64]:
         """
         Compute the Expected Improvement per unit of cost.

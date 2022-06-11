@@ -41,7 +41,7 @@ def test_random_forest_2d() -> None:
     xys = np.array(xys_list)
     losses = np.array(losses_list)
 
-    sampler = RandomForestSampler(batch_size=4, internal_seed=0)
+    sampler = RandomForestSampler(batch_size=4, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),
@@ -54,7 +54,7 @@ def test_random_forest_2d() -> None:
 
 def test_random_forest_single_sample_raises_error() -> None:
     """Test that 'RandomForestSampler.single_sample' raises NotImplementedError."""
-    sampler = RandomForestSampler(batch_size=4, internal_seed=0)
+    sampler = RandomForestSampler(batch_size=4, random_state=0)
     with pytest.raises(
         NotImplementedError,
         match="for RandomForestSampler the parallelization is hard coded in sample",

@@ -36,7 +36,10 @@ def test_save_and_load_calibrator_state() -> None:  # pylint: disable=too-many-l
     convergence_precision = 0.1
     verbose = True
     saving_folder = "saving_folder"
-    model_seed = 0
+    initial_random_seed = 0
+    random_generator_state = np.random.default_rng(
+        initial_random_seed
+    ).bit_generator.state
     model_name = "model"
     samplers = ["method_a", "method_b"]  # list of objects
     loss_function = "loss_a"  # object
@@ -61,7 +64,8 @@ def test_save_and_load_calibrator_state() -> None:  # pylint: disable=too-many-l
         convergence_precision,
         verbose,
         saving_folder,
-        model_seed,
+        initial_random_seed,
+        random_generator_state,
         model_name,
         samplers,  # type: ignore
         loss_function,  # type: ignore
@@ -87,20 +91,21 @@ def test_save_and_load_calibrator_state() -> None:  # pylint: disable=too-many-l
     assert np.allclose(loaded_state[6], convergence_precision)
     assert np.allclose(loaded_state[7], verbose)
     assert loaded_state[8] == saving_folder
-    assert np.allclose(loaded_state[9], model_seed)
-    assert loaded_state[10] == model_name
-    assert loaded_state[11] == samplers
-    assert loaded_state[12] == loss_function
-    assert np.allclose(loaded_state[13], current_batch_index)
-    assert np.allclose(loaded_state[14], n_sampled_params)
-    assert np.allclose(loaded_state[15], n_jobs)
+    assert np.allclose(loaded_state[9], initial_random_seed)
+    assert loaded_state[10] == random_generator_state
+    assert loaded_state[11] == model_name
+    assert loaded_state[12] == samplers
+    assert loaded_state[13] == loss_function
+    assert np.allclose(loaded_state[14], current_batch_index)
+    assert np.allclose(loaded_state[15], n_sampled_params)
+    assert np.allclose(loaded_state[16], n_jobs)
 
     # results of calibration
-    assert np.allclose(loaded_state[16], params_samp)
-    assert np.allclose(loaded_state[17], losses_samp)
-    assert np.allclose(loaded_state[18], series_samp)
-    assert np.allclose(loaded_state[19], batch_num_samp)
-    assert np.allclose(loaded_state[20], method_samp)
+    assert np.allclose(loaded_state[17], params_samp)
+    assert np.allclose(loaded_state[18], losses_samp)
+    assert np.allclose(loaded_state[19], series_samp)
+    assert np.allclose(loaded_state[20], batch_num_samp)
+    assert np.allclose(loaded_state[21], method_samp)
 
     # remove the test folder
     files = glob.glob("saving_folder/*")

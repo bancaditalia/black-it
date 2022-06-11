@@ -35,12 +35,11 @@ expected_params = np.array(
 
 def test_rsequence_2d() -> None:
     """Test the r-sequence sampler, 2d."""
-    sampler = RSequenceSampler(batch_size=8, internal_seed=0)
+    sampler = RSequenceSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),
         verbose=False,
     )
     new_params = sampler.sample(param_grid, np.zeros((0, 2)), np.zeros((0, 2)))
-    print(new_params)
     assert np.allclose(expected_params, new_params)

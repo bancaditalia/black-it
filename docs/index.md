@@ -48,6 +48,9 @@ The following example will refer to **`examples/main.py`**.
 # define a loss
 loss = MethodOfMomentsLoss()
 
+# define the calibration seed
+calibration_seed = 1
+
 # initialize a Calibrator object
 cal = Calibrator(
     samplers=[halton_sampler, random_forest_sampler, best_batch_sampler],
@@ -55,12 +58,13 @@ cal = Calibrator(
     model=model,
     parameters_bounds=np.asarray(bounds),
     parameters_precision=np.asarray(bounds_step),
-    ensemble_size=1,
+    ensemble_size=3,
     loss_function=loss,
+    random_state=calibration_seed,
 )
 
 # calibrate the model
-params, losses = cal.calibrate(n_batches=4)
+params, losses = cal.calibrate(n_batches=5)
 ```
 The calibrator constructor accepts as inputs:
 

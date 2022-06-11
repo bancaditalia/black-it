@@ -33,7 +33,7 @@ class RandomForestSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        internal_seed: int = 0,
+        random_state: int = 0,
         candidate_pool_size: Optional[int] = None,
         n_estimators: int = 500,
         criterion: str = "gini",
@@ -45,12 +45,12 @@ class RandomForestSampler(BaseSampler):
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
-            internal_seed: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
             candidate_pool_size: number of randomly sampled points on which the random forest predictions are evaluated
             n_estimators: number of trees in the forest
             criterion: The function to measure the quality of a split.
         """
-        super().__init__(batch_size, internal_seed)
+        super().__init__(batch_size, random_state)
 
         self.n_estimators = n_estimators
         self.criterion = criterion
@@ -102,7 +102,7 @@ class RandomForestSampler(BaseSampler):
             n_estimators=self.n_estimators,
             criterion=self.criterion,
             n_jobs=-1,
-            random_state=self.internal_seed,
+            random_state=self._get_random_seed(),
         )
         classifier.fit(x, y)
         # Predict quantiles
@@ -112,8 +112,6 @@ class RandomForestSampler(BaseSampler):
         sampled_points: NDArray[np.float64] = candidates[sorting_indices][
             : self.batch_size
         ]
-
-        self.internal_seed += self.batch_size
 
         return digitize_data(sampled_points, search_space.param_grid)
 
@@ -168,7 +166,7 @@ class RandomForestSampler(BaseSampler):
         """
 
         def sample(nb_samples: int) -> NDArray[np.float64]:
-            random_generator = default_rng(self.internal_seed)
+            random_generator = default_rng(self.random_state)
             candidates = np.zeros((nb_samples, search_space.dims))
             for i, params in enumerate(search_space.param_grid):
                 candidates[:, i] = random_generator.choice(params, size=(nb_samples,))
