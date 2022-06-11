@@ -35,7 +35,7 @@ expected_params = np.array(
 
 def test_halton_2d() -> None:
     """Test the Halton sampler, 2d."""
-    sampler = HaltonSampler(batch_size=8, internal_seed=0)
+    sampler = HaltonSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),

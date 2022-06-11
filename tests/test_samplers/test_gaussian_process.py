@@ -40,10 +40,14 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         xys_list = []
         losses_list = []
 
+        np.random.seed(0)
         for x in xs:
             for y in ys:
+                x = x + np.random.normal(0, 1e-2)
+                y = y + np.random.normal(0, 1e-2)
                 xys_list.append([x, y])
                 losses_list.append(x**2 + y**2)
+
         return np.asarray(xys_list), np.asarray(losses_list)
 
     @pytest.mark.parametrize(
@@ -52,22 +56,22 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
             [
                 "mean",
                 1,
-                np.array([[0.01, 0.0], [0.01, 0.01], [0.02, 0.0], [0.01, 0.02]]),
+                np.array([[0.0, 0.0], [0.01, 0.01], [0.0, 0.02], [0.02, 0.02]]),
             ],
             [
                 "mean",
-                5,
-                np.array([[0.01, 0.0], [0.01, 0.01], [0.02, 0.0], [0.01, 0.02]]),
+                3,
+                np.array([[0.0, 0.0], [0.01, 0.01], [0.0, 0.02], [0.02, 0.02]]),
             ],
             [
                 "expected_improvement",
                 1,
-                None,  # skip this due to reproducibility issue
+                np.array([[0.68, 0.51], [0.84, 0.12], [0.76, 0.6], [1.0, 0.57]]),
             ],
             [
                 "expected_improvement",
-                5,
-                None,  # skip this due to reproducibility issue
+                3,
+                np.array([[0.68, 0.51], [0.84, 0.12], [0.76, 0.6], [1.0, 0.57]]),
             ],
         ],
     )
@@ -80,7 +84,7 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         """Test the Gaussian process sampler, 2d."""
         sampler = GaussianProcessSampler(
             batch_size=4,
-            internal_seed=0,
+            random_state=0,
             optimize_restarts=optimize_restarts,
             acquisition=acquisition,
         )
@@ -91,11 +95,6 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         )
         new_params = sampler.sample(param_grid, self.xys, self.losses)
 
-        if expected_params is None:
-            pytest.skip(
-                "The test with acquisition=expected_improvement is temporarily "
-                "skipped due to reproducibility issues."
-            )
         assert np.allclose(cast(NDArray, expected_params), new_params)
 
 
@@ -111,7 +110,7 @@ def test_gaussian_process_single_sample_raises_not_implemented_error() -> None:
 
 def test_gaussian_process_sample_warning_too_large_dataset() -> None:
     """Test GaussianProcessSampler.sample wiht too many existing points."""
-    sampler = GaussianProcessSampler(batch_size=4, internal_seed=0, acquisition="mean")
+    sampler = GaussianProcessSampler(batch_size=4, random_state=0, acquisition="mean")
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),

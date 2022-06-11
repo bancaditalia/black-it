@@ -36,8 +36,8 @@ def test_find_and_get_duplicates() -> None:
     assert duplicates == [0, 1, 2, 4, 5]
 
 
-class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too-many-instance-attributes
-    """Test 'BaseSampler.set_internal_seed'."""
+class TestSetRandomState:  # pylint: disable=attribute-defined-outside-init,too-many-instance-attributes
+    """Test 'BaseSampler.random_state' setter."""
 
     class MyCustomSampler(BaseSampler):
         """
@@ -63,24 +63,24 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
         self.bounds_step = np.asarray([0.01, 0.01, 0.01])
         self.default_seed = 42
         self.batch_size = 32
-        self.sampler = TestSetInternalSeed.MyCustomSampler(
-            self.batch_size, internal_seed=self.default_seed
+        self.sampler = TestSetRandomState.MyCustomSampler(
+            self.batch_size, random_state=self.default_seed
         )
         self.search_space = SearchSpace(self.bounds, self.bounds_step, False)
         self.existing_points = np.zeros((0, self.bounds.shape[1]))
         self.existing_losses = np.zeros(0)
 
-    def test_set_internal_seed_gives_same_result(self) -> None:
-        """Test sampler gives same result after setting internal seed."""
+    def test_set_random_state_gives_same_result(self) -> None:
+        """Test sampler gives same result after setting random state."""
         seed = 11
-        self.sampler.set_internal_seed(seed)
+        self.sampler.random_state = seed
         expected_result_1 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
         expected_result_2 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
-        self.sampler.set_internal_seed(seed)
+        self.sampler.random_state = seed
         actual_result_1 = self.sampler.sample(
             self.search_space, self.existing_points, self.existing_losses
         )
@@ -90,8 +90,8 @@ class TestSetInternalSeed:  # pylint: disable=attribute-defined-outside-init,too
         assert (expected_result_1 == actual_result_1).all()
         assert (expected_result_2 == actual_result_2).all()
 
-    def test_set_internal_seed_works_correctly(self) -> None:
-        """Test 'BaseSampler.set_internal_seed' actually sets the internal seed."""
-        assert self.sampler.internal_seed == self.default_seed
-        self.sampler.set_internal_seed(1)
-        assert self.sampler.internal_seed == 1
+    def test_set_random_state_works_correctly(self) -> None:
+        """Test 'BaseSampler.set_random_state' setter actually sets the internal random state."""
+        assert self.sampler.random_state == self.default_seed
+        self.sampler.random_state = 1
+        assert self.sampler.random_state == 1

@@ -62,6 +62,9 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         # generate a synthetic dataset to test the calibrator
         self.real_data = self.model(self.true_params, N=100, seed=0)
 
+        # set calibrator initial random seed
+        self.random_state = 0
+
         # define a loss
         self.loss = MethodOfMomentsLoss()
 
@@ -70,58 +73,58 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
         expected_params = np.array(
             [
-                [0.7, 0.61],
-                [0.86, 0.75],
-                [0.86, 0.64],
-                [0.82, 0.76],
-                [0.91, 0.68],
-                [0.02, 0.64],
-                [0.88, 0.65],
-                [0.75, 0.12],
-                [0.51, 0.34],
-                [0.52, 0.78],
-                [0.48, 0.52],
-                [0.84, 0.27],
-                [0.77, 0.22],
-                [0.82, 0.09],
-                [0.13, 0.45],
-                [0.99, 0.99],
-                [0.02, 0.02],
-                [0.26, 0.67],
-                [1.0, 0.98],
-                [0.26, 0.08],
-                [0.72, 0.96],
-                [0.01, 0.02],
-                [0.9, 0.76],
-                [0.86, 0.7],
+                [0.53, 0.41],
+                [0.55, 0.48],
+                [0.95, 0.7],
+                [0.53, 0.46],
+                [0.42, 0.77],
+                [0.9, 0.69],
+                [0.06, 0.15],
+                [0.04, 0.4],
+                [0.92, 0.6],
+                [0.04, 0.01],
+                [0.66, 0.21],
+                [0.05, 0.02],
+                [0.58, 0.45],
+                [0.16, 0.07],
+                [0.89, 0.96],
+                [0.43, 0.5],
+                [0.57, 0.53],
+                [0.9, 0.64],
+                [0.97, 0.23],
+                [0.01, 0.03],
+                [0.91, 0.83],
+                [0.04, 0.04],
+                [0.3, 0.81],
+                [0.71, 0.74],
             ]
         )
 
         expected_losses = [
-            0.3972552,
-            0.42686962,
-            0.43481878,
-            0.73160366,
-            0.73603323,
-            0.8516071,
-            0.90245126,
-            0.97365625,
-            1.06424397,
-            1.11547266,
-            1.17847713,
-            1.2153038,
-            1.25877588,
-            1.26424663,
-            1.49182603,
-            1.60069072,
-            1.60835184,
-            1.69164426,
-            1.71154007,
-            2.00411593,
-            2.28922901,
-            2.36455155,
-            2.61220382,
-            3.60022745,
+            0.18717979,
+            0.49858541,
+            0.52827096,
+            0.66038152,
+            0.66998437,
+            0.99106997,
+            1.17061966,
+            1.18826265,
+            1.39383134,
+            1.42949217,
+            1.54123579,
+            1.61444394,
+            1.61633296,
+            1.71192916,
+            1.78157112,
+            1.7833771,
+            1.82346312,
+            2.19303187,
+            2.28332458,
+            2.32757743,
+            2.33589996,
+            2.55056468,
+            3.28218462,
+            3.64581369,
         ]
 
         cal = Calibrator(
@@ -140,6 +143,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             ensemble_size=3,
             loss_function=self.loss,
             saving_folder=None,
+            random_state=self.random_state,
             n_jobs=n_jobs,
         )
 
@@ -229,6 +233,11 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
                 type(vars_cal["param_grid"]).__name__
                 == type(cal_restored.param_grid).__name__  # noqa
             )
+        elif key == "_random_generator":
+            assert (
+                vars_cal[key].bit_generator.state
+                == cal_restored.random_generator.bit_generator.state
+            )
         # otherwise check the equality of numerical values
         else:
             assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
@@ -266,7 +275,7 @@ def test_new_sampling_method() -> None:
             """Do a single sample."""
 
     cal = Calibrator(
-        samplers=[MyCustomSampler(MagicMock(), MagicMock(), MagicMock())],
+        samplers=[MyCustomSampler(batch_size=2)],
         real_data=MagicMock(),
         model=MagicMock(),
         parameters_bounds=np.array([MagicMock(), MagicMock()]),

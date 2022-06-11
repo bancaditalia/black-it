@@ -20,10 +20,11 @@ from abc import ABC, abstractmethod
 from typing import List
 
 import numpy as np
+from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data
+from black_it.utils.base import digitize_data, get_random_seed
 
 
 class BaseSampler(ABC):
@@ -34,19 +35,39 @@ class BaseSampler(ABC):
     """
 
     def __init__(
-        self, batch_size: int, internal_seed: int = 0, max_duplication_passes: int = 5
+        self, batch_size: int, random_state: int = 0, max_duplication_passes: int = 5
     ) -> None:
         """
         Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
-            internal_seed: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
             max_duplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
         """
-        self.internal_seed: int = internal_seed
+        self.random_state: int = random_state
         self.batch_size: int = batch_size
         self.max_duplication_passes = max_duplication_passes
+
+    @property
+    def random_state(self) -> int:
+        """Get the random state."""
+        return self._random_state
+
+    @random_state.setter
+    def random_state(self, random_state: int) -> None:
+        """Set the random state."""
+        self._random_state = random_state
+        self._random_generator = default_rng(self.random_state)
+
+    @property
+    def random_generator(self) -> np.random.Generator:
+        """Get the random generator."""
+        return self._random_generator
+
+    def _get_random_seed(self) -> int:
+        """Get new random seed from the current random generator."""
+        return get_random_seed(self._random_generator)
 
     @abstractmethod
     def single_sample(
@@ -95,12 +116,13 @@ class BaseSampler(ABC):
 
         for i in range(batch_size):
             sampled_points[i] = self.single_sample(
-                seed=self.internal_seed,
+                seed=self.random_state,
                 search_space=search_space,
                 existing_points=existing_points,
                 existing_losses=existing_losses,
             )
-            self.internal_seed += 1
+
+            self.random_state += 1
 
         # discretize the new parameters, this should be redundant
         return digitize_data(sampled_points, search_space.param_grid)
@@ -173,12 +195,3 @@ class BaseSampler(ABC):
                     repeated_pos.append(index[0])
 
         return repeated_pos
-
-    def set_internal_seed(self, internal_seed: int) -> None:
-        """
-        Set the internal seed of the sampler to a specific value.
-
-        Args:
-            internal_seed: the internal random seed
-        """
-        self.internal_seed = internal_seed

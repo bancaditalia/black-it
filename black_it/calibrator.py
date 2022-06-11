@@ -25,12 +25,13 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from joblib import Parallel, delayed
+from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import assert_
+from black_it.utils.base import assert_, get_random_seed
 from black_it.utils.json_pandas_checkpointing import (
     load_calibrator_state,
     save_calibrator_state,
@@ -54,7 +55,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         convergence_precision: Optional[int] = None,
         verbose: bool = True,
         saving_folder: Optional[str] = None,
-        model_seed: int = 0,
+        random_state: Optional[int] = None,
         n_jobs: Optional[int] = None,
     ):
         """
@@ -76,7 +77,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
                 not performed if this is set to 'None'.
             verbose: whether to print calibration updates
             saving_folder: the name of the folder where data should be saved and/or retrieved
-            model_seed: random seed passed to the model simulator
+            random_state: random state of the calibrator, used for model simulations and to initialise the samplers
             n_jobs: the maximum number of concurrently running jobs. For more details, see the
                 [joblib.Parallel documentation](https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html).
 
@@ -84,7 +85,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         self.samplers = samplers
         self.loss_function = loss_function
         self.model = model
-        self.model_seed = model_seed
+        self.random_state = random_state
         self.real_data = real_data
         self.ensemble_size = ensemble_size
         self.N = self.real_data.shape[0]
@@ -119,6 +120,31 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         )
 
         self.samplers_id_table = self._construct_samplers_id_table(samplers)
+
+    @property
+    def random_state(self) -> Optional[int]:
+        """Get the random state."""
+        return self._random_state
+
+    @random_state.setter
+    def random_state(self, random_state: Optional[int]) -> None:
+        """Set the random state."""
+        self._random_state = random_state
+        self._random_generator = default_rng(self.random_state)
+
+    @property
+    def random_generator(self) -> np.random.Generator:
+        """Get the random generator."""
+        return self._random_generator
+
+    def _get_random_seed(self) -> int:
+        """Get new random seed from the current random generator."""
+        return get_random_seed(self._random_generator)
+
+    def _set_samplers_seeds(self) -> None:
+        """Set the calibration seed."""
+        for sampler in self.samplers:
+            sampler.random_state = self._get_random_seed()
 
     @staticmethod
     def _construct_samplers_id_table(samplers: List[BaseSampler]) -> Dict[str, int]:
@@ -198,7 +224,8 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             convergence_precision,
             verbose,
             saving_file,
-            model_seed,
+            random_state,
+            random_generator_state,
             model_name,
             samplers,
             loss_function,
@@ -231,7 +258,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             convergence_precision,
             verbose,
             saving_file,
-            model_seed,
+            random_state,
             n_jobs,
         )
 
@@ -242,6 +269,9 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         calibrator.series_samp = series_samp
         calibrator.batch_num_samp = batch_num_samp
         calibrator.method_samp = method_samp
+
+        # reset the random number generator state
+        calibrator.random_generator.bit_generator.state = random_generator_state
 
         return calibrator
 
@@ -262,7 +292,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         rep_params = np.repeat(params, self.ensemble_size, axis=0)
 
         simulated_data_list = Parallel(n_jobs=self.n_jobs)(
-            delayed(self.model)(param, self.N, self.model_seed + i)
+            delayed(self.model)(param, self.N, self._get_random_seed())
             for i, param in enumerate(rep_params)
         )
 
@@ -285,6 +315,10 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             The sampled parameters and the corresponding sampled losses.
             Both arrays are sorted by increasing loss values
         """
+        if self.current_batch_index == 0:
+            # we only set the samplers' random state at the start of a calibration
+            self._set_samplers_seeds()
+
         for _ in range(n_batches):
             print()
             print(f"BATCH NUMBER:   {self.current_batch_index + 1}")
@@ -306,8 +340,6 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
                 # simulate an ensemble of models for different parameters
 
                 new_simulated_data = self.simulate_model(new_params)
-
-                self.model_seed += self.ensemble_size * method.batch_size
 
                 new_losses = []
 
@@ -426,7 +458,8 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             self.convergence_precision,
             self.verbose,
             self.saving_folder,
-            self.model_seed,
+            self.random_state,
+            self.random_generator.bit_generator.state,
             model_name,
             self.samplers,
             self.loss_function,

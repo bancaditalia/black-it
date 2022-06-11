@@ -50,7 +50,7 @@ def test_best_batch_2d() -> None:
     xys = np.array(xys_list)
     losses = np.array(losses_list)
 
-    sampler = BestBatchSampler(batch_size=8, internal_seed=0)
+    sampler = BestBatchSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),
@@ -64,7 +64,7 @@ def test_best_batch_2d() -> None:
 def test_best_batch_clipping() -> None:
     """Test the best-batch clipping when sampling."""
     lower_bound, upper_bound = 0.499, 0.5
-    sampler = BestBatchSampler(batch_size=8, internal_seed=0)
+    sampler = BestBatchSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array(
             [[lower_bound, upper_bound], [lower_bound, upper_bound]]
@@ -91,7 +91,7 @@ def test_best_batch_sample_requires_batch_size_existing_points() -> None:
         parameters_precision=np.array([0.01, 0.01]),
         verbose=False,
     )
-    sampler = BestBatchSampler(batch_size=batch_size, internal_seed=0)
+    sampler = BestBatchSampler(batch_size=batch_size, random_state=0)
     with pytest.raises(
         ValueError,
         match="best-batch sampler requires a number of "

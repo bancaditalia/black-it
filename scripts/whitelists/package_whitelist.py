@@ -2,7 +2,6 @@
 # type: ignore
 # pylint: skip-file
 _.random_state  # unused attribute (black_it/samplers/best_batch.py:47)
-_.set_internal_seed  # unused method (black_it/samplers/base.py:162)
 plot_losses_interact  # unused function (black_it/plot/plot_results.py:152)
 plot_sampling_interact  # unused function (black_it/plot/plot_results.py:218)
 plot_convergence  # unused function (black_it/plot/plot_results.py:21)

@@ -111,3 +111,18 @@ class NumpyArrayEncoder(JSONEncoder):
         if isinstance(o, np.ndarray):
             return o.tolist()
         return JSONEncoder.default(self, o)  # pragma: no cover
+
+
+def get_random_seed(random_generator: np.random.Generator) -> int:
+    """
+    Get a random seed from a random generator.
+
+    Sample an integer in the range [0, 2^32 - 1].
+
+    Args:
+        random_generator: the random generator to be used for sampling the random seed.
+
+    Returns:
+        the random seed.
+    """
+    return random_generator.integers(2**32 - 1)

@@ -24,7 +24,7 @@ EXAMPLE_MAIN_SCRIPT_PATH = ROOT_DIR / "examples" / "main.py"
 
 
 TRUE_PARAMETERS_STR = "True parameters:       [0.2, 0.2, 0.75]"
-BEST_PARAMETERS_STR = "Best parameters found: [0.21 0.2  0.76]"
+BEST_PARAMETERS_STR = "Best parameters found: [0.18 0.19 0.75]"
 
 
 @pytest.mark.e2e
@@ -35,7 +35,7 @@ class TestMainExample(  # pylint: disable=too-few-public-methods
 
     script_path = EXAMPLE_MAIN_SCRIPT_PATH
     timeout = DEFAULT_SUBPROCESS_TIMEOUT
-    nb_batches = 4
+    nb_batches = 5
     expected_lines = [
         "PARAMS SAMPLED: 0",
         "METHOD: HaltonSampler",

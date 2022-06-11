@@ -35,7 +35,7 @@ expected_params = np.array(
 
 def test_random_uniform() -> None:
     """Test the random uniform sampler."""
-    sampler = RandomUniformSampler(batch_size=8, internal_seed=0)
+    sampler = RandomUniformSampler(batch_size=8, random_state=0)
 
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
@@ -52,7 +52,7 @@ def test_random_uniform_uniqueness() -> None:
     existing_points = expected_params[:1]
     expected_params_unique = np.vstack((np.array([[0.72, 0.33]]), expected_params[1:]))
 
-    sampler = RandomUniformSampler(batch_size=8, internal_seed=0)
+    sampler = RandomUniformSampler(batch_size=8, random_state=0)
 
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,

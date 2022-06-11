@@ -17,10 +17,11 @@
 """This module contains serialization and deserialization of calibration state with SQLite."""
 import gzip
 import io
+import json
 import pickle  # nosec B403
 import sqlite3
 from pathlib import Path
-from typing import Optional, Sequence, Tuple
+from typing import Mapping, Optional, Sequence, Tuple
 
 import numpy as np
 from numpy.typing import NDArray
@@ -29,7 +30,7 @@ from black_it.loss_functions.base import BaseLoss
 from black_it.samplers.base import BaseSampler
 from black_it.utils.base import PathLike
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 """
 Encodes the version of a checkpoint, preventing to load incompatible versions.
 
@@ -49,7 +50,8 @@ SQL_LOAD_QUERY = """
         convergence_precision,
         verbose,
         saving_folder,
-        model_seed,
+        initial_random_seed,
+        random_generator_state_json,
         model_name,
         samplers_pickled,
         loss_function_pickled,
@@ -73,7 +75,8 @@ SQL_SAVE_QUERY = """
         convergence_precision,
         verbose,
         saving_folder,
-        model_seed,
+        initial_random_seed,
+        random_generator_state_json,
         model_name,
         samplers_pickled,
         loss_function_pickled,
@@ -84,6 +87,7 @@ SQL_SAVE_QUERY = """
         batch_num_samp,
         method_samp
     ) VALUES (
+        ?,
         ?,
         ?,
         ?,
@@ -117,26 +121,27 @@ SQL_SAVE_USER_VERSION = f"""
 SQL_DDL = """
     CREATE TABLE IF NOT EXISTS checkpoint (
         -- initialization parameters
-        parameters_bounds     NDARRAY,
-        parameters_precision  NDARRAY,
-        real_data             NDARRAY,
-        ensemble_size         INTEGER,
-        N                     INTEGER,
-        D                     INTEGER,
-        convergence_precision DOUBLE,
-        verbose               INTEGER,
-        saving_folder           TEXT,
-        model_seed            INTEGER,
-        model_name            TEXT,
-        samplers_pickled      BLOB,
-        loss_function_pickled BLOB,
+        parameters_bounds            NDARRAY,
+        parameters_precision         NDARRAY,
+        real_data                    NDARRAY,
+        ensemble_size                INTEGER,
+        N                            INTEGER,
+        D                            INTEGER,
+        convergence_precision        DOUBLE,
+        verbose                      INTEGER,
+        saving_folder                TEXT,
+        initial_random_seed          INTEGER,
+        random_generator_state_json  TEXT,
+        model_name                   TEXT,
+        samplers_pickled             BLOB,
+        loss_function_pickled        BLOB,
         -- arrays resulting from calibration
-        current_batch_index   INTEGER,
-        params_samp           NDARRAY,
-        losses_samp           NDARRAY,
-        series_samp           GZ_NDARRAY,
-        batch_num_samp        NDARRAY,
-        method_samp           NDARRAY
+        current_batch_index          INTEGER,
+        params_samp                  NDARRAY,
+        losses_samp                  NDARRAY,
+        series_samp                  GZ_NDARRAY,
+        batch_num_samp               NDARRAY,
+        method_samp                  NDARRAY
     );
 
     DELETE FROM checkpoint;
@@ -203,7 +208,8 @@ def load_calibrator_state(  # pylint: disable=too-many-locals
             convergence_precision,
             verbose,
             saving_file,
-            model_seed,
+            initial_random_seed,
+            random_generator_state_json,
             model_name,
             samplers_pickled,
             loss_function_pickled,
@@ -228,7 +234,8 @@ def load_calibrator_state(  # pylint: disable=too-many-locals
             convergence_precision,
             verbose,
             saving_file,
-            model_seed,
+            initial_random_seed,
+            json.loads(random_generator_state_json),
             model_name,
             samplers,
             loss_function,
@@ -257,7 +264,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     convergence_precision: Optional[float],
     verbose: bool,
     saving_file: Optional[str],
-    model_seed: int,
+    initial_random_seed: Optional[int],
+    random_generator_state: Mapping,
     model_name: str,
     samplers: Sequence[BaseSampler],
     loss_function: BaseLoss,
@@ -282,7 +290,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
         convergence_precision: the convergence precision
         verbose: the verbosity mode
         saving_file: the saving file
-        model_seed: the model seed
+        initial_random_seed: initial random seed for the calibration task
+        random_generator_state: the state of the random generator
         model_name: the model name
         samplers: the ordered list of samplers to use in the calibration
         loss_function: the loss function
@@ -323,7 +332,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
                 convergence_precision,
                 verbose,
                 saving_file,
-                model_seed,
+                initial_random_seed,
+                json.dumps(random_generator_state),
                 model_name,
                 samplers_pickled,
                 loss_function_pickled,
