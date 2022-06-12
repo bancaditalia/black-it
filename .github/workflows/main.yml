@@ -91,11 +91,15 @@ jobs:
       - name: Install dependencies for Pylint checks
         if: ${{ env.PY_FILES_CHANGED != '' }}
         run: |
+          # install the package
+          pip install .
+          # install other importable dependencies
           pip install -r <(./scripts/list-poetry-dependencies.sh \
             pylint                                     \
             pytest                                     \
             hypothesis                                 \
-            mistletoe
+            mesa                                       \
+            mistletoe                                  \
           )
       - name: Pylint
         if: ${{ env.PY_FILES_CHANGED != '' }}
