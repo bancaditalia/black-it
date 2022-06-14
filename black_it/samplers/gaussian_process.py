@@ -51,10 +51,11 @@ class GaussianProcessSampler(BaseSampler):
     Note: this class is a wrapper of the GPRegression model of the GPy package.
     """
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         batch_size: int,
         random_state: int = 0,
+        max_deduplication_passes: int = 5,
         candidate_pool_size: Optional[int] = None,
         max_iters: int = 1000,
         optimize_restarts: int = 5,
@@ -65,7 +66,8 @@ class GaussianProcessSampler(BaseSampler):
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
-            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            max_deduplication_passes: the maximum number of deduplication passes that are made
             candidate_pool_size: number of randomly sampled points on which the random forest predictions are evaluated
             max_iters: maximum number of iteration in the optimization of the GP hyperparameters
             optimize_restarts: number of independent random trials of the optimization of the GP hyperparameters
@@ -73,17 +75,52 @@ class GaussianProcessSampler(BaseSampler):
         """
         self._validate_acquisition(acquisition)
 
-        super().__init__(batch_size, random_state)
+        super().__init__(batch_size, random_state, max_deduplication_passes)
         self.max_iters = max_iters
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
         self._gpmodel: Optional[GPRegression] = None
 
-        self.candidate_pool_size = (
-            candidate_pool_size
-            if candidate_pool_size is not None
-            else 1000 * batch_size
+        self._candidate_pool_size = candidate_pool_size
+
+    def _get_candidate_pool_size(self, nb_samples: int) -> int:
+        """
+        Get the candidate pool size according to the object configuration.
+
+        If the candidate pool size has been fixed at initialization time,
+        by passing it as argument of the constructor, then return it.
+        Otherwise, return the number of samples requested times 1000.
+
+        Args:
+            nb_samples: the number of samples required by sample_batch.
+
+        Returns:
+            the size of the candidate pool
+        """
+        candidate_pool_size = (
+            self._candidate_pool_size
+            if self._candidate_pool_size is not None
+            else 1000 * nb_samples
         )
+        return candidate_pool_size
+
+    def _get_candidate_pool(
+        self,
+        nb_samples: int,
+        search_space: SearchSpace,
+        existing_points: NDArray[np.float64],
+        existing_losses: NDArray[np.float64],
+    ) -> NDArray[np.float64]:
+        """Get the candidate pool for sampling a batch."""
+        candidate_pool_size = self._get_candidate_pool_size(nb_samples)
+        sampler = RandomUniformSampler(
+            batch_size=candidate_pool_size, random_state=self._get_random_seed()
+        )
+        # note the "sample_batch" method does not remove duplicates while the "sample" method does
+        candidates = sampler.sample_batch(
+            candidate_pool_size, search_space, existing_points, existing_losses
+        )
+        return candidates
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
@@ -105,19 +142,9 @@ class GaussianProcessSampler(BaseSampler):
                 f"got {acquisition}"
             ) from e
 
-    def single_sample(  # noqa
+    def sample_batch(
         self,
-        seed: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        raise NotImplementedError(
-            "single_sample is not supported by GaussianProcessSampler"
-        )
-
-    def sample(
-        self,
+        batch_size: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
@@ -126,6 +153,7 @@ class GaussianProcessSampler(BaseSampler):
         Sample from the search space.
 
         Args:
+            batch_size: the number of points to sample
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled
             existing_losses: the loss corresponding to the sampled parameters
@@ -175,9 +203,9 @@ class GaussianProcessSampler(BaseSampler):
                 )
 
         # Get large candidate pool
-        candidates: NDArray[np.float64] = RandomUniformSampler(
-            batch_size=self.candidate_pool_size, random_state=self._get_random_seed()
-        ).sample(search_space, existing_points, existing_losses)
+        candidates: NDArray[np.float64] = self._get_candidate_pool(
+            batch_size, search_space, existing_points, existing_losses
+        )
 
         # predict mean or expected improvement on the full sample set
         if self.acquisition == _AcquisitionTypes.EI.value:
@@ -188,7 +216,7 @@ class GaussianProcessSampler(BaseSampler):
 
         sorting_indices = np.argsort(candidates_score)
 
-        sampled_points = candidates[sorting_indices][: self.batch_size, :]
+        sampled_points = candidates[sorting_indices][:batch_size, :]
 
         return digitize_data(sampled_points, search_space.param_grid)
 

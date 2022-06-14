@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Gaussian process sampler."""
 from typing import Optional, Tuple, cast
-from unittest.mock import MagicMock
 
 import numpy as np
 import pytest
@@ -56,22 +55,22 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
             [
                 "mean",
                 1,
-                np.array([[0.0, 0.01], [0.01, 0.01], [0.01, 0.02], [0.02, 0.03]]),
+                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.02]]),
             ],
             [
                 "mean",
                 3,
-                np.array([[0.0, 0.01], [0.01, 0.01], [0.01, 0.02], [0.02, 0.03]]),
+                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.02]]),
             ],
             [
                 "expected_improvement",
                 1,
-                np.array([[0.21, 0.47], [0.31, 0.31], [0.45, 0.85], [0.43, 0.58]]),
+                np.array([[0.09, 0.64], [0.81, 0.5], [0.87, 0.8], [0.72, 0.48]]),
             ],
             [
                 "expected_improvement",
                 3,
-                np.array([[0.21, 0.47], [0.31, 0.31], [0.45, 0.85], [0.43, 0.58]]),
+                np.array([[0.09, 0.64], [0.81, 0.5], [0.87, 0.8], [0.72, 0.48]]),
             ],
         ],
     )
@@ -96,16 +95,6 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         new_params = sampler.sample(param_grid, self.xys, self.losses)
 
         assert np.allclose(cast(NDArray, expected_params), new_params)
-
-
-def test_gaussian_process_single_sample_raises_not_implemented_error() -> None:
-    """Test that 'GaussianProcessSampler.single_sample' raises NotImplementedError."""
-    sampler = GaussianProcessSampler(4)
-    with pytest.raises(
-        NotImplementedError,
-        match="single_sample is not supported by GaussianProcessSampler",
-    ):
-        sampler.single_sample(MagicMock(), MagicMock(), MagicMock(), MagicMock())
 
 
 def test_gaussian_process_sample_warning_too_large_dataset() -> None:
