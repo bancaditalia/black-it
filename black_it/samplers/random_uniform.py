@@ -17,8 +17,6 @@
 """This module contains the implementation of the random uniform sampler."""
 
 import numpy as np
-from numpy import random
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
@@ -28,32 +26,26 @@ from black_it.search_space import SearchSpace
 class RandomUniformSampler(BaseSampler):
     """Random uniform sampling."""
 
-    def single_sample(
+    def sample_batch(
         self,
-        seed: int,
+        batch_size: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """
-        Sample a single point uniformly within the search space.
+        Sample uniformly from the search space.
 
         Args:
-            seed: random seed
+            batch_size: the number of points to sample
             search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled (not used)
-            existing_losses: the loss corresponding to the sampled parameters (not used)
+            existing_points: the parameters already sampled
+            existing_losses: the loss corresponding to the sampled parameters
 
         Returns:
-            the parameter sampled
+            the sampled parameters (an array of shape `(self.batch_size, search_space.dims)`)
         """
-        random_generator: random.Generator = default_rng(seed)
-
-        sampled_point: NDArray[np.float64] = np.zeros(
-            shape=search_space.dims, dtype=np.float64
-        )
-
+        candidates = np.zeros((batch_size, search_space.dims))
         for i, params in enumerate(search_space.param_grid):
-            sampled_point[i] = random_generator.choice(params)
-
-        return sampled_point
+            candidates[:, i] = self._random_generator.choice(params, size=(batch_size,))
+        return candidates
