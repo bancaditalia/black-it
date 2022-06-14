@@ -15,58 +15,92 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the R-sequence sampler."""
-
 import numpy as np
+from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
+from black_it.utils.base import check_arg, digitize_data
+
+_MIN_SEQUENCE_START_INDEX = 20
+_MAX_SEQUENCE_START_INDEX = 2**16
 
 
 class RSequenceSampler(BaseSampler):
     """The R-sequence sampler."""
 
-    @staticmethod
-    def r_sequence(seed: int, dims: int) -> NDArray[np.float64]:
+    def __init__(
+        self,
+        batch_size: int,
+        random_state: int = 0,
+        max_deduplication_passes: int = 5,
+    ) -> None:
         """
-        Build R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+        Initialize the sampler.
 
         Args:
-            seed: seed of the sequence
-            dims: Size of space.
+            batch_size: the number of points sampled every time the sampler is called
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            max_deduplication_passes: (non-negative integer) the maximum number of deduplication passes that are made
+                after every batch sampling. Default: 0, i.e. no deduplication happens.
+        """
+        super().__init__(batch_size, random_state, max_deduplication_passes)
+
+        self._sequence_index: int
+        self._sequence_start: float
+        self._reset()
+
+    @classmethod
+    def compute_phi(cls, nb_dims: int) -> float:
+        """
+        Get an approximation of phi^nb_dims.
+
+        Args:
+            nb_dims: the number of dimensions.
 
         Returns:
-            Array of params uniformly placed in d-dimensional unit cube.
+            phi^nb_dims
         """
+        check_arg(1 <= nb_dims, f"nb_dims should be greater than 0, got {nb_dims}")
         phi: float = 2.0
-        for _ in range(10):
-            phi = pow(1 + phi, 1.0 / (dims + 1))
+        old_phi = None
+        while old_phi != phi:
+            old_phi = phi
+            phi = pow(1 + phi, 1.0 / (nb_dims + 1))
+        return phi
 
-        # FROM KK:
-        # alpha = np.array([pow(1./phi, i+1) for i in range(d)])  # flake8: noqa
-        # params = np.array([(0.5 + alpha*(i+1)) % 1 for i in range(nStart, nStop)])  # flake8: noqaq
+    @property
+    def random_state(self) -> int:
+        """Get the random state."""
+        return self._random_state
 
-        # FROM ORIGINAL ARTICLE:
-        alpha: NDArray[np.float64] = np.zeros(dims, dtype=np.float64)
-        for i in range(dims):
-            alpha[i] = pow(1 / phi, i + 1) % 1
+    @random_state.setter
+    def random_state(self, random_state: int) -> None:
+        """Set the random state."""
+        self._random_state = random_state
+        self._random_generator = default_rng(self.random_state)
+        self._reset()
 
-        points: NDArray[np.float64] = (0.5 + alpha * (seed + 1)) % 1
+    def _reset(self) -> None:
+        """Reset the index of the sequence."""
+        self._sequence_index = self.random_generator.integers(
+            _MIN_SEQUENCE_START_INDEX, _MAX_SEQUENCE_START_INDEX
+        )
+        self._sequence_start = self.random_generator.random()
 
-        return points
-
-    def single_sample(
+    def sample_batch(
         self,
-        seed: int,
+        batch_size: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """
-        Sample a single point uniformly within the search space.
+        Sample points using the R-sequence.
 
         Args:
-            seed: random seed
+            batch_size: the number of samples
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled (not used)
             existing_losses: the loss corresponding to the sampled parameters (not used)
@@ -74,17 +108,30 @@ class RSequenceSampler(BaseSampler):
         Returns:
             the parameter sampled
         """
-        sampled_point: NDArray[np.float64] = np.zeros(
-            shape=search_space.dims, dtype=np.float64
+        unit_cube_points: NDArray[np.float64] = self._r_sequence(
+            batch_size, search_space.dims
         )
-        unit_cube_points: NDArray[np.float64] = RSequenceSampler.r_sequence(
-            seed=seed, dims=search_space.dims
-        )
-
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
-        for param_index in range(search_space.dims):
-            sampled_point[param_index] = p_bounds[0][param_index] + unit_cube_points[
-                param_index
-            ] * (p_bounds[1][param_index] - p_bounds[0][param_index])
+        sampled_points = p_bounds[0] + unit_cube_points * (p_bounds[1] - p_bounds[0])
+        return digitize_data(sampled_points, search_space.param_grid)
 
-        return sampled_point
+    def _r_sequence(self, nb_samples: int, dims: int) -> NDArray[np.float64]:
+        """
+        Compute the R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+
+        Args:
+            nb_samples: number of points to sample
+            dims: the number of dimensions
+
+        Returns:
+            Set of params uniformly placed in d-dimensional unit cube.
+        """
+        phi = self.compute_phi(dims)
+        alpha: NDArray[np.float64] = np.power(1 / phi, np.arange(1, dims + 1)).reshape(
+            (1, -1)
+        )
+        end_index = self._sequence_index + nb_samples
+        indexes = np.arange(self._sequence_index, end_index).reshape((-1, 1))
+        points: NDArray[np.float64] = (self._sequence_start + indexes.dot(alpha)) % 1
+        self._sequence_index = end_index
+        return points
