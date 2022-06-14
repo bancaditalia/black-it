@@ -17,7 +17,7 @@
 """This module defines the 'BaseSampler' base class."""
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 import numpy as np
 from numpy.random import default_rng
@@ -35,7 +35,10 @@ class BaseSampler(ABC):
     """
 
     def __init__(
-        self, batch_size: int, random_state: int = 0, max_duplication_passes: int = 5
+        self,
+        batch_size: int,
+        random_state: Optional[int] = None,
+        max_duplication_passes: int = 5,
     ) -> None:
         """
         Initialize the sampler.
@@ -45,17 +48,17 @@ class BaseSampler(ABC):
             random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
             max_duplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
         """
-        self.random_state: int = random_state
+        self.random_state: Optional[int] = random_state
         self.batch_size: int = batch_size
         self.max_duplication_passes = max_duplication_passes
 
     @property
-    def random_state(self) -> int:
+    def random_state(self) -> Optional[int]:
         """Get the random state."""
         return self._random_state
 
     @random_state.setter
-    def random_state(self, random_state: int) -> None:
+    def random_state(self, random_state: Optional[int]) -> None:
         """Set the random state."""
         self._random_state = random_state
         self._random_generator = default_rng(self.random_state)

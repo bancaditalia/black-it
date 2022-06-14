@@ -16,7 +16,7 @@
 
 """This module contains the implementation for the Halton sampler."""
 import itertools
-from typing import Iterator, List
+from typing import Iterator, List, Optional
 
 import numpy as np
 from numpy.random import default_rng
@@ -41,7 +41,7 @@ class HaltonSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: int = 0,
+        random_state: Optional[int] = None,
         max_deduplication_passes: int = 5,
     ) -> None:
         """
@@ -59,12 +59,12 @@ class HaltonSampler(BaseSampler):
         self._reset_sequence_index()
 
     @property
-    def random_state(self) -> int:
+    def random_state(self) -> Optional[int]:
         """Get the random state."""
         return self._random_state
 
     @random_state.setter
-    def random_state(self, random_state: int) -> None:
+    def random_state(self, random_state: Optional[int]) -> None:
         """Set the random state."""
         self._random_state = random_state
         self._random_generator = default_rng(self.random_state)

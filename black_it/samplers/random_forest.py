@@ -33,7 +33,7 @@ class RandomForestSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: int = 0,
+        random_state: Optional[int] = None,
         max_deduplication_passes: int = 5,
         candidate_pool_size: Optional[int] = None,
         n_estimators: int = 500,
