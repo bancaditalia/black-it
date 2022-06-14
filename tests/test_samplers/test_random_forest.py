@@ -14,15 +14,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the random forest sampler."""
-from unittest.mock import MagicMock
-
 import numpy as np
-import pytest
 
 from black_it.samplers.random_forest import RandomForestSampler
 from black_it.search_space import SearchSpace
 
-expected_params = np.array([[0.0, 0.07], [0.04, 0.03], [0.05, 0.01], [0.09, 0.01]])
+expected_params = np.array([[0.01, 0.0], [0.01, 0.02], [0.08, 0.02], [0.04, 0.05]])
 
 
 def test_random_forest_2d() -> None:
@@ -50,16 +47,6 @@ def test_random_forest_2d() -> None:
     new_params = sampler.sample(param_grid, xys, losses)
 
     assert np.allclose(expected_params, new_params)
-
-
-def test_random_forest_single_sample_raises_error() -> None:
-    """Test that 'RandomForestSampler.single_sample' raises NotImplementedError."""
-    sampler = RandomForestSampler(batch_size=4, random_state=0)
-    with pytest.raises(
-        NotImplementedError,
-        match="for RandomForestSampler the parallelization is hard coded in sample",
-    ):
-        sampler.single_sample(MagicMock(), MagicMock(), MagicMock(), MagicMock())
 
 
 def test_random_forest_candidate_pool_size() -> None:
