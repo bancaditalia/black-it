@@ -107,7 +107,7 @@ random_forest_sampler = RandomForestSampler(batch_size=batch_size)
 best_batch_sampler = BestBatchSampler(batch_size=batch_size)
 ```
 Each sampler has its own subclass derived from `BaseSampler` and a list of ready-to-use samplers is contained in `samplers`.
-To specify a custom algorithm, one must extend the `BaseSampler` superclass and implement its method `single_sample` to specify how to sample a single parameter. If this is not possible and one wants to specify the whole sampling strategy, then they must redefine the `sample` or `sample_batch` methods directly. This is the case, for example, for the `RandomForestSampler`.
+To specify a custom algorithm, one must extend the `BaseSampler` superclass and implement its method `sample_batch` to specify how to sample a batch of parameters.
 
 *Remark*: when instantiated, the sampler accepts a `batch_size` parameter.
 While in this example every sampler runs on the same batch size, they can also run on different sizes, if required.

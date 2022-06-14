@@ -16,7 +16,7 @@
 
 """This module defines the 'BaseSampler' base class."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List
 
 import numpy as np
@@ -24,7 +24,7 @@ from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data, get_random_seed
+from black_it.utils.base import get_random_seed
 
 
 class BaseSampler(ABC):
@@ -69,24 +69,7 @@ class BaseSampler(ABC):
         """Get new random seed from the current random generator."""
         return get_random_seed(self._random_generator)
 
-    def single_sample(
-        self,
-        seed: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        """
-        Sample a single parameter.
-
-        Args:
-            seed: random seed
-            search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled
-            existing_losses: the loss corresponding to the sampled parameters
-        """
-        raise NotImplementedError
-
+    @abstractmethod
     def sample_batch(
         self,
         batch_size: int,
@@ -106,23 +89,6 @@ class BaseSampler(ABC):
         Returns:
             the new parameters
         """
-        # run the specific method in parallel
-        sampled_points: NDArray[np.float64] = np.zeros(
-            (batch_size, search_space.dims), dtype=np.float64
-        )
-
-        for i in range(batch_size):
-            sampled_points[i] = self.single_sample(
-                seed=self.random_state,
-                search_space=search_space,
-                existing_points=existing_points,
-                existing_losses=existing_losses,
-            )
-
-            self.random_state += 1
-
-        # discretize the new parameters, this should be redundant
-        return digitize_data(sampled_points, search_space.param_grid)
 
     def sample(
         self,
