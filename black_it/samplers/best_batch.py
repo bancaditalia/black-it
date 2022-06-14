@@ -17,8 +17,6 @@
 """This module contains the implementation of the best-batch sampler."""
 
 import numpy as np
-from numpy import random
-from numpy.random import default_rng
 from numpy.typing import NDArray
 from scipy.stats import betabinom
 
@@ -29,66 +27,64 @@ from black_it.search_space import SearchSpace
 class BestBatchSampler(BaseSampler):
     """This class implements the best-batch sampler."""
 
-    def single_sample(
+    def sample_batch(
         self,
-        seed: int,
+        batch_size: int,
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """
-        Sample a single parameter.
+        Sample from the search space using a genetic algorithm.
 
         Args:
-            seed: random seed
+            batch_size: the number of points to sample
             search_space: an object containing the details of the parameter search space
             existing_points: the parameters already sampled
             existing_losses: the loss corresponding to the sampled parameters
 
         Returns:
-            the parameter sampled
-
-        Raises:
-            ValueError: if the existing_points array is empty
+            the sampled parameters (an array of shape `(self.batch_size, search_space.dims)`)
         """
-        if len(existing_points) < self.batch_size:
+        if len(existing_points) < batch_size:
             raise ValueError(
                 "best-batch sampler requires a number of existing points "
-                f"which is at least the batch size {self.batch_size}, "
+                f"which is at least the batch size {batch_size}, "
                 f"got {len(existing_points)}"
             )
-
-        random_generator: random.Generator = default_rng(seed)
 
         # sort existing params
         candidate_points: NDArray[np.float64] = existing_points[
             np.argsort(existing_losses)
-        ][: self.batch_size, :]
+        ][:batch_size, :]
 
-        candidate_point_index: int = random_generator.integers(0, self.batch_size)
-        sampled_point: NDArray[np.float64] = np.copy(
-            candidate_points[candidate_point_index]
+        candidate_point_indexes: NDArray[np.int64] = self.random_generator.integers(
+            0, batch_size, size=batch_size
+        )
+        sampled_points: NDArray[np.float64] = np.copy(
+            candidate_points[candidate_point_indexes]
         )
 
         beta_binom_rv = betabinom(n=search_space.dims - 1, a=3.0, b=1.0)
-        beta_binom_rv.random_state = random_generator
-        num_shocks: NDArray[np.int64] = beta_binom_rv.rvs(size=1) + 1
+        beta_binom_rv.random_state = self.random_generator
 
-        params_shocked: NDArray[np.int64] = random_generator.choice(
-            search_space.dims, tuple(num_shocks), replace=False
-        )
+        for sampled_point in sampled_points:
+            num_shocks: NDArray[np.int64] = beta_binom_rv.rvs(size=1) + 1
+            params_shocked: NDArray[np.int64] = self.random_generator.choice(
+                search_space.dims, tuple(num_shocks), replace=False
+            )
+            for index in params_shocked:
+                shock_size: int = self.random_generator.integers(1, 6)
+                shock_sign: int = (self.random_generator.integers(0, 2) * 2) - 1
 
-        for index in params_shocked:
-            shock_size: int = random_generator.integers(1, 6)
-            shock_sign: int = (random_generator.integers(0, 2) * 2) - 1
+                delta: float = search_space.parameters_precision[index]
+                shift: float = delta * shock_sign * shock_size
+                sampled_point[index] += shift
 
-            delta: float = search_space.parameters_precision[index]
-            shift: float = delta * shock_sign * shock_size
-            sampled_point[index] += shift
+                sampled_point[index] = np.clip(
+                    sampled_point[index],
+                    search_space.parameters_bounds[0][index],
+                    search_space.parameters_bounds[1][index],
+                )
 
-            if sampled_point[index] < search_space.parameters_bounds[0][index]:
-                sampled_point[index] = search_space.parameters_bounds[0][index]
-            elif sampled_point[index] > search_space.parameters_bounds[1][index]:
-                sampled_point[index] = search_space.parameters_bounds[1][index]
-
-        return sampled_point
+        return sampled_points
