@@ -46,16 +46,15 @@ class TestSetRandomState:  # pylint: disable=attribute-defined-outside-init,too-
         Test that two consecutive samples with the same give the same result.
         """
 
-        def single_sample(
+        def sample_batch(
             self,
-            seed: int,
+            batch_size: int,
             search_space: SearchSpace,
             existing_points: NDArray[np.float64],
             existing_losses: NDArray[np.float64],
         ) -> NDArray[np.float64]:
-            """Sample a single parameter."""
-            np.random.seed(seed)
-            return np.random.rand(3)
+            """Sample a batch of parameters."""
+            return self.random_generator.random(size=(batch_size, search_space.dims))
 
     def setup(self) -> None:
         """Set up the tests."""

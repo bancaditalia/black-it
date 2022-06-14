@@ -271,14 +271,14 @@ def test_new_sampling_method() -> None:
     class MyCustomSampler(BaseSampler):
         """Custom sampler."""
 
-        def single_sample(
+        def sample_batch(
             self,
-            seed: int,
+            batch_size: int,
             search_space: SearchSpace,
             existing_points: NDArray[np.float64],
             existing_losses: NDArray[np.float64],
         ) -> NDArray[np.float64]:
-            """Do a single sample."""
+            """Sample a batch of parameters."""
 
     cal = Calibrator(
         samplers=[MyCustomSampler(batch_size=2)],
