@@ -24,7 +24,7 @@ EXAMPLE_MAIN_SCRIPT_PATH = ROOT_DIR / "examples" / "main.py"
 
 
 TRUE_PARAMETERS_STR = "True parameters:       [0.2, 0.2, 0.75]"
-BEST_PARAMETERS_STR = "Best parameters found: [0.17 0.21 0.69]"
+BEST_PARAMETERS_STR = "Best parameters found: [0.2  0.2  0.65]"
 
 
 @pytest.mark.e2e
