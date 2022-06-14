@@ -40,6 +40,17 @@ def assert_(
         raise exc_cls(message)
 
 
+def check_arg(condition: bool, message: str) -> None:
+    """
+    Check a condition over an argument (i.e. raises ValueError in case it is false).
+
+    Args:
+        condition: the condition to check
+        message: the error message
+    """
+    assert_(condition, message, exc_cls=ValueError)
+
+
 def digitize_data(
     data: NDArray[np.float64], param_grid: List[NDArray[np.float64]]
 ) -> NDArray[np.float64]:
