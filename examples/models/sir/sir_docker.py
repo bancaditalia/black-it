@@ -36,7 +36,7 @@ def SIR(theta, N, rndSeed):
         "rewire-probability": 0.2,
     }
 
-    res = simlib.execute_simulator("bancaditalia/abmsimulator", sim_params)
+    res = simlib.execute_simulator("coronabm", sim_params)
     ret = np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])
 
     return ret
@@ -61,7 +61,7 @@ def SIR_w_breaks(theta, N, rndSeed=None):
         "rewire-probability": 0.0,
     }
 
-    res = simlib.execute_simulator("bancaditalia/abmsimulator", sim_params)
+    res = simlib.execute_simulator("coronabm", sim_params)
     ret = np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])
 
     return ret
