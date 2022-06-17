@@ -90,7 +90,7 @@ def _build_simulator_cmdline(
     Returns:
         the arguments for the Docker CLI
     """
-    args = ["docker", "run", "--rm", docker_image_name] + list(
+    args = [docker_image_name] + list(
         chain.from_iterable(
             (
                 (f"--{argname}", str(argvalue))
@@ -173,7 +173,7 @@ def run_single_simulation():
         "rewire-probability": 0.2,
     }
 
-    simulation_output = execute_simulator("bancaditalia/abmsimulator", sim_params)
+    simulation_output = execute_simulator("coronabm", sim_params)
     print(simulation_output)
 
 
