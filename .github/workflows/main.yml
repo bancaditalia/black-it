@@ -155,3 +155,6 @@ jobs:
 #        flags: unittests
 #        name: codecov-umbrella
 #        fail_ci_if_error: true
+    - name: Notebook tests
+      run: |
+        tox -e py${{ matrix.python_version }}-nb
