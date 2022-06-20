@@ -65,8 +65,8 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     return (
         # initialization parameters
-        np.asarray(cp["parameters_bounds"]),
-        np.asarray(cp["parameters_precision"]),
+        cp["parameters_bounds"],
+        cp["parameters_precision"],
         np.asarray(cp["real_data"]),
         cp["ensemble_size"],
         cp["N"],

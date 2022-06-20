@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """SIR model calibration example using a Docker-based simulator."""
-import numpy as np
 from models.sir.sir_docker import SIR  # type: ignore
 
 from black_it.calibrator import Calibrator
@@ -13,7 +12,7 @@ from black_it.samplers.random_uniform import RandomUniformSampler
 
 if __name__ == "__main__":
     true_params = [0.2, 0.15]
-    bounds = [[0, 0], [1.00, 1.00]]  # UPPER bounds
+    bounds = [[0.0, 0.0], [1.00, 1.00]]  # UPPER bounds
     bounds_step = [0.01, 0.01]  # Step size in range between bounds
 
     batch_size = 8
@@ -43,8 +42,8 @@ if __name__ == "__main__":
         loss_function=loss,
         real_data=real_data,
         model=SIR,
-        parameters_bounds=np.asarray(bounds),
-        parameters_precision=np.asarray(bounds_step),
+        parameters_bounds=bounds,
+        parameters_precision=bounds_step,
         ensemble_size=2,
         saving_folder=None,
     )

@@ -45,8 +45,11 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
     def setup(self) -> None:
         """Set up the tests."""
         self.true_params = np.array([0.50, 0.50])
-        self.bounds = np.array([[0.01, 0.01], [1.00, 1.00]])
-        self.bounds_step = np.array([0.01, 0.01])
+        self.bounds = [
+            [0.01, 0.01],
+            [1.00, 1.00],
+        ]
+        self.bounds_step = [0.01, 0.01]
 
         self.batch_size = 2
         self.random_sampler = RandomUniformSampler(batch_size=self.batch_size)
@@ -185,8 +188,11 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
     """Test 'Calibrator.restore_from_checkpoint', positive case, and 'Calibrator.set_sampler'."""
     true_params = np.array([0.50, 0.50])
-    bounds = np.array([[0.01, 0.01], [1.00, 1.00]])
-    bounds_step = np.array([0.01, 0.01])
+    bounds = [
+        [0.01, 0.01],
+        [1.00, 1.00],
+    ]
+    bounds_step = [0.01, 0.01]
 
     batch_size = 2
     random_sampler = RandomUniformSampler(batch_size=batch_size)
@@ -278,7 +284,10 @@ def test_new_sampling_method() -> None:
         samplers=[MyCustomSampler(batch_size=2)],
         real_data=MagicMock(),
         model=MagicMock(),
-        parameters_bounds=np.array([MagicMock(), MagicMock()]),
+        parameters_bounds=[
+            MagicMock(),
+            MagicMock(),
+        ],
         parameters_precision=MagicMock(),
         ensemble_size=2,
         loss_function=MagicMock(),

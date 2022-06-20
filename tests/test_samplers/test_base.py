@@ -59,15 +59,17 @@ class TestSetRandomState:  # pylint: disable=attribute-defined-outside-init,too-
 
     def setup(self) -> None:
         """Set up the tests."""
-        self.bounds = np.asarray([[0.10, 0.10, 0.10], [1.00, 1.00, 1.00]])
-        self.bounds_step = np.asarray([0.01, 0.01, 0.01])
+        self.bounds = [[0.10, 0.10, 0.10], [1.00, 1.00, 1.00]]
+        self.bounds_step = [0.01, 0.01, 0.01]
         self.default_seed = 42
         self.batch_size = 32
         self.sampler = TestSetRandomState.MyCustomSampler(
             self.batch_size, random_state=self.default_seed
         )
         self.search_space = SearchSpace(self.bounds, self.bounds_step, False)
-        self.existing_points = np.zeros((0, self.bounds.shape[1]))
+        # if SearchSpace has been successfully constructed we are assured that
+        # bounds[0] and bounds[1] are of the same length.
+        self.existing_points = np.zeros((0, len(self.bounds[0])))
         self.existing_losses = np.zeros(0)
 
     def test_set_random_state_gives_same_result(self) -> None:

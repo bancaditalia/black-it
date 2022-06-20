@@ -16,7 +16,7 @@
 
 """This module contains the definition of the search space abstractions."""
 
-from typing import List
+from typing import List, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -27,8 +27,8 @@ class SearchSpace:  # pylint: disable=too-few-public-methods
 
     def __init__(
         self,
-        parameters_bounds: NDArray[np.float64],
-        parameters_precision: NDArray[np.float64],
+        parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
+        parameters_precision: Union[NDArray[np.float64], List[float]],
         verbose: bool,
     ):
         """
@@ -38,12 +38,12 @@ class SearchSpace:  # pylint: disable=too-few-public-methods
         to satisfy the following constraints, otherwise an exception (subclass
         of SearchSpaceError) is raised:
 
-        - parameters_bounds must be a two-elements array (or
+        - parameters_bounds must be a two-elements array/list (or
           BoundsNotOfSizeTwoError is raised)
-        - the two sub-arrays of parameter_bounds must have the same length (or
+        - the two sub-arrays/lists of parameter_bounds must have the same length (or
           BoundsOfDifferentLengthError is raised)
-        - parameters_precision array must have the same number of elements than
-          the two sub-arrays in parameters_bounds (or BadPrecisionLengthError is
+        - parameters_precision array/list must have the same number of elements than
+          the two sub-arrays/lists in parameters_bounds (or BadPrecisionLengthError is
           raised)
         - lower bounds and upper bounds cannot have the same value (or
           SameLowerAndUpperBoundError is raised)
@@ -63,8 +63,8 @@ class SearchSpace:  # pylint: disable=too-few-public-methods
         SearchSpace._check_bounds(parameters_bounds, parameters_precision)
 
         # The bounds we were given are well formed. Save them.
-        self._parameters_bounds = parameters_bounds
-        self._parameters_precision = parameters_precision
+        self._parameters_bounds = np.array(parameters_bounds)
+        self._parameters_precision = np.array(parameters_precision)
 
         # Initialize search grid
         self._param_grid: List[NDArray[np.float64]] = []
@@ -87,8 +87,8 @@ class SearchSpace:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def _check_bounds(
-        parameters_bounds: NDArray[np.float64],
-        parameters_precision: NDArray[np.float64],
+        parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
+        parameters_precision: Union[NDArray[np.float64], List[float]],
     ) -> None:
         """
         Ensure parameter_bounds and parameter_precision have acceptable values.
