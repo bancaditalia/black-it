@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """This is a simple example showing the main features of the library."""
 import models.simple_models as md  # type: ignore
-import numpy as np
 
 from black_it.calibrator import Calibrator
 from black_it.loss_functions.msm import MethodOfMomentsLoss
@@ -41,8 +40,8 @@ if __name__ == "__main__":
         samplers=[halton_sampler, random_forest_sampler, best_batch_sampler],
         real_data=real_data,
         model=model,
-        parameters_bounds=np.asarray(bounds),
-        parameters_precision=np.asarray(bounds_step),
+        parameters_bounds=bounds,
+        parameters_precision=bounds_step,
         ensemble_size=3,
         loss_function=loss,
         random_state=calibration_seed,
