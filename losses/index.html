@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.6">
     
     
       
@@ -17,11 +17,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
+      
       
     
     
@@ -1151,7 +1152,7 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
   <tbody>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>the weights of the loss coordinates.</p></td>
         <td><code>None</code></td>
       </tr>
@@ -1515,7 +1516,7 @@ FourierLoss            (<a class="autorefs autorefs-internal" title="black_it.lo
 
 
 <h4 id="black_it.loss_functions.fourier.FourierLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_filter</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">gaussian_low_pass_filter</span> <span class="n">at</span> <span class="mh">0x7feca2e094c0</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_filter</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">gaussian_low_pass_filter</span> <span class="n">at</span> <span class="mh">0x7f80f0fac700</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1544,10 +1545,10 @@ the Fourier series.</p>
   <tbody>
       <tr>
         <td><code>frequency_filter</code></td>
-        <td><code>Callable[[numpy.ndarray[Any, numpy.dtype[numpy.complex128]], float], numpy.ndarray[Any, numpy.dtype[numpy.complex128]]]</code></td>
+        <td><code>Callable[[numpy.ndarray, float], numpy.ndarray]</code></td>
         <td><p>the function used to filter the fourier
 frequencies before the distance is computed.</p></td>
-        <td><code>&lt;function gaussian_low_pass_filter at 0x7feca2e094c0&gt;</code></td>
+        <td><code>&lt;function gaussian_low_pass_filter at 0x7f80f0fac700&gt;</code></td>
       </tr>
       <tr>
         <td><code>f</code></td>
@@ -1559,7 +1560,7 @@ to frequency_filter.</p></td>
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>relative weights of the losses computed over
 different time series coordinates.</p></td>
         <td><code>None</code></td>
@@ -2013,7 +2014,7 @@ is a generalization of both the Manhattan distance (p=1) and the Euclidean dista
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>The order of the norm used to compute the distance between real and simulated series</p></td>
         <td><code>None</code></td>
       </tr>
@@ -2309,7 +2310,7 @@ black_it.loss_functions.msm.MethodOfMomentsLoss            (<a class="autorefs a
 
 
 <h3 id="black_it.loss_functions.msm.MethodOfMomentsLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">covariance_mat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moment_calculator</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">get_mom_ts_1d</span> <span class="n">at</span> <span class="mh">0x7fec8e550dc0</span><span class="o">&gt;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">covariance_mat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moment_calculator</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">get_mom_ts_1d</span> <span class="n">at</span> <span class="mh">0x7f80f1364280</span><span class="o">&gt;</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -2342,7 +2343,7 @@ moment calculator and the size of the covariance matrix.</p>
   <tbody>
       <tr>
         <td><code>covariance_mat</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[numpy.float64]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>covariance matrix between the moments.
 The default is the identity matrix. The covariance matrix must
 be a symmetric matrix whose size must be equal to the number of
@@ -2351,18 +2352,18 @@ elements that the moment calculator returns.</p></td>
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[numpy.float64]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>importance of each coordinate. By default all
 coordinates are treated equally.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>moment_calculator</code></td>
-        <td><code>Callable[[numpy.ndarray[Any, numpy.dtype[+ScalarType]]], numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+        <td><code>Callable[[numpy.ndarray], numpy.ndarray]</code></td>
         <td><p>a function that takes a 1D time series and
 returns a series of moments. The default is
 black_it.utils.time_series.get_mom_ts_1d()</p></td>
-        <td><code>&lt;function get_mom_ts_1d at 0x7fec8e550dc0&gt;</code></td>
+        <td><code>&lt;function get_mom_ts_1d at 0x7f80f1364280&gt;</code></td>
       </tr>
   </tbody>
 </table>
@@ -2852,7 +2853,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+        <td><code>Optional[numpy.ndarray]</code></td>
         <td><p>the weights of the loss coordinates</p></td>
         <td><code>None</code></td>
       </tr>
@@ -3537,6 +3538,7 @@ array([12, 22, 22])</p>
 
               
             </article>
+            
           </div>
         </div>
         
@@ -3544,7 +3546,8 @@ array([12, 22, 22])</p>
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="../samplers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Samplers" rel="prev">
@@ -3599,10 +3602,10 @@ array([12, 22, 22])</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../assets/javascripts/bundle.a877e258.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       

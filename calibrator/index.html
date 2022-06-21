@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.6">
     
     
       
@@ -17,11 +17,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
+      
       
     
     
@@ -506,6 +507,20 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#black_it.calibrator.Calibrator.random_generator" class="md-nav__link">
+    random_generator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#black_it.calibrator.Calibrator.random_state" class="md-nav__link">
+    random_state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#black_it.calibrator.Calibrator.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -662,6 +677,20 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#black_it.calibrator.Calibrator.random_generator" class="md-nav__link">
+    random_generator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#black_it.calibrator.Calibrator.random_state" class="md-nav__link">
+    random_state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#black_it.calibrator.Calibrator.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -777,13 +806,13 @@ black_it.calibrator.Calibrator        </code>
         <span class="n">loss_function</span><span class="p">:</span> <span class="n">BaseLoss</span><span class="p">,</span>
         <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
-        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
+        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
         <span class="n">ensemble_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">convergence_precision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">saving_folder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">model_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -805,7 +834,7 @@ black_it.calibrator.Calibrator        </code>
 <span class="sd">                not performed if this is set to &#39;None&#39;.</span>
 <span class="sd">            verbose: whether to print calibration updates</span>
 <span class="sd">            saving_folder: the name of the folder where data should be saved and/or retrieved</span>
-<span class="sd">            model_seed: random seed passed to the model simulator</span>
+<span class="sd">            random_state: random state of the calibrator, used for model simulations and to initialise the samplers</span>
 <span class="sd">            n_jobs: the maximum number of concurrently running jobs. For more details, see the</span>
 <span class="sd">                [joblib.Parallel documentation](https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html).</span>
 
@@ -813,7 +842,7 @@ black_it.calibrator.Calibrator        </code>
         <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span> <span class="o">=</span> <span class="n">samplers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_function</span> <span class="o">=</span> <span class="n">loss_function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">=</span> <span class="n">model_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">real_data</span> <span class="o">=</span> <span class="n">real_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span> <span class="o">=</span> <span class="n">ensemble_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -848,6 +877,31 @@ black_it.calibrator.Calibrator        </code>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">samplers_id_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_samplers_id_table</span><span class="p">(</span><span class="n">samplers</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the random state.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_state</span>
+
+    <span class="nd">@random_state</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set the random state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_generator</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">random_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the random generator.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_generator</span>
+
+    <span class="k">def</span> <span class="nf">_get_random_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get new random seed from the current random generator.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">get_random_seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_generator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_samplers_seeds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set the calibration seed.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">sampler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">:</span>
+            <span class="n">sampler</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_random_seed</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_construct_samplers_id_table</span><span class="p">(</span><span class="n">samplers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
@@ -927,7 +981,8 @@ black_it.calibrator.Calibrator        </code>
             <span class="n">convergence_precision</span><span class="p">,</span>
             <span class="n">verbose</span><span class="p">,</span>
             <span class="n">saving_file</span><span class="p">,</span>
-            <span class="n">model_seed</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">,</span>
+            <span class="n">random_generator_state</span><span class="p">,</span>
             <span class="n">model_name</span><span class="p">,</span>
             <span class="n">samplers</span><span class="p">,</span>
             <span class="n">loss_function</span><span class="p">,</span>
@@ -960,7 +1015,7 @@ black_it.calibrator.Calibrator        </code>
             <span class="n">convergence_precision</span><span class="p">,</span>
             <span class="n">verbose</span><span class="p">,</span>
             <span class="n">saving_file</span><span class="p">,</span>
-            <span class="n">model_seed</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">,</span>
             <span class="n">n_jobs</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -971,6 +1026,9 @@ black_it.calibrator.Calibrator        </code>
         <span class="n">calibrator</span><span class="o">.</span><span class="n">series_samp</span> <span class="o">=</span> <span class="n">series_samp</span>
         <span class="n">calibrator</span><span class="o">.</span><span class="n">batch_num_samp</span> <span class="o">=</span> <span class="n">batch_num_samp</span>
         <span class="n">calibrator</span><span class="o">.</span><span class="n">method_samp</span> <span class="o">=</span> <span class="n">method_samp</span>
+
+        <span class="c1"># reset the random number generator state</span>
+        <span class="n">calibrator</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">random_generator_state</span>
 
         <span class="k">return</span> <span class="n">calibrator</span>
 
@@ -991,7 +1049,7 @@ black_it.calibrator.Calibrator        </code>
         <span class="n">rep_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">simulated_data_list</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)(</span>
-            <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_random_seed</span><span class="p">())</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rep_params</span><span class="p">)</span>
         <span class="p">)</span>
 
@@ -1014,6 +1072,10 @@ black_it.calibrator.Calibrator        </code>
 <span class="sd">            The sampled parameters and the corresponding sampled losses.</span>
 <span class="sd">            Both arrays are sorted by increasing loss values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_batch_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># we only set the samplers&#39; random state at the start of a calibration</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_samplers_seeds</span><span class="p">()</span>
+
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BATCH NUMBER:   </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_batch_index</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1035,8 +1097,6 @@ black_it.calibrator.Calibrator        </code>
                 <span class="c1"># simulate an ensemble of models for different parameters</span>
 
                 <span class="n">new_simulated_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate_model</span><span class="p">(</span><span class="n">new_params</span><span class="p">)</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span> <span class="o">*</span> <span class="n">method</span><span class="o">.</span><span class="n">batch_size</span>
 
                 <span class="n">new_losses</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1155,7 +1215,8 @@ black_it.calibrator.Calibrator        </code>
             <span class="bp">self</span><span class="o">.</span><span class="n">convergence_precision</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">saving_folder</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
             <span class="n">model_name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">loss_function</span><span class="p">,</span>
@@ -1196,6 +1257,52 @@ black_it.calibrator.Calibrator        </code>
 
 
 
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="black_it.calibrator.Calibrator.random_generator" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">random_generator</span><span class="p">:</span> <span class="n">Generator</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the random generator.</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="black_it.calibrator.Calibrator.random_state" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-writable"><code>writable</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the random state.</p>
+    </div>
+
+  </div>
+
+
+
 
 
 
@@ -1204,7 +1311,7 @@ black_it.calibrator.Calibrator        </code>
 
 
 <h3 id="black_it.calibrator.Calibrator.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplers</span><span class="p">,</span> <span class="n">loss_function</span><span class="p">,</span> <span class="n">real_data</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameters_bounds</span><span class="p">,</span> <span class="n">parameters_precision</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">,</span> <span class="n">convergence_precision</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">saving_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplers</span><span class="p">,</span> <span class="n">loss_function</span><span class="p">,</span> <span class="n">real_data</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parameters_bounds</span><span class="p">,</span> <span class="n">parameters_precision</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">,</span> <span class="n">convergence_precision</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">saving_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1255,13 +1362,13 @@ on the model to calibrate, on the samplers and on the loss function to use.</p>
       </tr>
       <tr>
         <td><code>parameters_bounds</code></td>
-        <td><code>ndarray</code></td>
+        <td><code>Union[numpy.ndarray, List[List[float]]]</code></td>
         <td><p>the bounds of the parameter space</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>parameters_precision</code></td>
-        <td><code>ndarray</code></td>
+        <td><code>Union[numpy.ndarray, List[float]]</code></td>
         <td><p>the precisions to be used for the discretization of the parameters</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1292,10 +1399,10 @@ not performed if this is set to 'None'.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
-        <td><code>model_seed</code></td>
-        <td><code>int</code></td>
-        <td><p>random seed passed to the model simulator</p></td>
-        <td><code>0</code></td>
+        <td><code>random_state</code></td>
+        <td><code>Optional[int]</code></td>
+        <td><p>random state of the calibrator, used for model simulations and to initialise the samplers</p></td>
+        <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>n_jobs</code></td>
@@ -1314,13 +1421,13 @@ not performed if this is set to 'None'.</p></td>
     <span class="n">loss_function</span><span class="p">:</span> <span class="n">BaseLoss</span><span class="p">,</span>
     <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
-    <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
+    <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="n">ensemble_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">convergence_precision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">saving_folder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">model_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1342,7 +1449,7 @@ not performed if this is set to 'None'.</p></td>
 <span class="sd">            not performed if this is set to &#39;None&#39;.</span>
 <span class="sd">        verbose: whether to print calibration updates</span>
 <span class="sd">        saving_folder: the name of the folder where data should be saved and/or retrieved</span>
-<span class="sd">        model_seed: random seed passed to the model simulator</span>
+<span class="sd">        random_state: random state of the calibrator, used for model simulations and to initialise the samplers</span>
 <span class="sd">        n_jobs: the maximum number of concurrently running jobs. For more details, see the</span>
 <span class="sd">            [joblib.Parallel documentation](https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html).</span>
 
@@ -1350,7 +1457,7 @@ not performed if this is set to 'None'.</p></td>
     <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span> <span class="o">=</span> <span class="n">samplers</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">loss_function</span> <span class="o">=</span> <span class="n">loss_function</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">=</span> <span class="n">model_seed</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">real_data</span> <span class="o">=</span> <span class="n">real_data</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span> <span class="o">=</span> <span class="n">ensemble_size</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1436,7 +1543,7 @@ not performed if this is set to 'None'.</p></td>
   </thead>
   <tbody>
     <tr>
-      <td><code>Tuple[numpy.ndarray[Any, numpy.dtype[+ScalarType]], numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
+      <td><code>Tuple[numpy.ndarray, numpy.ndarray]</code></td>
       <td><p>The sampled parameters and the corresponding sampled losses.
 Both arrays are sorted by increasing loss values</p></td>
     </tr>
@@ -1455,6 +1562,10 @@ Both arrays are sorted by increasing loss values</p></td>
 <span class="sd">        The sampled parameters and the corresponding sampled losses.</span>
 <span class="sd">        Both arrays are sorted by increasing loss values</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_batch_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># we only set the samplers&#39; random state at the start of a calibration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_samplers_seeds</span><span class="p">()</span>
+
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BATCH NUMBER:   </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_batch_index</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1476,8 +1587,6 @@ Both arrays are sorted by increasing loss values</p></td>
             <span class="c1"># simulate an ensemble of models for different parameters</span>
 
             <span class="n">new_simulated_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate_model</span><span class="p">(</span><span class="n">new_params</span><span class="p">)</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span> <span class="o">*</span> <span class="n">method</span><span class="o">.</span><span class="n">batch_size</span>
 
             <span class="n">new_losses</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1710,7 +1819,8 @@ Both arrays are sorted by increasing loss values</p></td>
         <span class="bp">self</span><span class="o">.</span><span class="n">convergence_precision</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">saving_folder</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
         <span class="n">model_name</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_function</span><span class="p">,</span>
@@ -1819,7 +1929,8 @@ Both arrays are sorted by increasing loss values</p></td>
         <span class="n">convergence_precision</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">,</span>
         <span class="n">saving_file</span><span class="p">,</span>
-        <span class="n">model_seed</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">,</span>
+        <span class="n">random_generator_state</span><span class="p">,</span>
         <span class="n">model_name</span><span class="p">,</span>
         <span class="n">samplers</span><span class="p">,</span>
         <span class="n">loss_function</span><span class="p">,</span>
@@ -1852,7 +1963,7 @@ Both arrays are sorted by increasing loss values</p></td>
         <span class="n">convergence_precision</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">,</span>
         <span class="n">saving_file</span><span class="p">,</span>
-        <span class="n">model_seed</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">,</span>
         <span class="n">n_jobs</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -1863,6 +1974,9 @@ Both arrays are sorted by increasing loss values</p></td>
     <span class="n">calibrator</span><span class="o">.</span><span class="n">series_samp</span> <span class="o">=</span> <span class="n">series_samp</span>
     <span class="n">calibrator</span><span class="o">.</span><span class="n">batch_num_samp</span> <span class="o">=</span> <span class="n">batch_num_samp</span>
     <span class="n">calibrator</span><span class="o">.</span><span class="n">method_samp</span> <span class="o">=</span> <span class="n">method_samp</span>
+
+    <span class="c1"># reset the random number generator state</span>
+    <span class="n">calibrator</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">random_generator_state</span>
 
     <span class="k">return</span> <span class="n">calibrator</span>
 </code></pre></div>
@@ -2010,7 +2124,7 @@ evaluations are performed for each parameter to average out random fluctuations.
     <span class="n">rep_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="n">simulated_data_list</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)(</span>
-        <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_seed</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_random_seed</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rep_params</span><span class="p">)</span>
     <span class="p">)</span>
 
@@ -2039,6 +2153,7 @@ evaluations are performed for each parameter to average out random fluctuations.
 
               
             </article>
+            
           </div>
         </div>
         
@@ -2046,7 +2161,8 @@ evaluations are performed for each parameter to average out random fluctuations.
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="../contributing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Extending black-it" rel="prev">
@@ -2101,10 +2217,10 @@ evaluations are performed for each parameter to average out random fluctuations.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../assets/javascripts/bundle.a877e258.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       
