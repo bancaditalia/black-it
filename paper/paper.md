@@ -17,13 +17,13 @@ authors:
     orcid: 0000-0000-0000-0000
     affiliation: 1
   - name: Marco Favorito
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0001-9566-3576
     affiliation: 1
   - name: Aldo Glielmo
     orcid: 0000-0002-4737-2878
     affiliation: 1
   - name: Davide Magnanimi
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-6560-8047
     affiliation: 1
   - name: Antonio Muci
     orcid: 0000-0000-0000-0000
@@ -40,13 +40,23 @@ bibliography: paper.bib
 # aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
+\vspace{0.2cm}
+\begin{minipage}{.4\textwidth}
+\begin{figure}
+    \includegraphics[width=\textwidth]{figures/logo_1024.png}
+\caption*{\emph{Black}-\textbf{it} logo.}
+\end{figure}
+\end{minipage}
+
 # Summary
 
-We present Black-it, a software package that aims at collecting and popularising the recent
+We present _Black_-**it**, a software package that aims at collecting and popularising the recent
   developments in the field of agent-based model calibration, and to provide an extensible test-bed for future
   experimentation. 
 We showcase its capabilities by benchmarking different calibration methods on standard
   calibration tasks, and find that mixing calibration strategies often improves performance.
+
+\vspace{-0.5cm}
 
 # Introduction and motivation
 
@@ -67,22 +77,18 @@ Unfortunately, the increasing scale and complexity of current models makes their
   approaches [@tisue2004netlogo] is impractical.
 
 The vastness of the parameter space of state-of-the-art ABMs calls for sophisticated search and calibration strategies.
-
 Research in this direction has evolved significantly in recent years, and many competing calibration techniques 
   have been proposed [@ward2016dynamic; @grazzini2017bayesian; @lamperti2018agent; @platt2021bayesian; @farmer2022black].
-
 However, they have been tested only in specific scenarios and remain out of reach for most researchers interested in ABM \emph{applications}.
 
-In this work we address such shortcoming by introducing _Black-it_, a calibration kit specifically designed for ABMs[^1].
-
-[^1]: _Black-it_ is an acronym for **Bl**ack-box **A**BM **c**alibration **kit** (by the Bank of **It**aly). 
-  It is available in open source at [https://github.com/bancaditalia/black-it](https://github.com/bancaditalia/black-it).
-
+In this work we address such shortcoming by introducing _Black_-**it**, a calibration kit specifically designed for ABMs[^1].
 Our goal is to help ABM researchers from different disciplines to conveniently calibrate their models by gathering, 
-  within a powerful and easy-to-use tool, several recent advances in the field. 
-
+  within a powerful and easy-to-use tool, several recent advances in the field.
 The software is designed to be easy to extend, so it doubles as a research test-bed for experimenting with 
   new or improved ideas.
+
+[^1]:  _Black_-**it** is an acronym for **Bl**ack-box **A**BM **c**alibration **kit** (by the Bank of **It**aly). 
+  It is available in open source at [https://github.com/bancaditalia/black-it](https://github.com/bancaditalia/black-it).
 
 In the following sections we overview the main features of the tool and then we showcase its ease of use and 
   capabilities by benchmarking a set of complex calibration methods on some standard calibration tasks, using just a few
@@ -90,11 +96,29 @@ In the following sections we overview the main features of the tool and then we 
 
 [^2]: Visit [https://github.com/bancaditalia/black-it/blob/main/examples/benchmarking_samplers.ipynb](https://github.com/bancaditalia/black-it/blob/main/examples/benchmarking_samplers.ipynb) for an example script.
 
+
 # Software description
 
-![Illustration of the main features of _Black-it_.\label{fig:features}](figures/software_illustration.png){ width=60% }
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.56\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/software_illustration.png}
+        \caption{Illustration of the main features of \textit{Black}-\textbf{it}.}
+        \label{fig:features}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.43\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/code_snippet.png}
+        \caption{A simple \textit{Black}-\textbf{it} calibration script.}
+        \label{fig:script}
+    \end{minipage}
+\end{figure}
 
-At a high level, _Black-it_ calibration works as follows.
+<!-- ![Illustration of the main features of _Black_-**it**.\label{fig:features}](figures/software_illustration.png){ width=60% } -->
+
+At a high level, _Black_-**it** calibration works as follows.
 
 First, a _sampling method_ (or _sampler_) is summoned to suggest a set of promising parameter configurations to explore.
 Second, the model to be calibrated is simulated for all the selected parameters.
@@ -103,7 +127,7 @@ These three steps are performed in a loop, and this allows the samplers to progr
 exploiting the knowledge of previously computed loss functions.
 The calibration loop ends when a certain target loss is achieved, or when a maximum number of epochs is reached.
 
-_Black-it_ implements a number of state-of-the-art samplers, including low-discrepancy sampling 
+_Black_-**it** implements a number of state-of-the-art samplers, including low-discrepancy sampling 
   series [@knysh2016blackbox] as well as adaptive samplers exploiting machine learning 
   surrogates [@lamperti2018agent] or genetic algorithms [@stonedahl2011genetic].
 Moreover, our tool enables the construction of hybrid samplers by combining together multiple base samplers, 
@@ -114,7 +138,7 @@ Currently, only likelihood-free losses are implemented, since probabilistic meth
   to be used in large-scale ABMs [@platt2020comparison], but nothing hinders the inclusion of the latest advancements
   in the field [@platt2021bayesian; @farmer2022black] into our tool.
 
-_Black-it_ provides a range of "convenience" features, such as (i) efficient on-demand parallelisation, 
+ _Black_-**it** provides a range of "convenience" features, such as (i) efficient on-demand parallelisation, 
   (ii) a checkpointing mechanism to robustly persist the calibration state, and (iii) plotting functions to 
   visualise ongoing and completed calibrations. 
 
@@ -122,13 +146,16 @@ The toolkit is written in Python and it has a modular and object-oriented design
   to implement custom sampling methods and loss functions, if needed.
 \autoref{fig:features} provides a visual summary of the main features of the package, while \autoref{fig:script} shows a basic calibration script.
 
-![A simple _Black-it_ calibration script.\label{fig:features}](figures/code_snippet.png){ width=40% }
-
 # Benchmarking of sampling methods
 
-![Loss as a function of the number of model evaluations for 3 models and 7 types of sampling strategies. \label{fig:reslts}](figures/results_4.png){ width=60% }
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.78\textwidth]{figures/results_4.png}
+    \caption{Loss as a function of the number of model evaluations for 3 models and 7 types of sampling strategies.}
+    \label{fig:results}
+\end{figure}
 
-We showcase the capabilities of _Black-it_ by benchmarking the performance of a set of sampling methods on the 
+We showcase the capabilities of _Black_-**it** by benchmarking the performance of a set of sampling methods on the 
   calibration of three standard models.
 
 ## Models
@@ -139,7 +166,6 @@ We consider the following models:
   (iii) the standard Brock and Hommes model for asset pricing with 4 belief types ('BH4') [@brock1998heterogeneous] (8 free parameters).
 
 For (i) and (iii) we use a method of moment distance loss, while for (ii) we use an Euclidean distance loss.
-
 The target ('real') time series for the calibration were obtained by simulating the models with reasonable parameter choices.
 
 ## Sampling methods
@@ -160,26 +186,7 @@ We average all results over 15 repetitions.
 
 ## Results
 
-\begin{table}
-\centering
-\footnotesize
-\begin{tabular}{|c|c|c|}
-\hline 
-RW & SIR & BH4 \tabularnewline
-\hline 
-\hline
-$A_{p}$ + $A_{rf}$ & $A_{p}$ + $A_{rf}$ & $A_{p}$ + $A_{rf}$\tabularnewline
-\hline
-$A_{rf}$  & $A_{rf}$ &  $R_{h}$ + $A_{p}$ + $A_{rf}$\tabularnewline
-\hline
-$R_{u}$ + $A_{p}$ + $A_{rf}$ & $R_{h}$  + $A_{p}$ + $A_{rf}$ & $R_{u}$ + $A_{p}$ + $A_{rf}$ \tabularnewline
-\hline
-\end{tabular}
-\caption{Top 3 sampling strategies for each model considered.}
-\label{tab:results}
-\end{table}
-
-In \autoref{fig:reslts} we report the minimal loss as a function of the number of calls for the 3 models, 
+In \autoref{fig:results} we report the minimal loss as a function of the number of calls for the 3 models, 
   aggregated for different groups of sampling strategies.
 Not surprisingly, the non-adaptive (purely random) samplers $R$ generally demonstrate a very low performance (blue curve).
 Similarly, the small perturbation sampler $A_{p}$ is also seen to underperform (green line) but, interestingly, 
@@ -192,9 +199,28 @@ However, the performance of $A_{rf}$ is surpassed by the mixed strategy $A_{p} +
 The 3-sampler combination $R + A_{p} + A_{rf}$ provides generally competitive results, as confirmed by 
   \autoref{tab:results}, which reports the best strategies for each model.
 
+\begin{table}
+\centering
+\small
+\begin{tabular}{|c|c|c|}
+    \hline 
+    RW & SIR & BH4 \tabularnewline
+    \hline 
+    \hline
+    $A_{p}$ + $A_{rf}$ & $A_{p}$ + $A_{rf}$ & $A_{p}$ + $A_{rf}$\tabularnewline
+    \hline
+    $A_{rf}$  & $A_{rf}$ &  $R_{h}$ + $A_{p}$ + $A_{rf}$\tabularnewline
+    \hline
+    $R_{u}$ + $A_{p}$ + $A_{rf}$ & $R_{h}$  + $A_{p}$ + $A_{rf}$ & $R_{u}$ + $A_{p}$ + $A_{rf}$ \tabularnewline
+    \hline
+\end{tabular}
+\caption{Top 3 sampling strategies for each model considered.}
+\label{tab:results}
+\end{table}
+
 # Acknowledgements
 
-The authors thank Andrea Gentili (Banca d'Italia) for the design of \autoref{fig:features} and of all _Black-it_
-  schematics, and Sara Corbo (Banca d'Italia) for the design of the _Black-it_ logo.
+The authors thank Andrea Gentili (Banca d'Italia) for the design of \autoref{fig:features} and of all _Black_-**it**
+  schematics, and Sara Corbo (Banca d'Italia) for the design of the _Black_-**it** logo.
 
 # References
