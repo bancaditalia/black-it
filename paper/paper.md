@@ -8,13 +8,10 @@ tags:
   - computational economics
 authors:
   - name: Marco Benedetti
-    orcid: 0000-0000-0000-0000
     affiliation: 1
   - name: Gennaro Catapano
-    orcid: 0000-0000-0000-0000
     affiliation: 1
   - name: Francesco De Sclavis
-    orcid: 0000-0000-0000-0000
     affiliation: 1
   - name: Marco Favorito
     orcid: 0000-0001-9566-3576
@@ -26,7 +23,6 @@ authors:
     orcid: 0000-0002-6560-8047
     affiliation: 1
   - name: Antonio Muci
-    orcid: 0000-0000-0000-0000
     affiliation: 1
 affiliations:
   - name: Banca d'Italia, Italy
@@ -56,9 +52,8 @@ We present _Black_-**it**, a software package that aims at collecting and popula
 We showcase its capabilities by benchmarking different calibration methods on standard
   calibration tasks, and find that mixing calibration strategies often improves performance.
 
-\vspace{-0.5cm}
 
-# Introduction and motivation
+# Statement of need
 
 Agent-based models (ABMs) are an increasingly common technique for describing and understanding emergent phenomena 
   in complex social and economic systems [@miller2008complex; @richiardi2012agent; @turrell2016agent; @gatti2018agent].
@@ -147,6 +142,8 @@ The toolkit is written in Python and it has a modular and object-oriented design
 \autoref{fig:features} provides a visual summary of the main features of the package, while \autoref{fig:script} shows a basic calibration script.
 
 # Benchmarking of sampling methods
+
+\vspace{-0.2cm}
 
 \begin{figure}[!htb]
     \centering
