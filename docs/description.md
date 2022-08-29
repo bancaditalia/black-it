@@ -1,7 +1,18 @@
+<figure>
+<p align="center">
+    <img src="images/blackit_scheme_transparent.png" width="400"
+         alt="Elephant at sunset">
+</p>
+    <figcaption>Illustration of Black-it calibration. The calibration (black lines) is divided in a maximum of <em>n</em> batches (blue lines), and in each batch <em>S</em> samplers are sequentially deployed (green lines).
+Each sampler suggests a set of parameters, for which the model is simulated and the loss function is evaluated.</figcaption>
+</figure>
+
 
 # How it works
 
-The calibrator is essentially an optimizer which works on simulated data, produced by a specified model, and searches the parametric space by chaining a set of chosen algorithms. For a complete example about this, check the [Examples](examples.md) section.
+The calibrator is essentially an optimizer which works on simulated data, produced by a specified model, 
+and searches the parametric space by chaining a set of chosen algorithms. 
+For a complete example about this, check the [Examples](examples.md) section.
 
 The calibrator works iteratively and each iteration consists of three steps:
 
@@ -9,7 +20,8 @@ The calibrator works iteratively and each iteration consists of three steps:
 2. Data is simulated $E$ times for each sampled parameter set. We will refer to $E$ as `ensemble_size`
 3. A loss function is evaluated, measuring the distance between the simulated data and the real data
 
-This is repeated until the loss function is very close to 0 or the maximum number of iterations is reached.
+This is repeated until the loss function is very close to 0 or the maximum number of iterations is reached. 
+The process is illustrated in the above figure. 
 
 *Remark*: the simulator is a distinct subsystem in this process. It can be as simple as a Python function or it can be an external simulator altogether. The calibrator simply *runs* it each time.
 
