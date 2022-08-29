@@ -86,7 +86,7 @@ model = md.MarkovC_KP
 ```
 A list of simple models can be found in the `examples/models` directory. A custom model may be specified by implementing a custom function.
 
-If an external simulator has to be used instead, check [how to interface with external simulators](furtherinfo.md#how-to-interface-with-external-simulators).
+If an external simulator has to be used instead, check [simulator_interface](simulator_interface.md) page.
 
 ### Loss function
 
