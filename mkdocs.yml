@@ -14,7 +14,8 @@ nav:
   - Different samplers: overview_of_the_different_samplers.ipynb
   - Benchmarking samplers: benchmarking_samplers.ipynb
   - Plotting tutorial: overview_of_plotting_functions.ipynb
-- Further reading: furtherinfo.md
+- Interface with simulators: simulator_interface.md
+- Checkpointing and parallelisation: checkpointing_parallelisation.md
 - Extending black-it: contributing.md
 - Code Reference:
   - Calibrator: calibrator.md

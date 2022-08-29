@@ -19,7 +19,7 @@ The basic premise behind the calibrator is that it uses simulated data. That is 
 
 A model can be any function which produces data and which depends on one or more parameters. This can be a probability distribution (like the standard Gaussian) or a stochastic process (like an [ARMA model](https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model) or a [Markov chain](https://en.wikipedia.org/wiki/Markov_chain)). Some examples of these "standard" models are the ones found in **`examples/models/simple_models.py`**. The `examples/models` directory also contains other models, including agent-based ones used in epidemiology and economics. For a description of them, check the [Examples](examples.md) section.
 
-*Remark*: if you need to implement your own model, check [how to use](index.md#model) and [how to interface with external simulators](furtherinfo.md#how-to-interface-with-external-simulators).
+*Remark*: if you need to implement your own model, check [how to use](index.md#model) and the [simulator interface](simulator_interface.md).
 ## Optimization
 
 After the model is defined, the simulated datasets must be compared against the real dataset. The natural choice of distance for this is the mean distance between a simulated dataset and the real dataset, i.e., for each parameter $\theta$, we have:
