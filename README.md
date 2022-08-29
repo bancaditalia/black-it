@@ -58,7 +58,8 @@ git clone https://github.com/bancaditalia/black-it.git
 cd black-it/examples
 ```
 
-You'll find several scripts and notebooks. The following is the script named `main.py`
+You'll find several scripts and notebooks. The following is the script named `main.py`, note that copying and pasting 
+the lines below will not work in general as the script needs to be inside the "examples" folder in order to run correctly. 
 
 ```python
 import models.simple_models as md
