@@ -8,7 +8,11 @@ A possibility is to write a custom Python function and use it as explained [here
 But one may have already written their own model simulator somewhere else and may reasonably expect to use it 
 with the calibrator.
 
-To do this, essentially a Python wrapper of the simulator must be written. To illustrate this, we will take a look 
+To do this, essentially a Python wrapper of the simulator must be written. 
+The interface is flexible and language agnostic, and it allows calibrating models built using standard Python ABM frameworks 
+such as [Mesa](https://github.com/projectmesa/mesa), as well as custom models written directly in low level languages.
+
+To illustrate this, we will take a look 
 at the [SIR model tutorial](finding_the_parameters_of_a_SIR_model.ipynb) which makes use of a C++ simulator 
 run on a [Docker](https://docs.docker.com/get-docker/) container. Here the wrapper is defined as follows:
 
