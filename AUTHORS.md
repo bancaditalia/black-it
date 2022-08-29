@@ -15,4 +15,4 @@
 
 ## Contributors
 
-None yet. [Why not be the first](./contributing.md)? 
+None yet. [Why not be the first](./CONTRIBUTING.md)? 
