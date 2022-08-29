@@ -123,7 +123,24 @@ Best parameters found: [0.19 0.19 0.74]
 
 ## Docs
 
-Black-it extensive documentation is available at [this dedicated website](https://bancaditalia.github.io/black-it/).
+Black-it calibration is initiated via the [Calibrator](https://bancaditalia.github.io/black-it/calibrator/) which,
+when called, performs three main steps.
+
+First, a [Sampler](https://bancaditalia.github.io/black-it/samplers/) is summoned to suggest a set of promising 
+parameter configurations to explore.
+
+Second, the [model](https://bancaditalia.github.io/black-it/simulator_interface/) to be calibrated is simulated for 
+all the selected parameters.
+
+Third, a specific [loss function](https://bancaditalia.github.io/black-it/losses/), measuring the goodness of fitness 
+of the simulation data with respect to the real data, is evaluated.
+
+These steps are performed in a loop, and this allows the samplers to progress towards better parameter values 
+by exploiting the knowledge of previously computed loss functions.
+
+A more detailed explanation of how Black-it works is available 
+[here](https://bancaditalia.github.io/black-it/description/), while the full documentation -complete with examples 
+and tutorials- is available [here](https://bancaditalia.github.io/black-it/). 
 
 ## Disclaimer
 
