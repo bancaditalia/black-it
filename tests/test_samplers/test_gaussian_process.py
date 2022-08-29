@@ -49,6 +49,7 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
 
         return np.asarray(xys_list), np.asarray(losses_list)
 
+    @pytest.mark.skip
     @pytest.mark.parametrize(
         "acquisition,optimize_restarts,expected_params",
         [
