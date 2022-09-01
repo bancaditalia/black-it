@@ -1,6 +1,12 @@
 name: docs
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'poetry.lock'
   pull_request:
     paths:
       - 'docs/**'
