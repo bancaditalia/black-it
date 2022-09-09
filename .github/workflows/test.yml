@@ -40,14 +40,10 @@ jobs:
     - name: Unit tests and coverage
       run: |
         tox -e py${{ matrix.python-version }} -- -m 'not e2e'
-#    - name: Upload coverage to Codecov
-#      uses: codecov/codecov-action@v1
-#      with:
-#        token: ${{ secrets.CODECOV_TOKEN }}
-#        file: ./coverage.xml
-#        flags: unittests
-#        name: codecov-umbrella
-#        fail_ci_if_error: true
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: false
     - name: Notebook tests
       run: |
         tox -e py${{ matrix.python_version }}-nb
