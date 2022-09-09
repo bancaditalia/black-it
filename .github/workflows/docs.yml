@@ -6,11 +6,9 @@ on:
       - main
     paths:
       - 'docs/**'
-      - 'poetry.lock'
   pull_request:
     paths:
       - 'docs/**'
-      - 'poetry.lock'
 jobs:
   run:
     continue-on-error: True
@@ -30,26 +28,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip install tox poetry
-
+        pip install tox
+        
         # Install markdown-spellcheck
         sudo npm install -g markdown-spellcheck
-
-        # Install the black-it package (needed by mkdocstrings)
-        pip install .
-    - name: Install dependencies for documentation building
-      run: |
-        pip install -r <(./scripts/list-poetry-dependencies.sh \
-          mkdocs                                               \
-          mkdocs-material                                      \
-          mknotebooks                                          \
-          markdown-include                                     \
-          pymdown-extensions                                   \
-          markdown                                             \
-          mkdocstrings                                         \
-          mkdocs-autorefs                                      \
-        )
     - name: Generate Documentation
-      run: make docs
-    - name: Install markdown-spellcheck
+      run: tox -e docs
+    - name: Run markdown-spellcheck
       run: tox -e spell_check
