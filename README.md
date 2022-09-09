@@ -12,6 +12,9 @@
     <img alt="GitHub" src="https://img.shields.io/github/license/bancaditalia/black-it">
 </a>
 
+<a href="https://codecov.io/gh/bancaditalia/black-it">
+  <img src="https://codecov.io/gh/bancaditalia/black-it/branch/main/graph/badge.svg" />
+</a>
 
 # Black-box abm calibration kit
 
