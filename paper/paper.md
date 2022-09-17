@@ -82,10 +82,19 @@ Our goal is to help ABM researchers from different disciplines to conveniently c
 The software is designed to be easy to extend, so it doubles as a research test-bed for experimenting with 
   new or improved ideas.
 
-[^1]:  _Black_-**it** is an acronym for **Bl**ack-box **A**BM **c**alibration **kit** (by the Bank of **It**aly). 
-  It is available in open source at [https://github.com/bancaditalia/black-it](https://github.com/bancaditalia/black-it).
+[^1]:  _Black_-**it** is an acronym for **Bl**ack-box **A**BM **c**alibration **kit** (by the Bank of **It**aly).
 
-In the following sections we overview the main features of the tool and then we showcase its ease of use and 
+_Black_-**it** differs from standard optimisation packages available in the Python ecosystem, such as
+  SciPy [@virtanen2020scipy], in three main aspects.
+First, _Black_-**it** not only allows the use of a set of advanced optimisation algorithms, but also provides a 
+  general framework where new calibration schemes can easily be implemented and released to the ABM community.
+Second, optimisation algorithms in _Black_-**it** are specifically designed for ABMs i.e., for non-convex, 
+  highly nonlinear and often discontinuous functions with no computable gradients, and cannot be found elsewhere
+  collected in a single software.
+Third, _Black_-**it** includes a rich set of features that make its use particularly convenient for ABM researchers, 
+  such as a set of standard loss functions, parallelisation and checkpointing, plotting functionalities, and more.
+
+The defining features of our tool will be reviewed in the next sections, where we also showcase its ease of use and 
   capabilities by benchmarking a set of complex calibration methods on some standard calibration tasks, using just a few
   lines of code[^2].
 
