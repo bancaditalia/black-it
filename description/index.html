@@ -459,8 +459,23 @@
   
   
     <li class="md-nav__item">
-      <a href="../furtherinfo/" class="md-nav__link">
-        Further reading
+      <a href="../simulator_interface/" class="md-nav__link">
+        Interface with simulators
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checkpointing_parallelisation/" class="md-nav__link">
+        Checkpointing and parallelisation
       </a>
     </li>
   
@@ -492,18 +507,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_7">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
         </label>
@@ -629,20 +644,32 @@
 
 
 
+<figure>
+<p align="center">
+    <img src="images/blackit_scheme_transparent.png" width="400"
+         alt="Black-it inner workings">
+</p>
+    <figcaption>Illustration of Black-it calibration. The calibration (black lines) is divided in a maximum of <em>n</em> batches (blue lines), and in each batch <em>S</em> samplers are sequentially deployed (green lines).
+Each sampler suggests a set of parameters, for which the model is simulated and the loss function is evaluated.</figcaption>
+</figure>
+
 <h1 id="how-it-works">How it works</h1>
-<p>The calibrator is essentially an optimizer which works on simulated data, produced by a specified model, and searches the parametric space by chaining a set of chosen algorithms. For a complete example about this, check the <a href="../examples/">Examples</a> section.</p>
+<p>The calibrator is essentially an optimizer which works on simulated data, produced by a specified model, 
+and searches the parametric space by chaining a set of chosen algorithms. 
+For a complete example about this, check the <a href="../examples/">Examples</a> section.</p>
 <p>The calibrator works iteratively and each iteration consists of three steps:</p>
 <ol>
 <li>Search algorithms are employed sequentially to sample a set of parameters. In this sense, the parameter space is "searched"</li>
 <li>Data is simulated <span class="arithmatex"><span class="MathJax_Preview">E</span><script type="math/tex">E</script></span> times for each sampled parameter set. We will refer to <span class="arithmatex"><span class="MathJax_Preview">E</span><script type="math/tex">E</script></span> as <code>ensemble_size</code></li>
 <li>A loss function is evaluated, measuring the distance between the simulated data and the real data</li>
 </ol>
-<p>This is repeated until the loss function is very close to 0 or the maximum number of iterations is reached.</p>
+<p>This is repeated until the loss function is very close to 0 or the maximum number of iterations is reached. 
+The process is illustrated in the above figure. </p>
 <p><em>Remark</em>: the simulator is a distinct subsystem in this process. It can be as simple as a Python function or it can be an external simulator altogether. The calibrator simply <em>runs</em> it each time.</p>
 <h2 id="simulation">Simulation</h2>
 <p>The basic premise behind the calibrator is that it uses simulated data. That is why it adapts well to <a href="https://en.wikipedia.org/wiki/Agent-based_model">agent-based models</a>. Simulated data is produced in each iteration according to a given model, using the sampled parameters.</p>
 <p>A model can be any function which produces data and which depends on one or more parameters. This can be a probability distribution (like the standard Gaussian) or a stochastic process (like an <a href="https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model">ARMA model</a> or a <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov chain</a>). Some examples of these "standard" models are the ones found in <strong><code>examples/models/simple_models.py</code></strong>. The <code>examples/models</code> directory also contains other models, including agent-based ones used in epidemiology and economics. For a description of them, check the <a href="../examples/">Examples</a> section.</p>
-<p><em>Remark</em>: if you need to implement your own model, check <a href="..#model">how to use</a> and <a href="../furtherinfo/#how-to-interface-with-external-simulators">how to interface with external simulators</a>.</p>
+<p><em>Remark</em>: if you need to implement your own model, check <a href="..#model">how to use</a> and the <a href="../simulator_interface/">simulator interface</a>.</p>
 <h2 id="optimization">Optimization</h2>
 <p>After the model is defined, the simulated datasets must be compared against the real dataset. The natural choice of distance for this is the mean distance between a simulated dataset and the real dataset, i.e., for each parameter <span class="arithmatex"><span class="MathJax_Preview">\theta</span><script type="math/tex">\theta</script></span>, we have:
 $$ \delta(\theta) = \frac{1}{E} \sum_{e=1}^E L\Big(\mathbf{x}, \mathbf{x}_e(\theta)\Big)$$

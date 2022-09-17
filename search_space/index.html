@@ -411,8 +411,23 @@
   
   
     <li class="md-nav__item">
-      <a href="../furtherinfo/" class="md-nav__link">
-        Further reading
+      <a href="../simulator_interface/" class="md-nav__link">
+        Interface with simulators
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checkpointing_parallelisation/" class="md-nav__link">
+        Checkpointing and parallelisation
       </a>
     </li>
   
@@ -446,18 +461,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_7">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
         </label>
@@ -877,6 +892,7 @@ black_it.search_space.SearchSpace        </code>
                 <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
                 <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.0000001</span><span class="p">,</span>
                 <span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">new_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">new_col</span><span class="p">,</span> <span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_col</span><span class="p">)</span>
@@ -1218,6 +1234,7 @@ of SearchSpaceError) is raised:</p>
             <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
             <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.0000001</span><span class="p">,</span>
             <span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">new_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">new_col</span><span class="p">,</span> <span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_col</span><span class="p">)</span>

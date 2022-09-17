@@ -517,8 +517,23 @@
   
   
     <li class="md-nav__item">
-      <a href="furtherinfo/" class="md-nav__link">
-        Further reading
+      <a href="simulator_interface/" class="md-nav__link">
+        Interface with simulators
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="checkpointing_parallelisation/" class="md-nav__link">
+        Checkpointing and parallelisation
       </a>
     </li>
   
@@ -550,18 +565,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_7">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
         </label>
@@ -813,7 +828,7 @@ For more information, check the <code>Code Reference</code> section of the docum
 <span class="n">model</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">MarkovC_KP</span>
 </code></pre></div>
 A list of simple models can be found in the <code>examples/models</code> directory. A custom model may be specified by implementing a custom function.</p>
-<p>If an external simulator has to be used instead, check <a href="furtherinfo/#how-to-interface-with-external-simulators">how to interface with external simulators</a>.</p>
+<p>If an external simulator has to be used instead, check <a href="simulator_interface/">simulator_interface</a> page.</p>
 <h3 id="loss-function">Loss function</h3>
 <p>The loss function must be a concrete class inheriting from the abstract class <code>BaseLoss</code> and is used by the calibrator to evaluate the distance between the real dataset and the simulated one. In <strong><code>examples/main.py</code></strong>, the <code>MinkowskiLoss</code> is used.</p>
 <p>A list of functions can be found in the <code>loss_functions</code> module or, again, a the <code>BaseLoss</code> class can be extended to implement a specific loss function.</p>
