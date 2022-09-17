@@ -6,7 +6,7 @@ are referenced in the ``paper.bib`` bibtex file, the format of the Journal of Op
 For convenience, the PDF of the paper can be built locally with Docker by running the following:
 
 ```bash
-sh buid_paper_docker.sh
+sh  build_paper_docker.sh
 ```
 
 which will execute the ``openjournals/paperdraft`` Docker image and output the ``paper.pdf`` file.
