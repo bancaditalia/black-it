@@ -1,12 +1,11 @@
 <figure>
 <p align="center">
     <img src="images/blackit_scheme_transparent.png" width="400"
-         alt="Elephant at sunset">
+         alt="Black-it inner workings">
 </p>
     <figcaption>Illustration of Black-it calibration. The calibration (black lines) is divided in a maximum of <em>n</em> batches (blue lines), and in each batch <em>S</em> samplers are sequentially deployed (green lines).
 Each sampler suggests a set of parameters, for which the model is simulated and the loss function is evaluated.</figcaption>
 </figure>
-
 
 # How it works
 
