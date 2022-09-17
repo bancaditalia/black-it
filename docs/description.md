@@ -1,6 +1,6 @@
 <figure>
 <p align="center">
-    <img src="images/blackit_scheme_transparent.png" width="400"
+    <img src="../images/blackit_scheme_transparent.png" width="400"
          alt="Black-it inner workings">
 </p>
     <figcaption>Illustration of Black-it calibration. The calibration (black lines) is divided in a maximum of <em>n</em> batches (blue lines), and in each batch <em>S</em> samplers are sequentially deployed (green lines).
