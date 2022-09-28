@@ -2,6 +2,7 @@
 ignore-patterns=
 ignore=
 ignore-paths=^(.*/|)examples/models/.*$
+load-plugins=pylint.extensions.no_self_use
 
 [MESSAGES CONTROL]
 disable=C0103,C0301,R0801,W1514,W1505
