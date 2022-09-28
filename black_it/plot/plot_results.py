@@ -116,7 +116,7 @@ def plot_losses(saving_folder: Union[str, os.PathLike]) -> None:
     """
     df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
 
-    num_params = sum(["params_samp_" in c_str for c_str in df.columns])
+    num_params = sum("params_samp_" in c_str for c_str in df.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
@@ -145,7 +145,7 @@ def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
     """
     df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
 
-    num_params = sum(["params_samp_" in c_str for c_str in df.columns])
+    num_params = sum("params_samp_" in c_str for c_str in df.columns)
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
     g = sns.pairplot(
@@ -188,7 +188,7 @@ def plot_losses_method_num(
         df["method_samp"] == method_num  # pylint: disable=unsubscriptable-object
     ]
 
-    num_params = sum(["params_samp_" in c_str for c_str in df.columns])
+    num_params = sum("params_samp_" in c_str for c_str in df.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
@@ -258,7 +258,7 @@ def plot_sampling_batch_nums(
     ]
 
     num_params = sum(
-        ["params_samp_" in c_str for c_str in df.columns]  # pylint: disable=no-member
+        "params_samp_" in c_str for c_str in df.columns  # pylint: disable=no-member
     )
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
