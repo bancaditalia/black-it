@@ -52,7 +52,7 @@ Algorithm description:
 **Note**: b,L don't increase much the comp power required (ie from (2,2) to (19,19) +20% time).
 
 """
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -208,9 +208,9 @@ class GslDivLoss(BaseLoss):
     def discretize(
         time_series: NDArray[np.float64],
         nb_values: int,
-        start_index: float,
-        stop_index: float,
-    ) -> NDArray[np.float64]:
+        start_index: Union[np.float64, float],
+        stop_index: Union[np.float64, float],
+    ) -> NDArray[np.int64]:
         """
         Discretize the TS in 'nb_values' finite states.
 
@@ -232,6 +232,8 @@ class GslDivLoss(BaseLoss):
         Returns:
             the discretised time series
         """
+        start_index = np.float64(start_index)
+        stop_index = np.float64(stop_index)
         linspace = np.linspace(start_index - EPS, stop_index + EPS, nb_values + 1)
 
         return np.searchsorted(linspace, time_series, side="left")
