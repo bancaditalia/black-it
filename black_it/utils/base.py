@@ -51,6 +51,18 @@ def check_arg(condition: bool, message: str) -> None:
     assert_(condition, message, exc_cls=ValueError)
 
 
+def ensure_float(arg: Any) -> None:
+    """Check that the argument is a float."""
+    check_arg(isinstance(arg, (float, np.float64)), f"expected a float, got {arg}")
+
+
+def positive_float(arg: float) -> float:
+    """Check a float is positive."""
+    ensure_float(arg)
+    check_arg(arg >= 0, "provided float is not positive")
+    return arg
+
+
 def digitize_data(
     data: NDArray[np.float64], param_grid: List[NDArray[np.float64]]
 ) -> NDArray[np.float64]:
