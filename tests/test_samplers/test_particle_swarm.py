@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the particle swarm sampler."""
 import numpy as np
+import pytest
 from numpy.typing import NDArray
 
 from black_it.samplers.particle_swarm import ParticleSwarmSampler
@@ -66,7 +67,8 @@ expected_params = np.array(
 )
 
 
-def test_particle_swarm_2d() -> None:
+@pytest.mark.parametrize("global_minimum_across_samplers", [True, False])
+def test_particle_swarm_2d(global_minimum_across_samplers: bool) -> None:
     """Test the particle swarm sampler in 2d."""
 
     def target_loss(xy: NDArray[np.float64]) -> float:
@@ -83,7 +85,11 @@ def test_particle_swarm_2d() -> None:
 
     batch_size = 4
     nb_iterations = 10
-    sampler = ParticleSwarmSampler(batch_size=batch_size, random_state=0)
+    sampler = ParticleSwarmSampler(
+        batch_size=batch_size,
+        random_state=0,
+        global_minimum_across_samplers=global_minimum_across_samplers,
+    )
 
     sampled_params = np.zeros((0, 2))
 
