@@ -65,6 +65,7 @@ class ParticleSwarmSampler(
         inertia: float = 0.9,
         c1: float = 0.1,
         c2: float = 0.1,
+        global_minimum_across_samplers: bool = False,
     ) -> None:
         """Initialize the sampler."""
         # max_duplication_passes must be zero because the sampler is stateful
@@ -81,6 +82,7 @@ class ParticleSwarmSampler(
         self._inertia = positive_float(inertia)
         self._c1 = positive_float(c1)
         self._c2 = positive_float(c2)
+        self._global_minimum_across_samplers = global_minimum_across_samplers
 
         # all current particle positions; shape=(nb_particles, space dimensions)
         self._curr_particle_positions: Optional[NDArray] = None
@@ -92,6 +94,9 @@ class ParticleSwarmSampler(
         self._best_position_losses: Optional[NDArray] = None
         # particle id of the global best particle position
         self._global_best_particle_id: Optional[int] = None
+
+        # best point in parameter space - could be the best across samplers
+        self._best_point: Optional[NDArray] = None
 
         self._previous_batch_index_start: Optional[int] = None
 
@@ -131,6 +136,25 @@ class ParticleSwarmSampler(
         self._best_position_losses = np.full(self.nb_particles, np.inf)
         # we don't know yet which is the best index - initialize to 0
         self._global_best_particle_id = 0
+
+    def _get_best_position(self) -> NDArray[np.float64]:
+        """
+        Get the position corresponding to the global optimum the particles should converge to.
+
+        If _global_minimum_across_samplers is False, then this method returns the current position
+        of the particle that in its history has sampled, so far, the best set of parameters.
+
+        Else, if _global_minimum_across_samplers is True, then this method returns the point
+        in parameter space that achieved the minimum loss. Note that this point could have been
+        sampled by a different sampler than "self".
+
+        Returns:
+            a Numpy array
+        """
+        if not self._global_minimum_across_samplers:
+            best_particle_positions = cast(NDArray, self._best_particle_positions)
+            return best_particle_positions[self._global_best_particle_id]
+        return cast(NDArray, self._best_point)
 
     def reset(self) -> None:
         """Reset the sampler."""
@@ -182,6 +206,12 @@ class ParticleSwarmSampler(
             exc_cls=AssertionError,
             message="should have been set",
         )
+
+        # set best loss and best point
+        best_point_index = np.argmin(existing_losses)
+        self._best_point = existing_points[best_point_index]
+
+        # set best particle position
         batch_index_start = cast(int, self._previous_batch_index_start)
         batch_index_stop = batch_index_start + self.batch_size
         previous_points = existing_points[batch_index_start:batch_index_stop]
@@ -214,10 +244,7 @@ class ParticleSwarmSampler(
             * (best_particle_positions - self._curr_particle_positions)
             + self.c2
             * r2_vec
-            * (
-                best_particle_positions[self._global_best_particle_id]
-                - self._curr_particle_positions
-            )
+            * (self._get_best_position() - self._curr_particle_positions)  # type: ignore
         )
 
         self._curr_particle_positions = np.clip(
