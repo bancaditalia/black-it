@@ -65,7 +65,6 @@ class ParticleSwarmSampler(
         inertia: float = 0.9,
         c1: float = 0.1,
         c2: float = 0.1,
-        verbose: bool = False,
     ) -> None:
         """Initialize the sampler."""
         # max_duplication_passes must be zero because the sampler is stateful
@@ -82,7 +81,6 @@ class ParticleSwarmSampler(
         self._inertia = positive_float(inertia)
         self._c1 = positive_float(c1)
         self._c2 = positive_float(c2)
-        self._verbose = verbose
 
         # all current particle positions; shape=(nb_particles, space dimensions)
         self._curr_particle_positions: Optional[NDArray] = None
