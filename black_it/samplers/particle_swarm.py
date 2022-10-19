@@ -173,9 +173,6 @@ class ParticleSwarmSampler(
         )
         self._previous_batch_index_start = len(existing_points)
 
-        if self._verbose:
-            print("positions: \n", self._curr_particle_positions)
-            print("velocities:\n", self._curr_particle_velocities)
         return digitize_data(sampled_points, search_space.param_grid)
 
     def _update_best(
