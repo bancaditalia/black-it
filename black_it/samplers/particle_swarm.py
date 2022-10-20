@@ -54,8 +54,9 @@ class ParticleSwarmSampler(
         - c1 and c2 are positive values that represent the acceleration constants;
         - r1 and r2 are two random numbers uniformly distributed in the range of (0, 1).
 
-    This sampling method has to be used alone in Black-it Calibrator, because existing_losses and existing_points
-    arguments of sample_batch are assumed to be computed by this sampler.
+    Note that p_{gd}, the global best position found across the dynamics, can optionally be computed by also
+    considering the sampling performed by other samplers in order to let them interfere constructively with the
+    Particle Swarm Sampler.
     """
 
     def __init__(
@@ -67,7 +68,18 @@ class ParticleSwarmSampler(
         c2: float = 0.1,
         global_minimum_across_samplers: bool = False,
     ) -> None:
-        """Initialize the sampler."""
+        """
+        Initialize the sampler.
+
+        Args:
+            batch_size: the number of points sampled every time the sampler is called
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            inertia: the inertia of the particles' motion
+            c1: first acceleration constant
+            c2: second acceleration constant
+            global_minimum_across_samplers: if True, the global minimum attractor of the particles' dynamics is computed
+                taking into consideration also parameters sampled by other samplers, default is False
+        """
         # max_duplication_passes must be zero because the sampler is stateful
         super().__init__(
             batch_size, random_state=random_state, max_duplication_passes=0
