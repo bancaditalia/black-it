@@ -1,17 +1,18 @@
 # Reading the data
 
-mData <- read.csv("Data.csv")
+mData <- read.csv("Data.csv") # Lines 1-8 read the data of the original paper ("Data.csv"), we do not need these lines
 attach(mData)
 
-fnComplete <- function(x,l=301) {
-	return(c(x,rep(x[length(x)],l-length(x))))
+fnComplete <- function(x,l=301) { 
+	return(c(x,rep(x[length(x)],l-length(x)))) # function used 
 }
 
 # Building the MCS
 
-vZ <- 300+4.9*(1:301)
+vZ <- 300+4.9*(1:301) # vZ is the vector DGP of the benchmark data considered in the original paper
+		      # ("v" vector, "m" matrix, "l" list, "i" integer, "d" double, "fn" function)
 
-mDist <- NULL
+mDist <- NULL # The following loop is used to compute the loss fn used in the original paper (lines 15-27)
 for (i in 1:16) {
 	mDist2 <- matrix(0,nrow=200,ncol=2)
 	mDist2[,2] <- i
@@ -25,11 +26,17 @@ for (i in 1:16) {
 	mDist	<- rbind(mDist,mDist2)
 	mDataCOP <- NULL
 }
-mDist <- as.data.frame(mDist)
+mDist <- as.data.frame(mDist) # Dataframe with 2 cols, col 1 values of the loss function col 2 associated CoP
 names(mDist) <- c("Dist","COP")
 
+## We do not need the previous lines, as the loss function is computed elsewhere
+## The loss fn must be computed for each MC runs of each CoP and then we must take the average across MC runs
+## We will end up with "iCoP" distances, where iCoP is the number of CoP
+
 library(data.table) 
-mD <- setDT(mDist)[,list(mean=mean(Dist),var=var(Dist)),by=c("COP")]
+mD <- setDT(mDist)[,list(mean=mean(Dist),var=var(Dist)),by=c("COP")] # convert lists and data.frames to data.table by reference to save memory
+
+## Lines 41-61 compute the statistical test
 
 fnTest <- function(vMean,vVar,iN,dA=1) {
 	iM <- length(vMean)
@@ -37,26 +44,30 @@ fnTest <- function(vMean,vVar,iN,dA=1) {
 		mA <- cbind(rep(1,iM-1),diag(-rep(1,iM-1)))
 		mVar <- diag(vVar[-1])
 		mVar2 <- mVar+vVar[1]
-		dTest <- drop(iN*t(mA%*%vMean)%*%solve(mVar2)%*%(mA%*%vMean))
+		dTest <- drop(iN*t(mA%*%vMean)%*%solve(mVar2)%*%(mA%*%vMean)) # Compute the test
 	} else {
 		dTest <- iN*(vMean[1]-vMean[2])^2/(vVar[1]+vVar[2])
 	}
 	if (iM>1) {
-		dQuan <- qchisq(1-dA,iM-1)
-		dPVa <- 1-pchisq(dTest,iM-1)
+		dQuan <- qchisq(1-dA,iM-1) # Compute quantile
+		dPVa <- 1-pchisq(dTest,iM-1) # Compute p-value (asymp. the test is distr as chi-square)
 		} else {
 		dQuan <- 0
 		dPVa <- 1
 	}
-	dResult <- 1*(dTest>dQuan)
+	dResult <- 1*(dTest>dQuan) # Takes value 1 when the test is greater than quantile
 	if (is.na(dResult)) dResult <- 0
 	return(list(test=dTest,q=dQuan,p=dPVa,result=dResult))
 }
 
+## Lines 63-68 compute the elimination rule
+
 fnElim	<- function(vMean,vVar,vIndex) {
-	iM <-	which.max(vMean)
+	iM <-	which.max(vMean) # elimination rule ($\arg\max(\widehat{i})$)
 	return(list(mean=vMean[-iM],var=vVar[-iM],indices=vIndex[-iM],elim=vIndex[iM]))
 }
+
+## Lines 72-96 MCS algorithm
 
 fnMCS <- function(vMean,vVar,vIndex,dA,verbose=1) {
 	iI <- length(vIndex)
@@ -65,17 +76,17 @@ fnMCS <- function(vMean,vVar,vIndex,dA,verbose=1) {
 	for (i in 1:iI) {
 		lTest <- fnTest(vMean,vVar,iN,dA)
 		iStop <- lTest$result
-		if (iStop!=1) break
-		lElim <- fnElim(vMean,vVar,vIndex)
-		vMean <- lElim$mean
-		vVar <- lElim$var
-		vIndex <- lElim$indices
-	 	if (verbose==1) cat("Eliminated COP: ",lElim$elim,"; ","p-value: ", lTest$p,"\n", sep="")
-	 	if (verbose==1) cat("Remaining COPs:",vIndex,"\n")
+		if (iStop!=1) break # Stopping rule
+		lElim <- fnElim(vMean,vVar,vIndex) # elimination rule
+		vMean <- lElim$mean # vector of eliminated means
+		vVar <- lElim$var # vector of eliminated variances
+		vIndex <- lElim$indices # vector of eliminated indices
+	 	if (verbose==1) cat("Eliminated COP: ",lElim$elim,"; ","p-value: ", lTest$p,"\n", sep="") # concatenate and print
+	 	if (verbose==1) cat("Remaining COPs:",vIndex,"\n") # concatenate and print
 		mPValue[i,] <- c(lElim$elim,lTest$p)
 	}
 	if (i==iI) {
-		mPValue[iI,1] <- setdiff(vIndex,mPValue[1:15,1])
+		mPValue[iI,1] <- setdiff(vIndex,mPValue[1:15,1]) # compute the (nonsymmetric) set difference of subsets of a probability space.
 		mPValue[iI,2] <- 1
 	} else {
 		mPValue <- mPValue[1:(i-1),]
@@ -84,13 +95,15 @@ fnMCS <- function(vMean,vVar,vIndex,dA,verbose=1) {
 	return(mPValue)
 }
 
-vIndex <- 1:16
-vMean <- mD$mean
-vVar <- mD$var
+vIndex <- 1:16 # Number of CoPs
+vMean <- mD$mean # Vector of means of the loss function across MC runs (see line 37)
+vVar <- mD$var # Vector of variances of the loss function across MC runs (see line 37)
 dA <- 1
-iN <- 200
+iN <- 200 # Number of MC runs for each CoP
 
-mPValue <- fnMCS(vMean,vVar,vIndex,dA,verbose=0)
+mPValue <- fnMCS(vMean,vVar,vIndex,dA,verbose=0) # Compute p-values associated to the different CoPs
+
+## Plot CoPs greater than 0.05 (we do not need these lines)
 
 pdf("MCS.pdf")
 dYLim <- 0.07
