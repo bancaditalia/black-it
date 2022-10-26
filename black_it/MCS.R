@@ -55,6 +55,8 @@ fnTest <- function(vMean,vVar,iN,dA=1) {
 		dQuan <- 0
 		dPVa <- 1
 	}
+	#QUESTION: what happens if M == 1?
+	# Is it reasonable to add an if statement for that scenario that sets dTest == 0?
 	dResult <- 1*(dTest>dQuan) # Takes value 1 when the test is greater than quantile
 	if (is.na(dResult)) dResult <- 0
 	return(list(test=dTest,q=dQuan,p=dPVa,result=dResult))
@@ -89,6 +91,7 @@ fnMCS <- function(vMean,vVar,vIndex,dA,verbose=1) {
 		mPValue[iI,1] <- setdiff(vIndex,mPValue[1:15,1]) # compute the (nonsymmetric) set difference of subsets of a probability space.
 		mPValue[iI,2] <- 1
 	} else {
+	    #Question: what are the following lines doing exaclty?
 		mPValue <- mPValue[1:(i-1),]
 		mPValue[,2] <- cummax(mPValue[,2])
 	}
@@ -98,8 +101,10 @@ fnMCS <- function(vMean,vVar,vIndex,dA,verbose=1) {
 vIndex <- 1:16 # Number of CoPs
 vMean <- mD$mean # Vector of means of the loss function across MC runs (see line 37)
 vVar <- mD$var # Vector of variances of the loss function across MC runs (see line 37)
-dA <- 1
+dA <- 1 #QUESTION: what is this variable? deos it make sense to keep it as a variable?
 iN <- 200 # Number of MC runs for each CoP
+# QUESTION: would it be possible to extend the framework to a different N for each parameter combination?
+
 
 mPValue <- fnMCS(vMean,vVar,vIndex,dA,verbose=0) # Compute p-values associated to the different CoPs
 
