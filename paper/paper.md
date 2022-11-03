@@ -46,8 +46,8 @@ bibliography: paper.bib
 
 # Summary
 
-We present _Black_-**it**, a software package that aims at collecting and popularising the recent
-  developments in the field of agent-based model calibration, and to provide an extensible test-bed for future
+We present _Black_-**it**, a software package that aims to collect and popularise recent
+  developments in the field of agent-based model calibration, and to provide an extensible testbed for future
   experimentation. 
 We showcase its capabilities by benchmarking different calibration methods on standard
   calibration tasks, and find that mixing calibration strategies often improves performance.
@@ -61,7 +61,7 @@ Agent-based models (ABMs) are an increasingly common technique for describing an
 Over the past decades, ABMs evolved from very simple models involving a few hundred agents moving on two-dimensional 
   grids [@schelling1971dynamic] to large-scale realistic simulations with tens of thousands of heterogeneous agents.
   Notable applications range from modelling the housing market [@baptista2016macroprudential; @catapano2021macroprudential] 
-  to understanding the spreading of Covid-19 [@hinch2021openabm].
+  to understanding the spreading of COVID-19 [@hinch2021openabm].
 
 In order to profit from ABMs, it is necessary to _calibrate_ them, i.e., to find values for the set of parameters in
   the model that make it best fit real-world evidence and historical data available for the target phenomenon.
@@ -76,10 +76,10 @@ Research in this direction has evolved significantly in recent years, and many c
   have been proposed [@ward2016dynamic; @grazzini2017bayesian; @lamperti2018agent; @platt2021bayesian; @farmer2022black].
 However, they have been tested only in specific scenarios and remain out of reach for most researchers interested in ABM \emph{applications}.
 
-In this work we address such shortcoming by introducing _Black_-**it**, a calibration kit specifically designed for ABMs[^1].
+In this work we address such shortcoming by introducing _Black_-**it**[^1], a calibration kit specifically designed for ABMs.
 Our goal is to help ABM researchers from different disciplines to conveniently calibrate their models by gathering, 
   within a powerful and easy-to-use tool, several recent advances in the field.
-The software is designed to be easy to extend, so it doubles as a research test-bed for experimenting with 
+The software is designed to be easy to extend, so it doubles as a research testbed for experimenting with 
   new or improved ideas.
 
 [^1]:  _Black_-**it** is an acronym for **Bl**ack-box **A**BM **c**alibration **kit** (by the Bank of **It**aly).
@@ -88,7 +88,7 @@ _Black_-**it** differs from standard optimisation packages available in the Pyth
   SciPy [@virtanen2020scipy], in three main aspects.
 First, _Black_-**it** not only allows the use of a set of advanced optimisation algorithms, but also provides a 
   general framework where new calibration schemes can easily be implemented and released to the ABM community.
-Second, optimisation algorithms in _Black_-**it** are specifically designed for ABMs i.e., for non-convex, 
+Second, optimisation algorithms in _Black_-**it** are specifically designed for ABMs, i.e., for non-convex, 
   highly nonlinear and often discontinuous functions with no computable gradients, and cannot be found elsewhere
   collected in a single software.
 Third, _Black_-**it** includes a rich set of features that make its use particularly convenient for ABM researchers, 
