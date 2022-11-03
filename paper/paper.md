@@ -103,6 +103,8 @@ The defining features of our tool will be reviewed in the next sections, where w
 
 # Software description
 
+::: {exclude-in="jats"}
+
 \begin{figure}[!htb]
     \centering
     \begin{minipage}{.56\textwidth}
@@ -119,6 +121,21 @@ The defining features of our tool will be reviewed in the next sections, where w
         \label{fig:script}
     \end{minipage}
 \end{figure}
+
+:::
+
+```{=jats}
+<fig id="figU003Afeatures">
+  <caption><p>A simple <italic>Black</italic>-<bold>it</bold>
+  calibration script.</p></caption>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="media/figures/software_illustration.png" xlink:title="" />
+</fig>
+<fig id="figU003Ascript">
+  <caption><p>A simple <italic>Black</italic>-<bold>it</bold>
+  calibration script.</p></caption>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="media/figures/code_snippet.png" xlink:title="" />
+</fig>
+```
 
 <!-- ![Illustration of the main features of _Black_-**it**.\label{fig:features}](figures/software_illustration.png){ width=60% } -->
 
