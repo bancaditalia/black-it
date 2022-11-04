@@ -12,6 +12,10 @@
     <img alt="GitHub" src="https://img.shields.io/github/license/bancaditalia/black-it">
 </a>
 
+<a style="border-width:0" href="https://doi.org/10.21105/joss.04622">
+  <img src="https://joss.theoj.org/papers/10.21105/joss.04622/status.svg" alt="DOI badge" >
+</a>
+
 <a href="https://codecov.io/gh/bancaditalia/black-it">
   <img src="https://codecov.io/gh/bancaditalia/black-it/branch/main/graph/badge.svg" />
 </a>
