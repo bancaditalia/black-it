@@ -143,6 +143,33 @@ A more detailed explanation of how Black-it works is available
 [here](https://bancaditalia.github.io/black-it/description/), while the full documentation -complete with examples 
 and tutorials- is available [here](https://bancaditalia.github.io/black-it/). 
 
+## Citing *Black-it*
+
+A description of the package is available [here](https://joss.theoj.org/papers/10.21105/joss.04622).
+
+Please consider citing it if you found this package useful for your research
+
+```bib
+@article{black_it, 
+  title = {Black-it: A Ready-to-Use and Easy-to-Extend Calibration Kit for Agent-based Models}, 
+  journal = {Journal of Open Source Software},
+  publisher = {The Open Journal}, 
+  year = {2022}, 
+  volume = {7}, 
+  number = {79}, 
+  pages = {4622}, 
+  doi = {10.21105/joss.04622}, 
+  url = {https://doi.org/10.21105/joss.04622}, 
+  author = {Marco Benedetti and 
+            Gennaro Catapano and 
+            Francesco De Sclavis and 
+            Marco Favorito and 
+            Aldo Glielmo and 
+            Davide Magnanimi and 
+            Antonio Muci} 
+}
+```
+
 ## Disclaimer
 
 This package is an outcome of a research project. All errors are those of the authors. All views expressed are personal views, not those of Bank of Italy.
