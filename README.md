@@ -166,7 +166,7 @@ Please consider citing it if you found this package useful for your research
   url = {https://doi.org/10.21105/joss.04622}, 
   author = {Marco Benedetti and 
             Gennaro Catapano and 
-            Francesco De Sclavis and 
+            Francesco {De Sclavis} and 
             Marco Favorito and 
             Aldo Glielmo and 
             Davide Magnanimi and 
