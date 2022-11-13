@@ -76,7 +76,6 @@ class SearchSpace:  # pylint: disable=too-few-public-methods
                 parameters_precision[i],
                 dtype=np.float64,
             )
-            new_col = np.round(new_col, -int(np.log10(parameters_precision[i])))
             self._param_grid.append(new_col)
             self._space_size *= len(new_col)
 
