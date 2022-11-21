@@ -52,6 +52,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
         parameters_precision: Union[NDArray[np.float64], List[float]],
         ensemble_size: int,
+        sim_length: Optional[int] = None,
         convergence_precision: Optional[int] = None,
         verbose: bool = True,
         saving_folder: Optional[str] = None,
@@ -73,6 +74,8 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             parameters_precision: the precisions to be used for the discretization of the parameters
             ensemble_size: number of repetitions to be run for each set of parameters to decrease statistical
                 fluctuations. For deterministic models this should be set to 1.
+            sim_length: number of periods to simulate the model for, by default this is equal to the length of the
+                real time series.
             convergence_precision: number of significant digits to consider in the convergence check. The check is
                 not performed if this is set to 'None'.
             verbose: whether to print calibration updates
@@ -88,7 +91,16 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         self.random_state = random_state
         self.real_data = real_data
         self.ensemble_size = ensemble_size
-        self.N = self.real_data.shape[0]
+        if sim_length is None:
+            self.N = self.real_data.shape[0]
+        else:
+            if sim_length != self.real_data.shape[0]:
+                raise RuntimeWarning(
+                    "The length of real time series is different from the simulation length, "
+                    f"got {self.real_data.shape[0]} and {sim_length}. This may or may not be a problem depending "
+                    "on the loss function used."
+                )
+            self.N = sim_length
         self.D = self.real_data.shape[1]
         self.verbose = verbose
         self.convergence_precision = (
@@ -219,7 +231,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             parameters_precision,
             real_data,
             ensemble_size,
-            _N,
+            N,
             _D,
             convergence_precision,
             verbose,
@@ -255,6 +267,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             parameters_bounds,
             parameters_precision,
             ensemble_size,
+            N,
             convergence_precision,
             verbose,
             saving_file,
