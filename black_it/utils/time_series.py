@@ -16,7 +16,10 @@
 
 """This module contains utility functions to deal with time series."""
 
+from typing import Tuple
+
 import numpy as np
+import scipy.sparse as sps
 import statsmodels.api as sm
 from numpy.typing import NDArray
 from scipy.stats import kurtosis, skew
@@ -81,3 +84,77 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
     np.nan_to_num(avg_vec_mom, False)
 
     return avg_vec_mom
+
+
+def hp_filter(
+    time_series: NDArray[np.float64], lamb: float = 1600
+) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
+    """
+    Apply the HP filter to a time series.
+
+    Args:
+        time_series: the one dimensional series to be filtered
+        lamb: the Hodrick-Prescott smoothing parameter, a value of 1600 is suggested for quarterly data
+
+    Returns:
+        the cycle and the trend of the HP decomposition of the time series
+
+    References:
+        Hodrick, R.J, and E. C. Prescott. 1980. "Postwar U.S. Business Cycles: An Empirical Investigation."
+        Carnegie Mellon University discussion paper no. 451.
+    """
+    nobs = len(time_series)
+    I = sps.eye(nobs, nobs)  # noqa:E741
+    offsets = np.array([0, 1, 2])
+    data = np.repeat([[1.0], [-2.0], [1.0]], nobs, axis=1)
+    K = sps.dia_matrix((data, offsets), shape=(nobs - 2, nobs))
+
+    trend = sps.linalg.spsolve(I + lamb * K.T.dot(K), time_series, use_umfpack=True)
+    cycle = time_series - trend
+
+    return cycle, trend
+
+
+def hp_cycle_lamb1600_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
+    """
+    Get the cycle part of the HP filter to a time series using lamb = 1600.
+
+    Args:
+        time_series: the one dimensional series to be filtered
+
+    Returns:
+        the cycle part of the HP decomposition of the time series
+    """
+    return hp_filter(time_series, lamb=1600)[0]
+
+
+def log_and_hp_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
+    """
+    Take the log of the values and remove the HP trend from them.
+
+    Args:
+        time_series: the one dimensional series to be filtered
+
+    Returns:
+        the filtered time series
+    """
+    transformed_series = (
+        np.log(time_series) - hp_filter(np.log(time_series), lamb=1600)[1]
+    )
+    return transformed_series
+
+
+def diff_log_demean_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
+    """
+    Take the difference of log of the values and remove the mean from them.
+
+    Args:
+        time_series: the one dimensional series to be filtered
+
+    Returns:
+        the filtered time series
+    """
+    log = np.log(time_series)
+    diff_log = np.diff(log, prepend=log[0])
+    transformed_series = diff_log - np.mean(diff_log)
+    return transformed_series

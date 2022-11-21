@@ -17,25 +17,35 @@
 """This module defines the 'BaseLoss' base class."""
 
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 from numpy.typing import NDArray
 
 from black_it.utils.base import assert_
 
+TimeSeriesFilter = Optional[Callable[[NDArray[np.float64]], NDArray[np.float64]]]
+"""A filter that receives a time series and returns its filtered version. Used by the BaseLoss constructor."""
+
 
 class BaseLoss(ABC):
     """BaseLoss interface."""
 
-    def __init__(self, coordinate_weights: Optional[NDArray] = None):
+    def __init__(
+        self,
+        coordinate_weights: Optional[NDArray] = None,
+        coordinate_filters: Optional[List[Optional[Callable]]] = None,
+    ):
         """
         Initialize the loss function.
 
         Args:
             coordinate_weights: the weights of the loss coordinates.
+            coordinate_filters: filters/transformations to be applied to each simulated series before
+                the loss computation.
         """
         self.coordinate_weights = coordinate_weights
+        self.coordinate_filters = coordinate_filters
 
     def compute_loss(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
@@ -66,12 +76,36 @@ class BaseLoss(ABC):
             )
             weights = self.coordinate_weights
 
+        filters: List[Optional[Callable]]
+        if self.coordinate_filters is None:
+            # a list of identity functions
+            filters = [None] * num_coords
+        else:
+            nb_coordinate_filters = len(self.coordinate_filters)
+            assert_(
+                nb_coordinate_filters == num_coords,
+                (
+                    "the length of coordinate_filters should be equal "
+                    f"to the number of coordinates, got {nb_coordinate_filters} and {num_coords}"
+                ),
+                exc_cls=ValueError,
+            )
+            filters = self.coordinate_filters
+
         loss = 0
         for i in range(num_coords):
-            loss += (
-                self.compute_loss_1d(sim_data_ensemble[:, :, i], real_data[:, i])
-                * weights[i]
-            )
+            filter_ = filters[i]
+            if filter_ is None:
+                filtered_data = sim_data_ensemble[:, :, i]
+            else:
+                filtered_data = np.array(
+                    [
+                        filter_(sim_data_ensemble[j, :, i])
+                        for j in range(sim_data_ensemble.shape[0])
+                    ]
+                )
+
+            loss += self.compute_loss_1d(filtered_data, real_data[:, i]) * weights[i]
 
         return loss
 

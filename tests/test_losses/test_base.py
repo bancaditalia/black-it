@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the base loss_functions module."""
-from typing import Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 import pytest
@@ -31,17 +31,20 @@ class TestComputeLoss:
         """A custom loss function for testing purposes."""
 
         def __init__(
-            self, loss_constant: float, coordinate_weights: Optional[NDArray] = None
+            self,
+            loss_constant: float,
+            coordinate_weights: Optional[NDArray] = None,
+            coordinate_filters: Optional[List[Optional[Callable]]] = None,
         ) -> None:
             """Initialize the custom loss."""
-            super().__init__(coordinate_weights)
+            super().__init__(coordinate_weights, coordinate_filters)
             self.loss_constant = loss_constant
 
         def compute_loss_1d(
             self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
         ) -> float:
             """Compute the loss (constant)."""
-            return self.loss_constant
+            return float(np.sum(sim_data_ensemble) * self.loss_constant)
 
     loss_constant: float = 1.0
     nb_sim_ensemble = 3
@@ -50,7 +53,8 @@ class TestComputeLoss:
     nb_sim_rows: int = 10
     nb_real_rows: int = 10
 
-    coordinate_weights: NDArray[np.float64]
+    coordinate_weights: Optional[NDArray[np.float64]]
+    coordinate_filters: Optional[List[Optional[Callable]]]
 
     # instance attributes
     loss: MyCustomLoss
@@ -60,40 +64,82 @@ class TestComputeLoss:
     def setup(self) -> None:
         """Set up the tests."""
         self.loss = TestComputeLoss.MyCustomLoss(
-            self.loss_constant, self.coordinate_weights
+            self.loss_constant, self.coordinate_weights, self.coordinate_filters
         )
-        self.sim_data = np.random.rand(
-            self.nb_sim_ensemble, self.nb_sim_rows, self.nb_sim_coords
+        self.sim_data = np.ones(
+            (self.nb_sim_ensemble, self.nb_sim_rows, self.nb_sim_coords)
         )
-        self.real_data = np.random.rand(self.nb_real_rows, self.nb_real_coords)
+        self.real_data = np.ones((self.nb_real_rows, self.nb_real_coords))
 
     @property
     def nb_coordinate_weights(self) -> int:
         """Get the number of coordinate weights."""
+        if self.coordinate_weights is None:
+            return 0
         return len(self.coordinate_weights)
+
+    @property
+    def nb_coordinate_filters(self) -> int:
+        """Get the number of coordinate filters."""
+        if self.coordinate_filters is None:
+            return 0
+        return len(self.coordinate_filters)
 
 
 class TestComputeLossWhenCoordWeightsIsNotNone(TestComputeLoss):
     """Test BaseLoss.compute_loss when coordinate weights is not None."""
 
     coordinate_weights = np.asarray([1.0, 2.0])
+    coordinate_filters = None
 
     def test_run(self) -> None:
         """Test BaseLoss.compute_loss when coordinate weights is not None."""
         result = self.loss.compute_loss(self.sim_data, self.real_data)
-        assert result == sum(self.coordinate_weights) * self.loss_constant
+
+        assert result == self.coordinate_weights[0] * np.sum(
+            self.sim_data[:, :, 0]
+        ) + self.coordinate_weights[1] * np.sum(self.sim_data[:, :, 1])
 
 
 class TestComputeLossWhenNbCoordWeightsIsWrong(TestComputeLoss):
     """Test BaseLoss.compute_loss when number of coordinate weights does not match data."""
 
     coordinate_weights = np.asarray([1.0])
+    coordinate_filters = None
 
     def test_run(self) -> None:
         """Test BaseLoss.compute_loss when number of coordinate weights does not match data."""
         expected_message_error = (
             "the length of coordinate_weights should be equal to the number of "
             f"coordinates, got {self.nb_coordinate_weights} and {self.nb_sim_coords}"
+        )
+        with pytest.raises(ValueError, match=expected_message_error):
+            self.loss.compute_loss(self.sim_data, self.real_data)
+
+
+class TestComputeLossWhenCoordFiltersIsNotNone(TestComputeLoss):
+    """Test BaseLoss.compute_loss when coordinate filters is not None."""
+
+    coordinate_weights = None
+    coordinate_filters = [lambda x: x * 0, lambda x: x * 0]
+
+    def test_run(self) -> None:
+        """Test BaseLoss.compute_loss when coordinate filters is not None."""
+        result = self.loss.compute_loss(self.sim_data, self.real_data)
+        assert result == 0
+
+
+class TestComputeLossWhenNbCoordFiltersIsWrong(TestComputeLoss):
+    """Test BaseLoss.compute_loss when number of coordinate weights does not match data."""
+
+    coordinate_weights = None
+    coordinate_filters = [lambda x: x]
+
+    def test_run(self) -> None:
+        """Test BaseLoss.compute_loss when number of coordinate filters does not match data."""
+        expected_message_error = (
+            "the length of coordinate_filters should be equal to the number of "
+            f"coordinates, got {self.nb_coordinate_filters} and {self.nb_sim_coords}"
         )
         with pytest.raises(ValueError, match=expected_message_error):
             self.loss.compute_loss(self.sim_data, self.real_data)
