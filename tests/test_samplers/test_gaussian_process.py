@@ -32,10 +32,12 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
         self.xys, self.losses = self._construct_fake_grid()
 
     @classmethod
-    def _construct_fake_grid(cls) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
+    def _construct_fake_grid(
+        cls, n: int = 6
+    ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Construct a fake grid of evaluated losses."""
-        xs = np.linspace(0, 1, 6)
-        ys = np.linspace(0, 1, 6)
+        xs = np.linspace(0, 1, n)
+        ys = np.linspace(0, 1, n)
         xys_list = []
         losses_list = []
 
@@ -106,17 +108,20 @@ def test_gaussian_process_sample_warning_too_large_dataset() -> None:
         parameters_precision=np.array([0.01, 0.01]),
         verbose=False,
     )
-    xs = np.linspace(0, 1, 1000)
-    ys = np.linspace(0, 1, 3)
-    existing_points = xs.reshape((-1, 1)).dot(ys.reshape((1, -1)))
-    losses = np.zeros(existing_points.shape)
-    with pytest.raises(
+    # very high number of samples
+    (
+        xys,
+        losses,
+    ) = TestGaussianProcess2D._construct_fake_grid(  # pylint: disable=protected-access
+        n=23
+    )
+    with pytest.warns(
         RuntimeWarning,
         match="Standard GP evaluations can be expensive "
         "for large datasets, consider implementing "
         "a sparse GP",
     ):
-        sampler.sample(param_grid, existing_points, losses)
+        sampler.sample(param_grid, xys, losses)
 
 
 def test_gaussian_process_sample_wrong_acquisition() -> None:

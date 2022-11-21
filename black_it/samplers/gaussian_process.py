@@ -16,6 +16,7 @@
 
 """This module contains the implementation of the Gaussian process-based sampling."""
 import random
+import warnings
 from enum import Enum
 from typing import Optional, Tuple, cast
 
@@ -164,8 +165,9 @@ class GaussianProcessSampler(BaseSampler):
         X, Y = existing_points, np.atleast_2d(existing_losses).T
 
         if X.shape[0] > 500:
-            raise RuntimeWarning(
-                "Standard GP evaluations can be expensive for large datasets, consider implementing a sparse GP"
+            warnings.warn(
+                "Standard GP evaluations can be expensive for large datasets, consider implementing a sparse GP",
+                RuntimeWarning,
             )
 
         # initialize GP class from GPy with a Matern kernel by default

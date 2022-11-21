@@ -21,6 +21,7 @@ import multiprocessing
 import os
 import textwrap
 import time
+import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -95,10 +96,11 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             self.N = self.real_data.shape[0]
         else:
             if sim_length != self.real_data.shape[0]:
-                raise RuntimeWarning(
+                warnings.warn(
                     "The length of real time series is different from the simulation length, "
                     f"got {self.real_data.shape[0]} and {sim_length}. This may or may not be a problem depending "
-                    "on the loss function used."
+                    "on the loss function used.",
+                    RuntimeWarning,
                 )
             self.N = sim_length
         self.D = self.real_data.shape[1]
