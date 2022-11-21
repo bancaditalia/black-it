@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the Fast Fourier Transform loss."""
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -91,6 +91,7 @@ class FourierLoss(BaseLoss):
         frequency_filter: FrequencyFilter = gaussian_low_pass_filter,
         f: float = 0.8,
         coordinate_weights: Optional[NDArray] = None,
+        coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:
         """Loss computed using a distance in the Fourier space of the time series.
 
@@ -107,6 +108,8 @@ class FourierLoss(BaseLoss):
                 to frequency_filter.
             coordinate_weights: relative weights of the losses computed over
                 different time series coordinates.
+            coordinate_filters: filters/transformations to be applied to each simulated series before
+                the loss computation.
         """
         assert_(
             0.0 < f <= 1.0,
@@ -114,7 +117,7 @@ class FourierLoss(BaseLoss):
         )
         self.frequency_filter = frequency_filter
         self.f = f
-        super().__init__(coordinate_weights)
+        super().__init__(coordinate_weights, coordinate_filters)
 
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]

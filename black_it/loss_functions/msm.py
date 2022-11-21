@@ -21,7 +21,7 @@ This module contains the implementation of the loss function
 based on the 'method of moments'.
 """
 
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -45,6 +45,7 @@ class MethodOfMomentsLoss(BaseLoss):
         covariance_mat: Optional[NDArray[np.float64]] = None,
         coordinate_weights: Optional[NDArray[np.float64]] = None,
         moment_calculator: MomentCalculator = get_mom_ts_1d,
+        coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ):
         """
         Initialize the loss function based on the 'method of moments'.
@@ -69,12 +70,14 @@ class MethodOfMomentsLoss(BaseLoss):
             moment_calculator: a function that takes a 1D time series and
                 returns a series of moments. The default is
                 black_it.utils.time_series.get_mom_ts_1d()
+            coordinate_filters: filters/transformations to be applied to each simulated series before
+                the loss computation.
         """
         MethodOfMomentsLoss._validate_covariance_and_calculator(
             moment_calculator, covariance_mat
         )
 
-        super().__init__(coordinate_weights)
+        super().__init__(coordinate_weights, coordinate_filters)
         self._covariance_mat = covariance_mat
         self._moment_calculator = moment_calculator
 

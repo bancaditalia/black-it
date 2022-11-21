@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the quadratic loss."""
-from typing import Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -28,7 +28,10 @@ class MinkowskiLoss(BaseLoss):
     """Class for the Minkowski loss."""
 
     def __init__(
-        self, p: int = 2, coordinate_weights: Optional[NDArray] = None
+        self,
+        p: int = 2,
+        coordinate_weights: Optional[NDArray] = None,
+        coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:
         """
         Loss computed using a Minkowski distance.
@@ -43,6 +46,8 @@ class MinkowskiLoss(BaseLoss):
         Args:
             p: The order of the norm used to compute the distance between real and simulated series
             coordinate_weights: The order of the norm used to compute the distance between real and simulated series
+            coordinate_filters: filters/transformations to be applied to each simulated series before
+                the loss computation.
         """
         self.p = p
         super().__init__(coordinate_weights)

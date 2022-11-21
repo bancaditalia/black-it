@@ -52,7 +52,7 @@ Algorithm description:
 **Note**: b,L don't increase much the comp power required (ie from (2,2) to (19,19) +20% time).
 
 """
-from typing import Optional, Union
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -82,6 +82,7 @@ class GslDivLoss(BaseLoss):
         nb_values: int = None,
         nb_word_lengths: int = None,
         coordinate_weights: Optional[NDArray] = None,
+        coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:
         """
         Initialize the GSL-div loss object.
@@ -90,8 +91,10 @@ class GslDivLoss(BaseLoss):
             nb_values: number of values the digitised series can take
             nb_word_lengths: the number of word length to consider
             coordinate_weights: the weights of the loss coordinates
+            coordinate_filters: filters/transformations to be applied to each simulated series before
+                the loss computation.
         """
-        super().__init__(coordinate_weights)
+        super().__init__(coordinate_weights, coordinate_filters)
         self.nb_values = nb_values
         self.nb_word_lengths = nb_word_lengths
 
