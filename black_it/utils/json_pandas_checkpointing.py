@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains serialization and deserialization of calibration state with Pandas."""
-import gzip
 import json
 import pickle  # nosec B403
 from pathlib import Path
@@ -23,6 +22,7 @@ from typing import Mapping, Optional, Sequence, Tuple
 
 import numpy as np
 import pandas as pd
+import tables
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
@@ -60,8 +60,10 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
     with open(checkpoint_path / "loss_function_pickled.pickle", "rb") as fb:
         loss_function = pickle.load(fb)  # nosec B301
 
-    with gzip.GzipFile(checkpoint_path / "series_samp.npy.gz", "rb") as gzf:
-        series_samp = np.load(gzf)
+    series_filename = checkpoint_path / "series_samp.h5"
+    series_file = tables.open_file(str(series_filename), mode="r")
+    series_samp = series_file.root.data[:]
+    series_file.close()
 
     return (
         # initialization parameters
@@ -191,6 +193,22 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     df_calibration_results = pd.DataFrame.from_dict(calibration_results)
     df_calibration_results.to_csv(checkpoint_path / "calibration_results.csv")
 
-    # all time series sampled (heavy)
-    with gzip.GzipFile(checkpoint_path / "series_samp.npy.gz", mode="wb") as gzf:
-        np.save(gzf, series_samp)
+    series_filename = "series_samp.h5"
+    series_filepath = checkpoint_path / series_filename
+    if series_filepath.exists():
+        series_file = tables.open_file(str(series_filepath), mode="a")
+        previous_shape = series_file.root.data.shape
+        nb_rows = previous_shape[0]
+        to_append = series_samp[nb_rows:]
+        series_file.root.data.append(to_append)
+        series_file.close()
+        return
+
+    series_file = tables.open_file(str(series_filepath), mode="w")
+    atom = tables.Float64Atom()
+    array_c = series_file.create_earray(
+        series_file.root, "data", atom, (0, *series_samp.shape[1:])
+    )
+    array_c.append(series_samp)
+    series_file.close()
+    return
