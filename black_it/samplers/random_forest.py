@@ -30,7 +30,7 @@ from black_it.utils.base import digitize_data
 class RandomForestSampler(BaseSampler):
     """This class implements random forest sampling."""
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         batch_size: int,
         random_state: Optional[int] = None,
@@ -38,6 +38,7 @@ class RandomForestSampler(BaseSampler):
         candidate_pool_size: Optional[int] = None,
         n_estimators: int = 500,
         criterion: str = "gini",
+        n_classes: int = 10,
     ) -> None:
         """
         Random forest sampling.
@@ -50,12 +51,15 @@ class RandomForestSampler(BaseSampler):
             max_deduplication_passes: the maximum number of deduplication passes
             candidate_pool_size: number of randomly sampled points on which the random forest predictions are evaluated
             n_estimators: number of trees in the forest
-            criterion: The function to measure the quality of a split.
+            criterion: the function to measure the quality of a split.
+            n_classes: the number of classes used in the random forest. The classes are selected as the quantiles
+              of the distribution of loss values.
         """
         super().__init__(batch_size, random_state, max_deduplication_passes)
 
         self._n_estimators = n_estimators
         self._criterion = criterion
+        self._n_classes = n_classes
 
         if candidate_pool_size is not None:
             self._candidate_pool_size = candidate_pool_size
@@ -71,6 +75,11 @@ class RandomForestSampler(BaseSampler):
     def criterion(self) -> str:
         """Get the criterion."""
         return self._criterion
+
+    @property
+    def n_classes(self) -> int:
+        """Get the number of classes."""
+        return self._n_classes
 
     @property
     def candidate_pool_size(self) -> int:
@@ -107,7 +116,7 @@ class RandomForestSampler(BaseSampler):
         x: NDArray[np.float64]
         y: NDArray[np.int64]
         x, y, _existing_points_quantiles = self.prepare_data_for_classifier(
-            existing_points, existing_losses
+            existing_points, existing_losses, self.n_classes
         )
 
         classifier: RandomForestClassifier = RandomForestClassifier(
@@ -129,7 +138,7 @@ class RandomForestSampler(BaseSampler):
     def prepare_data_for_classifier(
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
-        num_bins: int = 10,
+        num_bins: int,
     ) -> Tuple[NDArray[np.float64], NDArray[np.int64], NDArray[np.float64]]:
         """
         Prepare data for the classifier.
