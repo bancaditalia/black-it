@@ -24,7 +24,7 @@ from sklearn.ensemble import RandomForestClassifier
 from black_it.samplers.base import BaseSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data
+from black_it.utils.base import assert_, digitize_data
 
 
 class RandomForestSampler(BaseSampler):
@@ -43,7 +43,7 @@ class RandomForestSampler(BaseSampler):
         """
         Random forest sampling.
 
-        Note: this class is a wrapper of sklearn.ensemble.RandomForestClassifier.
+        Note: this class makes use of sklearn.ensemble.RandomForestClassifier.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -53,8 +53,13 @@ class RandomForestSampler(BaseSampler):
             n_estimators: number of trees in the forest
             criterion: the function to measure the quality of a split.
             n_classes: the number of classes used in the random forest. The classes are selected as the quantiles
-              of the distribution of loss values.
+                of the distribution of loss values.
         """
+        assert_(
+            n_classes > 2,
+            "'n_classes' should be at least 2 to provide meaningful results",
+        )
+
         super().__init__(batch_size, random_state, max_deduplication_passes)
 
         self._n_estimators = n_estimators
