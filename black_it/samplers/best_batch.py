@@ -24,6 +24,7 @@ from scipy.stats import betabinom
 
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
+from black_it.utils.base import assert_
 
 
 class BestBatchSampler(BaseSampler):
@@ -56,8 +57,20 @@ class BestBatchSampler(BaseSampler):
             a: the a parameter of the beta-binomial distribution
             b: the b parameter of the beta-binomial distribution
             perturbation_range: the range of the perturbation applied. The actual perturbation will be in the range
-               plus/minus the perturbation_range times the precision of the specific parameter coordinate
+                plus/minus the perturbation_range times the precision of the specific parameter coordinate
         """
+        assert_(
+            a > 0.0,
+            "'a' should be greater than zero",
+        )
+        assert_(
+            b > 0.0,
+            "'b' should be greater than zero",
+        )
+        assert_(
+            perturbation_range > 1,
+            "'perturbation_range' should be greater than one",
+        )
 
         super().__init__(batch_size, random_state, max_deduplication_passes)
         self.a = a
