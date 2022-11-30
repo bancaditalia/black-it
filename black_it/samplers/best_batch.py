@@ -16,6 +16,8 @@
 
 """This module contains the implementation of the best-batch sampler."""
 
+from typing import Optional
+
 import numpy as np
 from numpy.typing import NDArray
 from scipy.stats import betabinom
@@ -25,7 +27,42 @@ from black_it.search_space import SearchSpace
 
 
 class BestBatchSampler(BaseSampler):
-    """This class implements the best-batch sampler."""
+    """This class implements the best-batch sampler.
+
+    The sampler is a very essential type of genetic algorithm that takes the parameters corresponding
+      to the current lowest loss values and perturbs them slightly in a purely random fashion.
+    The sampler first chooses the total number of coordinates to perturb via a beta-binomial distribution
+      BetaBin(dims, a, b) --where dims is the total number of dimensions in the search space --, it then selects
+      that many coordinate randomly, and perturbs them uniformly within the range specified by 'perturbation_range'.
+
+    """
+
+    def __init__(
+        self,
+        batch_size: int,
+        random_state: Optional[int] = None,
+        max_deduplication_passes: int = 5,
+        a: float = 3.0,
+        b: float = 1.0,
+        perturbation_range: int = 6,
+    ):
+        """
+        Initialize the sampler.
+
+        Args:
+            batch_size: the number of points sampled every time the sampler is called
+            random_state: the random state of the sampler, fixing this number the sampler behaves deterministically
+            max_deduplication_passes: the maximum number of deduplication passes that are made
+            a: the a parameter of the beta-binomial distribution
+            b: the b parameter of the beta-binomial distribution
+            perturbation_range: the range of the perturbation applied. The actual perturbation will be in the range
+               plus/minus the perturbation_range times the precision of the specific parameter coordinate
+        """
+
+        super().__init__(batch_size, random_state, max_deduplication_passes)
+        self.a = a
+        self.b = b
+        self.perturbation_range = perturbation_range
 
     def sample_batch(
         self,
@@ -65,7 +102,7 @@ class BestBatchSampler(BaseSampler):
             candidate_points[candidate_point_indexes]
         )
 
-        beta_binom_rv = betabinom(n=search_space.dims - 1, a=3.0, b=1.0)
+        beta_binom_rv = betabinom(n=search_space.dims - 1, a=self.a, b=self.b)
         beta_binom_rv.random_state = self.random_generator
 
         for sampled_point in sampled_points:
@@ -74,7 +111,9 @@ class BestBatchSampler(BaseSampler):
                 search_space.dims, tuple(num_shocks), replace=False
             )
             for index in params_shocked:
-                shock_size: int = self.random_generator.integers(1, 6)
+                shock_size: int = self.random_generator.integers(
+                    1, self.perturbation_range
+                )
                 shock_sign: int = (self.random_generator.integers(0, 2) * 2) - 1
 
                 delta: float = search_space.parameters_precision[index]
