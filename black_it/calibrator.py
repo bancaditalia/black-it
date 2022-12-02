@@ -32,7 +32,7 @@ from numpy.typing import NDArray
 from black_it.loss_functions.base import BaseLoss
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import assert_, get_random_seed
+from black_it.utils.base import _assert, get_random_seed
 from black_it.utils.json_pandas_checkpointing import (
     load_calibrator_state,
     save_calibrator_state,
@@ -253,7 +253,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
             method_samp,
         ) = load_calibrator_state(checkpoint_path, cls.STATE_VERSION)
 
-        assert_(
+        _assert(
             model_name == model.__name__,
             (
                 "Error: the model provided appears to be different from the one present "
@@ -496,9 +496,9 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
     @staticmethod
     def _validate_convergence_precision(convergence_precision: int) -> int:
         """Validate convergence precision input."""
-        assert_(
+        _assert(
             convergence_precision >= 0,
             f"convergence precision must be an integer greater than 0, got {convergence_precision}",
-            exc_cls=ValueError,
+            exception_class=ValueError,
         )
         return convergence_precision

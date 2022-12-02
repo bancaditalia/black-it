@@ -22,27 +22,27 @@ import pytest
 from hypothesis import given
 from numpy.typing import NDArray
 
-from black_it.utils.base import NumpyArrayEncoder, assert_, digitize_data, is_symmetric
+from black_it.utils.base import NumpyArrayEncoder, _assert, digitize_data, is_symmetric
 
 
 def test_assert_default() -> None:
     """Test the 'assert_' function, default exception."""
     message = "this is a message error"
     with pytest.raises(Exception, match=message):
-        assert_(False, message)
+        _assert(False, message)
 
 
 def test_assert_custom_exception() -> None:
     """Test the 'assert_' function, with a specific exception."""
     message = "this is a message error"
     with pytest.raises(ValueError, match=message):
-        assert_(False, message, exc_cls=ValueError)
+        _assert(False, message, exception_class=ValueError)
 
     class CustomException(Exception):
         """Custom exception."""
 
     with pytest.raises(CustomException, match=message):
-        assert_(False, message, exc_cls=CustomException)
+        _assert(False, message, exception_class=CustomException)
 
 
 def test_digitize_data() -> None:

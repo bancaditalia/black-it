@@ -17,7 +17,7 @@
 """This module contains generic utility functions for the library."""
 import os
 from json import JSONEncoder
-from typing import Any, List, Type, Union
+from typing import Any, List, Optional, Type, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -25,19 +25,19 @@ from numpy.typing import NDArray
 PathLike = Union[str, os.PathLike]
 
 
-def assert_(
-    condition: bool, message: str, exc_cls: Type[Exception] = Exception
+def _assert(
+    condition: bool,
+    error_message: Optional[str] = None,
+    exception_class: Type[Exception] = Exception,
 ) -> None:
-    """
-    Enforce a condition.
-
-    Args:
-        condition: the boolean condition
-        message: the exception message to raise
-        exc_cls: the exception class
-    """
+    """Check condition; if false, raise exception with the provided error message."""
     if not condition:
-        raise exc_cls(message)
+        raise exception_class(error_message)
+
+
+def _assert_value(condition: bool, error_message: Optional[str] = None) -> None:
+    """Check for value errors."""
+    _assert(condition, exception_class=ValueError, error_message=error_message)
 
 
 def check_arg(condition: bool, message: str) -> None:
@@ -48,7 +48,7 @@ def check_arg(condition: bool, message: str) -> None:
         condition: the condition to check
         message: the error message
     """
-    assert_(condition, message, exc_cls=ValueError)
+    _assert(condition, message, exception_class=ValueError)
 
 
 def ensure_float(arg: Any) -> None:

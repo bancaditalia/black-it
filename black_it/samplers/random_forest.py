@@ -24,7 +24,7 @@ from sklearn.ensemble import RandomForestClassifier
 from black_it.samplers.base import BaseSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import assert_, digitize_data
+from black_it.utils.base import _assert, digitize_data
 
 
 class RandomForestSampler(BaseSampler):
@@ -55,7 +55,7 @@ class RandomForestSampler(BaseSampler):
             n_classes: the number of classes used in the random forest. The classes are selected as the quantiles
                 of the distribution of loss values.
         """
-        assert_(
+        _assert(
             n_classes > 2,
             "'n_classes' should be at least 2 to provide meaningful results",
         )

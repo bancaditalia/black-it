@@ -58,7 +58,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
-from black_it.utils.base import assert_
+from black_it.utils.base import _assert
 
 EPS = 0.00001  # np.finfo(float).eps
 
@@ -259,7 +259,11 @@ class GslDivLoss(BaseLoss):
 
         """
         tswlen = len(time_series) + 1 - length
-        assert_(tswlen >= 0, "the chosen word length is too high", exc_cls=ValueError)
+        _assert(
+            tswlen >= 0,
+            "the chosen word length is too high",
+            exception_class=ValueError,
+        )
         tsw = np.zeros(shape=(tswlen,), dtype=np.int32)
 
         for i in range(length):

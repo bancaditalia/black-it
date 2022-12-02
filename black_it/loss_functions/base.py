@@ -22,7 +22,7 @@ from typing import Callable, List, Optional
 import numpy as np
 from numpy.typing import NDArray
 
-from black_it.utils.base import assert_
+from black_it.utils.base import _assert
 
 TimeSeriesFilter = Optional[Callable[[NDArray[np.float64]], NDArray[np.float64]]]
 """A filter that receives a time series and returns its filtered version. Used by the BaseLoss constructor."""
@@ -66,13 +66,13 @@ class BaseLoss(ABC):
             weights = np.ones(num_coords) / num_coords
         else:
             nb_coordinate_weights = len(self.coordinate_weights)
-            assert_(
+            _assert(
                 nb_coordinate_weights == num_coords,
                 (
                     "the length of coordinate_weights should be equal "
                     f"to the number of coordinates, got {nb_coordinate_weights} and {num_coords}"
                 ),
-                exc_cls=ValueError,
+                exception_class=ValueError,
             )
             weights = self.coordinate_weights
 
@@ -82,13 +82,13 @@ class BaseLoss(ABC):
             filters = [None] * num_coords
         else:
             nb_coordinate_filters = len(self.coordinate_filters)
-            assert_(
+            _assert(
                 nb_coordinate_filters == num_coords,
                 (
                     "the length of coordinate_filters should be equal "
                     f"to the number of coordinates, got {nb_coordinate_filters} and {num_coords}"
                 ),
-                exc_cls=ValueError,
+                exception_class=ValueError,
             )
             filters = self.coordinate_filters
 

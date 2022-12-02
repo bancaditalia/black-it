@@ -22,7 +22,7 @@ from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import assert_, digitize_data, positive_float
+from black_it.utils.base import _assert, digitize_data, positive_float
 
 
 class ParticleSwarmSampler(
@@ -176,10 +176,10 @@ class ParticleSwarmSampler(
         self._best_position_losses = None
         self._global_best_particle_id = None
         self._previous_batch_index_start = None
-        assert_(
+        _assert(
             not self.is_set_up,
-            message="reset call did not work, sampler still set up",
-            exc_cls=RuntimeError,
+            error_message="reset call did not work, sampler still set up",
+            exception_class=RuntimeError,
         )
 
     def sample_batch(
@@ -213,10 +213,10 @@ class ParticleSwarmSampler(
         self, existing_points: NDArray[np.float64], existing_losses: NDArray[np.float64]
     ) -> None:
         """Update the best local and global positions."""
-        assert_(
+        _assert(
             self._previous_batch_index_start is not None,
-            exc_cls=AssertionError,
-            message="should have been set",
+            exception_class=AssertionError,
+            error_message="should have been set",
         )
 
         # set best loss and best point
