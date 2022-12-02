@@ -24,7 +24,7 @@ from scipy.stats import betabinom
 
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import assert_
+from black_it.utils.base import _assert
 
 
 class BestBatchSampler(BaseSampler):
@@ -59,15 +59,15 @@ class BestBatchSampler(BaseSampler):
             perturbation_range: the range of the perturbation applied. The actual perturbation will be in the range
                 plus/minus the perturbation_range times the precision of the specific parameter coordinate
         """
-        assert_(
+        _assert(
             a > 0.0,
             "'a' should be greater than zero",
         )
-        assert_(
+        _assert(
             b > 0.0,
             "'b' should be greater than zero",
         )
-        assert_(
+        _assert(
             perturbation_range > 1,
             "'perturbation_range' should be greater than one",
         )

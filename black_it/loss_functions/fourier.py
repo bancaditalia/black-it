@@ -21,7 +21,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
-from black_it.utils.base import assert_
+from black_it.utils.base import _assert
 
 FrequencyFilter = Callable[[NDArray[np.complex128], float], NDArray[np.complex128]]
 """A filter that receives the signal in the frequency domain and returns its
@@ -111,7 +111,7 @@ class FourierLoss(BaseLoss):
             coordinate_filters: filters/transformations to be applied to each simulated series before
                 the loss computation.
         """
-        assert_(
+        _assert(
             0.0 < f <= 1.0,
             "'f' must be in the interval (0.0, 1.0]",
         )
