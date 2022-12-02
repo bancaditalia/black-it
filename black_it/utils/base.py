@@ -35,11 +35,6 @@ def _assert(
         raise exception_class(error_message)
 
 
-def _assert_value(condition: bool, error_message: Optional[str] = None) -> None:
-    """Check for value errors."""
-    _assert(condition, exception_class=ValueError, error_message=error_message)
-
-
 def check_arg(condition: bool, message: str) -> None:
     """
     Check a condition over an argument (i.e. raises ValueError in case it is false).

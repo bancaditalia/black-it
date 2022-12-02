@@ -152,12 +152,7 @@ class CORSSampler(BaseSampler):  # pylint: disable=too-many-instance-attributes
         self._p = positive_float(p)
         self._verbose = verbose
 
-        # to be initialized after first sample_batch
-        self._current_points: Optional[NDArray[np.float64]] = None
-
         self._batch_id = 0
-        self._last_batch_start_index = 0
-        self._last_batch_end_index = 0
 
     @property
     def rho0(self) -> float:
@@ -182,9 +177,7 @@ class CORSSampler(BaseSampler):  # pylint: disable=too-many-instance-attributes
         v1 = volume_d_dimensional_ball_radius_1(search_space.dims)
 
         # the first time sample batch is called. Normalize seed_points
-        current_points = boxtocube(
-            existing_points, search_space.parameters_bounds
-        )
+        current_points = boxtocube(existing_points, search_space.parameters_bounds)
         current_losses = existing_losses / fmax
 
         # fit RBF to all data
