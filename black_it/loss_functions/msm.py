@@ -20,8 +20,8 @@ Method-of-moments loss function.
 This module contains the implementation of the loss function
 based on the 'method of moments'.
 """
-
-from typing import Callable, List, Optional
+from enum import Enum
+from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -37,15 +37,27 @@ an NDArray.
 """
 
 
+class _CovarianceMatrixType(Enum):
+    """Enumeration of allowed covariance matrix types."""
+
+    IDENTITY = "identity"
+    INVERSE_VARIANCE = "inverse_variance"
+
+    def __str__(self) -> str:
+        """Get the string representation."""
+        return self.value
+
+
 class MethodOfMomentsLoss(BaseLoss):
     """Class for the 'method of moments' loss."""
 
     def __init__(
         self,
-        covariance_mat: Optional[NDArray[np.float64]] = None,
+        covariance_mat: Union[str, NDArray[np.float64]] = "identity",
         coordinate_weights: Optional[NDArray[np.float64]] = None,
         moment_calculator: MomentCalculator = get_mom_ts_1d,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
+        standardise_moments: bool = False,
     ):
         """
         Initialize the loss function based on the 'method of moments'.
@@ -62,9 +74,9 @@ class MethodOfMomentsLoss(BaseLoss):
 
         Args:
             covariance_mat: covariance matrix between the moments.
-                The default is the identity matrix. The covariance matrix must
-                be a symmetric matrix whose size must be equal to the number of
-                elements that the moment calculator returns.
+                'identity' (the default) gives the identity matrix, 'inverse_variance' gives the diagonal
+                matrix of the estimated inverse variances. Alternatively, one can specify a numerical symmetric matrix
+                whose size must be equal to the number of elements that the moment calculator returns.
             coordinate_weights: importance of each coordinate. By default all
                 coordinates are treated equally.
             moment_calculator: a function that takes a 1D time series and
@@ -72,6 +84,8 @@ class MethodOfMomentsLoss(BaseLoss):
                 black_it.utils.time_series.get_mom_ts_1d()
             coordinate_filters: filters/transformations to be applied to each simulated series before
                 the loss computation.
+            standardise_moments: if True all moments are divided by the absolute value of the real moments,
+                default is False.
         """
         MethodOfMomentsLoss._validate_covariance_and_calculator(
             moment_calculator, covariance_mat
@@ -80,45 +94,57 @@ class MethodOfMomentsLoss(BaseLoss):
         super().__init__(coordinate_weights, coordinate_filters)
         self._covariance_mat = covariance_mat
         self._moment_calculator = moment_calculator
+        self._standardise_moments = standardise_moments
 
     @staticmethod
     def _validate_covariance_and_calculator(
         moment_calculator: MomentCalculator,
-        covariance_mat: Optional[NDArray[np.float64]] = None,
+        covariance_mat: Union[NDArray[np.float64], str],
     ) -> None:
         """
         Validate the covariance matrix.
 
         Args:
             moment_calculator: the moment calculator
-            covariance_mat: the covariance matrix, or None
+            covariance_mat: the covariance matrix, either as a string or as a numpy array
 
         Returns:
             None
 
         Raises:
             ValueError: if the covariance matrix is not valid.
-                It can be invalid if it is not symmetric or if moment_calculator
+                If it is a string, ot can be invalid if it is not one of the possible options.
+                If it is a numpy array, it can be invalid if it is not symmetric or if moment_calculator
                 is the default get_mom_ts_1d and the covariance matrix's shape
                 is not 18. Other possible errors won't be caught by this
                 function, and can only be detected at runtime.
         """
-        if covariance_mat is None:
-            # if we were given no covariance matrix, then we'll use a default
-            # one, and we can't do any further validation (without executing the
-            # moment_calculator)
+        if isinstance(covariance_mat, str):
+
+            try:
+                _CovarianceMatrixType(covariance_mat)
+            except ValueError as exc:
+                raise ValueError(
+                    f"expected one of {list(map(lambda x: x.value, _CovarianceMatrixType))}, got {covariance_mat})"
+                ) from exc
             return
 
-        # a non null covariance_mat was given
-        if not is_symmetric(covariance_mat):
-            raise ValueError(
-                "the provided covariance matrix is not valid as it is not a symmetric matrix"
-            )
-        if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != 18):
-            raise ValueError(
-                "the provided covariance matrix is not valid as it has a wrong shape: "
-                f"expected 18, got {covariance_mat.shape[0]}"
-            )
+        if isinstance(covariance_mat, np.ndarray):
+            # a non null covariance_mat was given
+            if not is_symmetric(covariance_mat):
+                raise ValueError(
+                    "the provided covariance matrix is not valid as it is not a symmetric matrix"
+                )
+            if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != 18):
+                raise ValueError(
+                    "the provided covariance matrix is not valid as it has a wrong shape: "
+                    f"expected 18, got {covariance_mat.shape[0]}"
+                )
+            return
+
+        raise ValueError(
+            "please specify a valid covariance matrix, either as a string or directly as a numpy array"
+        )
 
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
@@ -136,21 +162,33 @@ class MethodOfMomentsLoss(BaseLoss):
             the MSM loss over a specific coordinate.
         """
         # compute the moments for the simulated ensemble
-        ensemble_real_mom_1d = np.array(
+        ensemble_sim_mom_1d = np.array(
             [self._moment_calculator(s) for s in sim_data_ensemble]
         )
 
         # compute moments of the real time series
-        sim_mom_1d = self._moment_calculator(real_data)
+        real_mom_1d = self._moment_calculator(real_data)
 
-        g = (sim_mom_1d[None, :] - ensemble_real_mom_1d).mean(axis=0)
+        # write moments in relative terms is needed
+        if self._standardise_moments:
+            real_mom_1d = real_mom_1d / abs(real_mom_1d)
+            ensemble_sim_mom_1d = ensemble_sim_mom_1d / (abs(real_mom_1d)[None, :])
 
-        if self._covariance_mat is None:
+        # mean simulated moments
+        sim_mom_1d = np.mean(ensemble_sim_mom_1d, axis=0)
+
+        g = real_mom_1d - sim_mom_1d
+
+        if self._covariance_mat == "identity":
             loss_1d = g.dot(g)
             return loss_1d
-
-        W = self._covariance_mat
-
+        if self._covariance_mat == "inverse_variance":
+            W = np.diag(
+                1.0 / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0)
+            )
+        else:
+            self._covariance_mat = cast(NDArray[np.float64], self._covariance_mat)
+            W = self._covariance_mat
         try:
             loss_1d = g.dot(W).dot(g)
         except ValueError as e:
