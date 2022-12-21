@@ -15,19 +15,16 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the XGBoost sampling."""
-from typing import Optional
+from typing import Optional, cast
 
 import numpy as np
 import xgboost as xgb
 from numpy.typing import NDArray
 
-from black_it.samplers.base import BaseSampler
-from black_it.samplers.random_uniform import RandomUniformSampler
-from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data
+from black_it.samplers.surrogate import MLSurrogateSampler
 
 
-class XGBoostSampler(BaseSampler):
+class XGBoostSampler(MLSurrogateSampler):
     """This class implements xgboost sampling."""
 
     def __init__(  # pylint: disable=too-many-arguments
@@ -39,7 +36,7 @@ class XGBoostSampler(BaseSampler):
         colsample_bytree: float = 0.3,
         learning_rate: float = 0.1,
         max_depth: int = 5,
-        alpha: float = 10.0,
+        alpha: float = 1.0,
         n_estimators: int = 10,
     ) -> None:
         """
@@ -62,18 +59,16 @@ class XGBoostSampler(BaseSampler):
         References:
             Lamperti, Roventini, and Sani, "Agent-based model calibration using machine learning surrogates"
         """
-        super().__init__(batch_size, random_state, max_deduplication_passes)
+        super().__init__(
+            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+        )
 
         self._colsample_bytree = colsample_bytree
         self._learning_rate = learning_rate
         self._max_depth = max_depth
         self._alpha = alpha
         self._n_estimators = n_estimators
-
-        if candidate_pool_size is not None:
-            self._candidate_pool_size = candidate_pool_size
-        else:
-            self._candidate_pool_size = 1000 * batch_size
+        self._xg_regressor: Optional[xgb.XGBRegressor] = None
 
     @property
     def colsample_bytree(self) -> float:
@@ -100,45 +95,13 @@ class XGBoostSampler(BaseSampler):
         """Get the number of estimators."""
         return self._n_estimators
 
-    @property
-    def candidate_pool_size(self) -> int:
-        """Get the candidate pool size."""
-        return self._candidate_pool_size
-
-    def sample_batch(
-        self,
-        batch_size: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        """
-        Sample from the search space.
-
-        Args:
-            batch_size: the number of points to sample
-            search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled
-            existing_losses: the loss corresponding to the sampled parameters
-
-        Returns:
-            the sampled parameters
-        """
-        # get large candidate pool
-        candidates = RandomUniformSampler(
-            self.candidate_pool_size, random_state=self._get_random_seed()
-        ).sample_batch(
-            self.candidate_pool_size, search_space, existing_points, existing_losses
-        )
-
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+        """Fit function for the xgboost sampler."""
         # prepare data
-        X = existing_points
-        y = existing_losses
-
         _ = xgb.DMatrix(data=X, label=y)
 
         # train surrogate
-        xg_reg = xgb.XGBRegressor(
+        self._xg_regressor = xgb.XGBRegressor(
             objective="reg:squarederror",  # original: objective ='reg:linear',
             colsample_bytree=self.colsample_bytree,
             learning_rate=self.learning_rate,
@@ -147,15 +110,14 @@ class XGBoostSampler(BaseSampler):
             n_estimators=self.n_estimators,
         )  # original: 10
 
-        xg_reg.fit(X, y)
+        self._xg_regressor.fit(X, y)
 
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Prediction function for the xgboost sampler."""
         # predict over large pool of candidates
-        _ = xgb.DMatrix(data=candidates)
+        _ = xgb.DMatrix(data=X)
 
-        predicted_points = xg_reg.predict(candidates)
+        self._xg_regressor = cast(xgb.XGBRegressor, self._xg_regressor)
+        predictions = self._xg_regressor.predict(X)
 
-        # sort params by predicted loss value
-        sorting_indices: NDArray[np.int64] = np.argsort(predicted_points)
-        sampled_points: NDArray[np.float64] = candidates[sorting_indices][:batch_size]
-
-        return digitize_data(sampled_points, search_space.param_grid)
+        return predictions

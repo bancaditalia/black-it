@@ -15,19 +15,17 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the random forest sampling."""
-from typing import Optional, Tuple
+from typing import Optional, Tuple, cast
 
 import numpy as np
 from numpy.typing import NDArray
 from sklearn.ensemble import RandomForestClassifier
 
-from black_it.samplers.base import BaseSampler
-from black_it.samplers.random_uniform import RandomUniformSampler
-from black_it.search_space import SearchSpace
-from black_it.utils.base import _assert, digitize_data
+from black_it.samplers.surrogate import MLSurrogateSampler
+from black_it.utils.base import _assert
 
 
-class RandomForestSampler(BaseSampler):
+class RandomForestSampler(MLSurrogateSampler):
     """This class implements random forest sampling."""
 
     def __init__(  # pylint: disable=too-many-arguments
@@ -60,16 +58,14 @@ class RandomForestSampler(BaseSampler):
             "'n_classes' should be at least 2 to provide meaningful results",
         )
 
-        super().__init__(batch_size, random_state, max_deduplication_passes)
+        super().__init__(
+            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+        )
 
         self._n_estimators = n_estimators
         self._criterion = criterion
         self._n_classes = n_classes
-
-        if candidate_pool_size is not None:
-            self._candidate_pool_size = candidate_pool_size
-        else:
-            self._candidate_pool_size = 1000 * batch_size
+        self._classifier: Optional[RandomForestClassifier] = None
 
     @property
     def n_estimators(self) -> int:
@@ -86,58 +82,29 @@ class RandomForestSampler(BaseSampler):
         """Get the number of classes."""
         return self._n_classes
 
-    @property
-    def candidate_pool_size(self) -> int:
-        """Get the candidate pool size."""
-        return self._candidate_pool_size
-
-    def sample_batch(
-        self,
-        batch_size: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        """
-        Sample from the search space.
-
-        Args:
-            batch_size: the number of points to sample
-            search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled
-            existing_losses: the loss corresponding to the sampled parameters
-
-        Returns:
-            the sampled parameters
-        """
-        # Get large candidate pool
-        candidates = RandomUniformSampler(
-            self.candidate_pool_size, random_state=self._get_random_seed()
-        ).sample_batch(
-            self.candidate_pool_size, search_space, existing_points, existing_losses
-        )
-
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+        """Fit function of the random forest sampler."""
         # Train surrogate
-        x: NDArray[np.float64]
-        y: NDArray[np.int64]
-        x, y, _existing_points_quantiles = self.prepare_data_for_classifier(
-            existing_points, existing_losses, self.n_classes
+
+        X, y_cat, _existing_points_quantiles = self.prepare_data_for_classifier(
+            X, y, self.n_classes
         )
 
-        classifier: RandomForestClassifier = RandomForestClassifier(
+        self._classifier = RandomForestClassifier(
             n_estimators=self.n_estimators,
             criterion=self.criterion,
             n_jobs=-1,
             random_state=self._get_random_seed(),
         )
-        classifier.fit(x, y)
-        # Predict quantiles
-        predicted_points_quantiles: NDArray[np.float64] = classifier.predict(candidates)
-        # Sort params by predicted quantile
-        sorting_indices: NDArray[np.int64] = np.argsort(predicted_points_quantiles)
-        sampled_points: NDArray[np.float64] = candidates[sorting_indices][:batch_size]
+        self._classifier.fit(X, y_cat)
 
-        return digitize_data(sampled_points, search_space.param_grid)
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Prediction function of the random forest sampler."""
+        # Predict quantiles
+        self._classifier = cast(RandomForestClassifier, self._classifier)
+        predicted_points_quantiles: NDArray[np.float64] = self._classifier.predict(X)
+
+        return predicted_points_quantiles
 
     @staticmethod
     def prepare_data_for_classifier(

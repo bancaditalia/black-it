@@ -26,10 +26,7 @@ from GPy.models import GPRegression
 from numpy.typing import NDArray
 from scipy.special import erfc  # pylint: disable=no-name-in-module
 
-from black_it.samplers.base import BaseSampler
-from black_it.samplers.random_uniform import RandomUniformSampler
-from black_it.search_space import SearchSpace
-from black_it.utils.base import digitize_data
+from black_it.samplers.surrogate import MLSurrogateSampler
 
 
 class _AcquisitionTypes(Enum):
@@ -43,7 +40,7 @@ class _AcquisitionTypes(Enum):
         return self.value
 
 
-class GaussianProcessSampler(BaseSampler):
+class GaussianProcessSampler(MLSurrogateSampler):
     """
     This class implements the Gaussian process-based sampler.
 
@@ -76,52 +73,13 @@ class GaussianProcessSampler(BaseSampler):
         """
         self._validate_acquisition(acquisition)
 
-        super().__init__(batch_size, random_state, max_deduplication_passes)
+        super().__init__(
+            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+        )
         self.max_iters = max_iters
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
         self._gpmodel: Optional[GPRegression] = None
-
-        self._candidate_pool_size = candidate_pool_size
-
-    def _get_candidate_pool_size(self, nb_samples: int) -> int:
-        """
-        Get the candidate pool size according to the object configuration.
-
-        If the candidate pool size has been fixed at initialization time,
-        by passing it as argument of the constructor, then return it.
-        Otherwise, return the number of samples requested times 1000.
-
-        Args:
-            nb_samples: the number of samples required by sample_batch.
-
-        Returns:
-            the size of the candidate pool
-        """
-        candidate_pool_size = (
-            self._candidate_pool_size
-            if self._candidate_pool_size is not None
-            else 1000 * nb_samples
-        )
-        return candidate_pool_size
-
-    def _get_candidate_pool(
-        self,
-        nb_samples: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        """Get the candidate pool for sampling a batch."""
-        candidate_pool_size = self._get_candidate_pool_size(nb_samples)
-        sampler = RandomUniformSampler(
-            batch_size=candidate_pool_size, random_state=self._get_random_seed()
-        )
-        # note the "sample_batch" method does not remove duplicates while the "sample" method does
-        candidates = sampler.sample_batch(
-            candidate_pool_size, search_space, existing_points, existing_losses
-        )
-        return candidates
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
@@ -143,26 +101,9 @@ class GaussianProcessSampler(BaseSampler):
                 f"got {acquisition}"
             ) from e
 
-    def sample_batch(
-        self,
-        batch_size: int,
-        search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
-    ) -> NDArray[np.float64]:
-        """
-        Sample from the search space.
-
-        Args:
-            batch_size: the number of points to sample
-            search_space: an object containing the details of the parameter search space
-            existing_points: the parameters already sampled
-            existing_losses: the loss corresponding to the sampled parameters
-
-        Returns:
-            the sampled parameters
-        """
-        X, Y = existing_points, np.atleast_2d(existing_losses).T
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+        """Fit function for the gaussian process sampler."""
+        y = np.atleast_2d(y).T
 
         if X.shape[0] > 500:
             warnings.warn(
@@ -171,11 +112,12 @@ class GaussianProcessSampler(BaseSampler):
             )
 
         # initialize GP class from GPy with a Matern kernel by default
-        kern = GPy.kern.Matern52(search_space.dims, variance=1.0, ARD=False)
-        noise_var = Y.var() * 0.01
+        dims = X.shape[1]
+        kern = GPy.kern.Matern52(dims, variance=1.0, ARD=False)
+        noise_var = y.var() * 0.01
 
         self._gpmodel = GPRegression(
-            X, Y, kernel=kern, noise_var=noise_var, mean_function=None
+            X, y, kernel=kern, noise_var=noise_var, mean_function=None
         )
 
         # Make sure we do not get ridiculously small residual noise variance
@@ -204,23 +146,16 @@ class GaussianProcessSampler(BaseSampler):
                     verbose=False,
                 )
 
-        # Get large candidate pool
-        candidates: NDArray[np.float64] = self._get_candidate_pool(
-            batch_size, search_space, existing_points, existing_losses
-        )
-
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Prediction function for the gaussian process sampler."""
         # predict mean or expected improvement on the full sample set
         if self.acquisition == _AcquisitionTypes.EI.value:
             # minus sign needed for subsequent sorting
-            candidates_score = -self._predict_EI(candidates)[:, 0]
+            candidates_score = -self._predict_EI(X)[:, 0]
         else:  # acquisition is "mean"
-            candidates_score = self._predict_mean_std(candidates)[0][:, 0]
+            candidates_score = self._predict_mean_std(X)[0][:, 0]
 
-        sorting_indices = np.argsort(candidates_score)
-
-        sampled_points = candidates[sorting_indices][:batch_size, :]
-
-        return digitize_data(sampled_points, search_space.param_grid)
+        return candidates_score
 
     def _predict_mean_std(
         self, X: NDArray[np.float64]
@@ -262,33 +197,36 @@ class GaussianProcessSampler(BaseSampler):
 
         fmin = self._get_fmin()
 
-        phi, Phi, u = get_quantiles(jitter, fmin, m, s)
+        phi, Phi, u = self.get_quantiles(jitter, fmin, m, s)
 
         f_acqu = s * (u * Phi + phi)
 
         return f_acqu
 
+    @staticmethod
+    def get_quantiles(
+        acquisition_par: float,
+        fmin: float,
+        m: NDArray[np.float64],
+        s: NDArray[np.float64],
+    ) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
+        """
+        Quantiles of the Gaussian distribution useful to determine the acquisition function values.
 
-def get_quantiles(
-    acquisition_par: float, fmin: float, m: NDArray[np.float64], s: NDArray[np.float64]
-) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
-    """
-    Quantiles of the Gaussian distribution useful to determine the acquisition function values.
+        Args:
+            acquisition_par: parameter of the acquisition function
+            fmin: current minimum.
+            m: vector of means.
+            s: vector of standard deviations.
 
-    Args:
-        acquisition_par: parameter of the acquisition function
-        fmin: current minimum.
-        m: vector of means.
-        s: vector of standard deviations.
+        Returns:
+            the quantiles.
+        """
+        # remove values of variance that are too small
+        s[s < 1e-10] = 1e-10
 
-    Returns:
-        the quantiles.
-    """
-    # remove values of variance that are too small
-    s[s < 1e-10] = 1e-10
+        u: NDArray[np.float64] = (fmin - m - acquisition_par) / s
+        phi: NDArray[np.float64] = np.exp(-0.5 * u**2) / np.sqrt(2 * np.pi)
+        Phi: NDArray[np.float64] = 0.5 * erfc(-u / np.sqrt(2))
 
-    u: NDArray[np.float64] = (fmin - m - acquisition_par) / s
-    phi: NDArray[np.float64] = np.exp(-0.5 * u**2) / np.sqrt(2 * np.pi)
-    Phi: NDArray[np.float64] = 0.5 * erfc(-u / np.sqrt(2))
-
-    return phi, Phi, u
+        return phi, Phi, u
