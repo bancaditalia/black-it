@@ -34,6 +34,7 @@ from black_it.samplers.halton import HaltonSampler
 from black_it.samplers.r_sequence import RSequenceSampler
 from black_it.samplers.random_forest import RandomForestSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
+from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 
 from .fixtures.test_models import NormalMV  # type: ignore
@@ -51,13 +52,14 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         ]
         self.bounds_step = [0.01, 0.01]
 
-        self.batch_size = 2
+        self.batch_size = 1
         self.random_sampler = RandomUniformSampler(batch_size=self.batch_size)
         self.halton_sampler = HaltonSampler(batch_size=self.batch_size)
         self.bb_sampler = BestBatchSampler(batch_size=self.batch_size)
         self.gauss_sampler = GaussianProcessSampler(batch_size=self.batch_size)
         self.rseq_sampler = RSequenceSampler(batch_size=self.batch_size)
         self.forest_sampler = RandomForestSampler(batch_size=self.batch_size)
+        self.xgboost_sampler = XGBoostSampler(batch_size=self.batch_size)
 
         # model to be calibrated
         self.model = NormalMV
@@ -76,58 +78,38 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
         expected_params = np.array(
             [
-                [0.53, 0.75],
-                [0.68, 0.72],
+                [0.59, 0.36],
+                [0.63, 0.41],
                 [0.18, 0.39],
-                [0.53, 0.74],
-                [0.8, 0.06],
-                [0.56, 0.79],
                 [0.56, 0.37],
-                [0.82, 0.08],
-                [0.08, 0.37],
-                [0.99, 0.56],
-                [0.99, 0.06],
-                [0.07, 0.5],
-                [1.0, 1.0],
-                [0.16, 0.13],
-                [0.68, 0.69],
-                [0.71, 0.43],
-                [0.65, 0.72],
-                [1.0, 0.07],
-                [0.06, 0.82],
-                [0.98, 0.98],
-                [0.03, 0.83],
+                [0.83, 0.35],
+                [0.54, 0.32],
+                [0.74, 0.32],
+                [0.53, 0.46],
+                [0.57, 0.39],
                 [0.32, 0.93],
-                [0.43, 0.17],
-                [0.46, 0.32],
+                [0.8, 0.06],
+                [0.01, 0.02],
+                [0.92, 0.99],
+                [0.04, 0.99],
             ]
         )
 
         expected_losses = [
-            0.3379579210350664,
-            0.6142406842968648,
-            0.7511535247731311,
-            0.7947552011919158,
-            0.8438595077543548,
-            0.9962563670251199,
-            1.0871632317532742,
-            1.1358155438012694,
-            1.1931075019681772,
-            1.2153376231157316,
-            1.2609924409732285,
-            1.5690132814746562,
-            1.6982927628783613,
-            1.7291748954177788,
-            1.7313136729102845,
-            1.8208003946536748,
-            2.0235794497211184,
-            2.169554479206179,
-            2.3750688536096995,
-            2.452161750981678,
-            2.5383914038222293,
-            2.555848298760814,
-            3.258788971813837,
-            3.500997423345573,
+            0.33400294,
+            0.55274918,
+            0.55798021,
+            0.61712034,
+            0.91962075,
+            1.31118518,
+            1.51682355,
+            1.55503666,
+            1.65968375,
+            1.79905545,
+            2.07605975,
+            2.28484134,
+            2.53586668,
+            3.01432484,
         ]
 
         cal = Calibrator(
@@ -138,6 +120,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
                 self.forest_sampler,
                 self.bb_sampler,
                 self.gauss_sampler,
+                self.xgboost_sampler,
             ],
             real_data=self.real_data,
             model=self.model,
@@ -152,6 +135,8 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         params, losses = cal.calibrate(2)
 
+        print(params)
+        print(losses)
         assert np.allclose(params, expected_params)
         assert np.allclose(losses, expected_losses)
 

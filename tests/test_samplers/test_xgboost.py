@@ -19,7 +19,7 @@ import numpy as np
 from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 
-expected_params = np.array([[0.53, 0.66], [0.77, 0.03], [0.02, 0.14], [0.09, 0.64]])
+expected_params = np.array([[0.24, 0.26], [0.26, 0.02], [0.08, 0.24], [0.15, 0.15]])
 
 
 def test_xgboost_2d() -> None:
