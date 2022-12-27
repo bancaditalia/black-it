@@ -145,7 +145,7 @@ class CORSSampler(BaseSampler):  # pylint: disable=too-many-instance-attributes
             verbose: activate verbose mode
         """
         super().__init__(
-            batch_size, random_state=random_state, max_duplication_passes=0
+            batch_size, random_state=random_state, max_deduplication_passes=0
         )
         self._max_samples = max_samples
         self._rho0 = positive_float(rho0)

@@ -38,7 +38,7 @@ class BaseSampler(ABC):
         self,
         batch_size: int,
         random_state: Optional[int] = None,
-        max_duplication_passes: int = 5,
+        max_deduplication_passes: int = 5,
     ) -> None:
         """
         Initialize the sampler.
@@ -46,11 +46,11 @@ class BaseSampler(ABC):
         Args:
             batch_size: the number of points sampled every time the sampler is called
             random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
-            max_duplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
+            max_deduplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
         """
         self.random_state: Optional[int] = random_state
         self.batch_size: int = batch_size
-        self.max_duplication_passes = max_duplication_passes
+        self.max_deduplication_passes = max_deduplication_passes
 
     @property
     def random_state(self) -> Optional[int]:
@@ -114,7 +114,7 @@ class BaseSampler(ABC):
             self.batch_size, search_space, existing_points, existing_losses
         )
 
-        for n in range(self.max_duplication_passes):
+        for n in range(self.max_deduplication_passes):
 
             duplicates = self.find_and_get_duplicates(samples, existing_points)
 
@@ -128,9 +128,9 @@ class BaseSampler(ABC):
             )
             samples[duplicates] = new_samples
 
-            if n == self.max_duplication_passes - 1:
+            if n == self.max_deduplication_passes - 1:
                 print(
-                    f"Warning: Repeated samples still found after {self.max_duplication_passes} duplication passes."
+                    f"Warning: Repeated samples still found after {self.max_deduplication_passes} duplication passes."
                     " This is probably due to a small search space."
                 )
 

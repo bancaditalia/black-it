@@ -83,7 +83,7 @@ class RandomForestSampler(MLSurrogateSampler):
         return self._n_classes
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
-        """Fit function of the random forest sampler."""
+        """Fit a random forest surrogate model."""
         # Train surrogate
 
         X, y_cat, _existing_points_quantiles = self.prepare_data_for_classifier(
@@ -99,7 +99,7 @@ class RandomForestSampler(MLSurrogateSampler):
         self._classifier.fit(X, y_cat)
 
     def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
-        """Prediction function of the random forest sampler."""
+        """Predict using a random forest surrogate model."""
         # Predict quantiles
         self._classifier = cast(RandomForestClassifier, self._classifier)
         predicted_points_quantiles: NDArray[np.float64] = self._classifier.predict(X)
