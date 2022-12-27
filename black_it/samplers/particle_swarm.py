@@ -82,7 +82,7 @@ class ParticleSwarmSampler(
         """
         # max_duplication_passes must be zero because the sampler is stateful
         super().__init__(
-            batch_size, random_state=random_state, max_duplication_passes=0
+            batch_size, random_state=random_state, max_deduplication_passes=0
         )
 
         # The batch size is the number of sampled parameters per iteration. In a Black-it sampler, each call to

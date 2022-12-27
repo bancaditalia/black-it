@@ -102,7 +102,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
             ) from e
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
-        """Fit function for the gaussian process sampler."""
+        """Fit a gaussian process surrogate model."""
         y = np.atleast_2d(y).T
 
         if X.shape[0] > 500:
@@ -147,7 +147,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
                 )
 
     def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
-        """Prediction function for the gaussian process sampler."""
+        """Predict using a gaussian process surrogate model."""
         # predict mean or expected improvement on the full sample set
         if self.acquisition == _AcquisitionTypes.EI.value:
             # minus sign needed for subsequent sorting

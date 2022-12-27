@@ -39,7 +39,7 @@ class MLSurrogateSampler(BaseSampler):
         self,
         batch_size: int,
         random_state: Optional[int] = None,
-        max_duplication_passes: int = 5,
+        max_deduplication_passes: int = 5,
         candidate_pool_size: Optional[int] = None,
     ) -> None:
         """
@@ -48,10 +48,10 @@ class MLSurrogateSampler(BaseSampler):
         Args:
             batch_size: the number of points sampled every time the sampler is called
             random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
-            max_duplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
+            max_deduplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
             candidate_pool_size: number of randomly sampled points on which the ML surrogate predictions are evaluated
         """
-        super().__init__(batch_size, random_state, max_duplication_passes)
+        super().__init__(batch_size, random_state, max_deduplication_passes)
 
         if candidate_pool_size is not None:
             self._candidate_pool_size = candidate_pool_size
@@ -70,7 +70,7 @@ class MLSurrogateSampler(BaseSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """Get large candidate pool of parameters."""
+        """Get a large pool of candidate parameters."""
         candidates = RandomUniformSampler(
             candidate_pool_size, random_state=self._get_random_seed()
         ).sample_batch(
@@ -80,11 +80,11 @@ class MLSurrogateSampler(BaseSampler):
 
     @abstractmethod
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
-        """Abstract method for the fit of ML surrogate samplers."""
+        """Abstract method to fit the loss function of an ML surrogate."""
 
     @abstractmethod
     def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
-        """Abstract method for the predictions of ML surrogate samplers."""
+        """Abstract method for the predictions of an ML surrogate."""
 
     def sample_batch(
         self,
@@ -105,17 +105,18 @@ class MLSurrogateSampler(BaseSampler):
         Returns:
             the new parameters
         """
+        # Get a large pool of potential candidates
         candidates = self.sample_candidates(
             self.candidate_pool_size, search_space, existing_points, existing_losses
         )
 
-        # Train surrogate
+        # Train surrogate model
         self.fit(existing_points, existing_losses)
 
         # Predictions of surrogate on large pool of candidates
         predictions = self.predict(candidates)
 
-        # Sort candidates by predicted loss value
+        # Select candidates with lowest predicted loss value
         sorting_indices: NDArray[np.int64] = np.argsort(predictions)
         sampled_points: NDArray[np.float64] = candidates[sorting_indices][:batch_size]
 

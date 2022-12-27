@@ -96,7 +96,7 @@ class XGBoostSampler(MLSurrogateSampler):
         return self._n_estimators
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
-        """Fit function for the xgboost sampler."""
+        """Fit a xgboost surrogate model."""
         # prepare data
         _ = xgb.DMatrix(data=X, label=y)
 
@@ -113,7 +113,7 @@ class XGBoostSampler(MLSurrogateSampler):
         self._xg_regressor.fit(X, y)
 
     def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
-        """Prediction function for the xgboost sampler."""
+        """Predict using a xgboost surrogate model."""
         # predict over large pool of candidates
         _ = xgb.DMatrix(data=X)
 
