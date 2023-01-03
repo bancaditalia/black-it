@@ -135,8 +135,6 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         params, losses = cal.calibrate(2)
 
-        print(params)
-        print(losses)
         assert np.allclose(params, expected_params)
         assert np.allclose(losses, expected_losses)
 
