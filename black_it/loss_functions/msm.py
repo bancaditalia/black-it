@@ -171,8 +171,8 @@ class MethodOfMomentsLoss(BaseLoss):
 
         # write moments in relative terms is needed
         if self._standardise_moments:
-            real_mom_1d = real_mom_1d / abs(real_mom_1d)
             ensemble_sim_mom_1d = ensemble_sim_mom_1d / (abs(real_mom_1d)[None, :])
+            real_mom_1d = real_mom_1d / abs(real_mom_1d)
 
         # mean simulated moments
         sim_mom_1d = np.mean(ensemble_sim_mom_1d, axis=0)
