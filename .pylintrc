@@ -11,6 +11,7 @@ disable=C0103,C0301,R0801,W1514,W1505
 
 [IMPORTS]
 ignored-modules=
+known-third-party=xgboost
 
 [DESIGN]
 # min-public-methods=1
