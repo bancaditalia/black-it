@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the XGBoost sampling."""
+import warnings
 from typing import Optional, cast
 
 import numpy as np
@@ -22,6 +23,10 @@ import xgboost as xgb
 from numpy.typing import NDArray
 
 from black_it.samplers.surrogate import MLSurrogateSampler
+
+MAX_FLOAT32 = np.finfo(np.float32).max
+MIN_FLOAT32 = np.finfo(np.float32).min
+EPS_FLOAT32 = np.finfo(np.float32).eps
 
 
 class XGBoostSampler(MLSurrogateSampler):
@@ -95,9 +100,31 @@ class XGBoostSampler(MLSurrogateSampler):
         """Get the number of estimators."""
         return self._n_estimators
 
+    @staticmethod
+    def _clip_losses(y: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Check that loss values fall within the float32 limits needed for XGBoost to work."""
+        large_floats = np.where(y >= MAX_FLOAT32)
+        small_floats = np.where(y <= MIN_FLOAT32)
+
+        if len(large_floats) == 0 and len(small_floats) == 0:
+            return y
+
+        warnings.warn(
+            "Found loss values out of float32 limits, clipping them for XGBoost.",
+            RuntimeWarning,
+        )
+        if len(large_floats) > 0:
+            y[large_floats] = MAX_FLOAT32 - EPS_FLOAT32
+
+        if len(small_floats) > 0:
+            y[small_floats] = MIN_FLOAT32 + EPS_FLOAT32
+
+        return y
+
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
         """Fit a xgboost surrogate model."""
         # prepare data
+        y = self._clip_losses(y)  # pylint: disable=W0212
         _ = xgb.DMatrix(data=X, label=y)
 
         # train surrogate

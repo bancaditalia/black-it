@@ -15,8 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the xgboost sampler."""
 import numpy as np
-import pytest
-import xgboost as xgb
 
 from black_it.calibrator import Calibrator
 from black_it.loss_functions.msm import MethodOfMomentsLoss
@@ -27,6 +25,10 @@ from black_it.search_space import SearchSpace
 from ..fixtures.test_models import BH4  # type: ignore
 
 expected_params = np.array([[0.24, 0.26], [0.26, 0.02], [0.08, 0.24], [0.15, 0.15]])
+
+MAX_FLOAT32 = np.finfo(np.float32).max
+MIN_FLOAT32 = np.finfo(np.float32).min
+EPS_FLOAT32 = np.finfo(np.float32).eps
 
 
 def test_xgboost_2d() -> None:
@@ -94,10 +96,28 @@ def test_clip_losses() -> None:
         random_state=0,
     )
 
-    # the calibration breaks due to losses exceeding the limits of float32
+    # verify that the calibration does not break,
+    # it would without the call to _clip_losses
+    _, losses = cal.calibrate(1)
 
-    with pytest.raises(
-        xgb.core.XGBoostError,
-        match=r"Label contains NaN, infinity or a value too large",
-    ):
-        _, losses = cal.calibrate(1)
+    assert np.allclose(
+        losses,
+        np.array(
+            [
+                7.46098998e02,
+                5.80544566e17,
+                3.40282347e38,
+                3.40282347e38,
+                3.40282347e38,
+                2.94273501e41,
+            ]
+        ),
+    )
+
+    # verify that _clip_losses works as expected
+    y = np.array([0.0, -1e40, 1e40])
+    y2 = xgboost._clip_losses(y)  # pylint: disable=W0212
+
+    assert (
+        y2 == np.array([0.0, MIN_FLOAT32 + EPS_FLOAT32, MAX_FLOAT32 - EPS_FLOAT32])
+    ).all()
