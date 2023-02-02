@@ -1,4 +1,10 @@
+import pathlib
+import shutil
+
 import matplotlib.pyplot as plt
+
+# folder where data is saved
+saving_folder = "CATS_model_output"
 
 # previously found parameters
 found_params = {
@@ -22,6 +28,12 @@ target_labels = [
     "consumption",
     "unemployment",
 ]
+
+
+def cleanup_output_dir():
+    path_to_model_output = pathlib.Path("").resolve() / saving_folder
+    print(f"Removing {path_to_model_output}")
+    shutil.rmtree(path_to_model_output, ignore_errors=True)
 
 
 def plot_cats_output(time_series):
