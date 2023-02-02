@@ -40,6 +40,12 @@ def cleanup_output_dir():
     shutil.rmtree(path_to_model_output, ignore_errors=True)
 
 
+def plot_gdp(time_series):
+    plt.plot(time_series[:, 0])
+    plt.xlabel("quarters")
+    plt.ylabel("real gdp")
+
+
 def plot_cats_output(time_series):
     # the target time series
     fig, axes = plt.subplots(2, 3)
