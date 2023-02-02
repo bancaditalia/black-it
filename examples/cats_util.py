@@ -40,7 +40,8 @@ def load_fred_data():
 
 def cleanup_output_dir():
     path_to_model_output = pathlib.Path("").resolve() / saving_folder
-    print(f"Removing {path_to_model_output}")
+    # do not print the removal message in the demo
+    # print(f"Removing {path_to_model_output}")
     shutil.rmtree(path_to_model_output, ignore_errors=True)
 
 
