@@ -1,6 +1,7 @@
 import pathlib
 import shutil
 
+import abm_models
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -43,6 +44,24 @@ def cleanup_output_dir():
     # do not print the removal message in the demo
     # print(f"Removing {path_to_model_output}")
     shutil.rmtree(path_to_model_output, ignore_errors=True)
+
+
+def build_cats_model(path_to_cats_directory):
+    return abm_models.make(
+        "CatsModel",
+        path_to_cats_directory=path_to_cats_directory,
+        W=500,
+        F=50,
+        N=10,
+        warm_up_samples=200,
+        output_variables=[
+            "Y_real",
+            "gdp_deflator",
+            "Investment",
+            "consumption",
+            "Un",
+        ],
+    )
 
 
 def plot_gdp(time_series):
