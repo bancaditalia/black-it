@@ -2,6 +2,10 @@ import pathlib
 import shutil
 
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+from black_it.utils.time_series import get_mom_ts_1d
 
 # folder where data is saved
 saving_folder = "CATS_model_output"
@@ -49,3 +53,84 @@ def plot_cats_output(time_series):
                 ax.axis("off")
             i += 1
     plt.tight_layout()
+
+
+def compare_moments(real_data, best_sim, ensemble_size, coordinate_filters):
+    fig, axes = plt.subplots(2, 5, figsize=(8, 3.5))
+
+    xlabels_kde = [
+        [-0.1, 0.0, 0.1],
+        [-0.05, 0, 0.05],
+        [-0.3, 0, 0.3],
+        [-0.1, 0, 0.1],
+        [0.0, 0.1, 0.2],
+    ]
+    clips = [(-0.1, 0.1), (-0.1, 0.1), (-0.4, 0.4), (-0.1, 0.1), (0.0, 0.25)]
+    cmap = plt.get_cmap("tab10")
+
+    for i, coordinate_filter in enumerate(coordinate_filters):
+        # DATA
+        if coordinate_filter is None:
+            coordinate_filter = lambda x: x
+        filtered_data = np.array(
+            [coordinate_filter(best_sim[j, :, i]) for j in range(ensemble_size)]
+        )
+
+        real_moments = get_mom_ts_1d(real_data[:, i])
+        sim_moments = np.array(
+            [get_mom_ts_1d(filtered_data[j, :]) for j in range(ensemble_size)]
+        )
+        m = np.mean(sim_moments, axis=0)
+        s = np.std(sim_moments, axis=0)
+
+        # KDE
+        ax = axes[0, i]
+        ax.set_title(target_labels[i])
+        sns.kdeplot(
+            ax=ax,
+            data=real_data[:, i],
+            label="target",
+            bw_adjust=1.0,
+            clip=clips[i],
+            lw=2,
+        )
+        sns.kdeplot(
+            ax=ax,
+            data=filtered_data.flatten(),
+            color=cmap(1),
+            label="lowest loss",
+            bw_adjust=1.0,
+            clip=clips[i],
+            lw=2,
+        )
+        ax.set_ylabel("")
+        ax.set_yticklabels("")
+        ax.set_xticks(xlabels_kde[i])
+
+        # MOMENTS
+        index = np.arange(len(real_moments))
+        ax = axes[1, i]
+        ax.set_ylim(-1, 2.2)
+        ax.plot(index, real_moments, "-o", ms=3)
+        ax.plot(index, m, color=cmap(1), ls="-", marker="o", ms=3)
+        ax.fill_between(index, m - s, m + s, alpha=0.25, color=cmap(1))
+        ax.set_xticks([0, 4, 9, 13])
+        ax.set_xlabel("")
+
+    axes[0, 0].set_ylabel("density", labelpad=10)
+    axes[1, 0].set_ylabel("moments value", labelpad=-3)
+    for i in range(1, 5):
+        axes[1, i].set_yticklabels("")
+    plt.subplots_adjust(
+        left=0.1,
+        bottom=0.1,
+        right=0.9,
+        top=0.9,
+        wspace=0.3,
+        hspace=0.3,
+    )
+    axes[0, 4].plot([0.1, 0.15], [21, 21], lw=2, color=cmap(0))
+    axes[0, 4].text(0.1, 18, "real")
+    axes[0, 4].plot([0.1, 0.15], [13, 13], lw=2, color=cmap(1))
+    axes[0, 4].text(0.1, 10, "simulated")
+    plt.show()
