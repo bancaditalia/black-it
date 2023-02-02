@@ -34,6 +34,10 @@ target_labels = [
 ]
 
 
+def load_fred_data():
+    return np.genfromtxt("FRED_data.txt")
+
+
 def cleanup_output_dir():
     path_to_model_output = pathlib.Path("").resolve() / saving_folder
     print(f"Removing {path_to_model_output}")
@@ -59,6 +63,14 @@ def plot_cats_output(time_series):
                 ax.axis("off")
             i += 1
     plt.tight_layout()
+
+
+def find_best_loss_idx(losses_samp):
+    # find the best loss index and print the best loss
+    best_idx = np.argmin(losses_samp)
+    print(f"Best loss index: {best_idx} (out of {len(losses_samp)} simulations)")
+    print(f"Best loss value: {losses_samp[best_idx]:.2f}")
+    return best_idx
 
 
 def compare_moments(real_data, best_sim, ensemble_size, coordinate_filters):
