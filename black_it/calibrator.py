@@ -204,7 +204,11 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         self.samplers = samplers
 
         # update the samplers_id_table with the new samplers, only if necessary
-        sampler_id = max(self.samplers_id_table.values()) + 1
+        samplers_id_table_values = self.samplers_id_table.values()
+        if len(samplers_id_table_values) == 0:
+            sampler_id = 0
+        else:
+            sampler_id = max(samplers_id_table_values) + 1
 
         for sampler in samplers:
             sampler_name = type(sampler).__name__
