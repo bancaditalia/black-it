@@ -1,6 +1,13 @@
 Release History
 ===============
 
+
+0.2.1 (2023-02-06)
+------------------
+* samplers: add MLSurrogateSampler base class by @AldoGl in https://github.com/bancaditalia/black-it/pull/33
+* xgboost: add clipping of loss values to the float32 limits by @AldoGl in https://github.com/bancaditalia/black-it/pull/35
+* Update poetry.lock by @marcofavorito in https://github.com/bancaditalia/black-it/pull/34
+
 0.2.0 (2022-12-21)
 ------------------
 * Add joss references by @AldoGl in https://github.com/bancaditalia/black-it/pull/23
