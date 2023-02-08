@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.6">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
@@ -17,12 +17,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
         
-      
       
     
     
@@ -442,7 +441,7 @@
   
     <li class="md-nav__item">
       <a href="../contributing/" class="md-nav__link">
-        Extending black-it
+        Extending Black-it
       </a>
     </li>
   
@@ -781,6 +780,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citing_black_it/" class="md-nav__link">
+        Citing Black-it
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1056,21 +1070,28 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/base.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BaseLoss</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;BaseLoss interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseLoss interface.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the loss function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            coordinate_weights: the weights of the loss coordinates.</span>
+<span class="sd">            coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">                the loss computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span> <span class="o">=</span> <span class="n">coordinate_weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span> <span class="o">=</span> <span class="n">coordinate_filters</span>
 
     <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the loss between simulated and real data.</span>
 
 <span class="sd">        Args:</span>
@@ -1086,22 +1107,46 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
             <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_coords</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_coords</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">nb_coordinate_weights</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span><span class="p">)</span>
-            <span class="n">assert_</span><span class="p">(</span>
+            <span class="n">_assert</span><span class="p">(</span>
                 <span class="n">nb_coordinate_weights</span> <span class="o">==</span> <span class="n">num_coords</span><span class="p">,</span>
                 <span class="p">(</span>
                     <span class="s2">&quot;the length of coordinate_weights should be equal &quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;to the number of coordinates, got </span><span class="si">{</span><span class="n">nb_coordinate_weights</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">num_coords</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">),</span>
-                <span class="n">exc_cls</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+                <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span>
 
+        <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># a list of identity functions</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_coords</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nb_coordinate_filters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span><span class="p">)</span>
+            <span class="n">_assert</span><span class="p">(</span>
+                <span class="n">nb_coordinate_filters</span> <span class="o">==</span> <span class="n">num_coords</span><span class="p">,</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;the length of coordinate_filters should be equal &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;to the number of coordinates, got </span><span class="si">{</span><span class="n">nb_coordinate_filters</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">num_coords</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">),</span>
+                <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span>
+
         <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_coords</span><span class="p">):</span>
-            <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss_1d</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">real_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-                <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">filter_</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">filter_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">sim_data_ensemble</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">filter_</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+
+            <span class="n">loss</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss_1d</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">,</span> <span class="n">real_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">loss</span>
 
@@ -1109,7 +1154,7 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
     <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the loss between a specific coordinate of two time series.</span>
 
 <span class="sd">        Concrete classes have to override this method in order to implement new</span>
@@ -1142,7 +1187,7 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
 
 
 <h3 id="black_it.loss_functions.base.BaseLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1167,22 +1212,36 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
   <tbody>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
         <td><p>the weights of the loss coordinates.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>coordinate_filters</code></td>
+        <td><code>Optional[List[Optional[Callable]]]</code></td>
+        <td><p>filters/transformations to be applied to each simulated series before
+the loss computation.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/base.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize the loss function.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        coordinate_weights: the weights of the loss coordinates.</span>
+<span class="sd">        coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">            the loss computation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span> <span class="o">=</span> <span class="n">coordinate_weights</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span> <span class="o">=</span> <span class="n">coordinate_filters</span>
 </code></pre></div>
         </details>
     </div>
@@ -1250,7 +1309,7 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the loss between simulated and real data.</span>
 
 <span class="sd">    Args:</span>
@@ -1266,22 +1325,46 @@ black_it.loss_functions.base.BaseLoss            (<span title="abc.ABC">ABC</spa
         <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_coords</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_coords</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">nb_coordinate_weights</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span><span class="p">)</span>
-        <span class="n">assert_</span><span class="p">(</span>
+        <span class="n">_assert</span><span class="p">(</span>
             <span class="n">nb_coordinate_weights</span> <span class="o">==</span> <span class="n">num_coords</span><span class="p">,</span>
             <span class="p">(</span>
                 <span class="s2">&quot;the length of coordinate_weights should be equal &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;to the number of coordinates, got </span><span class="si">{</span><span class="n">nb_coordinate_weights</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">num_coords</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">),</span>
-            <span class="n">exc_cls</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+            <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_weights</span>
 
+    <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># a list of identity functions</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_coords</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nb_coordinate_filters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span><span class="p">)</span>
+        <span class="n">_assert</span><span class="p">(</span>
+            <span class="n">nb_coordinate_filters</span> <span class="o">==</span> <span class="n">num_coords</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;the length of coordinate_filters should be equal &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;to the number of coordinates, got </span><span class="si">{</span><span class="n">nb_coordinate_filters</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">num_coords</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">),</span>
+            <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_filters</span>
+
     <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_coords</span><span class="p">):</span>
-        <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss_1d</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">real_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-            <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="n">filter_</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">filter_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">sim_data_ensemble</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">filter_</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sim_data_ensemble</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss_1d</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">,</span> <span class="n">real_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">loss</span>
 </code></pre></div>
@@ -1354,7 +1437,7 @@ loss functions.</p>
 <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the loss between a specific coordinate of two time series.</span>
 
 <span class="sd">    Concrete classes have to override this method in order to implement new</span>
@@ -1452,15 +1535,16 @@ FourierLoss            (<a class="autorefs autorefs-internal" title="black_it.lo
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/fourier.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FourierLoss</span><span class="p">(</span><span class="n">BaseLoss</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for the Fourier loss.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for the Fourier loss.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">frequency_filter</span><span class="p">:</span> <span class="n">FrequencyFilter</span> <span class="o">=</span> <span class="n">gaussian_low_pass_filter</span><span class="p">,</span>
         <span class="n">f</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
         <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Loss computed using a distance in the Fourier space of the time series.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loss computed using a distance in the Fourier space of the time series.</span>
 
 <span class="sd">        This loss is equivalent to the Euclidean loss computed on the time</span>
 <span class="sd">        series after a Fourier-filter.</span>
@@ -1475,19 +1559,21 @@ FourierLoss            (<a class="autorefs autorefs-internal" title="black_it.lo
 <span class="sd">                to frequency_filter.</span>
 <span class="sd">            coordinate_weights: relative weights of the losses computed over</span>
 <span class="sd">                different time series coordinates.</span>
+<span class="sd">            coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">                the loss computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">assert_</span><span class="p">(</span>
+        <span class="n">_assert</span><span class="p">(</span>
             <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">f</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">,</span>
             <span class="s2">&quot;&#39;f&#39; must be in the interval (0.0, 1.0]&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frequency_filter</span> <span class="o">=</span> <span class="n">frequency_filter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute Euclidean distance between the Fourier transform of the two time series.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Euclidean distance between the Fourier transform of the two time series.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sim_data_ensemble: the first operand</span>
@@ -1531,7 +1617,7 @@ FourierLoss            (<a class="autorefs autorefs-internal" title="black_it.lo
 
 
 <h4 id="black_it.loss_functions.fourier.FourierLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_filter</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">gaussian_low_pass_filter</span> <span class="n">at</span> <span class="mh">0x7ff68deaa700</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_filter</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">gaussian_low_pass_filter</span> <span class="n">at</span> <span class="mh">0x7f7159717760</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1560,10 +1646,10 @@ the Fourier series.</p>
   <tbody>
       <tr>
         <td><code>frequency_filter</code></td>
-        <td><code>Callable[[numpy.ndarray, float], numpy.ndarray]</code></td>
+        <td><code>Callable[[numpy.ndarray[Any, numpy.dtype[numpy.complex128]], float], numpy.ndarray[Any, numpy.dtype[numpy.complex128]]]</code></td>
         <td><p>the function used to filter the fourier
 frequencies before the distance is computed.</p></td>
-        <td><code>&lt;function gaussian_low_pass_filter at 0x7ff68deaa700&gt;</code></td>
+        <td><code>&lt;function gaussian_low_pass_filter at 0x7f7159717760&gt;</code></td>
       </tr>
       <tr>
         <td><code>f</code></td>
@@ -1575,9 +1661,16 @@ to frequency_filter.</p></td>
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
         <td><p>relative weights of the losses computed over
 different time series coordinates.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>coordinate_filters</code></td>
+        <td><code>Optional[List[Optional[Callable]]]</code></td>
+        <td><p>filters/transformations to be applied to each simulated series before
+the loss computation.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1589,8 +1682,9 @@ different time series coordinates.</p></td>
     <span class="n">frequency_filter</span><span class="p">:</span> <span class="n">FrequencyFilter</span> <span class="o">=</span> <span class="n">gaussian_low_pass_filter</span><span class="p">,</span>
     <span class="n">f</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
     <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Loss computed using a distance in the Fourier space of the time series.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loss computed using a distance in the Fourier space of the time series.</span>
 
 <span class="sd">    This loss is equivalent to the Euclidean loss computed on the time</span>
 <span class="sd">    series after a Fourier-filter.</span>
@@ -1605,14 +1699,16 @@ different time series coordinates.</p></td>
 <span class="sd">            to frequency_filter.</span>
 <span class="sd">        coordinate_weights: relative weights of the losses computed over</span>
 <span class="sd">            different time series coordinates.</span>
+<span class="sd">        coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">            the loss computation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">assert_</span><span class="p">(</span>
+    <span class="n">_assert</span><span class="p">(</span>
         <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">f</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">,</span>
         <span class="s2">&quot;&#39;f&#39; must be in the interval (0.0, 1.0]&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">frequency_filter</span> <span class="o">=</span> <span class="n">frequency_filter</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1680,7 +1776,7 @@ different time series coordinates.</p></td>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Compute Euclidean distance between the Fourier transform of the two time series.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Euclidean distance between the Fourier transform of the two time series.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sim_data_ensemble: the first operand</span>
@@ -1785,7 +1881,7 @@ scale of the Gaussian filter</p></td>
     <span class="n">signal_frequencies</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">],</span>
     <span class="n">f</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Gaussian low-pass filter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gaussian low-pass filter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        signal_frequencies: the input signal transformed in the frequency</span>
@@ -1874,7 +1970,7 @@ just the identity.</p></td>
     <span class="n">signal_frequencies</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">],</span>
     <span class="n">f</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Ideal low-pass filter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ideal low-pass filter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        signal_frequencies: the input signal transformed in the frequency</span>
@@ -1933,12 +2029,15 @@ black_it.loss_functions.minkowski.MinkowskiLoss            (<a class="autorefs a
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/minkowski.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MinkowskiLoss</span><span class="p">(</span><span class="n">BaseLoss</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for the Minkowski loss.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for the Minkowski loss.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loss computed using a Minkowski distance.</span>
 
 <span class="sd">        The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance)</span>
@@ -1951,6 +2050,8 @@ black_it.loss_functions.minkowski.MinkowskiLoss            (<a class="autorefs a
 <span class="sd">        Args:</span>
 <span class="sd">            p: The order of the norm used to compute the distance between real and simulated series</span>
 <span class="sd">            coordinate_weights: The order of the norm used to compute the distance between real and simulated series</span>
+<span class="sd">            coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">                the loss computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
@@ -1958,7 +2059,7 @@ black_it.loss_functions.minkowski.MinkowskiLoss            (<a class="autorefs a
     <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call scipy.spatial.distance.minkowski() on its arguments.</span>
 
 <span class="sd">        Args:</span>
@@ -1994,7 +2095,7 @@ black_it.loss_functions.minkowski.MinkowskiLoss            (<a class="autorefs a
 
 
 <h3 id="black_it.loss_functions.minkowski.MinkowskiLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -2029,8 +2130,15 @@ is a generalization of both the Manhattan distance (p=1) and the Euclidean dista
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
         <td><p>The order of the norm used to compute the distance between real and simulated series</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>coordinate_filters</code></td>
+        <td><code>Optional[List[Optional[Callable]]]</code></td>
+        <td><p>filters/transformations to be applied to each simulated series before
+the loss computation.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2038,9 +2146,12 @@ is a generalization of both the Manhattan distance (p=1) and the Euclidean dista
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/minkowski.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loss computed using a Minkowski distance.</span>
 
 <span class="sd">    The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance)</span>
@@ -2053,6 +2164,8 @@ is a generalization of both the Manhattan distance (p=1) and the Euclidean dista
 <span class="sd">    Args:</span>
 <span class="sd">        p: The order of the norm used to compute the distance between real and simulated series</span>
 <span class="sd">        coordinate_weights: The order of the norm used to compute the distance between real and simulated series</span>
+<span class="sd">        coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">            the loss computation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
@@ -2123,7 +2236,7 @@ is a generalization of both the Manhattan distance (p=1) and the Euclidean dista
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Call scipy.spatial.distance.minkowski() on its arguments.</span>
 
 <span class="sd">    Args:</span>
@@ -2177,15 +2290,17 @@ black_it.loss_functions.msm.MethodOfMomentsLoss            (<a class="autorefs a
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/msm.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MethodOfMomentsLoss</span><span class="p">(</span><span class="n">BaseLoss</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for the &#39;method of moments&#39; loss.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for the &#39;method of moments&#39; loss.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span>
         <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">moment_calculator</span><span class="p">:</span> <span class="n">MomentCalculator</span> <span class="o">=</span> <span class="n">get_mom_ts_1d</span><span class="p">,</span>
+        <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">standardise_moments</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the loss function based on the &#39;method of moments&#39;.</span>
 
 <span class="sd">        Returns the MSM objective function, i.e. the square difference between</span>
@@ -2200,66 +2315,82 @@ black_it.loss_functions.msm.MethodOfMomentsLoss            (<a class="autorefs a
 
 <span class="sd">        Args:</span>
 <span class="sd">            covariance_mat: covariance matrix between the moments.</span>
-<span class="sd">                The default is the identity matrix. The covariance matrix must</span>
-<span class="sd">                be a symmetric matrix whose size must be equal to the number of</span>
-<span class="sd">                elements that the moment calculator returns.</span>
+<span class="sd">                &#39;identity&#39; (the default) gives the identity matrix, &#39;inverse_variance&#39; gives the diagonal</span>
+<span class="sd">                matrix of the estimated inverse variances. Alternatively, one can specify a numerical symmetric matrix</span>
+<span class="sd">                whose size must be equal to the number of elements that the moment calculator returns.</span>
 <span class="sd">            coordinate_weights: importance of each coordinate. By default all</span>
 <span class="sd">                coordinates are treated equally.</span>
 <span class="sd">            moment_calculator: a function that takes a 1D time series and</span>
 <span class="sd">                returns a series of moments. The default is</span>
 <span class="sd">                black_it.utils.time_series.get_mom_ts_1d()</span>
+<span class="sd">            coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">                the loss computation.</span>
+<span class="sd">            standardise_moments: if True all moments are divided by the absolute value of the real moments,</span>
+<span class="sd">                default is False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">MethodOfMomentsLoss</span><span class="o">.</span><span class="n">_validate_covariance_and_calculator</span><span class="p">(</span>
             <span class="n">moment_calculator</span><span class="p">,</span> <span class="n">covariance_mat</span>
         <span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">=</span> <span class="n">covariance_mat</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span> <span class="o">=</span> <span class="n">moment_calculator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_standardise_moments</span> <span class="o">=</span> <span class="n">standardise_moments</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_validate_covariance_and_calculator</span><span class="p">(</span>
         <span class="n">moment_calculator</span><span class="p">:</span> <span class="n">MomentCalculator</span><span class="p">,</span>
-        <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate the covariance matrix.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            moment_calculator: the moment calculator</span>
-<span class="sd">            covariance_mat: the covariance matrix, or None</span>
+<span class="sd">            covariance_mat: the covariance matrix, either as a string or as a numpy array</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if the covariance matrix is not valid.</span>
-<span class="sd">                It can be invalid if it is not symmetric or if moment_calculator</span>
+<span class="sd">                If it is a string, ot can be invalid if it is not one of the possible options.</span>
+<span class="sd">                If it is a numpy array, it can be invalid if it is not symmetric or if moment_calculator</span>
 <span class="sd">                is the default get_mom_ts_1d and the covariance matrix&#39;s shape</span>
 <span class="sd">                is not 18. Other possible errors won&#39;t be caught by this</span>
 <span class="sd">                function, and can only be detected at runtime.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">covariance_mat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># if we were given no covariance matrix, then we&#39;ll use a default</span>
-            <span class="c1"># one, and we can&#39;t do any further validation (without executing the</span>
-            <span class="c1"># moment_calculator)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">covariance_mat</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_CovarianceMatrixType</span><span class="p">(</span><span class="n">covariance_mat</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;expected one of </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">_CovarianceMatrixType</span><span class="p">))</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">covariance_mat</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
             <span class="k">return</span>
 
-        <span class="c1"># a non null covariance_mat was given</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_symmetric</span><span class="p">(</span><span class="n">covariance_mat</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;the provided covariance matrix is not valid as it is not a symmetric matrix&quot;</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">moment_calculator</span> <span class="ow">is</span> <span class="n">get_mom_ts_1d</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">covariance_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">18</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;the provided covariance matrix is not valid as it has a wrong shape: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;expected 18, got </span><span class="si">{</span><span class="n">covariance_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">covariance_mat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="c1"># a non null covariance_mat was given</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_symmetric</span><span class="p">(</span><span class="n">covariance_mat</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;the provided covariance matrix is not valid as it is not a symmetric matrix&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">moment_calculator</span> <span class="ow">is</span> <span class="n">get_mom_ts_1d</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">covariance_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">18</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;the provided covariance matrix is not valid as it has a wrong shape: &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;expected 18, got </span><span class="si">{</span><span class="n">covariance_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;please specify a valid covariance matrix, either as a string or directly as a numpy array&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the loss based on the &#39;method of moments&#39;.</span>
 
 <span class="sd">        Returns the MSM objective function, i.e. the square difference between the moments of the two time series.</span>
@@ -2272,21 +2403,33 @@ black_it.loss_functions.msm.MethodOfMomentsLoss            (<a class="autorefs a
 <span class="sd">            the MSM loss over a specific coordinate.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># compute the moments for the simulated ensemble</span>
-        <span class="n">ensemble_real_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="n">ensemble_sim_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sim_data_ensemble</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="c1"># compute moments of the real time series</span>
-        <span class="n">sim_mom_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+        <span class="n">real_mom_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
 
-        <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim_mom_1d</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">ensemble_real_mom_1d</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># write moments in relative terms is needed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_standardise_moments</span><span class="p">:</span>
+            <span class="n">ensemble_sim_mom_1d</span> <span class="o">=</span> <span class="n">ensemble_sim_mom_1d</span> <span class="o">/</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">real_mom_1d</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">real_mom_1d</span> <span class="o">=</span> <span class="n">real_mom_1d</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">real_mom_1d</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># mean simulated moments</span>
+        <span class="n">sim_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ensemble_sim_mom_1d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">real_mom_1d</span> <span class="o">-</span> <span class="n">sim_mom_1d</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">==</span> <span class="n">_CovarianceMatrixType</span><span class="o">.</span><span class="n">IDENTITY</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
             <span class="n">loss_1d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">loss_1d</span>
-
-        <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span>
-
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">==</span> <span class="n">_CovarianceMatrixType</span><span class="o">.</span><span class="n">INVERSE_VARIANCE</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+                <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">real_mom_1d</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">ensemble_sim_mom_1d</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span><span class="p">)</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">loss_1d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -2325,7 +2468,7 @@ black_it.loss_functions.msm.MethodOfMomentsLoss            (<a class="autorefs a
 
 
 <h3 id="black_it.loss_functions.msm.MethodOfMomentsLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">covariance_mat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moment_calculator</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">get_mom_ts_1d</span> <span class="n">at</span> <span class="mh">0x7ff68e361280</span><span class="o">&gt;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">covariance_mat</span><span class="o">=</span><span class="s1">&#39;identity&#39;</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moment_calculator</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">get_mom_ts_1d</span> <span class="n">at</span> <span class="mh">0x7f71442e8430</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">standardise_moments</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -2358,27 +2501,41 @@ moment calculator and the size of the covariance matrix.</p>
   <tbody>
       <tr>
         <td><code>covariance_mat</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Union[str, numpy.ndarray[Any, numpy.dtype[numpy.float64]]]</code></td>
         <td><p>covariance matrix between the moments.
-The default is the identity matrix. The covariance matrix must
-be a symmetric matrix whose size must be equal to the number of
-elements that the moment calculator returns.</p></td>
-        <td><code>None</code></td>
+'identity' (the default) gives the identity matrix, 'inverse_variance' gives the diagonal
+matrix of the estimated inverse variances. Alternatively, one can specify a numerical symmetric matrix
+whose size must be equal to the number of elements that the moment calculator returns.</p></td>
+        <td><code>&#39;identity&#39;</code></td>
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[numpy.float64]]]</code></td>
         <td><p>importance of each coordinate. By default all
 coordinates are treated equally.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>moment_calculator</code></td>
-        <td><code>Callable[[numpy.ndarray], numpy.ndarray]</code></td>
+        <td><code>Callable[[numpy.ndarray[Any, numpy.dtype[+ScalarType]]], numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
         <td><p>a function that takes a 1D time series and
 returns a series of moments. The default is
 black_it.utils.time_series.get_mom_ts_1d()</p></td>
-        <td><code>&lt;function get_mom_ts_1d at 0x7ff68e361280&gt;</code></td>
+        <td><code>&lt;function get_mom_ts_1d at 0x7f71442e8430&gt;</code></td>
+      </tr>
+      <tr>
+        <td><code>coordinate_filters</code></td>
+        <td><code>Optional[List[Optional[Callable]]]</code></td>
+        <td><p>filters/transformations to be applied to each simulated series before
+the loss computation.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>standardise_moments</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True all moments are divided by the absolute value of the real moments,
+default is False.</p></td>
+        <td><code>False</code></td>
       </tr>
   </tbody>
 </table>
@@ -2386,11 +2543,13 @@ black_it.utils.time_series.get_mom_ts_1d()</p></td>
           <summary>Source code in <code>black_it/loss_functions/msm.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">covariance_mat</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span>
     <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">moment_calculator</span><span class="p">:</span> <span class="n">MomentCalculator</span> <span class="o">=</span> <span class="n">get_mom_ts_1d</span><span class="p">,</span>
+    <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">standardise_moments</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize the loss function based on the &#39;method of moments&#39;.</span>
 
 <span class="sd">    Returns the MSM objective function, i.e. the square difference between</span>
@@ -2405,22 +2564,27 @@ black_it.utils.time_series.get_mom_ts_1d()</p></td>
 
 <span class="sd">    Args:</span>
 <span class="sd">        covariance_mat: covariance matrix between the moments.</span>
-<span class="sd">            The default is the identity matrix. The covariance matrix must</span>
-<span class="sd">            be a symmetric matrix whose size must be equal to the number of</span>
-<span class="sd">            elements that the moment calculator returns.</span>
+<span class="sd">            &#39;identity&#39; (the default) gives the identity matrix, &#39;inverse_variance&#39; gives the diagonal</span>
+<span class="sd">            matrix of the estimated inverse variances. Alternatively, one can specify a numerical symmetric matrix</span>
+<span class="sd">            whose size must be equal to the number of elements that the moment calculator returns.</span>
 <span class="sd">        coordinate_weights: importance of each coordinate. By default all</span>
 <span class="sd">            coordinates are treated equally.</span>
 <span class="sd">        moment_calculator: a function that takes a 1D time series and</span>
 <span class="sd">            returns a series of moments. The default is</span>
 <span class="sd">            black_it.utils.time_series.get_mom_ts_1d()</span>
+<span class="sd">        coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">            the loss computation.</span>
+<span class="sd">        standardise_moments: if True all moments are divided by the absolute value of the real moments,</span>
+<span class="sd">            default is False.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MethodOfMomentsLoss</span><span class="o">.</span><span class="n">_validate_covariance_and_calculator</span><span class="p">(</span>
         <span class="n">moment_calculator</span><span class="p">,</span> <span class="n">covariance_mat</span>
     <span class="p">)</span>
 
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">=</span> <span class="n">covariance_mat</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span> <span class="o">=</span> <span class="n">moment_calculator</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_standardise_moments</span> <span class="o">=</span> <span class="n">standardise_moments</span>
 </code></pre></div>
         </details>
     </div>
@@ -2489,7 +2653,7 @@ black_it.utils.time_series.get_mom_ts_1d()</p></td>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the loss based on the &#39;method of moments&#39;.</span>
 
 <span class="sd">    Returns the MSM objective function, i.e. the square difference between the moments of the two time series.</span>
@@ -2502,21 +2666,33 @@ black_it.utils.time_series.get_mom_ts_1d()</p></td>
 <span class="sd">        the MSM loss over a specific coordinate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># compute the moments for the simulated ensemble</span>
-    <span class="n">ensemble_real_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="n">ensemble_sim_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sim_data_ensemble</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="c1"># compute moments of the real time series</span>
-    <span class="n">sim_mom_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+    <span class="n">real_mom_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moment_calculator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
 
-    <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim_mom_1d</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">ensemble_real_mom_1d</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># write moments in relative terms is needed</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_standardise_moments</span><span class="p">:</span>
+        <span class="n">ensemble_sim_mom_1d</span> <span class="o">=</span> <span class="n">ensemble_sim_mom_1d</span> <span class="o">/</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">real_mom_1d</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="n">real_mom_1d</span> <span class="o">=</span> <span class="n">real_mom_1d</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">real_mom_1d</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># mean simulated moments</span>
+    <span class="n">sim_mom_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ensemble_sim_mom_1d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">real_mom_1d</span> <span class="o">-</span> <span class="n">sim_mom_1d</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">==</span> <span class="n">_CovarianceMatrixType</span><span class="o">.</span><span class="n">IDENTITY</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
         <span class="n">loss_1d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">loss_1d</span>
-
-    <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span>
-
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">==</span> <span class="n">_CovarianceMatrixType</span><span class="o">.</span><span class="n">INVERSE_VARIANCE</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+            <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">real_mom_1d</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">ensemble_sim_mom_1d</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span><span class="p">)</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_covariance_mat</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">loss_1d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -2583,7 +2759,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
         <details class="quote">
           <summary>Source code in <code>black_it/loss_functions/gsl_div.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">GslDivLoss</span><span class="p">(</span><span class="n">BaseLoss</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for the Gsl-div loss.</span>
 
 <span class="sd">    Example:</span>
@@ -2601,23 +2777,26 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
         <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">nb_word_lengths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the GSL-div loss object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_values: number of values the digitised series can take</span>
 <span class="sd">            nb_word_lengths: the number of word length to consider</span>
 <span class="sd">            coordinate_weights: the weights of the loss coordinates</span>
+<span class="sd">            coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">                the loss computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nb_values</span> <span class="o">=</span> <span class="n">nb_values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nb_word_lengths</span> <span class="o">=</span> <span class="n">nb_word_lengths</span>
 
     <span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the GSL-div measure.</span>
 
 <span class="sd">        From (Lamperti, 2017):</span>
@@ -2681,7 +2860,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
         <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute the GSL-div for a single realisation of the simulated data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the GSL-div for a single realisation of the simulated data.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sim_xd: discretised simulated series</span>
@@ -2727,10 +2906,10 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
     <span class="k">def</span> <span class="nf">discretize</span><span class="p">(</span>
         <span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
         <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">start_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">stop_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="n">start_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">stop_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Discretize the TS in &#39;nb_values&#39; finite states.</span>
 
 <span class="sd">        &gt;&gt;&gt; GslDivLoss.discretize(</span>
@@ -2751,13 +2930,15 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
 <span class="sd">        Returns:</span>
 <span class="sd">            the discretised time series</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">start_index</span><span class="p">)</span>
+        <span class="n">stop_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">stop_index</span><span class="p">)</span>
         <span class="n">linspace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start_index</span> <span class="o">-</span> <span class="n">EPS</span><span class="p">,</span> <span class="n">stop_index</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">,</span> <span class="n">nb_values</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">linspace</span><span class="p">,</span> <span class="n">time_series</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_words</span><span class="p">(</span><span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an overlapping array of words (int32) of &#39;length&#39; given a discretised vector.</span>
 
 <span class="sd">        &gt;&gt;&gt; GslDivLoss.get_words(np.asarray([1, 2, 2, 2]), 2)</span>
@@ -2773,7 +2954,11 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tswlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_series</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">length</span>
-        <span class="n">assert_</span><span class="p">(</span><span class="n">tswlen</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;the chosen word length is too high&quot;</span><span class="p">,</span> <span class="n">exc_cls</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">)</span>
+        <span class="n">_assert</span><span class="p">(</span>
+            <span class="n">tswlen</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;the chosen word length is too high&quot;</span><span class="p">,</span>
+            <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">tsw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">tswlen</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
@@ -2784,7 +2969,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_words_est_prob</span><span class="p">(</span><span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an array of estimated probabilities given an array of words (int32).</span>
 
 <span class="sd">        Args:</span>
@@ -2799,7 +2984,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_sh_entr</span><span class="p">(</span><span class="n">probs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">log_base</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the Shannon entropy given an array of probabilities.</span>
 
 <span class="sd">        Args:</span>
@@ -2831,7 +3016,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
 
 
 <h3 id="black_it.loss_functions.gsl_div.GslDivLoss.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nb_word_lengths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nb_word_lengths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -2868,8 +3053,15 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
       </tr>
       <tr>
         <td><code>coordinate_weights</code></td>
-        <td><code>Optional[numpy.ndarray]</code></td>
+        <td><code>Optional[numpy.ndarray[Any, numpy.dtype[+ScalarType]]]</code></td>
         <td><p>the weights of the loss coordinates</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>coordinate_filters</code></td>
+        <td><code>Optional[List[Optional[Callable]]]</code></td>
+        <td><p>filters/transformations to be applied to each simulated series before
+the loss computation.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2881,16 +3073,19 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
     <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">nb_word_lengths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">coordinate_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">coordinate_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize the GSL-div loss object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        nb_values: number of values the digitised series can take</span>
 <span class="sd">        nb_word_lengths: the number of word length to consider</span>
 <span class="sd">        coordinate_weights: the weights of the loss coordinates</span>
+<span class="sd">        coordinate_filters: filters/transformations to be applied to each simulated series before</span>
+<span class="sd">            the loss computation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">coordinate_weights</span><span class="p">,</span> <span class="n">coordinate_filters</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">nb_values</span> <span class="o">=</span> <span class="n">nb_values</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">nb_word_lengths</span> <span class="o">=</span> <span class="n">nb_word_lengths</span>
 </code></pre></div>
@@ -2967,7 +3162,7 @@ black_it.loss_functions.gsl_div.GslDivLoss            (<a class="autorefs autore
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss_1d</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">sim_data_ensemble</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">real_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the GSL-div measure.</span>
 
 <span class="sd">    From (Lamperti, 2017):</span>
@@ -3086,13 +3281,13 @@ It must be greater than 0.</p></td>
       </tr>
       <tr>
         <td><code>start_index</code></td>
-        <td><code>float</code></td>
+        <td><code>Union[numpy.float64, float]</code></td>
         <td><p>the starting point</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>stop_index</code></td>
-        <td><code>float</code></td>
+        <td><code>Union[numpy.float64, float]</code></td>
         <td><p>the stopping point</p></td>
         <td><em>required</em></td>
       </tr>
@@ -3119,10 +3314,10 @@ It must be greater than 0.</p></td>
 <span class="k">def</span> <span class="nf">discretize</span><span class="p">(</span>
     <span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
     <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">start_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">stop_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">start_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">stop_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discretize the TS in &#39;nb_values&#39; finite states.</span>
 
 <span class="sd">    &gt;&gt;&gt; GslDivLoss.discretize(</span>
@@ -3143,6 +3338,8 @@ It must be greater than 0.</p></td>
 <span class="sd">    Returns:</span>
 <span class="sd">        the discretised time series</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">start_index</span><span class="p">)</span>
+    <span class="n">stop_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">stop_index</span><span class="p">)</span>
     <span class="n">linspace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start_index</span> <span class="o">-</span> <span class="n">EPS</span><span class="p">,</span> <span class="n">stop_index</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">,</span> <span class="n">nb_values</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">linspace</span><span class="p">,</span> <span class="n">time_series</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
@@ -3215,7 +3412,7 @@ It must be greater than 0.</p></td>
           <summary>Source code in <code>black_it/loss_functions/gsl_div.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_sh_entr</span><span class="p">(</span><span class="n">probs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">log_base</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the Shannon entropy given an array of probabilities.</span>
 
 <span class="sd">    Args:</span>
@@ -3305,7 +3502,7 @@ array([12, 22, 22])</p>
           <summary>Source code in <code>black_it/loss_functions/gsl_div.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_words</span><span class="p">(</span><span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return an overlapping array of words (int32) of &#39;length&#39; given a discretised vector.</span>
 
 <span class="sd">    &gt;&gt;&gt; GslDivLoss.get_words(np.asarray([1, 2, 2, 2]), 2)</span>
@@ -3321,7 +3518,11 @@ array([12, 22, 22])</p>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tswlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_series</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">length</span>
-    <span class="n">assert_</span><span class="p">(</span><span class="n">tswlen</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;the chosen word length is too high&quot;</span><span class="p">,</span> <span class="n">exc_cls</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">)</span>
+    <span class="n">_assert</span><span class="p">(</span>
+        <span class="n">tswlen</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;the chosen word length is too high&quot;</span><span class="p">,</span>
+        <span class="n">exception_class</span><span class="o">=</span><span class="ne">ValueError</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">tsw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">tswlen</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
@@ -3392,7 +3593,7 @@ array([12, 22, 22])</p>
           <summary>Source code in <code>black_it/loss_functions/gsl_div.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_words_est_prob</span><span class="p">(</span><span class="n">time_series</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return an array of estimated probabilities given an array of words (int32).</span>
 
 <span class="sd">    Args:</span>
@@ -3494,7 +3695,7 @@ array([12, 22, 22])</p>
     <span class="n">nb_values</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Compute the GSL-div for a single realisation of the simulated data.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the GSL-div for a single realisation of the simulated data.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sim_xd: discretised simulated series</span>
@@ -3553,7 +3754,6 @@ array([12, 22, 22])</p>
 
               
             </article>
-            
           </div>
         </div>
         
@@ -3561,8 +3761,7 @@ array([12, 22, 22])</p>
       
         <footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
         <a href="../samplers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Samplers" rel="prev">
@@ -3617,10 +3816,10 @@ array([12, 22, 22])</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a877e258.min.js"></script>
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       
