@@ -33,7 +33,7 @@ from pathlib import Path
 HEADER_REGEX = re.compile(
     r"""(#!/usr/bin/env python3
 )?# Black-box ABM Calibration Kit \(Black-it\)
-# Copyright \(C\) 2021-2022 Banca d'Italia
+# Copyright \(C\) 2021-(2022|2023) Banca d'Italia
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
