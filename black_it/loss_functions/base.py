@@ -62,6 +62,45 @@ class BaseLoss(ABC):
         """
         num_coords = real_data.shape[1]
 
+        weights = self._check_coordinate_weights(num_coords)
+        filters = self._check_coordinate_filters(num_coords)
+
+        filtered_data = self._filter_data(num_coords, filters, sim_data_ensemble)
+
+        loss = 0
+        for i in range(num_coords):
+            loss += self.compute_loss_1d(filtered_data[i], real_data[:, i]) * weights[i]
+
+        return loss
+
+    @staticmethod
+    def _filter_data(
+        num_coords: int,
+        filters: List[Optional[Callable]],
+        sim_data_ensemble: NDArray[np.float64],
+    ) -> NDArray[np.float64]:
+        """Filter the simulated time series."""
+        filtered_data = []
+
+        for i in range(num_coords):
+            filter_ = filters[i]
+            if filter_ is None:
+                filtered_data_1d = sim_data_ensemble[:, :, i]
+            else:
+                filtered_data_1d = np.array(
+                    [
+                        filter_(sim_data_ensemble[j, :, i])
+                        for j in range(sim_data_ensemble.shape[0])
+                    ]
+                )
+            filtered_data.append(filtered_data_1d)
+
+        return np.array(filtered_data)
+
+    def _check_coordinate_weights(self, num_coords: int) -> NDArray[np.float64]:
+        """Check self.coordinate_weights and return usable weights."""
+        weights: NDArray[np.float64]
+
         if self.coordinate_weights is None:
             weights = np.ones(num_coords) / num_coords
         else:
@@ -76,7 +115,12 @@ class BaseLoss(ABC):
             )
             weights = self.coordinate_weights
 
+        return weights
+
+    def _check_coordinate_filters(self, num_coords: int) -> List[Optional[Callable]]:
+        """Check self.coordinate_filters and return usable filters."""
         filters: List[Optional[Callable]]
+
         if self.coordinate_filters is None:
             # a list of identity functions
             filters = [None] * num_coords
@@ -92,22 +136,7 @@ class BaseLoss(ABC):
             )
             filters = self.coordinate_filters
 
-        loss = 0
-        for i in range(num_coords):
-            filter_ = filters[i]
-            if filter_ is None:
-                filtered_data = sim_data_ensemble[:, :, i]
-            else:
-                filtered_data = np.array(
-                    [
-                        filter_(sim_data_ensemble[j, :, i])
-                        for j in range(sim_data_ensemble.shape[0])
-                    ]
-                )
-
-            loss += self.compute_loss_1d(filtered_data, real_data[:, i]) * weights[i]
-
-        return loss
+        return filters
 
     @abstractmethod
     def compute_loss_1d(
