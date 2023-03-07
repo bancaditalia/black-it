@@ -16,7 +16,7 @@
 
 """This module defines the 'LikelihoodLoss'  class."""
 import warnings
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -42,7 +42,7 @@ class LikelihoodLoss(BaseLoss):
         self,
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
-        h: Optional[float] = None,
+        h: Union[str, float] = "silverman",
     ):
         """
         Initialize the loss function.
@@ -93,7 +93,7 @@ class LikelihoodLoss(BaseLoss):
             )
 
         filters = self._check_coordinate_filters(D)
-        filtered_data = self._filter_data(D, filters, sim_data_ensemble)
+        filtered_data = self._filter_data(filters, sim_data_ensemble)
         sim_data_ensemble = np.transpose(filtered_data, (1, 2, 0))
 
         h = self._check_bandwidth(S, D)
@@ -116,11 +116,18 @@ class LikelihoodLoss(BaseLoss):
         """Check the bandwidth self.h and return a usable one."""
         h: float
 
-        if self.h is not None:
-            h = self.h
+        if isinstance(self.h, str):
+            if self.h == "silverman":
+                h = self._get_bandwidth_silverman(S, D)
+            elif self.h == "scott":
+                h = self._get_bandwidth_scott(S, D)
+            else:
+                raise KeyError(
+                    "Select a valid rule of thumb (either 'silverman' or 'scott') "
+                    "or directly a numerical value for the bandwidth"
+                )
         else:
-            # use Silverman's rule of thumb
-            h = self._get_bandwidth_silverman(S, D)
+            h = self.h
 
         return h
 

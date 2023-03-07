@@ -1,5 +1,5 @@
 # Black-box ABM Calibration Kit (Black-it)
-# Copyright (C) 2021-2022 Banca d'Italia
+# Copyright (C) 2021-2023 Banca d'Italia
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -65,7 +65,7 @@ class BaseLoss(ABC):
         weights = self._check_coordinate_weights(num_coords)
         filters = self._check_coordinate_filters(num_coords)
 
-        filtered_data = self._filter_data(num_coords, filters, sim_data_ensemble)
+        filtered_data = self._filter_data(filters, sim_data_ensemble)
 
         loss = 0
         for i in range(num_coords):
@@ -75,15 +75,14 @@ class BaseLoss(ABC):
 
     @staticmethod
     def _filter_data(
-        num_coords: int,
         filters: List[Optional[Callable]],
         sim_data_ensemble: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """Filter the simulated time series."""
         filtered_data = []
 
-        for i in range(num_coords):
-            filter_ = filters[i]
+        for i, filter_ in enumerate(filters):
+
             if filter_ is None:
                 filtered_data_1d = sim_data_ensemble[:, :, i]
             else:

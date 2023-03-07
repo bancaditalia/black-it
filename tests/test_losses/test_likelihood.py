@@ -18,12 +18,11 @@ import numpy as np
 
 from black_it.loss_functions.likelihood import LikelihoodLoss
 
-np.random.seed(3)
-
 
 def test_likelihood_1d() -> None:
     """Test the computation of the Likelihood in the Likelihood loss in 1d."""
     # sample from a Gaussian distribution.
+    np.random.seed(11)
     real_data = np.random.normal(0, 1, size=(7, 1))
 
     expected_neg_log_likelihood = -np.sum(
@@ -32,7 +31,7 @@ def test_likelihood_1d() -> None:
     expected_likelihood = np.exp(-expected_neg_log_likelihood)
 
     sim_data_ensemble = np.random.normal(0, 1, size=(3, 100000, 1))
-    loss = LikelihoodLoss(h=None)
+    loss = LikelihoodLoss(h="silverman")
     neg_log_lik = loss.compute_loss(sim_data_ensemble, real_data)
     lik = np.exp(-neg_log_lik)
     assert np.isclose(lik, expected_likelihood, rtol=0.1)
@@ -41,6 +40,7 @@ def test_likelihood_1d() -> None:
 def test_likelihood_2d() -> None:
     """Test the computation of the Likelihood in the Likelihood loss in 2d."""
     # sample from a Gaussian distribution.
+    np.random.seed(11)
     real_data = np.random.normal(0, 1, size=(10, 2))
 
     expected_neg_log_likelihood = -np.sum(
@@ -57,6 +57,7 @@ def test_likelihood_2d() -> None:
 def test_likelihood_2d_wsigma() -> None:
     """Test the computation of the Likelihood in the Likelihood loss in 2d."""
     # sample from a Gaussian distribution.
+    np.random.seed(11)
     sigma, D = 3.0, 2
     real_data = np.random.normal(0, sigma, size=(10, D))
 
