@@ -32,11 +32,12 @@ from numpy.typing import NDArray
 from black_it.loss_functions.base import BaseLoss
 from black_it.samplers.base import BaseSampler
 from black_it.search_space import SearchSpace
-from black_it.utils.base import _assert, get_random_seed
+from black_it.utils.base import _assert
 from black_it.utils.json_pandas_checkpointing import (
     load_calibrator_state,
     save_calibrator_state,
 )
+from black_it.utils.seedable import get_random_seed
 
 
 class Calibrator:  # pylint: disable=too-many-instance-attributes
