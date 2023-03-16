@@ -38,6 +38,15 @@ linters
 lockdown
 modeled
 rumors
+MLSurrogateSampler
+xgboost
+float32
+marcofavorito
+sim_length
+param
+coordinate_filters
+series_samp
+msm
  - AUTHORS.md
 i
 o
