@@ -24,7 +24,7 @@ from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.search_space import SearchSpace
-from black_it.utils.base import get_random_seed
+from black_it.utils.seedable import get_random_seed
 
 
 class BaseSampler(ABC):
