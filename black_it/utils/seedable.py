@@ -1,0 +1,71 @@
+# Black-box ABM Calibration Kit (Black-it)
+# Copyright (C) 2021-2023 Banca d'Italia
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+"""This module contains the definition of a 'seedable' base class."""
+
+from typing import Optional
+
+import numpy as np
+from numpy.random import default_rng
+
+from black_it.utils.base import get_random_seed
+
+
+class BaseSeedable:
+    """
+    BaseSeedable base class.
+
+    This is the base class for all objects that need to keep a random state.
+
+    In particular, the interface provides the following features:
+    - it is able to accept a random seed from the client;
+    - it allows the client reset the random seed;
+    - it provides a getter to the internal random generator;
+    - it allows to sample a random seed (in the range [0, 2^32 - 1]).
+    """
+
+    def __init__(
+        self,
+        random_state: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize the sampler.
+
+        Args:
+            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+        """
+        # this triggers the property setter
+        self.random_state: Optional[int] = random_state
+
+    @property
+    def random_state(self) -> Optional[int]:
+        """Get the random state."""
+        return self.__random_state
+
+    @random_state.setter
+    def random_state(self, random_state: Optional[int]) -> None:
+        """Set the random state."""
+        self.__random_state = random_state
+        self.__random_generator = default_rng(self.random_state)
+
+    @property
+    def random_generator(self) -> np.random.Generator:
+        """Get the random generator."""
+        return self.__random_generator
+
+    def get_random_seed(self) -> int:
+        """Get new random seed from the current random generator."""
+        return get_random_seed(self.__random_generator)
