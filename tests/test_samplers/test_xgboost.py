@@ -24,6 +24,10 @@ from black_it.samplers.halton import HaltonSampler
 from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 from examples.models.economics.brock_hommes import BH4
+from tests.utils.base import no_xgboost_installed
+
+pytestmark = no_xgboost_installed
+
 
 # This is a temporary workaround to make tests to run also on Windows and Mac.
 #   See: https://github.com/bancaditalia/black-it/issues/49
@@ -33,6 +37,7 @@ elif sys.platform == "darwin":
     expected_params = np.array([[0.24, 0.26], [0.15, 0.08], [0.01, 0.03], [0.28, 0.21]])
 else:
     expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
+
 
 MAX_FLOAT32 = np.finfo(np.float32).max
 MIN_FLOAT32 = np.finfo(np.float32).min

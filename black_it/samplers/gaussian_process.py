@@ -26,10 +26,24 @@ import numpy as np
 from scipy.special import erfc  # type: ignore[import]  # pylint: disable=no-name-in-module
 from sklearn.gaussian_process import GaussianProcessRegressor, kernels  # type: ignore[import]
 
+from black_it._load_dependency import (
+    _GP_SAMPLER_EXTRA_NAME,
+    _GPY_PACKAGE_NAME,
+    _check_import_error_else_raise_exception,
+)
 from black_it.samplers.surrogate import MLSurrogateSampler
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
+
+_GPY_IMPORT_ERROR: ImportError | None
+try:
+    import GPy  # noqa: F401
+    from GPy.models import GPRegression  # noqa: F401
+except ImportError as e:
+    _GPY_IMPORT_ERROR = e
+else:
+    _GPY_IMPORT_ERROR = None
 
 
 _BIG_DATASET_SIZE_WARNING_THRESHOLD = 500
@@ -76,6 +90,8 @@ class GaussianProcessSampler(MLSurrogateSampler):
             acquisition: type of acquisition function, it can be 'expected_improvement' of simply 'mean'
             jitter: positive value to make the "expected_improvement" acquisition more explorative.
         """
+        self.__check_gpy_import_error()
+
         self._validate_acquisition(acquisition)
 
         super().__init__(
@@ -89,6 +105,16 @@ class GaussianProcessSampler(MLSurrogateSampler):
         self.jitter = jitter
         self._gpmodel: GaussianProcessRegressor | None = None
         self._fmin: np.double | float | None = None
+
+    @classmethod
+    def __check_gpy_import_error(cls) -> None:
+        """Check if an import error happened while attempting to import the 'GPy' package."""
+        _check_import_error_else_raise_exception(
+            _GPY_IMPORT_ERROR,
+            cls.__name__,
+            _GPY_PACKAGE_NAME,
+            _GP_SAMPLER_EXTRA_NAME,
+        )
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
