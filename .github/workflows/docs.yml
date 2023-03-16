@@ -6,9 +6,17 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'AUTHORS.md'
+      - 'CONTRIBUTING.md'
+      - 'HISTORY.md'
+      - 'README.md'
   pull_request:
     paths:
       - 'docs/**'
+      - 'AUTHORS.md'
+      - 'CONTRIBUTING.md'
+      - 'HISTORY.md'
+      - 'README.md'
 jobs:
   run:
     continue-on-error: True
