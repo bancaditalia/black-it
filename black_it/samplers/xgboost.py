@@ -19,14 +19,26 @@ import warnings
 from typing import Optional, cast
 
 import numpy as np
-import xgboost as xgb
 from numpy.typing import NDArray
 
+from black_it._load_dependency import (
+    _XGBOOST_PACKAGE_NAME,
+    _XGBOOST_SAMPLER_EXTRA_NAME,
+    _check_import_error_else_raise_exception,
+)
 from black_it.samplers.surrogate import MLSurrogateSampler
 
 MAX_FLOAT32 = np.finfo(np.float32).max
 MIN_FLOAT32 = np.finfo(np.float32).min
 EPS_FLOAT32 = np.finfo(np.float32).eps
+
+_XGBOOST_IMPORT_ERROR: Optional[ImportError]
+try:
+    import xgboost as xgb
+except ImportError as e:
+    _XGBOOST_IMPORT_ERROR = e
+else:
+    _XGBOOST_IMPORT_ERROR = None
 
 
 class XGBoostSampler(MLSurrogateSampler):
@@ -64,6 +76,7 @@ class XGBoostSampler(MLSurrogateSampler):
         References:
             Lamperti, Roventini, and Sani, "Agent-based model calibration using machine learning surrogates"
         """
+        self.__check_xgboost_import_error()
         super().__init__(
             batch_size, random_state, max_deduplication_passes, candidate_pool_size
         )
@@ -74,6 +87,16 @@ class XGBoostSampler(MLSurrogateSampler):
         self._alpha = alpha
         self._n_estimators = n_estimators
         self._xg_regressor: Optional[xgb.XGBRegressor] = None
+
+    @classmethod
+    def __check_xgboost_import_error(cls) -> None:
+        """Check if an import error happened while attempting to import the 'xgboost' package."""
+        _check_import_error_else_raise_exception(
+            _XGBOOST_IMPORT_ERROR,
+            cls.__name__,
+            _XGBOOST_PACKAGE_NAME,
+            _XGBOOST_SAMPLER_EXTRA_NAME,
+        )
 
     @property
     def colsample_bytree(self) -> float:

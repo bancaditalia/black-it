@@ -20,13 +20,25 @@ import warnings
 from enum import Enum
 from typing import Optional, Tuple, cast
 
-import GPy
 import numpy as np
-from GPy.models import GPRegression
 from numpy.typing import NDArray
 from scipy.special import erfc  # pylint: disable=no-name-in-module
 
+from black_it._load_dependency import (
+    _GP_SAMPLER_EXTRA_NAME,
+    _GPY_PACKAGE_NAME,
+    _check_gpy_import_error_else_raise_exception,
+)
 from black_it.samplers.surrogate import MLSurrogateSampler
+
+_GPY_IMPORT_ERROR: Optional[ImportError]
+try:
+    import GPy
+    from GPy.models import GPRegression
+except ImportError as e:
+    _GPY_IMPORT_ERROR = e
+else:
+    _GPY_IMPORT_ERROR = None
 
 
 class _AcquisitionTypes(Enum):
@@ -71,6 +83,8 @@ class GaussianProcessSampler(MLSurrogateSampler):
             optimize_restarts: number of independent random trials of the optimization of the GP hyperparameters
             acquisition: type of acquisition function, it can be 'expected_improvement' of simply 'mean'
         """
+        self.__check_gpy_import_error()
+
         self._validate_acquisition(acquisition)
 
         super().__init__(
@@ -80,6 +94,13 @@ class GaussianProcessSampler(MLSurrogateSampler):
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
         self._gpmodel: Optional[GPRegression] = None
+
+    @classmethod
+    def __check_gpy_import_error(cls) -> None:
+        """Check if an import error happened while attempting to import the 'GPy' package."""
+        _check_gpy_import_error_else_raise_exception(
+            _GPY_IMPORT_ERROR, cls.__name__, _GPY_PACKAGE_NAME, _GP_SAMPLER_EXTRA_NAME
+        )
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
@@ -94,12 +115,12 @@ class GaussianProcessSampler(MLSurrogateSampler):
         """
         try:
             _AcquisitionTypes(acquisition)
-        except ValueError as e:
+        except ValueError as exp:
             raise ValueError(
                 "expected one of the following acquisition types: "
                 f"[{' '.join(map(str, _AcquisitionTypes))}], "
                 f"got {acquisition}"
-            ) from e
+            ) from exp
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
         """Fit a gaussian process surrogate model."""

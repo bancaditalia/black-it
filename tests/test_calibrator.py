@@ -38,8 +38,12 @@ from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 
 from .fixtures.test_models import NormalMV  # type: ignore
+from .utils.base import no_gpy_installed, no_python311_for_gpy, no_xgboost_installed
 
 
+@no_python311_for_gpy
+@no_gpy_installed
+@no_xgboost_installed
 class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-defined-outside-init
     """Test the Calibrator.calibrate method."""
 

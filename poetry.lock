@@ -5409,7 +5409,12 @@ files = [
 docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
 testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)"]
 
+[extras]
+all = ["GPy", "xgboost"]
+gp-sampler = ["GPy"]
+xgboost-sampler = ["xgboost"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "f93afe542963751c007963960fdda77db21bedca2c49ee5c7ff22054f679f186"
+content-hash = "1133be970965fc08db2c336306b04350ff67d332c904335dafbc741ff8b10f9a"

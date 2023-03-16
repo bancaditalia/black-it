@@ -23,6 +23,10 @@ from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 
 from ..fixtures.test_models import BH4  # type: ignore
+from ..utils.base import no_xgboost_installed
+
+pytestmark = no_xgboost_installed  # noqa
+
 
 expected_params = np.array([[0.24, 0.26], [0.26, 0.02], [0.08, 0.24], [0.15, 0.15]])
 
