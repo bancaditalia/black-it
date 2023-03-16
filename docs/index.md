@@ -116,7 +116,7 @@ While in this example every sampler runs on the same batch size, they can also r
 
 Black-it is released under the GNU Affero General Public License v3 or later (AGPLv3+).
 
-Copyright 2021-2022 Banca d'Italia.
+Copyright 2021-2023 Banca d'Italia.
 
 ## Original Author
 
