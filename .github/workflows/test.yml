@@ -39,11 +39,13 @@ jobs:
 #      run: ...
     - name: Unit tests and coverage
       run: |
-        tox -e py${{ matrix.python-version }} -- -m 'not e2e'
+        pyver=$(echo ${{ matrix.python_version }} | tr -d ".")
+        tox -e py${pyver} -- -m 'not e2e'
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: false
     - name: Notebook tests
       run: |
-        tox -e py${{ matrix.python_version }}-nb
+        pyver=$(echo ${{ matrix.python_version }} | tr -d ".")
+        tox -e py${pyver}-nb
