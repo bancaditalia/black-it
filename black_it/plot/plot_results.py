@@ -127,11 +127,11 @@ def plot_losses(saving_folder: Union[str, os.PathLike]) -> None:
         diag_kind="hist",
         corner=True,
         palette="viridis",
-        plot_kws=dict(markers="o", linewidth=1, alpha=0.8),
-        diag_kws=dict(
-            fill=False,
-            hue=None,
-        ),
+        plot_kws={"markers": "o", "linewidth": 1, "alpha": 0.8},
+        diag_kws={
+            "fill": False,
+            "hue": None,
+        },
     )
 
     g._legend.set_bbox_to_anchor((0.8, 0.5))  # pylint: disable=protected-access
@@ -155,10 +155,10 @@ def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
         diag_kind="hist",
         corner=True,
         palette="tab10",
-        plot_kws=dict(markers="o", linewidth=1, alpha=0.8),
-        diag_kws=dict(
-            fill=False,
-        ),
+        plot_kws={"markers": "o", "linewidth": 1, "alpha": 0.8},
+        diag_kws={
+            "fill": False,
+        },
     )
     ids = df["method_samp"].unique()  # pylint: disable=unsubscriptable-object
     sampler_names = _get_samplers_names(saving_folder, ids)
@@ -199,11 +199,11 @@ def plot_losses_method_num(
         diag_kind="hist",
         corner=True,
         palette="viridis",
-        plot_kws=dict(markers="o", linewidth=1, alpha=0.8),
-        diag_kws=dict(
-            fill=False,
-            hue=None,
-        ),
+        plot_kws={"markers": "o", "linewidth": 1, "alpha": 0.8},
+        diag_kws={
+            "fill": False,
+            "hue": None,
+        },
     )
 
     g._legend.set_bbox_to_anchor((0.8, 0.5))  # pylint: disable=protected-access
@@ -269,8 +269,8 @@ def plot_sampling_batch_nums(
         vars=variables,
         diag_kind="hist",
         corner=True,
-        plot_kws=dict(markers="o", linewidth=1, alpha=0.8),
-        diag_kws=dict(fill=False),
+        plot_kws={"markers": "o", "linewidth": 1, "alpha": 0.8},
+        diag_kws={"fill": False},
         palette="tab10",
     )
 
