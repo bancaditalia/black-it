@@ -35,7 +35,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 GPy = {git = "https://github.com/SheffieldML/GPy.git", rev = "f63ed48"}
-ipywidgets = "^7.7.0"
+ipywidgets = "^8.0.4"
 matplotlib = "^3.5.2"
 numpy = ">=1.23.3,<1.24.0"
 pandas = "^1.4.2"
