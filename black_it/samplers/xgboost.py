@@ -109,7 +109,7 @@ class XGBoostSampler(MLSurrogateSampler):
         if len(large_floats) == 0 and len(small_floats) == 0:
             return y
 
-        warnings.warn(
+        warnings.warn(  # noqa: B028
             "Found loss values out of float32 limits, clipping them for XGBoost.",
             RuntimeWarning,
         )

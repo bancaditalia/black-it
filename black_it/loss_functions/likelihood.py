@@ -86,7 +86,7 @@ class LikelihoodLoss(BaseLoss):
         D = sim_data_ensemble.shape[2]  # number of dimensions
 
         if self.coordinate_weights is not None:
-            warnings.warn(
+            warnings.warn(  # noqa: B028
                 "The LikelihoodLoss cannot take any coordinate weights. "
                 "The provided coordinate_weights will be ignored",
                 RuntimeWarning,

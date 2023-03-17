@@ -16,7 +16,6 @@
 
 """This module contains utilities for the test_plot package."""
 import logging
-import warnings
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Callable, List, Optional
@@ -47,14 +46,14 @@ class BasePlotTest:  # pylint: disable=too-few-public-methods
             plt.savefig(actual_figure_path)
 
             if self.tolerance is None:
-                warnings.warn("Test run with tolerance=None, skipping the test")
+                logging.warning("Test run with tolerance=None, skipping the test")
                 return
 
             comparison_result = compare_images(
                 str(self.expected_image), str(actual_figure_path), self.tolerance
             )
             if comparison_result is not None:
-                warnings.warn(f"{comparison_result}")
+                logging.warning("%s", comparison_result)
 
 
 class BasePlotResultsTest(BasePlotTest):
