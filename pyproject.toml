@@ -16,7 +16,10 @@ readme = "README.md"
 homepage = "https://github.com/bancaditalia/black-it"
 repository = "https://github.com/bancaditalia/black-it.git"
 documentation = "https://bancaditalia.github.io/black-it"
-keywords = []
+keywords = [
+    "agent-based models",
+    "black-box calibration",
+]
 classifiers = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
