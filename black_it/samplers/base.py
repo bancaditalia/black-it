@@ -115,7 +115,6 @@ class BaseSampler(ABC):
         )
 
         for n in range(self.max_deduplication_passes):
-
             duplicates = self.find_and_get_duplicates(samples, existing_points)
 
             num_duplicates = len(duplicates)

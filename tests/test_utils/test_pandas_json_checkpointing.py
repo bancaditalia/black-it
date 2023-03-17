@@ -25,7 +25,9 @@ from black_it.utils.json_pandas_checkpointing import (
 )
 
 
-def test_save_and_load_calibrator_state() -> None:  # pylint: disable=too-many-locals,too-many-statements
+def test_save_and_load_calibrator_state() -> (  # pylint: disable=too-many-locals,too-many-statements
+    None
+):
     """Test the 'save_calibrator_state' and 'load_calibrator_state' functions."""
     parameters_bounds = np.array([[0, 1], [0, 1]]).T
     parameters_precision = np.array([0.01, 0.01])

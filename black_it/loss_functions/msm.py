@@ -120,7 +120,6 @@ class MethodOfMomentsLoss(BaseLoss):
                 function, and can only be detected at runtime.
         """
         if isinstance(covariance_mat, str):
-
             try:
                 _CovarianceMatrixType(covariance_mat)
             except ValueError as exc:

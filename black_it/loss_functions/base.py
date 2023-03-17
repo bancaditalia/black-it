@@ -82,7 +82,6 @@ class BaseLoss(ABC):
         filtered_data = []
 
         for i, filter_ in enumerate(filters):
-
             if filter_ is None:
                 filtered_data_1d = sim_data_ensemble[:, :, i]
             else:
