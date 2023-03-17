@@ -81,7 +81,7 @@ pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 pytest-randomly = "^3.12.0"
 safety = "^1.10.3"
-tox = "^3.25.0"
+tox = "^4.4.7"
 twine = "^4.0.0"
 vulture = "^2.3"
 
