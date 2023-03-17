@@ -151,23 +151,23 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     if not checkpoint_path.exists():
         checkpoint_path.mkdir(parents=True)
 
-    calibration_params = dict(
-        parameters_bounds=parameters_bounds,
-        parameters_precision=parameters_precision,
-        real_data=real_data,
-        ensemble_size=ensemble_size,
-        N=N,
-        D=D,
-        convergence_precision=convergence_precision,
-        verbose=verbose,
-        saving_file=saving_file,
-        initial_random_seed=initial_random_seed,
-        random_generator_state=random_generator_state,
-        model_name=model_name,
-        current_batch_index=current_batch_index,
-        n_sampled_params=n_sampled_params,
-        n_jobs=n_jobs,
-    )
+    calibration_params = {
+        "parameters_bounds": parameters_bounds,
+        "parameters_precision": parameters_precision,
+        "real_data": real_data,
+        "ensemble_size": ensemble_size,
+        "N": N,
+        "D": D,
+        "convergence_precision": convergence_precision,
+        "verbose": verbose,
+        "saving_file": saving_file,
+        "initial_random_seed": initial_random_seed,
+        "random_generator_state": random_generator_state,
+        "model_name": model_name,
+        "current_batch_index": current_batch_index,
+        "n_sampled_params": n_sampled_params,
+        "n_jobs": n_jobs,
+    }
     # save calibration parameters in a json dictionary
     with open(checkpoint_path / "calibration_params.json", "w") as f:
         json.dump(calibration_params, f, cls=NumpyArrayEncoder)
@@ -180,11 +180,11 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
         pickle.dump(loss_function, fb)
 
     # save calibration results into pandas dataframe
-    calibration_results = dict(
-        losses_samp=losses_samp.tolist(),
-        batch_num_samp=batch_num_samp.tolist(),
-        method_samp=method_samp.tolist(),
-    )
+    calibration_results = {
+        "losses_samp": losses_samp.tolist(),
+        "batch_num_samp": batch_num_samp.tolist(),
+        "method_samp": method_samp.tolist(),
+    }
 
     for d in range(params_samp.shape[1]):
         param_key_d = f"params_samp_{d}"
