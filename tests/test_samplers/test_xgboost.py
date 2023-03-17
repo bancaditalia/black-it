@@ -60,16 +60,18 @@ def test_xgboost_2d() -> None:
 
 def test_clip_losses() -> None:
     """Test the xgboost _clip_losses method."""
-    true_params = [
-        0.0,  # g1
-        0.0,  # b1
-        0.9,  # g2
-        0.2,  # b2
-        0.9,  # g3
-        -0.2,  # b3
-        1.01,  # g4
-        0.01,
-    ]  # b4
+    true_params = np.array(
+        [
+            0.0,  # g1
+            0.0,  # b1
+            0.9,  # g2
+            0.2,  # b2
+            0.9,  # g3
+            -0.2,  # b3
+            1.01,  # g4
+            0.01,
+        ]
+    )  # b4
 
     parameter_bounds = [
         [0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0],  # lower bounds

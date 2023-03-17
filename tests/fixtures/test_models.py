@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Module containing simple models used for testing."""
-from typing import Sequence
 
 import numpy as np
 from numpy.typing import NDArray
@@ -24,7 +23,7 @@ from numpy.typing import NDArray
 from scipy.special import softmax
 
 
-def NormalMV(theta: Sequence, N: int, seed: int) -> NDArray:
+def NormalMV(theta: NDArray, N: int, seed: int) -> NDArray:
     """Sample from a normal distribution with adjustable mean and variance.
 
     Args:
@@ -41,7 +40,7 @@ def NormalMV(theta: Sequence, N: int, seed: int) -> NDArray:
     return np.atleast_2d(y).T
 
 
-def BH4(theta: Sequence[float], N: int, seed: int) -> NDArray:
+def BH4(theta: NDArray, N: int, seed: int) -> NDArray:
     """Model from Brock and Hommes 1998.
 
     4.3 Four belief types: Fundamentalists versus trend versus bias
