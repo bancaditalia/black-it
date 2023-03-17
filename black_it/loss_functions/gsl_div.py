@@ -79,8 +79,8 @@ class GslDivLoss(BaseLoss):
 
     def __init__(
         self,
-        nb_values: int = None,
-        nb_word_lengths: int = None,
+        nb_values: Optional[int] = None,
+        nb_word_lengths: Optional[int] = None,
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:

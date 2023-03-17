@@ -262,6 +262,7 @@ def test_new_sampling_method() -> None:
             existing_losses: NDArray[np.float64],
         ) -> NDArray[np.float64]:
             """Sample a batch of parameters."""
+            return []  # type: ignore[return-value]
 
     cal = Calibrator(
         samplers=[MyCustomSampler(batch_size=2)],
