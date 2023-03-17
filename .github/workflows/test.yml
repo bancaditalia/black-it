@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         python-version: [3.8, 3.9, "3.10"]
 
     timeout-minutes: 30
@@ -23,6 +23,12 @@ jobs:
     - uses: actions/setup-python@master
       with:
         python-version: ${{ matrix.python-version }}
+#    - if: matrix.os == 'windows-latest'
+#      id: env_vars
+#      name: Prepare Environment (windows-latest)
+#      run: |
+#        set tox_pyver=${{ matrix.python_version }}:.=%
+#        echo "tox_pyver=${{ tox_pyver }}" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
     - name: Install dependencies
       run:  pip install tox poetry
 #    # set up environment depending on the platform in use
@@ -37,15 +43,19 @@ jobs:
 #      env:
 #        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 #      run: ...
-    - name: Unit tests and coverage
+    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-latest') }}
+      name: Unit tests and coverage (ubuntu-latest, macos-latest)
       run: |
-        pyver=$(echo ${{ matrix.python_version }} | tr -d ".")
-        tox -e py${pyver} -- -m 'not e2e'
+        tox_pyver=$(echo ${{ matrix.python_version }} | tr -d ".")
+        tox -e py${tox_pyver} -- -m 'not e2e'
+        tox -e py${tox_pyver}-nb
+    - if: matrix.os == 'windows-latest'
+      name: Unit tests and coverage (windows-latest)
+      run: |
+        set tox_pyver=${{ matrix.python_version }}:.=%
+        tox -e py${tox_pyver} -- -m 'not e2e'
+        tox -e py${tox_pyver}-nb
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: false
-    - name: Notebook tests
-      run: |
-        pyver=$(echo ${{ matrix.python_version }} | tr -d ".")
-        tox -e py${pyver}-nb
