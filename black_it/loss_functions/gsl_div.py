@@ -143,7 +143,6 @@ class GslDivLoss(BaseLoss):
 
         # average loss over the ensemble
         for sim_data in sim_data_ensemble:
-
             # discretize simulated series
             sim_xd = self.discretize(
                 sim_data, nb_values, np.min(sim_data), np.max(sim_data)

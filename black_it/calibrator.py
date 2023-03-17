@@ -359,7 +359,6 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
                 new_losses = []
 
                 for sim_data_ensemble in new_simulated_data:
-
                     new_loss = self.loss_function.compute_loss(
                         sim_data_ensemble, self.real_data
                     )
