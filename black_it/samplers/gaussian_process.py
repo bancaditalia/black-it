@@ -106,7 +106,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         y = np.atleast_2d(y).T
 
         if X.shape[0] > 500:
-            warnings.warn(
+            warnings.warn(  # noqa: B028
                 "Standard GP evaluations can be expensive for large datasets, consider implementing a sparse GP",
                 RuntimeWarning,
             )
