@@ -48,7 +48,7 @@ scipy = "^1.10.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"
-black = "^22.3.0"
+black = "^23.1.0"
 codecov = "^2.1.12"
 darglint = "^1.8.1"
 flake8 = "^4.0.1"
