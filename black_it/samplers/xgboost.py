@@ -135,6 +135,7 @@ class XGBoostSampler(MLSurrogateSampler):
             max_depth=self.max_depth,  # original: 5
             alpha=self.alpha,
             n_estimators=self.n_estimators,
+            random_state=self._get_random_seed(),
         )  # original: 10
 
         self._xg_regressor.fit(X, y)

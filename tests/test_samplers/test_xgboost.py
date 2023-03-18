@@ -24,7 +24,7 @@ from black_it.search_space import SearchSpace
 
 from ..fixtures.test_models import BH4  # type: ignore
 
-expected_params = np.array([[0.24, 0.26], [0.26, 0.02], [0.08, 0.24], [0.15, 0.15]])
+expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
 
 MAX_FLOAT32 = np.finfo(np.float32).max
 MIN_FLOAT32 = np.finfo(np.float32).min

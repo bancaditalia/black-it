@@ -87,10 +87,10 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
                 [0.74, 0.32],
                 [0.53, 0.46],
                 [0.57, 0.39],
+                [0.94, 0.42],
                 [0.32, 0.93],
                 [0.8, 0.06],
                 [0.01, 0.02],
-                [0.92, 0.99],
                 [0.04, 0.99],
             ]
         )
@@ -105,10 +105,10 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             1.51682355,
             1.55503666,
             1.65968375,
+            1.78845827,
             1.79905545,
             2.07605975,
             2.28484134,
-            2.53586668,
             3.01432484,
         ]
 
