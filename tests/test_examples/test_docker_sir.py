@@ -19,13 +19,14 @@ import pytest
 
 from tests.conftest import ROOT_DIR
 from tests.test_examples.base import BaseMainExampleTestClass
-from tests.utils.base import requires_docker
+from tests.utils.base import requires_docker, skip_on_windows
 
 EXAMPLE_DOCKER_SIR_SCRIPT_PATH = ROOT_DIR / "examples" / "docker-sir.py"
 
 
 @pytest.mark.e2e
 @requires_docker
+@skip_on_windows
 class TestDockerSirMainExample(  # pylint: disable=too-few-public-methods
     BaseMainExampleTestClass
 ):

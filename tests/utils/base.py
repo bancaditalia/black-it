@@ -19,6 +19,7 @@ import dataclasses
 import shutil
 import signal
 import subprocess  # nosec B404
+import sys
 from functools import wraps
 from typing import Callable, List, Type, Union
 
@@ -170,3 +171,8 @@ def pytest_decorator_factory(action: Callable) -> Callable:
         return wrapper
 
     return decorator
+
+
+skip_on_windows = pytest.mark.skipif(
+    sys.platform == "win32", reason="This test cannot be ran on Windows"
+)
