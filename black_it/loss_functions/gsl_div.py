@@ -221,8 +221,8 @@ class GslDivLoss(BaseLoss):
         ...     nb_values=3,
         ...     start_index=1,
         ...     stop_index=10
-        ... )
-        array([1, 1, 1, 2, 2, 2, 2, 3, 3, 3])
+        ... ).tolist()
+        [1, 1, 1, 2, 2, 2, 2, 3, 3, 3]
 
         Args:
             time_series: any univariate time series
