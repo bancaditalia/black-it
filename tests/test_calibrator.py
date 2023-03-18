@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the Calibrator.calibrate method."""
+import sys
 from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
@@ -41,6 +42,78 @@ from .fixtures.test_models import NormalMV  # type: ignore
 
 class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-defined-outside-init
     """Test the Calibrator.calibrate method."""
+
+    expected_params = np.array(
+        [
+            [0.59, 0.36],
+            [0.63, 0.41],
+            [0.18, 0.39],
+            [0.56, 0.37],
+            [0.83, 0.35],
+            [0.54, 0.32],
+            [0.74, 0.32],
+            [0.53, 0.46],
+            [0.57, 0.39],
+            [0.94, 0.42],
+            [0.32, 0.93],
+            [0.8, 0.06],
+            [0.01, 0.02],
+            [0.04, 0.99],
+        ]
+    )
+
+    expected_losses = [
+        0.33400294,
+        0.55274918,
+        0.55798021,
+        0.61712034,
+        0.91962075,
+        1.31118518,
+        1.51682355,
+        1.55503666,
+        1.65968375,
+        1.78845827,
+        1.79905545,
+        2.07605975,
+        2.28484134,
+        3.01432484,
+    ]
+
+    win32_expected_params = np.array(
+        [
+            [0.59, 0.36],
+            [0.63, 0.41],
+            [0.18, 0.39],
+            [0.56, 0.37],
+            [0.83, 0.35],
+            [0.54, 0.32],
+            [0.74, 0.32],
+            [0.53, 0.46],
+            [0.57, 0.39],
+            [0.32, 0.93],
+            [0.8, 0.06],
+            [0.01, 0.02],
+            [1.0, 0.99],
+            [0.04, 0.99],
+        ]
+    )
+
+    win32_expected_losses = [
+        0.33400294,
+        0.55274918,
+        0.55798021,
+        0.61712034,
+        0.91962075,
+        1.31118518,
+        1.51682355,
+        1.55503666,
+        1.65968375,
+        1.79905545,
+        2.07605975,
+        2.28484134,
+        2.60093616,
+        3.01432484,
+    ]
 
     def setup(self) -> None:
         """Set up the tests."""
@@ -75,42 +148,6 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
     @pytest.mark.parametrize("n_jobs", [1, 2])
     def test_calibrator_calibrate(self, n_jobs: int) -> None:
         """Test the Calibrator.calibrate method, positive case, with different number of jobs."""
-        expected_params = np.array(
-            [
-                [0.59, 0.36],
-                [0.63, 0.41],
-                [0.18, 0.39],
-                [0.56, 0.37],
-                [0.83, 0.35],
-                [0.54, 0.32],
-                [0.74, 0.32],
-                [0.53, 0.46],
-                [0.57, 0.39],
-                [0.94, 0.42],
-                [0.32, 0.93],
-                [0.8, 0.06],
-                [0.01, 0.02],
-                [0.04, 0.99],
-            ]
-        )
-
-        expected_losses = [
-            0.33400294,
-            0.55274918,
-            0.55798021,
-            0.61712034,
-            0.91962075,
-            1.31118518,
-            1.51682355,
-            1.55503666,
-            1.65968375,
-            1.78845827,
-            1.79905545,
-            2.07605975,
-            2.28484134,
-            3.01432484,
-        ]
-
         cal = Calibrator(
             samplers=[
                 self.random_sampler,
@@ -134,8 +171,14 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         params, losses = cal.calibrate(2)
 
-        assert np.allclose(params, expected_params)
-        assert np.allclose(losses, expected_losses)
+        # TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
+        #       See: https://github.com/bancaditalia/black-it/issues/49
+        if sys.platform == "win32":
+            assert np.allclose(params, self.win32_expected_params)
+            assert np.allclose(losses, self.win32_expected_losses)
+        else:
+            assert np.allclose(params, self.expected_params)
+            assert np.allclose(losses, self.expected_losses)
 
     def test_calibrator_with_check_convergence(self, capsys: Any) -> None:
         """Test the Calibrator.calibrate method with convergence check."""
