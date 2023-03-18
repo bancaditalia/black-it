@@ -64,7 +64,7 @@ class BaseSeedable:
         """Get the random generator."""
         return self.__random_generator
 
-    def get_random_seed(self) -> int:
+    def _get_random_seed(self) -> int:
         """Get new random seed from the current random generator."""
         return get_random_seed(self.__random_generator)
 

@@ -15,9 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the Calibrator.calibrate method."""
-
-import glob
-import os
+from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
 
@@ -36,6 +34,7 @@ from black_it.samplers.random_forest import RandomForestSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
 from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
+from black_it.utils.seedable import BaseSeedable
 
 from .fixtures.test_models import NormalMV  # type: ignore
 
@@ -168,8 +167,9 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         assert "Achieved convergence loss, stopping search." in captured_output.out
 
 
-def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
+def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> None:
     """Test 'Calibrator.restore_from_checkpoint', positive case, and 'Calibrator.set_sampler'."""
+    saving_folder_path_str = str(tmp_path / "saving_folder")
     true_params = np.array([0.50, 0.50])
     bounds = [
         [0.01, 0.01],
@@ -197,13 +197,16 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
         parameters_precision=bounds_step,
         ensemble_size=2,
         loss_function=loss,
-        saving_folder="saving_folder",
+        saving_folder=saving_folder_path_str,
+        random_state=0,
         n_jobs=1,
     )
 
     _, _ = cal.calibrate(2)
 
-    cal_restored = Calibrator.restore_from_checkpoint("saving_folder", model=model)
+    cal_restored = Calibrator.restore_from_checkpoint(
+        saving_folder_path_str, model=model
+    )
 
     # loop over all attributes of the classes
     vars_cal = vars(cal)
@@ -222,7 +225,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
                 type(vars_cal["param_grid"]).__name__
                 == type(cal_restored.param_grid).__name__  # noqa
             )
-        elif key == "_random_generator":
+        elif key == f"_{BaseSeedable.__name__}__random_generator":
             assert (
                 vars_cal[key].bit_generator.state
                 == cal_restored.random_generator.bit_generator.state
@@ -240,12 +243,6 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler() -> None:
     assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
     assert len(cal.samplers_id_table) == 3
     assert cal.samplers_id_table["BestBatchSampler"] == 2
-
-    # remove the test folder
-    files = glob.glob("saving_folder/*")
-    for f in files:
-        os.remove(f)
-    os.rmdir("saving_folder")
 
 
 def test_new_sampling_method() -> None:
