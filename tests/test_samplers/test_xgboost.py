@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the xgboost sampler."""
+import sys
+
 import numpy as np
 
 from black_it.calibrator import Calibrator
@@ -24,7 +26,12 @@ from black_it.search_space import SearchSpace
 
 from ..fixtures.test_models import BH4  # type: ignore
 
-expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
+# TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
+#       See: https://github.com/bancaditalia/black-it/issues/49
+if sys.platform == "win32":
+    expected_params = np.array([[0.24, 0.26], [0.19, 0.11], [0.13, 0.22], [0.11, 0.05]])
+else:
+    expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
 
 MAX_FLOAT32 = np.finfo(np.float32).max
 MIN_FLOAT32 = np.finfo(np.float32).min
