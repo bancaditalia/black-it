@@ -26,7 +26,6 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from joblib import Parallel, delayed
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
@@ -37,10 +36,10 @@ from black_it.utils.json_pandas_checkpointing import (
     load_calibrator_state,
     save_calibrator_state,
 )
-from black_it.utils.seedable import get_random_seed
+from black_it.utils.seedable import BaseSeedable
 
 
-class Calibrator:  # pylint: disable=too-many-instance-attributes
+class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
     """The class used to perform a calibration."""
 
     STATE_VERSION = 0
@@ -87,6 +86,7 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
                 [joblib.Parallel documentation](https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html).
 
         """
+        BaseSeedable.__init__(self, random_state=random_state)
         self.samplers = samplers
         self.loss_function = loss_function
         self.model = model
@@ -135,26 +135,6 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
         )
 
         self.samplers_id_table = self._construct_samplers_id_table(samplers)
-
-    @property
-    def random_state(self) -> Optional[int]:
-        """Get the random state."""
-        return self._random_state
-
-    @random_state.setter
-    def random_state(self, random_state: Optional[int]) -> None:
-        """Set the random state."""
-        self._random_state = random_state
-        self._random_generator = default_rng(self.random_state)
-
-    @property
-    def random_generator(self) -> np.random.Generator:
-        """Get the random generator."""
-        return self._random_generator
-
-    def _get_random_seed(self) -> int:
-        """Get new random seed from the current random generator."""
-        return get_random_seed(self._random_generator)
 
     def _set_samplers_seeds(self) -> None:
         """Set the calibration seed."""
@@ -360,7 +340,6 @@ class Calibrator:  # pylint: disable=too-many-instance-attributes
                 new_losses = []
 
                 for sim_data_ensemble in new_simulated_data:
-
                     new_loss = self.loss_function.compute_loss(
                         sim_data_ensemble, self.real_data
                     )
