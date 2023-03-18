@@ -45,8 +45,11 @@ class BaseSeedable:
         Args:
             random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
         """
+        self.__random_state: Optional[int]
+        self.__random_generator: np.random.Generator
+
         # this triggers the property setter
-        self.random_state: Optional[int] = random_state
+        self.random_state = random_state
 
     @property
     def random_state(self) -> Optional[int]:
@@ -56,6 +59,10 @@ class BaseSeedable:
     @random_state.setter
     def random_state(self, random_state: Optional[int]) -> None:
         """Set the random state."""
+        self._set_random_state(random_state)
+
+    def _set_random_state(self, random_state: Optional[int]) -> None:
+        """Set the random state, private use."""
         self.__random_state = random_state
         self.__random_generator = default_rng(self.random_state)
 

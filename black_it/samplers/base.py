@@ -20,14 +20,13 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 
 import numpy as np
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.search_space import SearchSpace
-from black_it.utils.seedable import get_random_seed
+from black_it.utils.seedable import BaseSeedable
 
 
-class BaseSampler(ABC):
+class BaseSampler(BaseSeedable, ABC):
     """
     BaseSampler interface.
 
@@ -48,29 +47,9 @@ class BaseSampler(ABC):
             random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
             max_deduplication_passes: maximum number of duplication passes done to avoid sampling repeated parameters
         """
-        self.random_state: Optional[int] = random_state
+        BaseSeedable.__init__(self, random_state=random_state)
         self.batch_size: int = batch_size
         self.max_deduplication_passes = max_deduplication_passes
-
-    @property
-    def random_state(self) -> Optional[int]:
-        """Get the random state."""
-        return self._random_state
-
-    @random_state.setter
-    def random_state(self, random_state: Optional[int]) -> None:
-        """Set the random state."""
-        self._random_state = random_state
-        self._random_generator = default_rng(self.random_state)
-
-    @property
-    def random_generator(self) -> np.random.Generator:
-        """Get the random generator."""
-        return self._random_generator
-
-    def _get_random_seed(self) -> int:
-        """Get new random seed from the current random generator."""
-        return get_random_seed(self._random_generator)
 
     @abstractmethod
     def sample_batch(

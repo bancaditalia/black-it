@@ -47,5 +47,5 @@ class RandomUniformSampler(BaseSampler):
         """
         candidates = np.zeros((batch_size, search_space.dims))
         for i, params in enumerate(search_space.param_grid):
-            candidates[:, i] = self._random_generator.choice(params, size=(batch_size,))
+            candidates[:, i] = self.random_generator.choice(params, size=(batch_size,))
         return candidates
