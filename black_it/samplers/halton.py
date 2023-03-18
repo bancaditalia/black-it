@@ -19,7 +19,6 @@ import itertools
 from typing import Iterator, List, Optional
 
 import numpy as np
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
@@ -58,16 +57,16 @@ class HaltonSampler(BaseSampler):
         # drop first N entries to avoid linear correlation
         self._reset_sequence_index()
 
-    @property
-    def random_state(self) -> Optional[int]:
-        """Get the random state."""
-        return self._random_state
+    def _set_random_state(self, random_state: Optional[int]) -> None:
+        """
+        Set the random state (private use).
 
-    @random_state.setter
-    def random_state(self, random_state: Optional[int]) -> None:
-        """Set the random state."""
-        self._random_state = random_state
-        self._random_generator = default_rng(self.random_state)
+        For the Halton sampler, it also resets the sequence index.
+
+        Args:
+            random_state: the random seed
+        """
+        super()._set_random_state(random_state)
         self._reset_sequence_index()
 
     def _reset_sequence_index(self) -> None:

@@ -18,7 +18,6 @@
 from typing import Optional
 
 import numpy as np
-from numpy.random import default_rng
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
@@ -72,16 +71,16 @@ class RSequenceSampler(BaseSampler):
             phi = pow(1 + phi, 1.0 / (nb_dims + 1))
         return phi
 
-    @property
-    def random_state(self) -> Optional[int]:
-        """Get the random state."""
-        return self._random_state
+    def _set_random_state(self, random_state: Optional[int]) -> None:
+        """
+        Set the random state (private use).
 
-    @random_state.setter
-    def random_state(self, random_state: Optional[int]) -> None:
-        """Set the random state."""
-        self._random_state = random_state
-        self._random_generator = default_rng(self.random_state)
+        For the RSequence sampler, it also resets the sequence index and the sequence start.
+
+        Args:
+            random_state: the random seed
+        """
+        super()._set_random_state(random_state)
         self._reset()
 
     def _reset(self) -> None:
