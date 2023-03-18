@@ -103,8 +103,8 @@ class XGBoostSampler(MLSurrogateSampler):
     @staticmethod
     def _clip_losses(y: NDArray[np.float64]) -> NDArray[np.float64]:
         """Check that loss values fall within the float32 limits needed for XGBoost to work."""
-        large_floats = np.where(y >= MAX_FLOAT32)
-        small_floats = np.where(y <= MIN_FLOAT32)
+        large_floats = np.where(y >= MAX_FLOAT32)[0]
+        small_floats = np.where(y <= MIN_FLOAT32)[0]
 
         if len(large_floats) == 0 and len(small_floats) == 0:
             return y
