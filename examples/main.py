@@ -48,7 +48,7 @@ if __name__ == "__main__":
     )
 
     # calibrate the model
-    params, losses = cal.calibrate(n_batches=5)
+    params, losses = cal.calibrate(n_batches=15)
 
     print(f"True parameters:       {true_params}")
     print(f"Best parameters found: {params[0]}")

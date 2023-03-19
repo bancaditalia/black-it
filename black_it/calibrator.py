@@ -22,7 +22,7 @@ import os
 import textwrap
 import time
 import warnings
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
 
 import numpy as np
 from joblib import Parallel, delayed
@@ -30,6 +30,8 @@ from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
 from black_it.samplers.base import BaseSampler
+from black_it.schedulers.base import BaseScheduler
+from black_it.schedulers.round_robin import RoundRobinScheduler
 from black_it.search_space import SearchSpace
 from black_it.utils.base import _assert
 from black_it.utils.json_pandas_checkpointing import (
@@ -46,13 +48,14 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        samplers: List[BaseSampler],
         loss_function: BaseLoss,
         real_data: NDArray[np.float64],
         model: Callable,
         parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
         parameters_precision: Union[NDArray[np.float64], List[float]],
         ensemble_size: int,
+        samplers: Optional[Sequence[BaseSampler]] = None,
+        scheduler: Optional[BaseScheduler] = None,
         sim_length: Optional[int] = None,
         convergence_precision: Optional[int] = None,
         verbose: bool = True,
@@ -67,7 +70,6 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
         on the model to calibrate, on the samplers and on the loss function to use.
 
         Args:
-            samplers: list of methods to be used in the calibration procedure
             loss_function: a loss function which evaluates the similarity between simulated and real datasets
             real_data: an array containing the real time series
             model: a model with free parameters to be calibrated
@@ -75,6 +77,8 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             parameters_precision: the precisions to be used for the discretization of the parameters
             ensemble_size: number of repetitions to be run for each set of parameters to decrease statistical
                 fluctuations. For deterministic models this should be set to 1.
+            samplers: list of methods to be used in the calibration procedure
+            scheduler: the scheduler to be used in order to schedule the available samplers
             sim_length: number of periods to simulate the model for, by default this is equal to the length of the
                 real time series.
             convergence_precision: number of significant digits to consider in the convergence check. The check is
@@ -87,12 +91,12 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
 
         """
         BaseSeedable.__init__(self, random_state=random_state)
-        self.samplers = samplers
         self.loss_function = loss_function
         self.model = model
         self.random_state = random_state
         self.real_data = real_data
         self.ensemble_size = ensemble_size
+
         if sim_length is None:
             self.N = self.real_data.shape[0]
         else:
@@ -134,12 +138,40 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             f"Selecting {self.n_jobs} processes for the parallel evaluation of the model"
         )
 
-        self.samplers_id_table = self._construct_samplers_id_table(samplers)
+        self.scheduler = self.__validate_samplers_and_scheduler_constructor_args(
+            samplers, scheduler
+        )
+
+        self.samplers_id_table = self._construct_samplers_id_table(
+            list(self.scheduler.samplers)
+        )
+
+    @classmethod
+    def __validate_samplers_and_scheduler_constructor_args(
+        cls,
+        samplers: Optional[Sequence[BaseSampler]],
+        scheduler: Optional[BaseScheduler],
+    ) -> BaseScheduler:
+        """Validate the 'samplers' and the 'scheduler' arguments provided to the constructor."""
+        both_none = samplers is None and scheduler is None
+        both_not_none = samplers is not None and scheduler is not None
+        if both_none and both_not_none:
+            raise ValueError(
+                "only one between 'samplers' and 'scheduler' must be provided"
+            )
+
+        if samplers is not None:
+            return RoundRobinScheduler(samplers)
+
+        return cast(BaseScheduler, scheduler)
 
     def _set_samplers_seeds(self) -> None:
         """Set the calibration seed."""
-        for sampler in self.samplers:
-            sampler.random_state = self._get_random_seed()
+        self.scheduler.random_state = self.random_state
+
+        # "burn" seeds from the calibrator seed generator for backward compatibility
+        for _ in self.scheduler.samplers:
+            self._get_random_seed()
 
     @staticmethod
     def _construct_samplers_id_table(samplers: List[BaseSampler]) -> Dict[str, int]:
@@ -182,7 +214,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
 
         """
         # overwrite the list of samplers
-        self.samplers = samplers
+        self.scheduler._samplers = tuple(samplers)  # pylint: disable=protected-access
 
         # update the samplers_id_table with the new samplers, only if necessary
         sampler_id = max(self.samplers_id_table.values()) + 1
@@ -222,7 +254,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             random_state,
             random_generator_state,
             model_name,
-            samplers,
+            scheduler,
             loss_function,
             current_batch_index,
             n_sampled_params,
@@ -243,19 +275,19 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
         )
 
         calibrator = cls(
-            samplers,
             loss_function,
             real_data,
             model,
             parameters_bounds,
             parameters_precision,
             ensemble_size,
-            N,
-            convergence_precision,
-            verbose,
-            saving_file,
-            random_state,
-            n_jobs,
+            scheduler=scheduler,
+            sim_length=N,
+            convergence_precision=convergence_precision,
+            verbose=verbose,
+            saving_folder=saving_file,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         calibrator.current_batch_index = current_batch_index
@@ -315,11 +347,14 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             # we only set the samplers' random state at the start of a calibration
             self._set_samplers_seeds()
 
-        for _ in range(n_batches):
-            print()
-            print(f"BATCH NUMBER:   {self.current_batch_index + 1}")
-            print(f"PARAMS SAMPLED: {self.n_sampled_params}")
-            for method in self.samplers:
+        with self.scheduler.session():
+            for _ in range(n_batches):
+                print()
+                print(f"BATCH NUMBER:   {self.current_batch_index + 1}")
+                print(f"PARAMS SAMPLED: {self.n_sampled_params}")
+
+                method = self.scheduler.get_next_sampler()
+
                 t_start = time.time()
                 print()
                 print(f"METHOD: {type(method).__name__}")
@@ -389,22 +424,31 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
                 # update count of number of params sampled
                 self.n_sampled_params = self.n_sampled_params + len(new_params)
 
-            self.current_batch_index += 1
-
-            # check convergence for early termination
-            if self.convergence_precision is not None:
-                converged = self.check_convergence(
-                    self.losses_samp, self.n_sampled_params, self.convergence_precision
+                self.scheduler.update(
+                    self.current_batch_index,
+                    new_params,
+                    new_losses,  # type: ignore
+                    new_simulated_data,
                 )
-                if converged and self.verbose:
-                    print("\nCONVERGENCE CHECK:")
-                    print("Achieved convergence loss, stopping search.")
-                    break
 
-            if self.saving_folder is not None:
-                self.create_checkpoint(self.saving_folder)
+                self.current_batch_index += 1
 
-        idx = np.argsort(self.losses_samp)
+                # check convergence for early termination
+                if self.convergence_precision is not None:
+                    converged = self.check_convergence(
+                        self.losses_samp,
+                        self.n_sampled_params,
+                        self.convergence_precision,
+                    )
+                    if converged and self.verbose:
+                        print("\nCONVERGENCE CHECK:")
+                        print("Achieved convergence loss, stopping search.")
+                        break
+
+                if self.saving_folder is not None:
+                    self.create_checkpoint(self.saving_folder)
+
+            idx = np.argsort(self.losses_samp)
 
         return self.params_samp[idx], self.losses_samp[idx]
 
@@ -456,7 +500,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             self.random_state,
             self.random_generator.bit_generator.state,
             model_name,
-            self.samplers,
+            self.scheduler,
             self.loss_function,
             self.current_batch_index,
             self.n_sampled_params,

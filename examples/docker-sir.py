@@ -49,6 +49,6 @@ if __name__ == "__main__":
     )
 
     # calibrate the model
-    params, losses = cal.calibrate(n_batches=2)
+    params, losses = cal.calibrate(n_batches=10)
 
     print(len(params))
