@@ -18,7 +18,7 @@
 import json
 import pickle  # nosec B403
 from pathlib import Path
-from typing import Mapping, Optional, Sequence, Tuple
+from typing import Mapping, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -26,7 +26,7 @@ import tables
 from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
-from black_it.samplers.base import BaseSampler
+from black_it.schedulers.base import BaseScheduler
 from black_it.utils.base import NumpyArrayEncoder, PathLike
 
 
@@ -107,7 +107,7 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     initial_random_seed: Optional[int],
     random_generator_state: Mapping,
     model_name: str,
-    samplers: Sequence[BaseSampler],
+    scheduler: BaseScheduler,
     loss_function: BaseLoss,
     current_batch_index: int,
     n_sampled_params: int,
@@ -135,7 +135,7 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
         initial_random_seed: the initial seed of the calibrator
         random_generator_state: the internal random state of the calibrator
         model_name: the model name
-        samplers: the ordered list of samplers to use in the calibration
+        scheduler: the scheduler to use in the calibration
         loss_function: the loss function
         current_batch_index: the current batch index
         n_sampled_params: the number of sampled params
@@ -174,7 +174,7 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
 
     # save instantiated samplers and loss functions
     with open(checkpoint_path / "samplers_pickled.pickle", "wb") as fb:
-        pickle.dump(samplers, fb)
+        pickle.dump(scheduler, fb)
 
     with open(checkpoint_path / "loss_function_pickled.pickle", "wb") as fb:
         pickle.dump(loss_function, fb)

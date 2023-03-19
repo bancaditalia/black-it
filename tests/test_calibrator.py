@@ -205,7 +205,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             n_jobs=n_jobs,
         )
 
-        params, losses = cal.calibrate(2)
+        params, losses = cal.calibrate(14)
 
         # TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
         #       See: https://github.com/bancaditalia/black-it/issues/49
@@ -243,7 +243,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         )
 
         with patch.object(cal, "check_convergence", return_value=[False, True]):
-            cal.calibrate(2)
+            cal.calibrate(12)
 
         captured_output = capsys.readouterr()
         assert "Achieved convergence loss, stopping search." in captured_output.out
@@ -284,7 +284,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
         n_jobs=1,
     )
 
-    _, _ = cal.calibrate(2)
+    _, _ = cal.calibrate(4)
 
     cal_restored = Calibrator.restore_from_checkpoint(
         saving_folder_path_str, model=model
@@ -295,8 +295,14 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     for key in vars_cal:
         # if the attribute is an object just check the equality of their names
         if key == "samplers":
-            for method1, method2 in zip(vars_cal["samplers"], cal_restored.samplers):
-                assert type(method1).__name__ == type(method2).__name__
+            for method1, method2 in zip(
+                vars_cal["samplers"], cal_restored.scheduler.samplers
+            ):
+                assert type(method1).__name__ == type(method2).__name__  # noqa
+        if key == "scheduler":
+            t1 = type(vars_cal["scheduler"])
+            t2 = type(cal_restored.scheduler)
+            assert t1 == t2  # noqa, pylint: disable=unidiomatic-typecheck
         elif key == "loss_function":
             assert (
                 type(vars_cal["loss_function"]).__name__
@@ -321,8 +327,8 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     cal.set_samplers(
         [random_sampler, best_batch_sampler]
     )  # note: only the second sampler is new
-    assert len(cal.samplers) == 2
-    assert type(cal.samplers[1]).__name__ == "BestBatchSampler"
+    assert len(cal.scheduler.samplers) == 2
+    assert type(cal.scheduler.samplers[1]).__name__ == "BestBatchSampler"
     assert len(cal.samplers_id_table) == 3
     assert cal.samplers_id_table["BestBatchSampler"] == 2
 

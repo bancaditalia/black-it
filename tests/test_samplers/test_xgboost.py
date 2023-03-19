@@ -109,7 +109,7 @@ def test_clip_losses() -> None:
 
     # verify that the calibration does not break,
     # it would without the call to _clip_losses
-    _, losses = cal.calibrate(1)
+    _, losses = cal.calibrate(2)
 
     assert np.allclose(
         losses,

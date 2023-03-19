@@ -64,7 +64,7 @@ cal = Calibrator(
 )
 
 # calibrate the model
-params, losses = cal.calibrate(n_batches=5)
+params, losses = cal.calibrate(n_batches=15)
 ```
 The calibrator constructor accepts as inputs:
 
