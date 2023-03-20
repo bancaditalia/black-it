@@ -43,7 +43,8 @@ class BaseSeedable:
         Initialize the sampler.
 
         Args:
-            random_state: the internal state of the sampler, fixing this numbers the sampler behaves deterministically
+            random_state: the internal state of the sampler, fixing this numbers the object (e.g. a calibrator,
+                a sampler, or a scheduler) behaves deterministically
         """
         self.__random_state: Optional[int]
         self.__random_generator: np.random.Generator
