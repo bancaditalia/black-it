@@ -213,8 +213,6 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             assert np.allclose(params, self.win32_expected_params)
             assert np.allclose(losses, self.win32_expected_losses)
         elif sys.platform == "darwin":
-            # assert np.allclose(params, self.expected_params)
-            # assert np.allclose(losses, self.expected_losses)
             assert np.allclose(params, self.darwin_expected_params)
             assert np.allclose(losses, self.darwin_expected_losses)
         else:

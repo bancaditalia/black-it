@@ -26,10 +26,12 @@ from black_it.search_space import SearchSpace
 
 from ..fixtures.test_models import BH4  # type: ignore
 
-# TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
+# TODO: this is a temporary workaround to make tests to run also on Windows and Mac.  # pylint: disable=fixme
 #       See: https://github.com/bancaditalia/black-it/issues/49
 if sys.platform == "win32":
     expected_params = np.array([[0.24, 0.26], [0.19, 0.11], [0.13, 0.22], [0.11, 0.05]])
+elif sys.platform == "darwin":
+    expected_params = np.array([[0.24, 0.26], [0.15, 0.08], [0.01, 0.03], [0.28, 0.21]])
 else:
     expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
 
@@ -61,7 +63,7 @@ def test_xgboost_2d() -> None:
         verbose=False,
     )
     new_params = sampler.sample(param_grid, xys, losses)
-
+    print(new_params)
     assert np.allclose(expected_params, new_params)
 
 
