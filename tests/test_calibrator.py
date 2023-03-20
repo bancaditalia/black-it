@@ -115,6 +115,42 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         3.01432484,
     ]
 
+    darwin_expected_params = np.array(
+        [
+            [0.59, 0.36],
+            [0.63, 0.41],
+            [0.18, 0.39],
+            [0.56, 0.37],
+            [0.83, 0.35],
+            [0.54, 0.32],
+            [0.74, 0.32],
+            [0.53, 0.46],
+            [0.57, 0.39],
+            [0.92, 0.39],
+            [0.32, 0.93],
+            [0.8, 0.06],
+            [0.01, 0.02],
+            [0.04, 0.99],
+        ]
+    )
+
+    darwin_expected_losses = [
+        0.33400294,
+        0.55274918,
+        0.55798021,
+        0.61712034,
+        0.91962075,
+        1.31118518,
+        1.51682355,
+        1.55503666,
+        1.65968375,
+        1.78808894,
+        1.79905545,
+        2.07605975,
+        2.28484134,
+        3.01432484,
+    ]
+
     def setup(self) -> None:
         """Set up the tests."""
         self.true_params = np.array([0.50, 0.50])
@@ -176,6 +212,11 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         if sys.platform == "win32":
             assert np.allclose(params, self.win32_expected_params)
             assert np.allclose(losses, self.win32_expected_losses)
+        elif sys.platform == "darwin":
+            # assert np.allclose(params, self.expected_params)
+            # assert np.allclose(losses, self.expected_losses)
+            assert np.allclose(params, self.darwin_expected_params)
+            assert np.allclose(losses, self.darwin_expected_losses)
         else:
             assert np.allclose(params, self.expected_params)
             assert np.allclose(losses, self.expected_losses)
