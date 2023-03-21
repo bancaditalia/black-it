@@ -34,6 +34,7 @@ from black_it.samplers.r_sequence import RSequenceSampler
 from black_it.samplers.random_forest import RandomForestSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
 from black_it.samplers.xgboost import XGBoostSampler
+from black_it.schedulers.round_robin import RoundRobinScheduler
 from black_it.search_space import SearchSpace
 from black_it.utils.seedable import BaseSeedable
 
@@ -253,19 +254,12 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     """Test 'Calibrator.restore_from_checkpoint', positive case, and 'Calibrator.set_sampler'."""
     saving_folder_path_str = str(tmp_path / "saving_folder")
     true_params = np.array([0.50, 0.50])
-    bounds = [
-        [0.01, 0.01],
-        [1.00, 1.00],
-    ]
-    bounds_step = [0.01, 0.01]
 
-    batch_size = 2
-    random_sampler = RandomUniformSampler(batch_size=batch_size)
-    halton_sampler = HaltonSampler(batch_size=batch_size)
+    random_sampler = RandomUniformSampler(batch_size=1)
+    halton_sampler = HaltonSampler(batch_size=1)
 
     model = NormalMV
     real_data = model(true_params, N=100, seed=0)
-    loss = MethodOfMomentsLoss()
 
     # initialize a Calibrator object
     cal = Calibrator(
@@ -275,16 +269,16 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
         ],
         real_data=real_data,
         model=model,
-        parameters_bounds=bounds,
-        parameters_precision=bounds_step,
-        ensemble_size=2,
-        loss_function=loss,
+        parameters_bounds=[[0.01, 0.01], [1.00, 1.00]],
+        parameters_precision=[0.01, 0.01],
+        ensemble_size=1,
+        loss_function=MethodOfMomentsLoss(),
         saving_folder=saving_folder_path_str,
         random_state=0,
         n_jobs=1,
     )
 
-    _, _ = cal.calibrate(4)
+    _, _ = cal.calibrate(2)
 
     cal_restored = Calibrator.restore_from_checkpoint(
         saving_folder_path_str, model=model
@@ -322,8 +316,8 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
         else:
             assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))
 
-    # testt the setting of a new sampler to the calibrator object
-    best_batch_sampler = BestBatchSampler(batch_size=2)
+    # test the setting of a new sampler to the calibrator object
+    best_batch_sampler = BestBatchSampler(batch_size=1)
     cal.set_samplers(
         [random_sampler, best_batch_sampler]
     )  # note: only the second sampler is new
@@ -331,6 +325,16 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     assert type(cal.scheduler.samplers[1]).__name__ == "BestBatchSampler"
     assert len(cal.samplers_id_table) == 3
     assert cal.samplers_id_table["BestBatchSampler"] == 2
+
+    # test the setting of a new scheduler to the calibrator object
+    rsequence = RSequenceSampler(batch_size=1)
+    cal.set_scheduler(
+        RoundRobinScheduler([rsequence])
+    )  # note: only the second sampler is new
+    assert len(cal.scheduler.samplers) == 1
+    assert type(cal.scheduler.samplers[0]).__name__ == "RSequenceSampler"
+    assert len(cal.samplers_id_table) == 4
+    assert cal.samplers_id_table["RSequenceSampler"] == 3
 
 
 def test_new_sampling_method() -> None:
