@@ -207,7 +207,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
     def set_samplers(self, samplers: List[BaseSampler]) -> None:
         """Set the samplers list of the calibrator.
 
-        This method overwrites the samplers of a calibrator object with a custom list of samplers.
+        This method overwrites the samplers of the calibrator object with a custom list of samplers.
 
         Args:
             samplers: a list of samplers
@@ -215,7 +215,15 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
         """
         # overwrite the list of samplers
         self.scheduler._samplers = tuple(samplers)  # pylint: disable=protected-access
+        self.update_samplers_id_table(samplers)
 
+    def set_scheduler(self, scheduler: BaseScheduler) -> None:
+        """Overwrite the scheduler of the calibrator object."""
+        self.scheduler = scheduler
+        self.update_samplers_id_table(self.scheduler.samplers)
+
+    def update_samplers_id_table(self, samplers: Sequence[BaseSampler]) -> None:
+        """Update the samplers_id_table attribute with possible new samplers."""
         # update the samplers_id_table with the new samplers, only if necessary
         sampler_id = max(self.samplers_id_table.values()) + 1
 

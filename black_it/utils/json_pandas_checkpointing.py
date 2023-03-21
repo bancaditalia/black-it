@@ -54,8 +54,8 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     params_samp = np.vstack(params_samp_list).T
 
-    with open(checkpoint_path / "samplers_pickled.pickle", "rb") as fb:
-        samplers = pickle.load(fb)  # nosec B301
+    with open(checkpoint_path / "scheduler_pickled.pickle", "rb") as fb:
+        scheduler = pickle.load(fb)  # nosec B301
 
     with open(checkpoint_path / "loss_function_pickled.pickle", "rb") as fb:
         loss_function = pickle.load(fb)  # nosec B301
@@ -79,7 +79,7 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
         cp["initial_random_seed"],
         cp["random_generator_state"],
         cp["model_name"],
-        samplers,
+        scheduler,
         loss_function,
         cp["current_batch_index"],
         cp["n_sampled_params"],
@@ -172,8 +172,8 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
     with open(checkpoint_path / "calibration_params.json", "w") as f:
         json.dump(calibration_params, f, cls=NumpyArrayEncoder)
 
-    # save instantiated samplers and loss functions
-    with open(checkpoint_path / "samplers_pickled.pickle", "wb") as fb:
+    # save instantiated scheduler and loss functions
+    with open(checkpoint_path / "scheduler_pickled.pickle", "wb") as fb:
         pickle.dump(scheduler, fb)
 
     with open(checkpoint_path / "loss_function_pickled.pickle", "wb") as fb:

@@ -2,6 +2,7 @@
 # type: ignore
 # pylint: skip-file
 _.set_samplers  # unused method (black_it/calibrator.py:180)
+_.set_scheduler  # unused method (black_it/calibrator.py:220)
 _.restore_from_checkpoint  # unused method (black_it/calibrator.py:203)
 _.calibrate  # unused method (black_it/calibrator.py:307)
 ideal_low_pass_filter  # unused function (black_it/loss_functions/fourier.py:35)
