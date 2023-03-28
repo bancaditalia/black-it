@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'BaseLoss' base class."""
-
+import warnings
 from abc import ABC, abstractmethod
 from typing import Callable, List, Optional
 
@@ -26,6 +26,8 @@ from black_it.utils.base import _assert
 
 TimeSeriesFilter = Optional[Callable[[NDArray[np.float64]], NDArray[np.float64]]]
 """A filter that receives a time series and returns its filtered version. Used by the BaseLoss constructor."""
+
+MAX_FLOAT32 = np.finfo(np.float32).max
 
 
 class BaseLoss(ABC):
@@ -71,6 +73,19 @@ class BaseLoss(ABC):
         for i in range(num_coords):
             loss += self.compute_loss_1d(filtered_data[i], real_data[:, i]) * weights[i]
 
+        loss = self._nan_filter(loss)
+
+        return loss
+
+    @staticmethod
+    def _nan_filter(loss: float) -> float:
+        """Return a large value only if loss is NaN."""
+        if np.isnan(loss):
+            warnings.warn(  # noqa: B028
+                "Loss value is a NaN, converting it to a very large float.",
+                RuntimeWarning,
+            )
+            return MAX_FLOAT32
         return loss
 
     @staticmethod

@@ -110,7 +110,11 @@ class LikelihoodLoss(BaseLoss):
         lik_real_series_r_t = np.sum(kernel_r_t_s, axis=2) / S
         log_lik_real_series_r = np.sum(np.log(lik_real_series_r_t), axis=1)
         log_lik_real_series = np.sum(log_lik_real_series_r, axis=0) / R
-        return -log_lik_real_series
+
+        loss = -log_lik_real_series
+        loss = self._nan_filter(loss)
+
+        return loss
 
     def _check_bandwidth(self, S: int, D: int) -> float:
         """Check the bandwidth self.h and return a usable one."""
