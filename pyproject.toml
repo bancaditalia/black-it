@@ -52,6 +52,7 @@ xgboost = "^1.7.2"
 scipy = "^1.10.1"
 joblib = "^1.2.0"
 ipykernel = "^6.22.0"
+gymnasium = "^0.27.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"
