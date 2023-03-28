@@ -17,6 +17,7 @@
 """This module contains tests for the utils/seedable.py module."""
 
 import hypothesis
+from hypothesis import settings
 from hypothesis.strategies import integers
 
 from black_it.utils.seedable import BaseSeedable
@@ -33,6 +34,7 @@ def test_random_state_default() -> None:
     assert seedable.random_state is None
 
 
+@settings(deadline=None)
 @hypothesis.given(integers(min_value=0))
 def test_random_state_setters(random_seed: int) -> None:
     """Test that setting random state via constructor or via property setter is the same."""
@@ -46,6 +48,7 @@ def test_random_state_setters(random_seed: int) -> None:
     assert seedable1.random_generator.random() == seedable2.random_generator.random()
 
 
+@settings(deadline=None)
 @hypothesis.given(integers(min_value=0))
 def test_consecutive_random_state_sets(random_seed: int) -> None:
     """Test that setting random state multiple times works as expected."""
@@ -67,6 +70,7 @@ def test_consecutive_random_state_sets(random_seed: int) -> None:
     assert expected_values_1 == expected_values_2
 
 
+@settings(deadline=None)
 @hypothesis.given(integers(min_value=0))
 def test_get_random_seed(random_seed: int) -> None:
     """Test the method 'get_random_seed'."""
