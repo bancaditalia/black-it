@@ -1,4 +1,3 @@
-# flake8: noqa
 # type: ignore
 TEST_DIR  # unused variable (tests/conftest.py:17)
 _.__abstractmethods__  # unused attribute (tests/test_samplers/test_base.py:14)

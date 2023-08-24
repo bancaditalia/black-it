@@ -17,7 +17,7 @@ With args, considers each argument as a search pattern to select requirements.
 EXAMPLES:
   ./$(basename "$0") -h           # prints the usage
   ./$(basename "$0") --all        # exports all the packages from poetry.lock
-  ./$(basename "$0") flake8 numpy # exports the packages needed by flake8 and numpy
+  ./$(basename "$0") black numpy # exports the packages needed by black and numpy
 "
 
 if [ $# == 0 ] || ([ $# == 1 ] && ([ "$1" == "-h" ] || [ "$1" == "--help" ]));

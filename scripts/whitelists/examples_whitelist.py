@@ -1,4 +1,3 @@
-# flake8: noqa
 # type: ignore
 num_cores  # unused variable (examples/docker-sir.py:21)
 losses  # unused variable (examples/docker-sir.py:56)
