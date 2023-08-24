@@ -63,10 +63,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 PHONY.: lint-all
-lint-all: black isort flake8 static bandit safety vulture darglint pylint ## run all linters
+lint-all: black flake8 static bandit safety vulture darglint pylint ## run all linters
 
 PHONY.: lint-all-files
-lint-all-files: black-files isort-files flake8-files static-files bandit-files vulture-files darglint-files pylint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
+lint-all-files: black-files flake8-files static-files bandit-files vulture-files darglint-files pylint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
 PHONY.: flake8
 flake8: ## check style with flake8
@@ -85,24 +85,6 @@ PHONY.: static-files
 static-files: ## static type checking with mypy for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	mypy $(files)
-
-PHONY.: isort
-isort: ## sort import statements with isort
-	isort black_it tests scripts examples
-
-PHONY.: isort-files
-isort-files: ## sort import statements with isort for specific files (specified with files="file1 file2 somedir ...")
-	$(call check_defined, files)
-	isort $(files)
-
-PHONY.: isort-check
-isort-check: ## check import statements order with isort
-	isort --check-only black_it tests scripts examples
-
-PHONY.: isort-check-files
-isort-check-files: ## check import statements order with isort for specific files (specified with files="file1 file2 somedir ...")
-	$(call check_defined, files)
-	isort --check-only $(files)
 
 PHONY.: black
 black: ## apply black formatting

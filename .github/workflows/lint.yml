@@ -30,7 +30,6 @@ jobs:
     - name: Code style check
       run: |
         tox -e black-check
-        tox -e isort-check
         tox -e flake8
         tox -e vulture
         tox -e darglint
