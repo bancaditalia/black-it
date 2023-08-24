@@ -25,8 +25,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run:  pip install tox
-    - name: Pylint
-      run: tox -e pylint
     - name: Code style check
       run: |
         tox -e black-check

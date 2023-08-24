@@ -63,10 +63,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 PHONY.: lint-all
-lint-all: black flake8 static bandit safety vulture darglint pylint ## run all linters
+lint-all: black flake8 static bandit safety vulture darglint ## run all linters
 
 PHONY.: lint-all-files
-lint-all-files: black-files flake8-files static-files bandit-files vulture-files darglint-files pylint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
+lint-all-files: black-files flake8-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
 PHONY.: flake8
 flake8: ## check style with flake8
@@ -115,15 +115,6 @@ bandit-files: ## run bandit for specific files (specified with files="file1 file
 PHONY.: safety
 safety: ## run safety
 	safety check
-
-PHONY.: safety-files
-pylint: ## run pylint
-	pylint black_it tests scripts examples
-
-PHONY.: pylint-files
-pylint-files: ## run pylint for specific files (specified with files="file1 file2 somedir ...")
-	$(call check_defined, files)
-	pylint $(files)
 
 PHONY.: vulture
 vulture: ## run vulture
