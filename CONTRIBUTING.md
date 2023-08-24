@@ -66,7 +66,6 @@ We have various commands which are helpful during development.
 ```
 make lint
 make static
-make pylint
 make safety
 make bandit
 ```
