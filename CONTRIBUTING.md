@@ -71,16 +71,14 @@ make safety
 make bandit
 ```
 
-- To apply [`black`](https://black.readthedocs.io/en/stable/) and [`isort`](https://pycqa.github.io/isort/index.html) code formatters:
+- To apply [`black`](https://black.readthedocs.io/en/stable/) code formatter:
 ```
 make black
-make isort
 ```
 
 - whereas, to only check compliance:
 ```
 make black-check
-make isort-check
 ```
 
 - To run tests: `make test`.
