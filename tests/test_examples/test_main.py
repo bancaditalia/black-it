@@ -26,9 +26,7 @@ TRUE_PARAMETERS_STR = "True parameters:       [0.2, 0.2, 0.75]"
 BEST_PARAMETERS_STR = "Best parameters found: [0.19 0.19 0.74]"
 
 
-class TestMainExample(  # pylint: disable=too-few-public-methods
-    BaseMainExampleTestClass
-):
+class TestMainExample(BaseMainExampleTestClass):
     """Test that example main can be run successfully."""
 
     script_path = EXAMPLE_MAIN_SCRIPT_PATH

@@ -54,7 +54,7 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
     # first 4 moments and auto-correlations of the time series
     avg_vec_mom[0] = np.mean(time_series)
     avg_vec_mom[1] = np.std(time_series)
-    s, k = skew(time_series), kurtosis(time_series)  # pylint: disable=invalid-name
+    s, k = skew(time_series), kurtosis(time_series)
     avg_vec_mom[2] = np.sign(s) * np.power(abs(s), 1.0 / 3.0)
     avg_vec_mom[3] = np.sign(k) * np.power(abs(k), 1.0 / 4.0)
 
@@ -70,7 +70,7 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
 
     avg_vec_mom[9] = np.mean(abs_diff)
     avg_vec_mom[10] = np.std(abs_diff)
-    s, k = skew(abs_diff), kurtosis(abs_diff)  # pylint: disable=invalid-name
+    s, k = skew(abs_diff), kurtosis(abs_diff)
     avg_vec_mom[11] = np.sign(s) * np.power(abs(s), 1.0 / 3.0)
     avg_vec_mom[12] = np.sign(k) * np.power(abs(k), 1.0 / 4.0)
 

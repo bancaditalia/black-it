@@ -54,7 +54,7 @@ def code_block_extractor(child_dict: Dict) -> str:
     return child_dict["children"][0]["content"]
 
 
-class BaseTestMarkdownDocs:  # pylint: disable=too-few-public-methods
+class BaseTestMarkdownDocs:
     """Base test class for testing Markdown documents."""
 
     DOC_PATH: Path
@@ -104,7 +104,5 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
 
         globals_, locals_ = self.globals, self.locals
         for python_code_block in python_blocks:
-            exec(  # nosec # pylint: disable=exec-used
-                python_code_block, globals_, locals_
-            )
+            exec(python_code_block, globals_, locals_)  # nosec
         self._assert(locals_, *mocks)

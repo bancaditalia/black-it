@@ -40,11 +40,7 @@ def _get_samplers_id_table(saving_folder: Union[str, os.PathLike]) -> Dict[str, 
     with open(os.path.join(saving_folder, "samplers_pickled.pickle"), "rb") as f:
         method_list = pickle.load(f)  # nosec B301
 
-    samplers_id_table = (
-        Calibrator._construct_samplers_id_table(  # pylint: disable=protected-access
-            method_list
-        )
-    )
+    samplers_id_table = Calibrator._construct_samplers_id_table(method_list)
 
     return samplers_id_table
 
@@ -89,9 +85,7 @@ def plot_convergence(saving_folder: Union[str, os.PathLike]) -> None:
     )
 
     g = sns.lineplot(
-        x=np.arange(
-            max(df["batch_num_samp"]) + 1  # pylint: disable=unsubscriptable-object
-        ),
+        x=np.arange(max(df["batch_num_samp"]) + 1),
         y=losses_cummin,
         color="black",
         ls="--",
@@ -99,7 +93,7 @@ def plot_convergence(saving_folder: Union[str, os.PathLike]) -> None:
         label="min loss",
     )
 
-    ids = df["method_samp"].unique()  # pylint: disable=unsubscriptable-object
+    ids = df["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     handles, labels = g.get_legend_handles_labels()
@@ -134,7 +128,7 @@ def plot_losses(saving_folder: Union[str, os.PathLike]) -> None:
         },
     )
 
-    g._legend.set_bbox_to_anchor((0.8, 0.5))  # pylint: disable=protected-access
+    g._legend.set_bbox_to_anchor((0.8, 0.5))
 
 
 def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
@@ -160,12 +154,12 @@ def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
             "fill": False,
         },
     )
-    ids = df["method_samp"].unique()  # pylint: disable=unsubscriptable-object
+    ids = df["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
     handles, _ = g.axes[-1][0].get_legend_handles_labels()
-    g._legend.remove()  # pylint: disable=protected-access
+    g._legend.remove()
 
     plt.legend(loc=2, handles=handles, labels=sampler_names, bbox_to_anchor=(0.0, 1.8))
 
@@ -184,9 +178,7 @@ def plot_losses_method_num(
     if method_num not in set(df["method_samp"]):
         raise ValueError(f"Samplers with method_num = {method_num} was never used")
 
-    df = df.loc[
-        df["method_samp"] == method_num  # pylint: disable=unsubscriptable-object
-    ]
+    df = df.loc[df["method_samp"] == method_num]
 
     num_params = sum("params_samp_" in c_str for c_str in df.columns)
 
@@ -206,7 +198,7 @@ def plot_losses_method_num(
         },
     )
 
-    g._legend.set_bbox_to_anchor((0.8, 0.5))  # pylint: disable=protected-access
+    g._legend.set_bbox_to_anchor((0.8, 0.5))
 
 
 def plot_losses_interact(saving_folder: Union[str, os.PathLike]) -> None:
@@ -252,14 +244,9 @@ def plot_sampling_batch_nums(
 
     df["filter_bns"] = filter_bns
 
-    df_ = df.loc[
-        df["filter_bns"]  # pylint: disable=singleton-comparison,unsubscriptable-object
-        == True  # noqa
-    ]
+    df_ = df.loc[df["filter_bns"] == True]  # noqa
 
-    num_params = sum(
-        "params_samp_" in c_str for c_str in df.columns  # pylint: disable=no-member
-    )
+    num_params = sum("params_samp_" in c_str for c_str in df.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
@@ -274,12 +261,12 @@ def plot_sampling_batch_nums(
         palette="tab10",
     )
 
-    ids = df["method_samp"].unique()  # pylint: disable=unsubscriptable-object
+    ids = df["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
     handles, _ = g.axes[-1][0].get_legend_handles_labels()
-    g._legend.remove()  # pylint: disable=protected-access
+    g._legend.remove()
 
     plt.legend(loc=2, handles=handles, labels=sampler_names, bbox_to_anchor=(0.0, 1.8))
 

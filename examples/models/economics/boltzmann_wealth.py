@@ -41,7 +41,7 @@ class BoltzmannWealthModel(Model):
     highly skewed distribution of wealth.
     """
 
-    def __init__(  # pylint: disable=super-init-not-called
+    def __init__(
         self,
         num_agents: int = 100,
         width: int = 10,
@@ -76,7 +76,7 @@ class BoltzmannWealthModel(Model):
         # collect data
         self.datacollector.collect(self)
 
-    def run_model(self, n: int) -> None:  # pylint: disable=arguments-differ
+    def run_model(self, n: int) -> None:
         """Run the model."""
         for _ in range(n):
             self.step()

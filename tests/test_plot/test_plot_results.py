@@ -35,9 +35,7 @@ from tests.utils.base import skip_on_windows
 
 
 @skip_on_windows()
-class TestPlotConvergence(
-    BasePlotResultsTest
-):  # pylint: disable=too-few-public-methods
+class TestPlotConvergence(BasePlotResultsTest):
     """Test the 'plot_convergence' function."""
 
     plotting_function = plot_convergence
@@ -47,7 +45,7 @@ class TestPlotConvergence(
 
 
 @skip_on_windows()
-class TestPlotLosses(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
+class TestPlotLosses(BasePlotResultsTest):
     """Test the 'plot_losses' function."""
 
     plotting_function = plot_losses
@@ -56,7 +54,7 @@ class TestPlotLosses(BasePlotResultsTest):  # pylint: disable=too-few-public-met
 
 
 @skip_on_windows()
-class TestPlotSampling(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
+class TestPlotSampling(BasePlotResultsTest):
     """Test the 'plot_sampling' function."""
 
     plotting_function = plot_sampling
@@ -65,9 +63,7 @@ class TestPlotSampling(BasePlotResultsTest):  # pylint: disable=too-few-public-m
 
 
 @skip_on_windows()
-class TestPlotLossesMethodNum(
-    BasePlotResultsTest
-):  # pylint: disable=too-few-public-methods
+class TestPlotLossesMethodNum(BasePlotResultsTest):
     """Test the 'plot_losses_method_num' function."""
 
     plotting_function = plot_losses_method_num
@@ -80,9 +76,7 @@ class TestPlotLossesMethodNum(
         """Run the test."""
 
     @pytest.mark.parametrize("method_num", list(range(5)))
-    def test_run_by_method_num(
-        self, method_num: int
-    ) -> None:  # pylint: disable=arguments-differ
+    def test_run_by_method_num(self, method_num: int) -> None:
         """Run the test for all method numbers."""
         self.expected_image = (
             PLOT_DIR / f"plot_losses_method_num_{method_num}-expected.png"
@@ -98,7 +92,7 @@ class TestPlotLossesMethodNum(
 
 
 @skip_on_windows()
-class TestPlotBatchNums(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
+class TestPlotBatchNums(BasePlotResultsTest):
     """Test the 'plot_sampling_batch_nums' function."""
 
     plotting_function = plot_sampling_batch_nums
@@ -111,9 +105,7 @@ class TestPlotBatchNums(BasePlotResultsTest):  # pylint: disable=too-few-public-
         """Run the test."""
 
     @pytest.mark.parametrize("batch_num", list(range(0, 13, 3)))
-    def test_run_by_batch_num(
-        self, batch_num: int
-    ) -> None:  # pylint: disable=arguments-differ
+    def test_run_by_batch_num(self, batch_num: int) -> None:
         """Run the test for all method numbers."""
         self.expected_image = (
             PLOT_DIR / f"plot_sampling_batch_nums_{batch_num:03d}-expected.png"

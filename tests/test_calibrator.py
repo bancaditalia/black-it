@@ -40,7 +40,7 @@ from black_it.utils.seedable import BaseSeedable
 from examples.models.simple_models import NormalMV
 
 
-class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-defined-outside-init
+class TestCalibrate:
     """Test the Calibrator.calibrate method."""
 
     expected_params = np.array(
@@ -171,7 +171,7 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         params, losses = cal.calibrate(14)
 
-        # TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
+        # TODO: this is a temporary workaround to make tests to run also on Windows.
         #       See: https://github.com/bancaditalia/black-it/issues/49
         print(params.tolist())
         print(losses.tolist())
@@ -258,7 +258,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
         if key == "scheduler":
             t1 = type(vars_cal["scheduler"])
             t2 = type(cal_restored.scheduler)
-            assert t1 == t2  # noqa, pylint: disable=unidiomatic-typecheck
+            assert t1 == t2  # noqa
         elif key == "loss_function":
             assert (
                 type(vars_cal["loss_function"]).__name__

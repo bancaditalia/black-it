@@ -1,6 +1,5 @@
 # flake8: noqa
 # type: ignore
-# pylint: skip-file
 num_cores  # unused variable (examples/docker-sir.py:21)
 losses  # unused variable (examples/docker-sir.py:56)
 num_cores  # unused variable (examples/main.py:22)

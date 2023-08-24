@@ -165,7 +165,7 @@ class gz_ndarray(NDArray):
     """
 
 
-def load_calibrator_state(  # pylint: disable=too-many-locals
+def load_calibrator_state(
     checkpoint_path: PathLike,
 ) -> Tuple:
     """
@@ -192,7 +192,7 @@ def load_calibrator_state(  # pylint: disable=too-many-locals
             SQL_LOAD_USER_VERSION
         ).fetchone()[0]
         if checkpoint_schema_version != SCHEMA_VERSION:
-            raise Exception(  # pylint: disable=broad-exception-raised
+            raise Exception(
                 f"The checkpoint you want to load has been generated with another version of the code:\n"
                 f"\tCheckpoint schema version:          {checkpoint_schema_version}"
                 f"\tSchema version of the current code: {SCHEMA_VERSION}"
@@ -247,13 +247,13 @@ def load_calibrator_state(  # pylint: disable=too-many-locals
             method_samp,
         )
 
-    except BaseException as err:  # pylint: disable=broad-except
+    except BaseException as err:
         raise err from err
     finally:
         connection.close()
 
 
-def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
+def save_calibrator_state(
     checkpoint_path: PathLike,
     parameters_bounds: NDArray[np.float64],
     parameters_precision: NDArray[np.float64],
@@ -348,7 +348,7 @@ def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
 
         connection.commit()
 
-    except BaseException as err:  # pylint: disable=broad-except
+    except BaseException as err:
         connection.rollback()
         raise err from err
     finally:

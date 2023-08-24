@@ -24,7 +24,7 @@ from black_it.samplers.gaussian_process import GaussianProcessSampler, _Acquisit
 from black_it.search_space import SearchSpace
 
 
-class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
+class TestGaussianProcess2D:
     """Test GaussianProcess sampling."""
 
     def setup(self) -> None:
@@ -111,9 +111,7 @@ def test_gaussian_process_sample_warning_too_large_dataset() -> None:
     (
         xys,
         losses,
-    ) = TestGaussianProcess2D._construct_fake_grid(  # pylint: disable=protected-access
-        n=23
-    )
+    ) = TestGaussianProcess2D._construct_fake_grid(n=23)
     with pytest.warns(
         RuntimeWarning,
         match="Standard GP evaluations can be expensive "

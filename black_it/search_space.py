@@ -22,7 +22,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 
-class SearchSpace:  # pylint: disable=too-few-public-methods
+class SearchSpace:
     """A class that contains information on the search grid of explorable parameters."""
 
     def __init__(

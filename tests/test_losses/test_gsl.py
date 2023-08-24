@@ -47,7 +47,7 @@ def is_sorted(array: np.ndarray, reverse: bool = False) -> bool:
     return True
 
 
-class TestDiscretize:  # pylint: disable=no-self-use
+class TestDiscretize:
     """Test the 'discretize' function."""
 
     @given(discretize_args())
@@ -82,7 +82,7 @@ class TestDiscretize:  # pylint: disable=no-self-use
         assert is_sorted(decreasing_actual, reverse=True)
 
 
-class TestGetWords:  # pylint: disable=no-self-use,too-few-public-methods
+class TestGetWords:
     """Test the 'get_words' function."""
 
     @given(get_words_args())

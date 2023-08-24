@@ -161,7 +161,7 @@ class _PrimesIterator:
                 return self._candidate
 
 
-class _CachedPrimesCalculator:  # pylint: disable=too-few-public-methods
+class _CachedPrimesCalculator:
     """Utility class to compute and cache the first n prime numbers."""
 
     def __init__(self) -> None:

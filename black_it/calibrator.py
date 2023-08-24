@@ -41,12 +41,12 @@ from black_it.utils.json_pandas_checkpointing import (
 from black_it.utils.seedable import BaseSeedable
 
 
-class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
+class Calibrator(BaseSeedable):
     """The class used to perform a calibration."""
 
     STATE_VERSION = 0
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         loss_function: BaseLoss,
         real_data: NDArray[np.float64],
@@ -214,7 +214,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
 
         """
         # overwrite the list of samplers
-        self.scheduler._samplers = tuple(samplers)  # pylint: disable=protected-access
+        self.scheduler._samplers = tuple(samplers)
         self.update_samplers_id_table(samplers)
 
     def set_scheduler(self, scheduler: BaseScheduler) -> None:
@@ -236,7 +236,7 @@ class Calibrator(BaseSeedable):  # pylint: disable=too-many-instance-attributes
             sampler_id = sampler_id + 1
 
     @classmethod
-    def restore_from_checkpoint(  # pylint: disable=too-many-locals
+    def restore_from_checkpoint(
         cls, checkpoint_path: str, model: Callable
     ) -> "Calibrator":
         """
