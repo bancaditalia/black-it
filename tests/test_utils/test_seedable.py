@@ -78,16 +78,10 @@ def test_get_random_seed(random_seed: int) -> None:
     nb_iterations = 1000
 
     seedable.random_state = random_seed
-    expected_values_1 = [
-        seedable._get_random_seed()  # pylint: disable=protected-access
-        for _ in range(nb_iterations)
-    ]
+    expected_values_1 = [seedable._get_random_seed() for _ in range(nb_iterations)]
 
     seedable.random_state = random_seed
-    expected_values_2 = [
-        seedable._get_random_seed()  # pylint: disable=protected-access
-        for _ in range(nb_iterations)
-    ]
+    expected_values_2 = [seedable._get_random_seed() for _ in range(nb_iterations)]
 
     assert expected_values_1 == expected_values_2
     assert all(0 <= value <= 2**32 - 1 for value in expected_values_1)

@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Hypothesis strategies for testing."""
-from typing import Callable, Tuple  # pylint: disable=unused-import
+from typing import Callable, Tuple
 
 import hypothesis.extra.numpy
 import hypothesis.strategies as st

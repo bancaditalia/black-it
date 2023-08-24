@@ -32,7 +32,7 @@ EPS_FLOAT32 = np.finfo(np.float32).eps
 class XGBoostSampler(MLSurrogateSampler):
     """This class implements xgboost sampling."""
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         batch_size: int,
         random_state: Optional[int] = None,
@@ -124,7 +124,7 @@ class XGBoostSampler(MLSurrogateSampler):
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
         """Fit a xgboost surrogate model."""
         # prepare data
-        y = self._clip_losses(y)  # pylint: disable=W0212
+        y = self._clip_losses(y)
         _ = xgb.DMatrix(data=X, label=y)
 
         # train surrogate

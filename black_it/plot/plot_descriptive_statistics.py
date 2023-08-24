@@ -23,7 +23,7 @@ import numpy as np
 import statsmodels.api as sm
 
 
-def ts_stats(ts: List[float]) -> None:  # pylint: disable=too-many-locals
+def ts_stats(ts: List[float]) -> None:
     """Show TS graphical descriptive statistics."""
     color = "darkslateblue"
     alpha = 0.8

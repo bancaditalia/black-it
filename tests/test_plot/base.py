@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 from matplotlib.testing.compare import compare_images
 
 
-class BasePlotTest:  # pylint: disable=too-few-public-methods
+class BasePlotTest:
     """Base test class for plotting functions."""
 
     plotting_function: Callable

@@ -24,7 +24,7 @@ import pytest
 from tests.utils.base import PopenResult, run_process
 
 
-class BaseMainExampleTestClass:  # pylint: disable=too-few-public-methods
+class BaseMainExampleTestClass:
     """Base test class for the main example."""
 
     script_path: Path

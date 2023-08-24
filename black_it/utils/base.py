@@ -32,7 +32,7 @@ def _assert(
 ) -> None:
     """Check condition; if false, raise exception with the provided error message."""
     if not condition:
-        raise exception_class(error_message)  # pylint: disable=broad-exception-raised
+        raise exception_class(error_message)
 
 
 def check_arg(condition: bool, message: str) -> None:

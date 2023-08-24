@@ -25,9 +25,7 @@ from black_it.search_space import SearchSpace
 from black_it.utils.base import _assert, digitize_data, positive_float
 
 
-class ParticleSwarmSampler(
-    BaseSampler
-):  # pylint: disable=(too-many-instance-attributes)
+class ParticleSwarmSampler(BaseSampler):
     """
     Implementation of a particle swarm sampler.
 

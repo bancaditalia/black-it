@@ -27,9 +27,7 @@ EXAMPLE_DOCKER_SIR_SCRIPT_PATH = ROOT_DIR / "examples" / "docker-sir.py"
 @pytest.mark.e2e
 @requires_docker
 @skip_on_windows
-class TestDockerSirMainExample(  # pylint: disable=too-few-public-methods
-    BaseMainExampleTestClass
-):
+class TestDockerSirMainExample(BaseMainExampleTestClass):
     """Test that example docker-sir can be run successfully."""
 
     script_path = EXAMPLE_DOCKER_SIR_SCRIPT_PATH

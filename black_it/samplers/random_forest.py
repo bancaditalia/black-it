@@ -28,7 +28,7 @@ from black_it.utils.base import _assert
 class RandomForestSampler(MLSurrogateSampler):
     """This class implements random forest sampling."""
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         batch_size: int,
         random_state: Optional[int] = None,

@@ -29,7 +29,7 @@ from black_it.schedulers.rl.agents.base import Agent
 from black_it.schedulers.rl.envs.base import CalibrationEnv
 
 
-class RLScheduler(BaseScheduler):  # pylint: disable=too-many-instance-attributes
+class RLScheduler(BaseScheduler):
     """
     This class implement a RL-based scheduler.
 
@@ -54,8 +54,8 @@ class RLScheduler(BaseScheduler):  # pylint: disable=too-many-instance-attribute
 
         super().__init__(new_samplers, random_state)
 
-        self._in_queue: Queue = self._env._out_queue  # pylint: disable=protected-access
-        self._out_queue: Queue = self._env._in_queue  # pylint: disable=protected-access
+        self._in_queue: Queue = self._env._out_queue
+        self._out_queue: Queue = self._env._in_queue
 
         self._best_param: Optional[float] = None
         self._best_loss: Optional[float] = None
@@ -143,9 +143,7 @@ class RLScheduler(BaseScheduler):  # pylint: disable=too-many-instance-attribute
         if self._best_loss is None:
             self._best_loss = best_new_loss
             self._best_param = new_params[np.argmin(new_losses)]
-            self._env._curr_best_loss = (  # pylint: disable=protected-access
-                best_new_loss
-            )
+            self._env._curr_best_loss = best_new_loss
             return
         if best_new_loss < cast(float, self._best_loss):
             self._best_loss = best_new_loss

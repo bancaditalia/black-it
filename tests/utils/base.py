@@ -53,7 +53,7 @@ def run_process(
     Raises:
         RuntimeError: if the process cannot be stopped.
     """
-    process = subprocess.Popen(  # pylint: disable=consider-using-with  # nosec B603
+    process = subprocess.Popen(  # nosec B603
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

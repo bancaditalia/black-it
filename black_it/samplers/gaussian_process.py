@@ -22,7 +22,7 @@ from typing import Optional, Tuple, Union, cast
 
 import numpy as np
 from numpy.typing import NDArray
-from scipy.special import erfc  # pylint: disable=no-name-in-module
+from scipy.special import erfc
 from sklearn.gaussian_process import GaussianProcessRegressor, kernels
 
 from black_it.samplers.surrogate import MLSurrogateSampler
@@ -48,7 +48,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
     Note: this class is a wrapper of the GaussianProcessRegressor model of the scikit-learn package.
     """
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         batch_size: int,
         random_state: Optional[int] = None,

@@ -1,6 +1,5 @@
 # flake8: noqa
 # type: ignore
-# pylint: skip-file
 _.set_samplers  # unused method (black_it/calibrator.py:180)
 _.set_scheduler  # unused method (black_it/calibrator.py:220)
 _.restore_from_checkpoint  # unused method (black_it/calibrator.py:203)

@@ -121,10 +121,10 @@ def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
     return fit
 
 
-class CORSSampler(BaseSampler):  # pylint: disable=too-many-instance-attributes
+class CORSSampler(BaseSampler):
     """Implement the modified CORS sampler."""
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         batch_size: int,
         max_samples: int,
@@ -211,7 +211,7 @@ class CORSSampler(BaseSampler):  # pylint: disable=too-many-instance-attributes
                     "fun": lambda x, localk=k: np.linalg.norm(
                         np.subtract(x, current_points[localk])
                     )
-                    - r,  # noqa: B023  # pylint: disable=cell-var-from-loop
+                    - r,  # noqa: B023
                 }
                 for k in range(nb_seed_points + j)
             ]

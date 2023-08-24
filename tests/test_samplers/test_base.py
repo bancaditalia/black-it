@@ -30,13 +30,13 @@ def test_find_and_get_duplicates() -> None:
 
     BaseSampler.__abstractmethods__ = frozenset()
 
-    sampler = BaseSampler(batch_size=1)  # type: ignore  # pylint: disable=abstract-class-instantiated
+    sampler = BaseSampler(batch_size=1)  # type: ignore
     duplicates = sampler.find_and_get_duplicates(new_points, existing_points)
 
     assert duplicates == [0, 1, 2, 4, 5]
 
 
-class TestSetRandomState:  # pylint: disable=attribute-defined-outside-init,too-many-instance-attributes
+class TestSetRandomState:
     """Test 'BaseSampler.random_state' setter."""
 
     class MyCustomSampler(BaseSampler):

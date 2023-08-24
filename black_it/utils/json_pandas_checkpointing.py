@@ -93,7 +93,7 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
     )
 
 
-def save_calibrator_state(  # pylint: disable=too-many-arguments,too-many-locals
+def save_calibrator_state(
     checkpoint_path: PathLike,
     parameters_bounds: NDArray[np.float64],
     parameters_precision: NDArray[np.float64],

@@ -29,7 +29,7 @@ from black_it.utils.sqlite3_checkpointing import (
 )
 
 
-def test_sqlite3_checkpointing() -> None:  # pylint: disable=too-many-locals
+def test_sqlite3_checkpointing() -> None:
     """Test SQLite3 checkpointing."""
     parameters_bounds = np.array([1.0, 2.0, 3.0])
     parameters_precision = np.array([0.1, 0.1, 0.1])
