@@ -1,4 +1,3 @@
-# flake8: noqa
 # type: ignore
 _.set_samplers  # unused method (black_it/calibrator.py:180)
 _.set_scheduler  # unused method (black_it/calibrator.py:220)

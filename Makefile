@@ -63,19 +63,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 PHONY.: lint-all
-lint-all: black flake8 static bandit safety vulture darglint ## run all linters
+lint-all: black static bandit safety vulture darglint ## run all linters
 
 PHONY.: lint-all-files
-lint-all-files: black-files flake8-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
-
-PHONY.: flake8
-flake8: ## check style with flake8
-	flake8 black_it tests scripts examples
-
-PHONY.: flake8-files
-flake8-files: ## check style with flake8 for specific files (specified with files="file1 file2 somedir ...")
-	$(call check_defined, files)
-	flake8 $(files)
+lint-all-files: black-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
 PHONY.: static
 static: ## static type checking with mypy
