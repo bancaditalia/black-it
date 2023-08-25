@@ -132,7 +132,7 @@ class FourierLoss(BaseLoss):
             The computed loss over the specific coordinate.
         """
         f_real_data = np.fft.rfft(real_data, axis=0)
-        N = f_real_data.shape[0]
+        ts_length = f_real_data.shape[0]
         f_real_data = self.frequency_filter(f_real_data, self.f)
         # computer mean fft transform of simulated ensemble
         f_sim_data = []
@@ -143,6 +143,6 @@ class FourierLoss(BaseLoss):
 
         f_sim_data = np.array(f_sim_data).mean(0)
 
-        loss_1d = np.sqrt(np.sum((abs(f_sim_data - f_real_data)) ** 2) / N)
+        loss_1d = np.sqrt(np.sum((abs(f_sim_data - f_real_data)) ** 2) / ts_length)
 
         return loss_1d

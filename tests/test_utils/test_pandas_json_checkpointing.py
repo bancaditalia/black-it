@@ -31,8 +31,8 @@ def test_save_and_load_calibrator_state() -> None:
     parameters_precision = np.array([0.01, 0.01])
     real_data = np.random.randn(100, 5)
     ensemble_size = 5
-    N = 30
-    D = 2
+    N = 30  # noqa: N806
+    D = 2  # noqa: N806
     convergence_precision = 0.1
     verbose = True
     saving_folder = "saving_folder"

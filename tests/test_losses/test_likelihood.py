@@ -58,17 +58,17 @@ def test_likelihood_2d_wsigma() -> None:
     """Test the computation of the Likelihood in the Likelihood loss in 2d."""
     # sample from a Gaussian distribution.
     np.random.seed(11)
-    sigma, D = 3.0, 2
-    real_data = np.random.normal(0, sigma, size=(10, D))
+    sigma, d = 3.0, 2
+    real_data = np.random.normal(0, sigma, size=(10, d))
 
     expected_neg_log_likelihood = -np.sum(
         -0.5 / sigma**2 * np.sum(real_data**2, axis=1)
-        - D / 2.0 * np.log(2.0 * np.pi * sigma**2),
+        - d / 2.0 * np.log(2.0 * np.pi * sigma**2),
         axis=0,
     )
     expected_likelihood = np.exp(-expected_neg_log_likelihood)
 
-    sim_data_ensemble = np.random.normal(0, sigma, size=(1, 1000000, D))
+    sim_data_ensemble = np.random.normal(0, sigma, size=(1, 1000000, d))
     loss = LikelihoodLoss(h=sigma)
     neg_log_lik = loss.compute_loss(sim_data_ensemble, real_data)
     lik = np.exp(-neg_log_lik)

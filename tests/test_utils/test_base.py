@@ -38,11 +38,11 @@ def test_assert_custom_exception() -> None:
     with pytest.raises(ValueError, match=message):
         _assert(False, message, exception_class=ValueError)
 
-    class CustomException(Exception):
+    class CustomError(Exception):
         """Custom exception."""
 
-    with pytest.raises(CustomException, match=message):
-        _assert(False, message, exception_class=CustomException)
+    with pytest.raises(CustomError, match=message):
+        _assert(False, message, exception_class=CustomError)
 
 
 def test_digitize_data() -> None:

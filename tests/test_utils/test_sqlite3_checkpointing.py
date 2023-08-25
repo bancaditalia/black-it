@@ -35,8 +35,8 @@ def test_sqlite3_checkpointing() -> None:
     parameters_precision = np.array([0.1, 0.1, 0.1])
     real_data = np.linspace(0, 30)
     ensemble_size = 5
-    N = 30
-    D = 3
+    N = 30  # noqa: N806
+    D = 3  # noqa: N806
     convergence_precision = 0.1
     verbose = True
     saving_file = "test"

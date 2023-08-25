@@ -101,7 +101,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
                 f"got {acquisition}"
             ) from e
 
-    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
         """Fit a gaussian process surrogate model."""
         y = np.atleast_2d(y).T
 
@@ -131,7 +131,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
             m, _ = self._predict_mean_std(X)
             self._fmin = np.min(m)
 
-    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:  # noqa: N803
         """Predict using a gaussian process surrogate model."""
         # predict mean or expected improvement on the full sample set
         if self.acquisition == _AcquisitionTypes.EI.value:
@@ -143,7 +143,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         return candidates_score
 
     def _predict_mean_std(
-        self, X: NDArray[np.float64]
+        self, X: NDArray[np.float64]  # noqa: N803
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
         """
         Predict mean and standard deviation of a fitted GP.
@@ -155,12 +155,14 @@ class GaussianProcessSampler(MLSurrogateSampler):
             The pair (mean, std).
         """
         gpmodel = cast(GaussianProcessRegressor, self._gpmodel)
-        X = X[None, :] if X.ndim == 1 else X
+        X = X[None, :] if X.ndim == 1 else X  # noqa: N806
         m, s = gpmodel.predict(X, return_std=True, return_cov=False)
         s = np.clip(s, 1e-5, np.inf)
         return m, s
 
-    def _predict_EI(self, X: NDArray[np.float64], jitter: float) -> NDArray[np.float64]:
+    def _predict_EI(  # noqa: N802
+        self, X: NDArray[np.float64], jitter: float = 0.1  # noqa: N803
+    ) -> NDArray[np.float64]:
         """
         Compute the Expected Improvement per unit of cost.
 
@@ -175,7 +177,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
 
         fmin = cast(float, self._fmin)
 
-        phi, Phi, u = self.get_quantiles(jitter, fmin, m, s)
+        phi, Phi, u = self.get_quantiles(jitter, fmin, m, s)  # noqa: N806
 
         f_acqu = s * (u * Phi + phi)
 
@@ -205,6 +207,6 @@ class GaussianProcessSampler(MLSurrogateSampler):
 
         u: NDArray[np.float64] = (fmin - m - acquisition_par) / s
         phi: NDArray[np.float64] = np.exp(-0.5 * u**2) / np.sqrt(2 * np.pi)
-        Phi: NDArray[np.float64] = 0.5 * erfc(-u / np.sqrt(2))
+        Phi: NDArray[np.float64] = 0.5 * erfc(-u / np.sqrt(2))  # noqa: N806
 
         return phi, Phi, u

@@ -118,16 +118,16 @@ class GslDivLoss(BaseLoss):
         Returns:
             the GSL loss
         """
-        N = len(real_data)
+        ts_length = len(real_data)
         ensemble_size = sim_data_ensemble.shape[0]
 
         if self.nb_values is None:
-            nb_values = int((N - 1) / 2.0)
+            nb_values = int((ts_length - 1) / 2.0)
         else:
             nb_values = self.nb_values
 
         if self.nb_word_lengths is None:
-            nb_word_lengths = int((N - 1) / 2.0)
+            nb_word_lengths = int((ts_length - 1) / 2.0)
         else:
             nb_word_lengths = self.nb_word_lengths
 
@@ -149,7 +149,7 @@ class GslDivLoss(BaseLoss):
             )
 
             loss = self.gsl_div_1d_1_sample(
-                sim_xd, obs_xd, nb_word_lengths, nb_values, N
+                sim_xd, obs_xd, nb_word_lengths, nb_values, ts_length
             )
 
             gsl_loss += loss
@@ -162,7 +162,7 @@ class GslDivLoss(BaseLoss):
         obs_xd: NDArray,
         nb_word_lengths: int,
         nb_values: int,
-        N: int,
+        ts_length: int,
     ) -> float:
         """Compute the GSL-div for a single realisation of the simulated data.
 
@@ -171,7 +171,7 @@ class GslDivLoss(BaseLoss):
             obs_xd: discretised real series
             nb_word_lengths: the number of word length to consider
             nb_values: number of values the digitised series can take
-            N: the length of real and simulated series
+            ts_length: the length of real and simulated series
 
         Returns:
             the computed loss
@@ -197,7 +197,7 @@ class GslDivLoss(BaseLoss):
             weight = weight + 2 / (nb_word_lengths * (nb_word_lengths + 1))
 
             # correction
-            corr = ((len(m_xp) - 1) - (len(sim_xp) - 1)) / (2 * N)
+            corr = ((len(m_xp) - 1) - (len(sim_xp) - 1)) / (2 * ts_length)
 
             # add to measure
             gsl_divl = 2 * m_entr - sim_entr + corr

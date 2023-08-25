@@ -122,6 +122,6 @@ def compute_gini(model: BoltzmannWealthModel) -> float:
     """Compute the Gini index."""
     agent_wealths = [cast(MoneyAgent, agent).wealth for agent in model.schedule.agents]
     x = sorted(agent_wealths)
-    N = model.num_agents
-    B = sum(xi * (N - i) for i, xi in enumerate(x)) / (N * sum(x))
-    return 1 + (1 / N) - 2 * B
+    n = model.num_agents
+    b = sum(xi * (n - i) for i, xi in enumerate(x)) / (n * sum(x))  # noqa: N806
+    return 1 + (1 / n) - 2 * b

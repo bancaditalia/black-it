@@ -35,14 +35,18 @@ from numpy.typing import NDArray
 from scipy.stats import alpha, bernoulli
 
 
-def NormalM(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def NormalM(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Normal samples with adjustable mean."""
     np.random.seed(seed=seed)
     y = np.random.normal(theta[0], 1, N)
     return np.atleast_2d(y).T
 
 
-def NormalMV(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def NormalMV(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Normal samples with adjustable mean and variance."""
     np.random.seed(seed=seed)
 
@@ -50,7 +54,9 @@ def NormalMV(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def NormalBer_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def NormalBer_3P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Bernoulli + Normal samples."""
     np.random.seed(seed=seed)
 
@@ -65,7 +71,9 @@ def NormalBer_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float6
     return np.atleast_2d(y).T
 
 
-def NormalBer_5P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def NormalBer_5P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Bernoulli + Normal samples."""
     np.random.seed(seed=seed)
 
@@ -80,7 +88,9 @@ def NormalBer_5P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float6
     return np.atleast_2d(y).T
 
 
-def Alpha(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def Alpha(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Alpha iid samples.
 
     theta[0] shape param
@@ -94,7 +104,9 @@ def Alpha(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def MarkovC_2P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def MarkovC_2P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
 
@@ -122,7 +134,9 @@ def MarkovC_2P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]
     return np.atleast_2d(y).T
 
 
-def MarkovC_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def MarkovC_3P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
 
@@ -144,7 +158,9 @@ def MarkovC_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]
     return np.atleast_2d(y).T
 
 
-def MarkovC_KP(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def MarkovC_KP(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
 
@@ -165,7 +181,9 @@ def MarkovC_KP(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]
     return np.atleast_2d(y).T
 
 
-def AR1(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def AR1(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """AR(1) model.
 
     Model 1 in Platt (2019)
@@ -182,7 +200,9 @@ def AR1(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def AR1Ber_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def AR1Ber_3P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """AR(1) + Bernoulli."""
     np.random.seed(seed=seed)
 
@@ -203,7 +223,9 @@ def AR1Ber_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def AR1_2P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def AR1_2P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """AR(1) with 2 parameters."""
     np.random.seed(seed=seed)
 
@@ -216,7 +238,9 @@ def AR1_2P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def AR1_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def AR1_3P(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """AR(1) with 3 parameters."""
     np.random.seed(seed=seed)
 
@@ -230,7 +254,9 @@ def AR1_3P(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def ARMA2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def ARMA2(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """ARMA(1, 1) model."""
     np.random.seed(seed=seed)
 
@@ -242,7 +268,9 @@ def ARMA2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y[1:]).T
 
 
-def ARMAARCH2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def ARMAARCH2(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """ARMA(2,2) ARCH(2) model.
 
     Model 2 of Platt (2019) - Param set 1 [a0,a1]
@@ -268,7 +296,9 @@ def ARMAARCH2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y[2:]).T
 
 
-def ARMAARCH4(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def ARMAARCH4(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """
     ARMA(2,2) ARCH(2) model.
 
@@ -297,7 +327,9 @@ def ARMAARCH4(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y[2:]).T
 
 
-def ARMAARCH6(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def ARMAARCH6(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """
     ARMA(2,2) ARCH(2).
 
@@ -328,7 +360,9 @@ def ARMAARCH6(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y[2:]).T
 
 
-def ARMAARCH4v2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def ARMAARCH4v2(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """
     ARMA(2,2) ARCH(2).
 
@@ -355,7 +389,9 @@ def ARMAARCH4v2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64
     return np.atleast_2d(y[2:]).T
 
 
-def RWSB1(theta: Sequence[int], N: int, seed: int) -> NDArray[np.float64]:
+def RWSB1(  # noqa: N802
+    theta: Sequence[int], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """
     RW with structural break.
 
@@ -381,7 +417,9 @@ def RWSB1(theta: Sequence[int], N: int, seed: int) -> NDArray[np.float64]:
     return np.atleast_2d(y).T
 
 
-def RWSB2(theta: Sequence[float], N: int, seed: int) -> NDArray[np.float64]:
+def RWSB2(  # noqa: N802
+    theta: Sequence[float], N: int, seed: int  # noqa: N803
+) -> NDArray[np.float64]:
     """
     RW with structural break.
 

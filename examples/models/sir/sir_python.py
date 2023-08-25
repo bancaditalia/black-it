@@ -17,12 +17,12 @@
 """SIR models written in Python."""
 
 import ndlib.models.epidemics as ep
-import ndlib.models.ModelConfig as mc
 import networkx as nx
 import numpy as np
+from ndlib.models import ModelConfig
 
 
-def SIR(theta, N, seed):
+def SIR(theta, N, seed):  # noqa: N802, N803
     """SIR model.
 
     0 theta = [#LOC CONNECTIONS,
@@ -42,12 +42,12 @@ def SIR(theta, N, seed):
     """
     np.random.seed(seed=seed)
 
-    NumAgents = 100000
-    g = nx.watts_strogatz_graph(NumAgents, int(theta[0]), theta[1], seed=theta[5])
+    num_agents = 100000
+    g = nx.watts_strogatz_graph(num_agents, int(theta[0]), theta[1], seed=theta[5])
 
     model = ep.SIRModel(g)
 
-    cfg = mc.Configuration()
+    cfg = ModelConfig.Configuration()
     cfg.add_model_parameter("beta", theta[3])  # infection rate
     cfg.add_model_parameter("gamma", theta[4])  # recovery rate
     cfg.add_model_parameter("percentage_infected", theta[2])
@@ -55,20 +55,20 @@ def SIR(theta, N, seed):
 
     iterations = model.iteration_bunch(N, node_status=True)
 
-    outputNP = np.zeros((N, 3))
+    output_np = np.zeros((N, 3))
 
     for i in range(len(iterations)):
         entry = iterations[i]["node_count"]
 
         for j in range(3):
-            outputNP[i, j] = entry[j]
+            output_np[i, j] = entry[j]
 
     g.clear()
 
-    return outputNP
+    return output_np
 
 
-def SIR_w_breaks(theta, N, seed):
+def SIR_w_breaks(theta, N, seed):  # noqa: N802, N803
     """SIR model with structural breaks.
 
     0  theta = [#LOC CONNECTIONS,
@@ -94,12 +94,12 @@ def SIR_w_breaks(theta, N, seed):
     """
     np.random.seed(seed=seed)
 
-    NumAgents = 100000
-    g = nx.watts_strogatz_graph(NumAgents, int(theta[0]), theta[1], seed=theta[11])
+    num_agents = 100000
+    g = nx.watts_strogatz_graph(num_agents, int(theta[0]), theta[1], seed=theta[11])
 
     model = ep.SIRModel(g)
 
-    cfg = mc.Configuration()
+    cfg = ModelConfig.Configuration()
     cfg.add_model_parameter("beta", theta[3])  # infection rate
     cfg.add_model_parameter("gamma", theta[4])  # recovery rate
     cfg.add_model_parameter("percentage_infected", theta[2])
@@ -116,29 +116,29 @@ def SIR_w_breaks(theta, N, seed):
     model.params["model"]["beta"] = theta[7]
     iterations3 = model.iteration_bunch(int(N - theta[10]), node_status=True)
 
-    outputNP = np.zeros((N, 3))
+    output_np = np.zeros((N, 3))
 
     for i in range(len(iterations0)):
         entry = iterations0[i]["node_count"]
 
         for j in range(3):
-            outputNP[i, j] = entry[j]
+            output_np[i, j] = entry[j]
 
     for i in range(len(iterations1)):
         entry = iterations1[i]["node_count"]
 
         for j in range(3):
-            outputNP[i + theta[8], j] = entry[j]
+            output_np[i + theta[8], j] = entry[j]
 
     for i in range(len(iterations2)):
         entry = iterations2[i]["node_count"]
 
         for j in range(3):
-            outputNP[i + theta[9], j] = entry[j]
+            output_np[i + theta[9], j] = entry[j]
 
     for i in range(len(iterations3)):
         entry = iterations3[i]["node_count"]
         for j in range(3):
-            outputNP[i + theta[10], j] = entry[j]
+            output_np[i + theta[10], j] = entry[j]
 
-    return outputNP
+    return output_np

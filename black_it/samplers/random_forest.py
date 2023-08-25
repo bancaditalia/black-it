@@ -82,13 +82,15 @@ class RandomForestSampler(MLSurrogateSampler):
         """Get the number of classes."""
         return self._n_classes
 
-    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
         """Fit a random forest surrogate model."""
         # Train surrogate
 
-        X, y_cat, _existing_points_quantiles = self.prepare_data_for_classifier(
-            X, y, self.n_classes
-        )
+        (
+            X,  # noqa: N806
+            y_cat,
+            _existing_points_quantiles,
+        ) = self.prepare_data_for_classifier(X, y, self.n_classes)
 
         self._classifier = RandomForestClassifier(
             n_estimators=self.n_estimators,
@@ -98,7 +100,7 @@ class RandomForestSampler(MLSurrogateSampler):
         )
         self._classifier.fit(X, y_cat)
 
-    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:  # noqa: N803
         """Predict using a random forest surrogate model."""
         # Predict quantiles
         self._classifier = cast(RandomForestClassifier, self._classifier)

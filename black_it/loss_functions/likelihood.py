@@ -24,9 +24,9 @@ from numpy.typing import NDArray
 from black_it.loss_functions.base import BaseLoss
 
 
-def kernel(sq_dist: NDArray[np.float64], h: float, D: int) -> NDArray[np.float64]:
+def kernel(sq_dist: NDArray[np.float64], h: float, d: int) -> NDArray[np.float64]:
     """Compute a kernel density estimation using a Gaussian kernel."""
-    k = np.exp(-(sq_dist / (2 * h**2))) / (h**D * (2 * np.pi) ** (D / 2.0))
+    k = np.exp(-(sq_dist / (2 * h**2))) / (h**d * (2 * np.pi) ** (d / 2.0))
     return k
 
 
@@ -57,15 +57,15 @@ class LikelihoodLoss(BaseLoss):
         self.h = h
 
     @staticmethod
-    def _get_bandwidth_silverman(N: int, D: int) -> float:
+    def _get_bandwidth_silverman(n: int, d: int) -> float:
         """Return a reasonable bandwidth value computed using the Silverman's rule of thumb."""
-        h = ((N * (D + 2)) / 4) ** (-1 / (D + 4))
+        h = ((n * (d + 2)) / 4) ** (-1 / (d + 4))
         return h
 
     @staticmethod
-    def _get_bandwidth_scott(N: int, D: int) -> float:
+    def _get_bandwidth_scott(n: int, d: int) -> float:
         """Return a reasonable bandwidth value computed using the Scott's rule of thumb."""
-        h = N ** (-1 / (D + 4))
+        h = n ** (-1 / (d + 4))
         return h
 
     def compute_loss(
@@ -81,9 +81,9 @@ class LikelihoodLoss(BaseLoss):
         Returns:
             The loss value.
         """
-        R = sim_data_ensemble.shape[0]  # number of repetitions
-        S = sim_data_ensemble.shape[1]  # simulation length
-        D = sim_data_ensemble.shape[2]  # number of dimensions
+        r = sim_data_ensemble.shape[0]  # number of repetitions
+        s = sim_data_ensemble.shape[1]  # simulation length
+        d = sim_data_ensemble.shape[2]  # number of dimensions
 
         if self.coordinate_weights is not None:
             warnings.warn(  # noqa: B028
@@ -92,35 +92,35 @@ class LikelihoodLoss(BaseLoss):
                 RuntimeWarning,
             )
 
-        filters = self._check_coordinate_filters(D)
+        filters = self._check_coordinate_filters(d)
         filtered_data = self._filter_data(filters, sim_data_ensemble)
         sim_data_ensemble = np.transpose(filtered_data, (1, 2, 0))
 
-        h = self._check_bandwidth(S, D)
+        h = self._check_bandwidth(s, d)
         sq_dists_r_t_s = (
             1.0
-            / D
+            / d
             * np.sum(
                 (sim_data_ensemble[:, None, :, :] - real_data[None, :, None, :]) ** 2,
                 axis=3,
             )
         )
 
-        kernel_r_t_s = kernel(sq_dists_r_t_s, h, D)
-        lik_real_series_r_t = np.sum(kernel_r_t_s, axis=2) / S
+        kernel_r_t_s = kernel(sq_dists_r_t_s, h, d)
+        lik_real_series_r_t = np.sum(kernel_r_t_s, axis=2) / s
         log_lik_real_series_r = np.sum(np.log(lik_real_series_r_t), axis=1)
-        log_lik_real_series = np.sum(log_lik_real_series_r, axis=0) / R
+        log_lik_real_series = np.sum(log_lik_real_series_r, axis=0) / r
         return -log_lik_real_series
 
-    def _check_bandwidth(self, S: int, D: int) -> float:
+    def _check_bandwidth(self, s: int, d: int) -> float:
         """Check the bandwidth self.h and return a usable one."""
         h: float
 
         if isinstance(self.h, str):
             if self.h == "silverman":
-                h = self._get_bandwidth_silverman(S, D)
+                h = self._get_bandwidth_silverman(s, d)
             elif self.h == "scott":
-                h = self._get_bandwidth_scott(S, D)
+                h = self._get_bandwidth_scott(s, d)
             else:
                 raise KeyError(
                     "Select a valid rule of thumb (either 'silverman' or 'scott') "
