@@ -148,7 +148,7 @@ SQL_DDL = """
 """
 
 
-class gz_ndarray(NDArray):
+class gz_ndarray(NDArray):  # noqa: N801
     """Convenience class to tell sqlite which ndarrays are to be compressed.
 
     If a user wants to compress/decompress the serialized version of an NDArray
@@ -203,8 +203,8 @@ def load_calibrator_state(
             parameters_precision,
             real_data,
             ensemble_size,
-            N,
-            D,
+            N,  # noqa: N806
+            D,  # noqa: N806
             convergence_precision,
             verbose,
             saving_file,
@@ -259,8 +259,8 @@ def save_calibrator_state(
     parameters_precision: NDArray[np.float64],
     real_data: NDArray[np.float64],
     ensemble_size: int,
-    N: int,
-    D: int,
+    N: int,  # noqa: N803
+    D: int,  # noqa: N803
     convergence_precision: Optional[float],
     verbose: bool,
     saving_file: Optional[str],

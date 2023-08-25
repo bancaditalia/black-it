@@ -19,7 +19,7 @@ import subprocess
 import numpy as np
 
 
-def forest_fire(theta, N, rndSeed=0):
+def forest_fire(theta, N, seed=0):  # noqa: N803
     """A simple model of a wildfire on a 2D grid.
 
     The model is taken from this example from Agent.jl
@@ -33,7 +33,7 @@ def forest_fire(theta, N, rndSeed=0):
     Args:
         theta: the initial density of trees on the 2D grid
         N: the length of the simulation
-        rndSeed: the random seed of the simulation
+        seed: the random seed of the simulation
 
     Returns:
         An array containing the fraction of trees burned at each time step
@@ -45,7 +45,6 @@ def forest_fire(theta, N, rndSeed=0):
     # the size of the grid is fixed
     xsize = 30
     ysize = 30
-    seed = rndSeed
 
     command = "julia forest_fire_julia.jl {} {} {} {} {}".format(
         density, n, xsize, ysize, seed

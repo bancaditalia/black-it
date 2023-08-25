@@ -121,7 +121,7 @@ class XGBoostSampler(MLSurrogateSampler):
 
         return y
 
-    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
         """Fit a xgboost surrogate model."""
         # prepare data
         y = self._clip_losses(y)
@@ -140,7 +140,7 @@ class XGBoostSampler(MLSurrogateSampler):
 
         self._xg_regressor.fit(X, y)
 
-    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:  # noqa: N803
         """Predict using a xgboost surrogate model."""
         # predict over large pool of candidates
         _ = xgb.DMatrix(data=X)

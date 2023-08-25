@@ -46,13 +46,17 @@ def volume_d_dimensional_ball_radius_1(dims: int) -> float:
     )
 
 
-def cubetobox(X: NDArray[np.float64], space_bounds: NDArray) -> NDArray[np.float64]:
+def cubetobox(
+    X: NDArray[np.float64], space_bounds: NDArray  # noqa: N803
+) -> NDArray[np.float64]:
     """Go from normalized values (unit cube) to absolute values (box)."""
     box_points = space_bounds[0] + X * (space_bounds[1] - space_bounds[0])
     return box_points
 
 
-def boxtocube(X: NDArray[np.float64], space_bounds: NDArray) -> NDArray[np.float64]:
+def boxtocube(
+    X: NDArray[np.float64], space_bounds: NDArray  # noqa: N803
+) -> NDArray[np.float64]:
     """Go from absolute values (box) to normalized values (unit cube)."""
     cube_points = (X - space_bounds[0]) / (space_bounds[1] - space_bounds[0])
     return cube_points
@@ -79,18 +83,18 @@ def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
         """Compute phi."""
         return r * r * r
 
-    Phi = [
+    phis = [
         [phi(np.linalg.norm(np.subtract(points[i], points[j]))) for j in range(n)]  # type: ignore
         for i in range(n)
     ]
 
-    P = np.ones((n, d + 1))
+    P = np.ones((n, d + 1))  # noqa: N806
     P[:, 0:-1] = points
 
-    F = losses
+    F = losses  # noqa: N806
 
-    M = np.zeros((n + d + 1, n + d + 1))
-    M[0:n, 0:n] = Phi
+    M = np.zeros((n + d + 1, n + d + 1))  # noqa: N806
+    M[0:n, 0:n] = phis
     M[0:n, n : n + d + 1] = P
     M[n : n + d + 1, 0:n] = np.transpose(P)
 

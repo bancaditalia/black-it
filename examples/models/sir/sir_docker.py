@@ -21,7 +21,7 @@ import numpy as np
 from . import simlib
 
 
-def SIR(theta, N, rndSeed):
+def SIR(theta, N, seed):  # noqa: N802, N803
     """SIR_docker.
 
     C++ SIR model run in Docker container.
@@ -42,7 +42,7 @@ def SIR(theta, N, rndSeed):
     return ret
 
 
-def SIR_w_breaks(theta, N, rndSeed=None):
+def SIR_w_breaks(theta, N, seed=None):  # noqa: N802, N803
     """SIR_docker_w_breaks."""
     breaktime = int(theta[0])
 

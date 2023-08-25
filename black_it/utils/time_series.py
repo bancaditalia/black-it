@@ -104,10 +104,10 @@ def hp_filter(
         Carnegie Mellon University discussion paper no. 451.
     """
     nobs = len(time_series)
-    I = sps.eye(nobs, nobs)  # noqa:E741
+    I = sps.eye(nobs, nobs)  # noqa: E741, N806
     offsets = np.array([0, 1, 2])
     data = np.repeat([[1.0], [-2.0], [1.0]], nobs, axis=1)
-    K = sps.dia_matrix((data, offsets), shape=(nobs - 2, nobs))
+    K = sps.dia_matrix((data, offsets), shape=(nobs - 2, nobs))  # noqa: N806
 
     trend = sps.linalg.spsolve(I + lamb * K.T.dot(K), time_series, use_umfpack=True)
     cycle = time_series - trend

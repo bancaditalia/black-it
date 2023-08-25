@@ -99,8 +99,8 @@ def save_calibrator_state(
     parameters_precision: NDArray[np.float64],
     real_data: NDArray[np.float64],
     ensemble_size: int,
-    N: int,
-    D: int,
+    N: int,  # noqa: N803
+    D: int,  # noqa: N803
     convergence_precision: Optional[float],
     verbose: bool,
     saving_file: Optional[str],

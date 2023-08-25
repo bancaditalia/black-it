@@ -23,72 +23,72 @@ import numpy as np
 import statsmodels.api as sm
 
 
-def ts_stats(ts: List[float]) -> None:
+def ts_stats(time_series_raw: List[float]) -> None:
     """Show TS graphical descriptive statistics."""
     color = "darkslateblue"
     alpha = 0.8
 
-    Ts = np.array(ts, dtype="double")
-    SqDiff = np.append(
-        np.absolute(np.diff(Ts)), 0
+    ts = np.array(time_series_raw, dtype="double")
+    sq_diff = np.append(
+        np.absolute(np.diff(ts)), 0
     )  # not precise! shouldn't append '0'!
 
-    TsAcf = sm.tsa.acf(Ts, nlags=20)
-    SqDiffAcf = sm.tsa.acf(SqDiff, nlags=20)
+    ts_acf = sm.tsa.acf(ts, nlags=20)
+    sq_diff_acf = sm.tsa.acf(sq_diff, nlags=20)
 
-    TsPAcf = sm.tsa.pacf(Ts, nlags=20)
-    SqDiffPAcf = sm.tsa.pacf(SqDiff, nlags=20)
+    ts_p_acf = sm.tsa.pacf(ts, nlags=20)
+    sq_diff_p_acf = sm.tsa.pacf(sq_diff, nlags=20)
 
-    WINDOW_W = 20
+    window_w = 20
 
-    fig, _ax = plt.subplots(3, 4, figsize=(WINDOW_W, 15), sharex=False, sharey=False)
+    fig, _ax = plt.subplots(3, 4, figsize=(window_w, 15), sharex=False, sharey=False)
 
     sp1 = plt.subplot(3, 4, 1)
-    plt.hist(Ts, 50, facecolor=color, alpha=alpha)
+    plt.hist(ts, 50, facecolor=color, alpha=alpha)
     sp1.set_title("Ts hist")
 
     sp2 = plt.subplot(3, 4, 2)
-    plt.plot(TsAcf, marker="o", linestyle="None", c=color, alpha=alpha)
+    plt.plot(ts_acf, marker="o", linestyle="None", c=color, alpha=alpha)
     sp2.set_title("Ts acf")
 
     sp3 = plt.subplot(3, 4, 3)
-    plt.plot(TsPAcf, marker="o", linestyle="None", c=color, alpha=alpha)
+    plt.plot(ts_p_acf, marker="o", linestyle="None", c=color, alpha=alpha)
     sp3.set_title("Ts pacf")
 
     sp4 = plt.subplot(3, 4, 4)
-    plt.plot(Ts[0:1000], c=color, alpha=alpha)
+    plt.plot(ts[0:1000], c=color, alpha=alpha)
     sp4.set_title("Ts sample")
 
     sp5 = plt.subplot(3, 4, 5)
-    plt.hist(SqDiff, 50, facecolor=color, alpha=alpha)
+    plt.hist(sq_diff, 50, facecolor=color, alpha=alpha)
     sp5.set_title("Abs 1st diff hist")
 
     sp6 = plt.subplot(3, 4, 6)
-    plt.plot(SqDiffAcf, marker="o", linestyle="None", c=color, alpha=alpha)
+    plt.plot(sq_diff_acf, marker="o", linestyle="None", c=color, alpha=alpha)
     sp6.set_title("Abs 1st diff acf")
 
     sp7 = plt.subplot(3, 4, 7)
-    plt.plot(SqDiffPAcf, marker="o", linestyle="None", c=color, alpha=alpha)
+    plt.plot(sq_diff_p_acf, marker="o", linestyle="None", c=color, alpha=alpha)
     sp7.set_title("Abs 1st diff pacf")
 
     sp8 = plt.subplot(3, 4, 8)
-    plt.plot(SqDiff[0:1000], c=color, alpha=alpha)
+    plt.plot(sq_diff[0:1000], c=color, alpha=alpha)
     sp8.set_title("Abs 1st diff sample")
 
     sp9 = plt.subplot(3, 4, 9)
-    for i in range(len(Ts) - 3):
-        plt.plot(Ts[i + 1 : i + 3], Ts[i : i + 2], alpha=0.10, c=color)
+    for i in range(len(ts) - 3):
+        plt.plot(ts[i + 1 : i + 3], ts[i : i + 2], alpha=0.10, c=color)
     sp9.set_title("Ts X(t) vs X(t-1) traj")
 
     sp10 = plt.subplot(3, 4, 10)
-    for i in range(len(Ts) - 4):
-        plt.plot(SqDiff[i + 1 : i + 3], SqDiff[i : i + 2], alpha=0.10, c=color)
+    for i in range(len(ts) - 4):
+        plt.plot(sq_diff[i + 1 : i + 3], sq_diff[i : i + 2], alpha=0.10, c=color)
     sp10.set_title("Abs 1st diff X(t) vs X(t-1) traj")
 
     sp11 = plt.subplot(3, 4, 11)
     plt.plot(
-        Ts[1 : len(Ts)],
-        Ts[0 : len(Ts) - 1],
+        ts[1 : len(ts)],
+        ts[0 : len(ts) - 1],
         marker="o",
         linestyle="None",
         alpha=0.10,
@@ -98,8 +98,8 @@ def ts_stats(ts: List[float]) -> None:
 
     sp12 = plt.subplot(3, 4, 12)
     plt.plot(
-        SqDiff[1 : len(Ts)],
-        SqDiff[0 : len(Ts) - 1],
+        sq_diff[1 : len(ts)],
+        sq_diff[0 : len(ts) - 1],
         marker="o",
         linestyle="None",
         alpha=0.10,

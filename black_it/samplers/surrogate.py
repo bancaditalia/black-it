@@ -79,11 +79,11 @@ class MLSurrogateSampler(BaseSampler):
         return candidates
 
     @abstractmethod
-    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
         """Abstract method to fit the loss function of an ML surrogate."""
 
     @abstractmethod
-    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:  # noqa: N803
         """Abstract method for the predictions of an ML surrogate."""
 
     def sample_batch(

@@ -24,7 +24,7 @@ from scipy.special import softmax
 # ****
 
 
-def BH2(theta: Sequence[float], N: int, seed: int):
+def BH2(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
     """
     Model from Brock and Hommes 1998.
     4.1.2. Fundamentalists versus trend chasers
@@ -47,13 +47,13 @@ def BH2(theta: Sequence[float], N: int, seed: int):
     """
     np.random.seed(seed=seed)
 
-    R = 1.10
+    R = 1.10  # noqa: N806
     beta = 3.6
     sigma = 1.0
     a = 1.0
-    divEpsMin = 0  # -0.05
-    divEpsMax = 0  # 0.05
-    C = 1.0
+    div_eps_min = 0  # -0.05
+    div_eps_max = 0  # 0.05
+    C = 1.0  # noqa: N806
 
     x_lag2 = 0.10
     x_lag1 = 0.10
@@ -74,7 +74,7 @@ def BH2(theta: Sequence[float], N: int, seed: int):
 
     for t in range(2, N + 1):
         x[t] = n[1] * g[1] * x[t - 1] / R
-        x[t] = x[t] + np.random.uniform(low=divEpsMin, high=divEpsMax, size=1)
+        x[t] = x[t] + np.random.uniform(low=div_eps_min, high=div_eps_max, size=1)
 
         n[0] = np.exp(bsa * (R * x[t - 1] * (R * x[t - 1] - x[t])) - beta * C)
         n[1] = np.exp(bsa * (x[t] - R * x[t - 1]) * (g[1] * x[t - 2] - R * x[t - 1]))
@@ -84,7 +84,7 @@ def BH2(theta: Sequence[float], N: int, seed: int):
 
 
 #
-def BH4(theta: Sequence[float], N: int, seed: int):
+def BH4(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
     """Model from Brock and Hommes 1998.
 
     4.3 Four belief types: Fundamentalists versus trend versus bias
@@ -109,7 +109,7 @@ def BH4(theta: Sequence[float], N: int, seed: int):
     """
     np.random.seed(seed=seed)
 
-    R = 1.01
+    R = 1.01  # noqa: N806
     beta = 120
     sigma = 0.04
 
@@ -130,7 +130,7 @@ def BH4(theta: Sequence[float], N: int, seed: int):
         b[i] = theta[i * 2 + 1]
 
     if len(theta) >= 9:
-        R = 1.0 + theta[8]
+        R = 1.0 + theta[8]  # noqa: N806
     if len(theta) >= 10:
         beta = theta[9]
 
