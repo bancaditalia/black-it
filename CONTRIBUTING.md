@@ -64,7 +64,7 @@ We have various commands which are helpful during development.
 
 - For linting and static analysis use:
 ```
-make lint
+make lint-all
 make static
 make safety
 make bandit
