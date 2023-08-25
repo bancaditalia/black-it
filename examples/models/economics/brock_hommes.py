@@ -14,20 +14,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+"""Implementation of the model in (Brock and Hommes, 1998)."""
+
 from typing import Sequence
 
 import numpy as np
 from scipy.special import softmax
 
-# ****
-# Brock and Hommes 1998
-# ****
-
 
 def BH2(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
-    """
-    Model from Brock and Hommes 1998.
-    4.1.2. Fundamentalists versus trend chasers
+    """Model from Brock and Hommes 1998. 4.1.2. Fundamentalists versus trend chasers.
 
     theta structure:
     [g1, b1,  g2, b2]

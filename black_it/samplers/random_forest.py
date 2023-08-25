@@ -38,8 +38,7 @@ class RandomForestSampler(MLSurrogateSampler):
         criterion: str = "gini",
         n_classes: int = 10,
     ) -> None:
-        """
-        Random forest sampling.
+        """Random forest sampling.
 
         Note: this class makes use of sklearn.ensemble.RandomForestClassifier.
 
@@ -114,8 +113,7 @@ class RandomForestSampler(MLSurrogateSampler):
         existing_losses: NDArray[np.float64],
         num_bins: int,
     ) -> Tuple[NDArray[np.float64], NDArray[np.int64], NDArray[np.float64]]:
-        """
-        Prepare data for the classifier.
+        """Prepare data for the classifier.
 
         Args:
             existing_points: the parameters already sampled

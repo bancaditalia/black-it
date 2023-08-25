@@ -15,8 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-This script checks that all the Python files of the repository have the copyright notice.
+"""This script checks that all the Python files of the repository have the copyright notice.
 
 In particular:
 - (optional) the Python shebang

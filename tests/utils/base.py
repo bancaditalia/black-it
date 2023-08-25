@@ -40,8 +40,7 @@ class PopenResult:
 def run_process(
     command: List[str], timeout: float = DEFAULT_SUBPROCESS_TIMEOUT
 ) -> PopenResult:
-    """
-    Run a process, and wait for it to stop.
+    """Run a process, and wait for it to stop.
 
     Args:
         command: the command to run.
@@ -78,8 +77,7 @@ def run_process(
 
 
 def requires_docker(pytest_func_or_cls: Callable) -> Callable:
-    """
-    Wrap a Pytest function that requires docker.
+    """Wrap a Pytest function that requires docker.
 
     Args:
         pytest_func_or_cls: the pytest function/class to wrap.
@@ -91,8 +89,7 @@ def requires_docker(pytest_func_or_cls: Callable) -> Callable:
 
 
 def requires_binary(binary_name: str) -> Callable:
-    """
-    Decorate a pytest class or method to skip test if a binary is not installed locally.
+    """Decorate a pytest class or method to skip test if a binary is not installed locally.
 
     Args:
         binary_name: the binary name
@@ -110,8 +107,7 @@ def requires_binary(binary_name: str) -> Callable:
 
 
 def pytest_decorator_factory(action: Callable) -> Callable:
-    """
-    Wrap a Pytest function/method/class to include the running of an action.
+    """Wrap a Pytest function/method/class to include the running of an action.
 
     For methods/functions 'f', the wrapper function looks like:
 
@@ -127,7 +123,7 @@ def pytest_decorator_factory(action: Callable) -> Callable:
      If 'c' does not have setup_class, setup_class = action. Else,
      new_setup_class is equal to wrapper above (with f = setup_class)
 
-     Args:
+    Args:
          action: the preamble function to call before the test or the setup_class method
 
     Returns:
@@ -135,8 +131,7 @@ def pytest_decorator_factory(action: Callable) -> Callable:
     """
 
     def decorator(pytest_func_or_cls: Union[Callable, Type]) -> Callable:
-        """
-        Implement the decorator.
+        """Implement the decorator.
 
         Args:
             pytest_func_or_cls: a Pytest function or class.

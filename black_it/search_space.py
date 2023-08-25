@@ -31,8 +31,7 @@ class SearchSpace:
         parameters_precision: Union[NDArray[np.float64], List[float]],
         verbose: bool,
     ):
-        """
-        Initialize the SearchSpace object.
+        """Initialize the SearchSpace object.
 
         The values of parameters_bounds and parameters_precision parameters have
         to satisfy the following constraints, otherwise an exception (subclass
@@ -90,8 +89,7 @@ class SearchSpace:
         parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
         parameters_precision: Union[NDArray[np.float64], List[float]],
     ) -> None:
-        """
-        Ensure parameter_bounds and parameter_precision have acceptable values.
+        """Ensure parameter_bounds and parameter_precision have acceptable values.
 
         This is an helper function for SearchSpace.__init__().
 

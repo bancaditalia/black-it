@@ -37,8 +37,7 @@ class RSequenceSampler(BaseSampler):
         random_state: Optional[int] = None,
         max_deduplication_passes: int = 5,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -54,8 +53,7 @@ class RSequenceSampler(BaseSampler):
 
     @classmethod
     def compute_phi(cls, nb_dims: int) -> float:
-        """
-        Get an approximation of phi^nb_dims.
+        """Get an approximation of phi^nb_dims.
 
         Args:
             nb_dims: the number of dimensions.
@@ -72,8 +70,7 @@ class RSequenceSampler(BaseSampler):
         return phi
 
     def _set_random_state(self, random_state: Optional[int]) -> None:
-        """
-        Set the random state (private use).
+        """Set the random state (private use).
 
         For the RSequence sampler, it also resets the sequence index and the sequence start.
 
@@ -97,8 +94,7 @@ class RSequenceSampler(BaseSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample points using the R-sequence.
+        """Sample points using the R-sequence.
 
         Args:
             batch_size: the number of samples
@@ -117,8 +113,7 @@ class RSequenceSampler(BaseSampler):
         return digitize_data(sampled_points, search_space.param_grid)
 
     def _r_sequence(self, nb_samples: int, dims: int) -> NDArray[np.float64]:
-        """
-        Compute the R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+        """Compute the R-sequence (http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
 
         Args:
             nb_samples: number of points to sample

@@ -36,8 +36,7 @@ class BaseLoss(ABC):
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ):
-        """
-        Initialize the loss function.
+        """Initialize the loss function.
 
         Args:
             coordinate_weights: the weights of the loss coordinates.
@@ -50,8 +49,7 @@ class BaseLoss(ABC):
     def compute_loss(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Compute the loss between simulated and real data.
+        """Compute the loss between simulated and real data.
 
         Args:
             sim_data_ensemble: an ensemble of simulated data, of shape (ensemble_size, N, D)
@@ -140,8 +138,7 @@ class BaseLoss(ABC):
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Return the loss between a specific coordinate of two time series.
+        """Return the loss between a specific coordinate of two time series.
 
         Concrete classes have to override this method in order to implement new
         loss functions.

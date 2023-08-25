@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-This module contains the GSL-div implementation.
+"""This module contains the GSL-div implementation.
 
 - Lamperti, F. (2018).
   An information theoretic criterion for empirical validation of simulation models.
@@ -64,8 +63,7 @@ EPS = 0.00001  # np.finfo(float).eps
 
 
 class GslDivLoss(BaseLoss):
-    """
-    Class for the Gsl-div loss.
+    """Class for the Gsl-div loss.
 
     Example:
         >>> expected_loss = 0.39737637181336855
@@ -84,8 +82,7 @@ class GslDivLoss(BaseLoss):
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:
-        """
-        Initialize the GSL-div loss object.
+        """Initialize the GSL-div loss object.
 
         Args:
             nb_values: number of values the digitised series can take
@@ -101,8 +98,7 @@ class GslDivLoss(BaseLoss):
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Return the GSL-div measure.
+        """Return the GSL-div measure.
 
         From (Lamperti, 2017):
 
@@ -213,8 +209,7 @@ class GslDivLoss(BaseLoss):
         start_index: Union[np.float64, float],
         stop_index: Union[np.float64, float],
     ) -> NDArray[np.int64]:
-        """
-        Discretize the TS in 'nb_values' finite states.
+        """Discretize the TS in 'nb_values' finite states.
 
         >>> GslDivLoss.discretize(
         ...     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -242,8 +237,7 @@ class GslDivLoss(BaseLoss):
 
     @staticmethod
     def get_words(time_series: NDArray[np.float64], length: int) -> NDArray:
-        """
-        Return an overlapping array of words (int32) of 'length' given a discretised vector.
+        """Return an overlapping array of words (int32) of 'length' given a discretised vector.
 
         >>> GslDivLoss.get_words(np.asarray([1, 2, 2, 2]), 2)
         array([12, 22, 22])
@@ -273,8 +267,7 @@ class GslDivLoss(BaseLoss):
 
     @staticmethod
     def get_words_est_prob(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
-        """
-        Return an array of estimated probabilities given an array of words (int32).
+        """Return an array of estimated probabilities given an array of words (int32).
 
         Args:
             time_series: any univariate array of words
@@ -288,8 +281,7 @@ class GslDivLoss(BaseLoss):
 
     @staticmethod
     def get_sh_entr(probs: NDArray[np.float64], log_base: float) -> float:
-        """
-        Return the Shannon entropy given an array of probabilities.
+        """Return the Shannon entropy given an array of probabilities.
 
         Args:
             probs: an array of probabilities describing the discrete probability distribution

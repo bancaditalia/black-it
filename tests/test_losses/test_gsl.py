@@ -26,8 +26,7 @@ from tests.utils.strategies import discretize_args, get_words_args
 
 
 def is_sorted(array: np.ndarray, reverse: bool = False) -> bool:
-    """
-    Test that a unidimensional array is sorted.
+    """Test that a unidimensional array is sorted.
 
     Args:
         array: the array

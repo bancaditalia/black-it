@@ -47,8 +47,7 @@ class BestBatchSampler(BaseSampler):
         b: float = 1.0,
         perturbation_range: int = 6,
     ):
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -84,8 +83,7 @@ class BestBatchSampler(BaseSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample from the search space using a genetic algorithm.
+        """Sample from the search space using a genetic algorithm.
 
         Args:
             batch_size: the number of points to sample

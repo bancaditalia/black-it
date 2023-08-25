@@ -31,8 +31,7 @@ from black_it.utils.base import NumpyArrayEncoder, PathLike
 
 
 def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -> Tuple:
-    """
-    Load calibrator data from a given folder.
+    """Load calibrator data from a given folder.
 
     Args:
         checkpoint_path: the folder where the data are stored
@@ -118,8 +117,7 @@ def save_calibrator_state(
     batch_num_samp: NDArray[np.int64],
     method_samp: NDArray[np.int64],
 ) -> None:
-    """
-    Store the state of the calibrator in a given folder.
+    """Store the state of the calibrator in a given folder.
 
     Args:
         checkpoint_path: path to the checkpoint

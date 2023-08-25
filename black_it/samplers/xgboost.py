@@ -44,8 +44,7 @@ class XGBoostSampler(MLSurrogateSampler):
         alpha: float = 1.0,
         n_estimators: int = 10,
     ) -> None:
-        """
-        Sampler based on a xgboost surrogate model of the loss function.
+        """Sampler based on a xgboost surrogate model of the loss function.
 
         Note: this class makes use of the xgboost library, for more information on the XGBoost parameters
             visit https://xgboost.readthedocs.io/en/stable/parameter.html.

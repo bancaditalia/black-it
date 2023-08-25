@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Method-of-moments loss function.
+"""Method-of-moments loss function.
 
 This module contains the implementation of the loss function
 based on the 'method of moments'.
@@ -59,8 +58,7 @@ class MethodOfMomentsLoss(BaseLoss):
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
         standardise_moments: bool = False,
     ):
-        """
-        Initialize the loss function based on the 'method of moments'.
+        """Initialize the loss function based on the 'method of moments'.
 
         Returns the MSM objective function, i.e. the square difference between
         the moments of the two time series.
@@ -101,8 +99,7 @@ class MethodOfMomentsLoss(BaseLoss):
         moment_calculator: MomentCalculator,
         covariance_mat: Union[NDArray[np.float64], str],
     ) -> None:
-        """
-        Validate the covariance matrix.
+        """Validate the covariance matrix.
 
         Args:
             moment_calculator: the moment calculator
@@ -148,8 +145,7 @@ class MethodOfMomentsLoss(BaseLoss):
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Compute the loss based on the 'method of moments'.
+        """Compute the loss based on the 'method of moments'.
 
         Returns the MSM objective function, i.e. the square difference between the moments of the two time series.
 

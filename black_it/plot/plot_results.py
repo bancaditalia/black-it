@@ -272,8 +272,7 @@ def plot_sampling_batch_nums(
 
 
 def plot_sampling_interact(saving_folder: Union[str, os.PathLike]) -> None:
-    """
-    Plot the parameter sampled colored according to the sampling method used to sample them.
+    """Plot the parameter sampled colored according to the sampling method used to sample them.
 
     The method allows to interactively choose the batch numbers included in the plot.
 

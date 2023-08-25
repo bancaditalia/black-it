@@ -44,8 +44,7 @@ class LikelihoodLoss(BaseLoss):
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
         h: Union[str, float] = "silverman",
     ):
-        """
-        Initialize the loss function.
+        """Initialize the loss function.
 
         Args:
             coordinate_weights: the weights of the loss coordinates.
@@ -71,8 +70,7 @@ class LikelihoodLoss(BaseLoss):
     def compute_loss(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Compute the loss between simulated and real data.
+        """Compute the loss between simulated and real data.
 
         Args:
             sim_data_ensemble: an ensemble of simulated data, of shape (ensemble_size, N, D)

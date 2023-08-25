@@ -168,8 +168,7 @@ class gz_ndarray(NDArray):  # noqa: N801
 def load_calibrator_state(
     checkpoint_path: PathLike,
 ) -> Tuple:
-    """
-    Load the calibration state.
+    """Load the calibration state.
 
     Checks that the schema version stored in checkpoint_path has the same value
     of SCHEMA_VERSION. Currently there are no conversion mechanisms in place, so
@@ -276,8 +275,7 @@ def save_calibrator_state(
     batch_num_samp: NDArray[np.int64],
     method_samp: NDArray[np.int64],
 ) -> None:
-    """
-    Save a calibration state.
+    """Save a calibration state.
 
     Args:
         checkpoint_path: path to the checkpoint
@@ -356,8 +354,7 @@ def save_calibrator_state(
 
 
 def npndarray_to_sqlite_binary(numpy_array: NDArray) -> sqlite3.Binary:
-    """
-    Serialize an NumPy NDArray to SQLite binary.
+    """Serialize an NumPy NDArray to SQLite binary.
 
     Taken from: http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
 
@@ -374,8 +371,7 @@ def npndarray_to_sqlite_binary(numpy_array: NDArray) -> sqlite3.Binary:
 
 
 def sqlite_binary_to_npndarray(sqlite_binary: bytes) -> NDArray:
-    """
-    Deserialize a NumPy NDArray from SQLite binary.
+    """Deserialize a NumPy NDArray from SQLite binary.
 
     Taken from: http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
 
@@ -392,8 +388,7 @@ def sqlite_binary_to_npndarray(sqlite_binary: bytes) -> NDArray:
 
 
 def gz_ndarray_to_gzipped_sqlite_binary(numpy_array: gz_ndarray) -> sqlite3.Binary:
-    """
-    Serialize a NumPy NDArray to a gzipped SQLite binary.
+    """Serialize a NumPy NDArray to a gzipped SQLite binary.
 
     The custom gz_ndarray type is a convenience type used to trigger the
     sqlite3 adapter mechanism. If a user coerces a NDArray to gz_ndarray, it
@@ -414,8 +409,7 @@ def gz_ndarray_to_gzipped_sqlite_binary(numpy_array: gz_ndarray) -> sqlite3.Bina
 
 
 def gzipped_sqlite_binary_to_npndarray(sqlite_binary: bytes) -> NDArray:
-    """
-    Deserialize a NumPy NDArray from a gzipped SQLite binary.
+    """Deserialize a NumPy NDArray from a gzipped SQLite binary.
 
     Args:
         sqlite_binary: the gzipped SQLite binary version of the array.

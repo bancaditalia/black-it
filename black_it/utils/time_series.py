@@ -26,8 +26,7 @@ from scipy.stats import kurtosis, skew
 
 
 def get_mom_ts(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
-    """
-    Compute specific moments from a time series.
+    """Compute specific moments from a time series.
 
     Args:
         time_series: the time series
@@ -89,8 +88,7 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
 def hp_filter(
     time_series: NDArray[np.float64], lamb: float = 1600
 ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
-    """
-    Apply the HP filter to a time series.
+    """Apply the HP filter to a time series.
 
     Args:
         time_series: the one dimensional series to be filtered
@@ -116,8 +114,7 @@ def hp_filter(
 
 
 def hp_cycle_lamb1600_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
-    """
-    Get the cycle part of the HP filter to a time series using lamb = 1600.
+    """Get the cycle part of the HP filter to a time series using lamb = 1600.
 
     Args:
         time_series: the one dimensional series to be filtered
@@ -129,8 +126,7 @@ def hp_cycle_lamb1600_filter(time_series: NDArray[np.float64]) -> NDArray[np.flo
 
 
 def log_and_hp_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
-    """
-    Take the log of the values and remove the HP trend from them.
+    """Take the log of the values and remove the HP trend from them.
 
     Args:
         time_series: the one dimensional series to be filtered
@@ -145,8 +141,7 @@ def log_and_hp_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
 
 
 def diff_log_demean_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
-    """
-    Take the difference of log of the values and remove the mean from them.
+    """Take the difference of log of the values and remove the mean from them.
 
     Args:
         time_series: the one dimensional series to be filtered

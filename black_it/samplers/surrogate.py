@@ -29,8 +29,7 @@ from black_it.utils.base import digitize_data
 
 
 class MLSurrogateSampler(BaseSampler):
-    """
-    MLSurrogateSampler interface.
+    """MLSurrogateSampler interface.
 
     This is the base class for all machine learning surrogate samplers.
     """
@@ -42,8 +41,7 @@ class MLSurrogateSampler(BaseSampler):
         max_deduplication_passes: int = 5,
         candidate_pool_size: Optional[int] = None,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -93,8 +91,7 @@ class MLSurrogateSampler(BaseSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample a number of new parameters fixed by the 'batch_size' attribute.
+        """Sample a number of new parameters fixed by the 'batch_size' attribute.
 
         Args:
             batch_size: number of samples to collect

@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-A module with a series of simple non-ABM models.
+"""A module with a series of simple non-ABM models.
 
 List of models:
 - Normal0
@@ -299,8 +298,7 @@ def ARMAARCH2(  # noqa: N802
 def ARMAARCH4(  # noqa: N802
     theta: Sequence[float], N: int, seed: int  # noqa: N803
 ) -> NDArray[np.float64]:
-    """
-    ARMA(2,2) ARCH(2) model.
+    """ARMA(2,2) ARCH(2) model.
 
     DONOVAN MODEL 2 - PARAM SET 2 [b1,b2,c0,c1,c2]
     [a0,a1,a2,*b1,*b2,*c0,*c1,*c2] [0,0.7,0.1,*0.2,*0.2,*0.25,*0.5,*0.3]
@@ -330,8 +328,7 @@ def ARMAARCH4(  # noqa: N802
 def ARMAARCH6(  # noqa: N802
     theta: Sequence[float], N: int, seed: int  # noqa: N803
 ) -> NDArray[np.float64]:
-    """
-    ARMA(2,2) ARCH(2).
+    """ARMA(2,2) ARCH(2).
 
     DONOVAN MODEL 2 - PARAM SET 2 [b1,b2,c0,c1,c2]
     [a0,a1,a2,*b1,*b2,*c0,*c1,*c2] [0,0.7,0.1,*0.2,*0.2,*0.25,*0.5,*0.3]
@@ -363,8 +360,7 @@ def ARMAARCH6(  # noqa: N802
 def ARMAARCH4v2(  # noqa: N802
     theta: Sequence[float], N: int, seed: int  # noqa: N803
 ) -> NDArray[np.float64]:
-    """
-    ARMA(2,2) ARCH(2).
+    """ARMA(2,2) ARCH(2).
 
     DONOVAN MODEL 2 - PARAM SET 2 [b1,b2,c0,c1,c2]
     [a0,a1,a2,*b1,*b2,*c0,*c1,*c2] [0,0.7,0.1,*0.2,*0.2,*0.25,*0.5,*0.3]
@@ -392,8 +388,7 @@ def ARMAARCH4v2(  # noqa: N802
 def RWSB1(  # noqa: N802
     theta: Sequence[int], N: int, seed: int  # noqa: N803
 ) -> NDArray[np.float64]:
-    """
-    RW with structural break.
+    """RW with structural break.
 
     DONOVAN MODEL 3 - PARAM SET 1 [tau]
     [*tau,sigma1,sigma2,drift1,drift2] [*700,0.1,0.2,1,2]
@@ -420,8 +415,7 @@ def RWSB1(  # noqa: N802
 def RWSB2(  # noqa: N802
     theta: Sequence[float], N: int, seed: int  # noqa: N803
 ) -> NDArray[np.float64]:
-    """
-    RW with structural break.
+    """RW with structural break.
 
     DONOVAN MODEL 3 - PARAM SET 2 [sigma1,sigma2]
     [tau,*sigma1,*sigma2,drift1,drift2] [700,*0.1,*0.2,1,2]

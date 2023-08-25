@@ -40,8 +40,7 @@ class _AcquisitionTypes(Enum):
 
 
 class GaussianProcessSampler(MLSurrogateSampler):
-    """
-    This class implements the Gaussian process-based sampler.
+    """This class implements the Gaussian process-based sampler.
 
     In particular, the sampling is based on a Gaussian Process interpolation of the loss function.
 
@@ -58,8 +57,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         acquisition: str = "expected_improvement",
         jitter: float = 0.1,
     ):
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -83,13 +81,12 @@ class GaussianProcessSampler(MLSurrogateSampler):
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
-        """
-        Check that the required acquisition is among the supported ones.
+        """Check that the required acquisition is among the supported ones.
 
         Args:
             acquisition: the acquisition provided as input of the constructor.
 
-        Raises
+        Raises:
             ValueError: if the provided acquisition type is not among the allowed ones.
         """
         try:
@@ -145,8 +142,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
     def _predict_mean_std(
         self, X: NDArray[np.float64]  # noqa: N803
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
-        """
-        Predict mean and standard deviation of a fitted GP.
+        """Predict mean and standard deviation of a fitted GP.
 
         Args:
             X: the points on which the predictions should be performed
@@ -163,8 +159,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
     def _predict_EI(  # noqa: N802
         self, X: NDArray[np.float64], jitter: float = 0.1  # noqa: N803
     ) -> NDArray[np.float64]:
-        """
-        Compute the Expected Improvement per unit of cost.
+        """Compute the Expected Improvement per unit of cost.
 
         Args:
             X:  the points on which the predictions should be performed
@@ -190,8 +185,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         m: NDArray[np.float64],
         s: NDArray[np.float64],
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
-        """
-        Quantiles of the Gaussian distribution useful to determine the acquisition function values.
+        """Quantiles of the Gaussian distribution useful to determine the acquisition function values.
 
         Args:
             acquisition_par: parameter of the acquisition function

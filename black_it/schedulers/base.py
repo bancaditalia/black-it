@@ -27,8 +27,7 @@ from black_it.utils.seedable import BaseSeedable
 
 
 class BaseScheduler(BaseSeedable, ABC):
-    """
-    BaseScheduler interface.
+    """BaseScheduler interface.
 
     This is the base class for all schedulers.
     """
@@ -38,8 +37,7 @@ class BaseScheduler(BaseSeedable, ABC):
         samplers: Sequence[BaseSampler],
         random_state: Optional[int] = None,
     ) -> None:
-        """
-        Initialize the scheduler.
+        """Initialize the scheduler.
 
         Args:
             samplers: the list of samplers to be scheduled
@@ -61,8 +59,7 @@ class BaseScheduler(BaseSeedable, ABC):
             sampler.random_state = self._get_random_seed()
 
     def start_session(self) -> None:
-        """
-        Set up the scheduler for a new session.
+        """Set up the scheduler for a new session.
 
         The default is a no-op.
         """
@@ -79,8 +76,7 @@ class BaseScheduler(BaseSeedable, ABC):
         new_losses: NDArray[np.float64],
         new_simulated_data: NDArray[np.float64],
     ) -> None:
-        """
-        Update the state of the scheduler after each batch.
+        """Update the state of the scheduler after each batch.
 
         Args:
             batch_id: the batch id of the . Must be an integer equal or greater than 0.
@@ -90,8 +86,7 @@ class BaseScheduler(BaseSeedable, ABC):
         """
 
     def end_session(self) -> None:
-        """
-        Tear down the scheduler at the end of the session.
+        """Tear down the scheduler at the end of the session.
 
         The default is a no-op.
         """

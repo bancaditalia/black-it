@@ -26,8 +26,7 @@ from black_it.utils.base import _assert, digitize_data, positive_float
 
 
 class ParticleSwarmSampler(BaseSampler):
-    """
-    Implementation of a particle swarm sampler.
+    """Implementation of a particle swarm sampler.
 
     This sampler implements the particle swarm sampling method commonly used in particle swarm optimization (PSO),
     introduced in:
@@ -66,8 +65,7 @@ class ParticleSwarmSampler(BaseSampler):
         c2: float = 0.1,
         global_minimum_across_samplers: bool = False,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -148,8 +146,7 @@ class ParticleSwarmSampler(BaseSampler):
         self._global_best_particle_id = 0
 
     def _get_best_position(self) -> NDArray[np.float64]:
-        """
-        Get the position corresponding to the global optimum the particles should converge to.
+        """Get the position corresponding to the global optimum the particles should converge to.
 
         If _global_minimum_across_samplers is False, then this method returns the current position
         of the particle that in its history has sampled, so far, the best set of parameters.

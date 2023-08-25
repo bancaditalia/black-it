@@ -34,8 +34,7 @@ class MABEpsilonGreedy(Agent[int, int]):
         initial_values: float = 0.0,
         random_state: Optional[int] = None,
     ) -> None:
-        """
-        Initialize the agent object.
+        """Initialize the agent object.
 
         Args:
             n_actions: the number of actions

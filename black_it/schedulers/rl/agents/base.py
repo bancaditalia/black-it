@@ -35,8 +35,7 @@ class Agent(Generic[ObsType, ActType], BaseSeedable, ABC):
         reward: SupportsFloat,
         next_state: ObsType,
     ) -> None:
-        """
-        Learn from an agent-environment interaction timestep.
+        """Learn from an agent-environment interaction timestep.
 
         Args:
             state: the observation from where the action was taken
@@ -48,8 +47,7 @@ class Agent(Generic[ObsType, ActType], BaseSeedable, ABC):
 
     @abstractmethod
     def policy(self, state: ObsType) -> ActType:
-        """
-        Get the next action.
+        """Get the next action.
 
         Args:
             state: the state from where to take the action

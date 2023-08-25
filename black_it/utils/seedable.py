@@ -23,8 +23,7 @@ from numpy.random import default_rng
 
 
 class BaseSeedable:
-    """
-    BaseSeedable base class.
+    """BaseSeedable base class.
 
     This is the base class for all objects that need to keep a random state.
 
@@ -39,8 +38,7 @@ class BaseSeedable:
         self,
         random_state: Optional[int] = None,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             random_state: the internal state of the sampler, fixing this numbers the object (e.g. a calibrator,
@@ -78,8 +76,7 @@ class BaseSeedable:
 
 
 def get_random_seed(random_generator: np.random.Generator) -> int:
-    """
-    Get a random seed from a random generator.
+    """Get a random seed from a random generator.
 
     Sample an integer in the range [0, 2^32 - 1].
 

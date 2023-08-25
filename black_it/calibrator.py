@@ -63,8 +63,7 @@ class Calibrator(BaseSeedable):
         random_state: Optional[int] = None,
         n_jobs: Optional[int] = None,
     ):
-        """
-        Initialize the Calibrator object.
+        """Initialize the Calibrator object.
 
         It must be initialized with details on the parameters to explore,
         on the model to calibrate, on the samplers and on the loss function to use.
@@ -175,8 +174,7 @@ class Calibrator(BaseSeedable):
 
     @staticmethod
     def _construct_samplers_id_table(samplers: List[BaseSampler]) -> Dict[str, int]:
-        """
-        Construct the samplers-by-id table.
+        """Construct the samplers-by-id table.
 
         Given the list (built-in or user-defined) of samplers a calibration
         session is going to use, return a map from the sampler human-readable
@@ -239,8 +237,7 @@ class Calibrator(BaseSeedable):
     def restore_from_checkpoint(
         cls, checkpoint_path: str, model: Callable
     ) -> "Calibrator":
-        """
-        Return an instantiated class from a database file and a model simulator.
+        """Return an instantiated class from a database file and a model simulator.
 
         Args:
             checkpoint_path: the name of the database file to read from
@@ -312,8 +309,7 @@ class Calibrator(BaseSeedable):
         return calibrator
 
     def simulate_model(self, params: NDArray) -> NDArray:
-        """
-        Simulate the model.
+        """Simulate the model.
 
         This method calls the model simulator in parallel on a given set of parameter values, a number of repeated
         evaluations are performed for each parameter to average out random fluctuations.
@@ -341,8 +337,7 @@ class Calibrator(BaseSeedable):
         return simulated_data
 
     def calibrate(self, n_batches: int) -> Tuple[NDArray, NDArray]:
-        """
-        Run calibration for n batches.
+        """Run calibration for n batches.
 
         Args:
             n_batches (int): number of 'batches' to be executed. Each batch runs over all methods
@@ -464,8 +459,7 @@ class Calibrator(BaseSeedable):
     def check_convergence(
         losses_samp: NDArray, n_sampled_params: int, convergence_precision: int
     ) -> bool:
-        """
-        Check convergence of the calibration.
+        """Check convergence of the calibration.
 
         Args:
             losses_samp: the sampled losses
@@ -482,8 +476,7 @@ class Calibrator(BaseSeedable):
         return converged
 
     def create_checkpoint(self, file_name: Union[str, os.PathLike]) -> None:
-        """
-        Save the current state of the object.
+        """Save the current state of the object.
 
         Args:
             file_name: the name of the folder where the data will be saved

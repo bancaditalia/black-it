@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+"""A simple model of a wildfire on a 2D grid."""
+
 import subprocess
 
 import numpy as np
@@ -38,7 +40,6 @@ def forest_fire(theta, N, seed=0):  # noqa: N803
     Returns:
         An array containing the fraction of trees burned at each time step
     """
-
     density = theta[0]
     n = N - 1
 

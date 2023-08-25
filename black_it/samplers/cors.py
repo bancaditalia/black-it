@@ -14,11 +14,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Implementation the CORS sampler.
+"""Implementation the CORS sampler.
 
-    Regis, Rommel G., and Christine A. Shoemaker. "Constrained global optimization of expensive black box functions
-    using radial basis functions." Journal of Global optimization 31.1 (2005): 153-171.
+Regis, Rommel G., and Christine A. Shoemaker. "Constrained global optimization of expensive black box functions
+using radial basis functions." Journal of Global optimization 31.1 (2005): 153-171.
 
 """
 from math import factorial
@@ -63,8 +62,7 @@ def boxtocube(
 
 
 def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
-    """
-    Build RBF-fit for given points (see Holmstrom, 2008 for details).
+    """Build RBF-fit for given points (see Holmstrom, 2008 for details).
 
     Implementation mostly taken from:
     https://github.com/paulknysh/blackbox/blob/cd8baa0cc344f36b3fddf910ae8037f62009619c/black_box/blackbox.py#L148-L195
@@ -137,8 +135,7 @@ class CORSSampler(BaseSampler):
         random_state: Optional[int] = None,
         verbose: bool = False,
     ) -> None:
-        """
-        Initialize the CORS sampler.
+        """Initialize the CORS sampler.
 
         Args:
             batch_size: the batch size
