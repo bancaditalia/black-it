@@ -45,7 +45,7 @@ def check_arg(condition: bool, message: str) -> None:
     _assert(condition, message, exception_class=ValueError)
 
 
-def ensure_float(arg: Any) -> None:
+def ensure_float(arg: Any) -> None:  # noqa: ANN401
     """Check that the argument is a float."""
     check_arg(isinstance(arg, (float, np.float64)), f"expected a float, got {arg}")
 
@@ -120,7 +120,7 @@ class NumpyArrayEncoder(JSONEncoder):
     Solution from https://pynative.com/python-serialize-numpy-ndarray-into-json/.
     """
 
-    def default(self, o: Any) -> Any:
+    def default(self, o: Any) -> Any:  # noqa: ANN401
         """Implement custom JSON serialization for NumPy NDArrays."""
         if isinstance(o, np.ndarray):
             return o.tolist()

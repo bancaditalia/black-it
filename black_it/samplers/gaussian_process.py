@@ -56,7 +56,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         optimize_restarts: int = 5,
         acquisition: str = "expected_improvement",
         jitter: float = 0.1,
-    ):
+    ) -> None:
         """Initialize the sampler.
 
         Args:

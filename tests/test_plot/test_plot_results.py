@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This test module contains tests for the plot_results module."""
-from typing import Any
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -123,7 +122,7 @@ class TestPlotBatchNums(BasePlotResultsTest):
 
 @patch("pandas.read_csv", return_value={"method_samp": set()})
 def test_plot_losses_method_num_raises_error_if_method_num_not_known(
-    *_mocks: Any,
+    *_mocks: MagicMock,
 ) -> None:
     """Test that 'plot_losses_method_num' raises error if the method num is not known."""
     method_num = 1
@@ -134,7 +133,7 @@ def test_plot_losses_method_num_raises_error_if_method_num_not_known(
 
 
 @patch("ipywidgets.widgets.interaction.interact")
-def test_plot_losses_interact(*_mocks: Any) -> None:
+def test_plot_losses_interact(*_mocks: MagicMock) -> None:
     """Test 'plot_losses_interact' function.
 
     Note that this function does not test the interaction with the plots,
@@ -147,7 +146,7 @@ def test_plot_losses_interact(*_mocks: Any) -> None:
 
 
 @patch("ipywidgets.widgets.interaction.interact")
-def test_plot_sampling_interact(*_mocks: Any) -> None:  # noqa
+def test_plot_sampling_interact(*_mocks: MagicMock) -> None:
     """Test 'plot_sampling_interact' function.
 
     Note that this function does not test the interaction with the plots,

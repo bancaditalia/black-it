@@ -17,7 +17,7 @@
 """This module defines the 'BaseScheduler' base class."""
 import contextlib
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Sequence, Tuple
+from typing import Generator, Optional, Sequence, Tuple
 
 import numpy as np
 from numpy.typing import NDArray
@@ -92,7 +92,7 @@ class BaseScheduler(BaseSeedable, ABC):
         """
 
     @contextlib.contextmanager
-    def session(self) -> Any:
+    def session(self) -> Generator[None, None, None]:
         """Start the session of the scheduler with a context manager."""
         self.start_session()
         yield

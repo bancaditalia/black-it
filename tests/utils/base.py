@@ -141,7 +141,9 @@ def pytest_decorator_factory(action: Callable) -> Callable:
         """
 
         @wraps(pytest_func_or_cls)
-        def wrapper(*args, **kwargs):  # type: ignore
+        def wrapper(  # type: ignore[no-untyped-def] # noqa: ANN202
+            *args, **kwargs  # noqa: ANN002,ANN003
+        ):
             action()
             return pytest_func_or_cls(*args, **kwargs)
 

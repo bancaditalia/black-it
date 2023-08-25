@@ -17,11 +17,11 @@
 """This module contains tests for the Calibrator.calibrate method."""
 import sys
 from pathlib import Path
-from typing import Any
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
+from _pytest.capture import CaptureFixture
 from numpy.typing import NDArray
 
 from black_it.calibrator import Calibrator
@@ -182,7 +182,9 @@ class TestCalibrate:
             assert np.allclose(params, self.expected_params)
             assert np.allclose(losses, self.expected_losses)
 
-    def test_calibrator_with_check_convergence(self, capsys: Any) -> None:
+    def test_calibrator_with_check_convergence(
+        self, capsys: CaptureFixture[str]
+    ) -> None:
         """Test the Calibrator.calibrate method with convergence check."""
         cal = Calibrator(
             samplers=[

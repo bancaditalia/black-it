@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # generate a synthetic dataset to test the calibrator
     N = 10
     seed = 10000
-    real_data = SIR(true_params, N, seed)
+    real_data = SIR(true_params, N, seed)  # type: ignore[arg-type]
 
     # initialize a loss function
     loss = MinkowskiLoss()

@@ -159,7 +159,7 @@ def _execute_simulator_subprocess(args: List[str]) -> List[Dict[str, int]]:
     return simulation_output
 
 
-def run_single_simulation():
+def run_single_simulation() -> None:
     """Test function that runs the simulator with a fixed set of parameters."""
     # example of formally correct values for simulation parameters
     sim_params = {

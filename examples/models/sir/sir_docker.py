@@ -15,13 +15,15 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """SIR models written in C and run in Docker containers."""
+from typing import Optional
 
 import numpy as np
+from numpy.typing import NDArray
 
 from . import simlib
 
 
-def SIR(theta, N, seed):  # noqa: N802, N803
+def SIR(theta: NDArray, N: int, seed: Optional[int]) -> NDArray:  # noqa: N802, N803
     """SIR_docker.
 
     C++ SIR model run in Docker container.
@@ -42,7 +44,9 @@ def SIR(theta, N, seed):  # noqa: N802, N803
     return ret
 
 
-def SIR_w_breaks(theta, N, seed=None):  # noqa: N802, N803
+def SIR_w_breaks(  # noqa: N802
+    theta: NDArray, N: int, seed: Optional[int] = None  # noqa: N803
+) -> NDArray:
     """SIR_docker_w_breaks."""
     breaktime = int(theta[0])
 

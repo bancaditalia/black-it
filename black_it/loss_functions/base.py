@@ -35,7 +35,7 @@ class BaseLoss(ABC):
         self,
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
-    ):
+    ) -> None:
         """Initialize the loss function.
 
         Args:
