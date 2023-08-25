@@ -80,6 +80,11 @@ make black
 make black-check
 ```
 
+- To apply [`ruff`](https://beta.ruff.rs/docs/) linter:
+```
+make ruff-check
+```
+
 - To run tests: `make test`.
 
 - For testing `black_it.{SUBMODULE}` with `tests/test_{TESTMODULE}` use:
