@@ -51,7 +51,6 @@ def BH2(theta: Sequence[float], N: int, seed: int):
     beta = 3.6
     sigma = 1.0
     a = 1.0
-    div = 0.1
     divEpsMin = 0  # -0.05
     divEpsMax = 0  # 0.05
     C = 1.0
@@ -59,7 +58,6 @@ def BH2(theta: Sequence[float], N: int, seed: int):
     x_lag2 = 0.10
     x_lag1 = 0.10
 
-    pStar = div / (R - 1)
     bsa = beta / (a * (sigma**2))
 
     x = np.zeros(N + 2)
