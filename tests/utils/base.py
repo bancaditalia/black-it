@@ -59,7 +59,7 @@ def run_process(
     )
     try:
         stdout_bytes, stderr_bytes = process.communicate(timeout=timeout)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         # clean up process
         # first, try to stop it gracefully
         process.send_signal(signal.SIGTERM)
