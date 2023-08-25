@@ -47,9 +47,7 @@ def forest_fire(theta, N, seed=0):  # noqa: N803
     xsize = 30
     ysize = 30
 
-    command = "julia forest_fire_julia.jl {} {} {} {} {}".format(
-        density, n, xsize, ysize, seed
-    )
+    command = f"julia forest_fire_julia.jl {density} {n} {xsize} {ysize} {seed}"
 
     res = subprocess.run(
         command.split(),

@@ -41,7 +41,7 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
         all the data needed to reconstruct the calibrator state
     """
     checkpoint_path = Path(checkpoint_path)
-    with open(checkpoint_path / "calibration_params.json", "r") as f:
+    with open(checkpoint_path / "calibration_params.json") as f:
         cp = json.load(f)
 
     cr = pd.read_csv(checkpoint_path / "calibration_results.csv")
