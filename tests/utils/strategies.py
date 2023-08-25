@@ -29,8 +29,7 @@ MAX_WORD_LENGTH = 5
 
 
 def time_series(max_length: int = MAX_TIME_SERIES_LENGTH) -> st.SearchStrategy:
-    """
-    Return a strategy to generate time_series.
+    """Return a strategy to generate time_series.
 
     Args:
         max_length: the max length of the time series.
@@ -50,8 +49,7 @@ def discretize_args(
     max_length: int = MAX_TIME_SERIES_LENGTH,
     max_nb_values: int = MAX_NB_VALUES,
 ) -> Tuple:
-    """
-    Return the strategies for the arguments of the 'discretize' function.
+    """Return the strategies for the arguments of the 'discretize' function.
 
     Args:
         draw: the Hypothesis draw function
@@ -74,8 +72,7 @@ def get_words_args(
     max_length: int = MAX_TIME_SERIES_LENGTH,
     max_word_length: int = MAX_WORD_LENGTH,
 ) -> Tuple:
-    """
-    Return the strategies for the arguments of the 'discretize' function.
+    """Return the strategies for the arguments of the 'discretize' function.
 
     Args:
         draw: the Hypothesis draw function

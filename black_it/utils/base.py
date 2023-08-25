@@ -36,8 +36,7 @@ def _assert(
 
 
 def check_arg(condition: bool, message: str) -> None:
-    """
-    Check a condition over an argument (i.e. raises ValueError in case it is false).
+    """Check a condition over an argument (i.e. raises ValueError in case it is false).
 
     Args:
         condition: the condition to check
@@ -61,8 +60,7 @@ def positive_float(arg: float) -> float:
 def digitize_data(
     data: NDArray[np.float64], param_grid: List[NDArray[np.float64]]
 ) -> NDArray[np.float64]:
-    """
-    Return a discretized version of the input sorted_array.
+    """Return a discretized version of the input sorted_array.
 
     Args:
         data: the input array to be discretized
@@ -105,8 +103,7 @@ def get_closest(sorted_array: NDArray, values: NDArray) -> NDArray:
 
 
 def is_symmetric(a: NDArray[np.float64]) -> bool:
-    """
-    Check if a matrix is symmetric.
+    """Check if a matrix is symmetric.
 
     Args:
         a: the matrix
@@ -118,8 +115,7 @@ def is_symmetric(a: NDArray[np.float64]) -> bool:
 
 
 class NumpyArrayEncoder(JSONEncoder):
-    """
-    Custom JSONEncoder for Numpy arrays.
+    """Custom JSONEncoder for Numpy arrays.
 
     Solution from https://pynative.com/python-serialize-numpy-ndarray-into-json/.
     """

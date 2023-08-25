@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Executes the C++ simulator with chosen command line parameters, and returns the simulation output as a Python list.
+"""Executes the C++ simulator with chosen command line parameters, and returns the simulation output as a Python list.
 
 The library can also be invoked directly from command line on a custom
 simulator command.

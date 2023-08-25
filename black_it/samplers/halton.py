@@ -30,8 +30,7 @@ _MAX_SEQUENCE_START_INDEX = 2**16
 
 
 class HaltonSampler(BaseSampler):
-    """
-    Halton low discrepancy sequence.
+    """Halton low discrepancy sequence.
 
     This snippet implements the Halton sequence following the generalization of
     a sequence of *Van der Corput* in n-dimensions.
@@ -43,8 +42,7 @@ class HaltonSampler(BaseSampler):
         random_state: Optional[int] = None,
         max_deduplication_passes: int = 5,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -58,8 +56,7 @@ class HaltonSampler(BaseSampler):
         self._reset_sequence_index()
 
     def _set_random_state(self, random_state: Optional[int]) -> None:
-        """
-        Set the random state (private use).
+        """Set the random state (private use).
 
         For the Halton sampler, it also resets the sequence index.
 
@@ -82,8 +79,7 @@ class HaltonSampler(BaseSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample points using Halton sequence.
+        """Sample points using Halton sequence.
 
         Args:
             batch_size: the number of samples
@@ -102,8 +98,7 @@ class HaltonSampler(BaseSampler):
         return digitize_data(sampled_points, search_space.param_grid)
 
     def _halton(self, nb_samples: int, dims: int) -> NDArray[np.float64]:
-        """
-        Get a Halton sequence.
+        """Get a Halton sequence.
 
         It uses a simple prime number generator, which takes the first `dims` primes.
 
@@ -126,8 +121,7 @@ class HaltonSampler(BaseSampler):
 
 
 class _PrimesIterator:
-    """
-    This class implements an iterator that iterates over all primes via unbounded Sieve of Erathosthenes.
+    """This class implements an iterator that iterates over all primes via unbounded Sieve of Erathosthenes.
 
     Adapted from:
 
@@ -170,8 +164,7 @@ class _CachedPrimesCalculator:
         self._cached_primes: List[int] = [2]
 
     def get_n_primes(self, n: int) -> NDArray[np.int64]:
-        """
-        Get the first n primes.
+        """Get the first n primes.
 
         Args:
             n: the number of primes.
@@ -192,8 +185,7 @@ class _CachedPrimesCalculator:
 def halton(
     sample_size: int, bases: NDArray[np.int64], n_start: int
 ) -> NDArray[np.float64]:
-    """
-    Van der Corput sequence, generalized as to accept a starting point in the sequence.
+    """Van der Corput sequence, generalized as to accept a starting point in the sequence.
 
     Args:
         sample_size:  number of element of the sequence

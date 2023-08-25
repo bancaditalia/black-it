@@ -40,8 +40,7 @@ class TestSetRandomState:
     """Test 'BaseSampler.random_state' setter."""
 
     class MyCustomSampler(BaseSampler):
-        """
-        Custom sampler for testing purposes.
+        """Custom sampler for testing purposes.
 
         Test that two consecutive samples with the same give the same result.
         """

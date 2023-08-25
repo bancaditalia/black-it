@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Mesa-based Boltzmann Wealth Model.
+"""Mesa-based Boltzmann Wealth Model.
 
 Taken from the 'Mesa' documentation:
 

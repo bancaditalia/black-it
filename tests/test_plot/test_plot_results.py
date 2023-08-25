@@ -135,8 +135,7 @@ def test_plot_losses_method_num_raises_error_if_method_num_not_known(
 
 @patch("ipywidgets.widgets.interaction.interact")
 def test_plot_losses_interact(*_mocks: Any) -> None:
-    """
-    Test 'plot_losses_interact' function.
+    """Test 'plot_losses_interact' function.
 
     Note that this function does not test the interaction with the plots,
     as the 'ipywidgets.widgets.interaction.interact' function is mocked.
@@ -149,8 +148,7 @@ def test_plot_losses_interact(*_mocks: Any) -> None:
 
 @patch("ipywidgets.widgets.interaction.interact")
 def test_plot_sampling_interact(*_mocks: Any) -> None:  # noqa
-    """
-    Test 'plot_sampling_interact' function.
+    """Test 'plot_sampling_interact' function.
 
     Note that this function does not test the interaction with the plots,
     as the 'ipywidgets.widgets.interaction.interact' function is mocked.

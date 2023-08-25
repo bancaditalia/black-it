@@ -33,8 +33,7 @@ class MinkowskiLoss(BaseLoss):
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
     ) -> None:
-        """
-        Loss computed using a Minkowski distance.
+        """Loss computed using a Minkowski distance.
 
         The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance)
         is a generalization of both the Manhattan distance (p=1) and the Euclidean distance (p=2).
@@ -55,8 +54,7 @@ class MinkowskiLoss(BaseLoss):
     def compute_loss_1d(
         self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
     ) -> float:
-        """
-        Call scipy.spatial.distance.minkowski() on its arguments.
+        """Call scipy.spatial.distance.minkowski() on its arguments.
 
         Args:
             sim_data_ensemble: the first operand

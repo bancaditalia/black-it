@@ -27,8 +27,7 @@ from black_it.utils.seedable import BaseSeedable
 
 
 class BaseSampler(BaseSeedable, ABC):
-    """
-    BaseSampler interface.
+    """BaseSampler interface.
 
     This is the base class for all samplers.
     """
@@ -39,8 +38,7 @@ class BaseSampler(BaseSeedable, ABC):
         random_state: Optional[int] = None,
         max_deduplication_passes: int = 5,
     ) -> None:
-        """
-        Initialize the sampler.
+        """Initialize the sampler.
 
         Args:
             batch_size: the number of points sampled every time the sampler is called
@@ -59,8 +57,7 @@ class BaseSampler(BaseSeedable, ABC):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample a number of new parameters fixed by the 'batch_size' attribute.
+        """Sample a number of new parameters fixed by the 'batch_size' attribute.
 
         Args:
             batch_size: number of samples to collect
@@ -78,8 +75,7 @@ class BaseSampler(BaseSeedable, ABC):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        """
-        Sample from the search space.
+        """Sample from the search space.
 
         Args:
             search_space: an object containing the details of the parameter search space

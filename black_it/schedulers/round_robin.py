@@ -25,8 +25,7 @@ from black_it.schedulers.base import BaseScheduler
 
 
 class RoundRobinScheduler(BaseScheduler):
-    """
-    This class implement a simple round-robin sampler scheduler.
+    """This class implement a simple round-robin sampler scheduler.
 
     The round-robin scheduler takes in input a list of samplers [S_0, S_1, ..., S_{n-1}],
       and, at batch i, it proposes the (i % n)-th sampler.

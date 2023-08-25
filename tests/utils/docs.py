@@ -27,8 +27,7 @@ MISTLETOE_CODE_BLOCK_ID = "CodeFence"
 
 
 def code_block_filter(block_dict: Dict, language: Optional[str] = None) -> bool:
-    """
-    Check Mistletoe block is a code block.
+    """Check Mistletoe block is a code block.
 
     Args:
         block_dict: the block dictionary describing a Mistletoe document node
@@ -86,8 +85,7 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
 
     @classmethod
     def setup_class(cls) -> None:
-        """
-        Set up class.
+        """Set up class.
 
         It sets the initial value of locals and globals.
         """

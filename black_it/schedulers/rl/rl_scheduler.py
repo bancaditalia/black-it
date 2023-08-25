@@ -30,8 +30,7 @@ from black_it.schedulers.rl.envs.base import CalibrationEnv
 
 
 class RLScheduler(BaseScheduler):
-    """
-    This class implement a RL-based scheduler.
+    """This class implement a RL-based scheduler.
 
     It is agnostic wrt the RL algorithm being used.
     """
@@ -75,8 +74,7 @@ class RLScheduler(BaseScheduler):
     def _add_or_get_bootstrap_sampler(
         cls, samplers: Sequence[BaseSampler]
     ) -> Tuple[Sequence[BaseSampler], int]:
-        """
-        Add or retrieve a sampler for bootstrapping.
+        """Add or retrieve a sampler for bootstrapping.
 
         Many samplers do require some "bootstrapping" of the calibration process, i.e. a set of parameters
           whose loss has been already evaluated, e.g. samplers based on ML surrogates or on evolutionary approaches.
