@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module implements the 'RoundRobinScheduler' scheduler."""
-from typing import Any
 
 import numpy as np
 from numpy._typing import NDArray
@@ -31,7 +30,9 @@ class RoundRobinScheduler(BaseScheduler):
       and, at batch i, it proposes the (i % n)-th sampler.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(  # type: ignore[no-untyped-def]
+        self, *args, **kwargs  # noqa: ANN002,ANN003
+    ) -> None:
         """Initialize the round-robin scheduler."""
         super().__init__(*args, **kwargs)
 

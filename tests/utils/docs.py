@@ -18,7 +18,8 @@
 import json
 from io import StringIO
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
+from unittest.mock import MagicMock
 
 import mistletoe
 from mistletoe.ast_renderer import ASTRenderer
@@ -93,10 +94,10 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
         cls.locals = {}
         cls.globals = {}
 
-    def _assert(self, locals_: Dict, *mocks: Any) -> None:
+    def _assert(self, locals_: Dict, *mocks: MagicMock) -> None:
         """Do assertions after Python code execution."""
 
-    def test_python_blocks(self, *mocks: Any) -> None:
+    def test_python_blocks(self, *mocks: MagicMock) -> None:
         """Run Python code block in sequence."""
         python_blocks = self.python_blocks
 

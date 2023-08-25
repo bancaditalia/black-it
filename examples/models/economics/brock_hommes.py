@@ -16,13 +16,16 @@
 
 """Implementation of the model in (Brock and Hommes, 1998)."""
 
-from typing import Sequence
+from typing import Optional, Sequence
 
 import numpy as np
+from numpy.typing import NDArray
 from scipy.special import softmax
 
 
-def BH2(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
+def BH2(  # noqa: N802
+    theta: Sequence[float], N: int, seed: Optional[int]  # noqa: N803
+) -> NDArray:
     """Model from Brock and Hommes 1998. 4.1.2. Fundamentalists versus trend chasers.
 
     theta structure:
@@ -80,7 +83,9 @@ def BH2(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
 
 
 #
-def BH4(theta: Sequence[float], N: int, seed: int):  # noqa: N802, N803
+def BH4(  # noqa: N802
+    theta: Sequence[float], N: int, seed: Optional[int]  # noqa: N803
+) -> NDArray:
     """Model from Brock and Hommes 1998.
 
     4.3 Four belief types: Fundamentalists versus trend versus bias

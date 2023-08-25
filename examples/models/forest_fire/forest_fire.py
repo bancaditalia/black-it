@@ -17,11 +17,15 @@
 """A simple model of a wildfire on a 2D grid."""
 
 import subprocess
+from typing import Optional
 
 import numpy as np
+from numpy.typing import NDArray
 
 
-def forest_fire(theta, N, seed=0):  # noqa: N803
+def forest_fire(
+    theta: NDArray, N: int, seed: Optional[int] = 0  # noqa: N803
+) -> NDArray:
     """A simple model of a wildfire on a 2D grid.
 
     The model is taken from this example from Agent.jl

@@ -46,7 +46,7 @@ class BestBatchSampler(BaseSampler):
         a: float = 3.0,
         b: float = 1.0,
         perturbation_range: int = 6,
-    ):
+    ) -> None:
         """Initialize the sampler.
 
         Args:

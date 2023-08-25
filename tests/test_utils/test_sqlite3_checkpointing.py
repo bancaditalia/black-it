@@ -16,7 +16,6 @@
 """This module contains tests for the SQLite3-based checkpointing."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any
 from unittest.mock import MagicMock, patch
 
 import numpy as np
@@ -115,7 +114,7 @@ def test_sqlite3_checkpointing_loading_when_code_state_version_different(
 @patch.object(black_it.utils.sqlite3_checkpointing, "Path")
 @patch("sqlite3.connect")
 def test_sqlite3_checkpointing_saving_when_error_occurs(
-    connect_mock: MagicMock, *_mocks: Any
+    connect_mock: MagicMock, *_mocks: MagicMock
 ) -> None:
     """Test saving function when an error occurs."""
     error_message = "error"

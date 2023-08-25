@@ -57,7 +57,7 @@ class MethodOfMomentsLoss(BaseLoss):
         moment_calculator: MomentCalculator = get_mom_ts_1d,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
         standardise_moments: bool = False,
-    ):
+    ) -> None:
         """Initialize the loss function based on the 'method of moments'.
 
         Returns the MSM objective function, i.e. the square difference between

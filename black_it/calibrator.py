@@ -62,7 +62,7 @@ class Calibrator(BaseSeedable):
         saving_folder: Optional[str] = None,
         random_state: Optional[int] = None,
         n_jobs: Optional[int] = None,
-    ):
+    ) -> None:
         """Initialize the Calibrator object.
 
         It must be initialized with details on the parameters to explore,

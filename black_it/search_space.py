@@ -30,7 +30,7 @@ class SearchSpace:
         parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
         parameters_precision: Union[NDArray[np.float64], List[float]],
         verbose: bool,
-    ):
+    ) -> None:
         """Initialize the SearchSpace object.
 
         The values of parameters_bounds and parameters_precision parameters have

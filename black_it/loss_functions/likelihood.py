@@ -43,7 +43,7 @@ class LikelihoodLoss(BaseLoss):
         coordinate_weights: Optional[NDArray] = None,
         coordinate_filters: Optional[List[Optional[Callable]]] = None,
         h: Union[str, float] = "silverman",
-    ):
+    ) -> None:
         """Initialize the loss function.
 
         Args:
