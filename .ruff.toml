@@ -5,6 +5,8 @@ ignore = ["E203"]
 #fixable = ["ALL"]
 #unfixable = []
 
+include = ["black_it/**/*.py", "tests/**/*.py", "scripts/**/*.py", "examples/**/*.py"]
+
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",

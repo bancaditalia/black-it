@@ -63,10 +63,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 PHONY.: lint-all
-lint-all: black static bandit safety vulture darglint ## run all linters
+lint-all: black ruff static bandit safety vulture darglint ## run all linters
 
 PHONY.: lint-all-files
-lint-all-files: black-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
+lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
 PHONY.: static
 static: ## static type checking with mypy
@@ -90,9 +90,28 @@ PHONY.: black-check
 black-check: ## check black formatting
 	black --check --verbose black_it tests scripts examples
 
+PHONY.: black-check-files
 black-check-files: ## check black formatting for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	black --check --verbose $(files)
+
+PHONY.: ruff
+ruff: ## run ruff linter
+	ruff check --fix .
+
+PHONY.: ruff-files
+ruff-files: ## run ruff linter for specific files (specified with files="file1 file2 somedir ...")
+	$(call check_defined, files)
+	ruff check --fix $(files)
+
+PHONY.: ruff-check
+ruff-check: ## check ruff linter rules
+	ruff check .
+
+PHONY.: ruff-check-files
+ruff-check-files: ## check ruff linter rules for specific files (specified with files="file1 file2 somedir ...")
+	$(call check_defined, files)
+	ruff check $(files)
 
 PHONY.: bandit
 bandit: ## run bandit
