@@ -1,4 +1,4 @@
-select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE"]
+select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE","B","A"]
 ignore = ["ANN101", "ANN102", "E203", "S", "FBT"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.

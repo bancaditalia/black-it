@@ -81,8 +81,8 @@ class BaseTestMarkdownDocs:
 class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
     """Test Markdown documentation by running Python snippets in sequence."""
 
-    locals: Dict
-    globals: Dict
+    locals_dict: Dict
+    globals_dict: Dict
 
     @classmethod
     def setup_class(cls) -> None:
@@ -91,8 +91,8 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
         It sets the initial value of locals and globals.
         """
         super().setup_class()
-        cls.locals = {}
-        cls.globals = {}
+        cls.locals_dict = {}
+        cls.globals_dict = {}
 
     def _assert(self, locals_: Dict, *mocks: MagicMock) -> None:
         """Do assertions after Python code execution."""
@@ -101,7 +101,7 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
         """Run Python code block in sequence."""
         python_blocks = self.python_blocks
 
-        globals_, locals_ = self.globals, self.locals
+        globals_, locals_ = self.globals_dict, self.locals_dict
         for python_code_block in python_blocks:
             exec(python_code_block, globals_, locals_)  # nosec
         self._assert(locals_, *mocks)
