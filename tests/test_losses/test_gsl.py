@@ -25,7 +25,7 @@ from black_it.loss_functions.gsl_div import GslDivLoss
 from tests.utils.strategies import discretize_args, get_words_args
 
 
-def is_sorted(array: np.ndarray, reverse: bool = False) -> bool:
+def is_sorted(array: np.ndarray, *, reverse: bool = False) -> bool:
     """Test that a unidimensional array is sorted.
 
     Args:
