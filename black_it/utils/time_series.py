@@ -80,7 +80,7 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
     avg_vec_mom[16] = ts_diff_acf[4]
     avg_vec_mom[17] = ts_diff_acf[5]
 
-    np.nan_to_num(avg_vec_mom, False)
+    np.nan_to_num(avg_vec_mom, copy=False)
 
     return avg_vec_mom
 
