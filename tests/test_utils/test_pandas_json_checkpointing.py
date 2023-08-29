@@ -67,8 +67,8 @@ def test_save_and_load_calibrator_state() -> None:
         initial_random_seed,
         random_generator_state,
         model_name,
-        samplers,  # type: ignore
-        loss_function,  # type: ignore
+        samplers,  # type: ignore[arg-type]
+        loss_function,  # type: ignore[arg-type]
         current_batch_index,
         n_sampled_params,
         n_jobs,

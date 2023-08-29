@@ -86,7 +86,7 @@ def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
         return r * r * r
 
     phis = [
-        [phi(np.linalg.norm(np.subtract(points[i], points[j]))) for j in range(n)]  # type: ignore
+        [phi(np.linalg.norm(np.subtract(points[i], points[j]))) for j in range(n)]  # type: ignore[arg-type]
         for i in range(n)
     ]
 
@@ -117,7 +117,7 @@ def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
     def fit(x: float) -> float:
         return (
             sum(
-                lam[i] * phi(np.linalg.norm(np.subtract(x, points[i])))  # type: ignore
+                lam[i] * phi(np.linalg.norm(np.subtract(x, points[i])))  # type: ignore[arg-type]
                 for i in range(n)
             )
             + np.dot(b, x)

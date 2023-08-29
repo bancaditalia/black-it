@@ -263,7 +263,7 @@ def plot_sampling_batch_nums(
 
     data_frame["filter_bns"] = filter_bns
 
-    data_frame_2 = data_frame.loc[data_frame["filter_bns"] == True]  # noqa
+    data_frame_2 = data_frame.loc[data_frame["filter_bns"] == True]  # noqa: E712
 
     num_params = sum("params_samp_" in c_str for c_str in data_frame.columns)
 

@@ -18,7 +18,7 @@
 import inspect
 from pathlib import Path
 
-CUR_PATH = Path(inspect.getfile(inspect.currentframe())).parent  # type: ignore
+CUR_PATH = Path(inspect.getfile(inspect.currentframe())).parent  # type: ignore[arg-type]
 ROOT_DIR = Path(CUR_PATH, "..").resolve().absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 TEST_DIR = ROOT_DIR / "tests"

@@ -30,7 +30,7 @@ def test_find_and_get_duplicates() -> None:
 
     BaseSampler.__abstractmethods__ = frozenset()
 
-    sampler = BaseSampler(batch_size=1)  # type: ignore
+    sampler = BaseSampler(batch_size=1)  # type: ignore[abstract]
     duplicates = sampler.find_and_get_duplicates(new_points, existing_points)
 
     assert duplicates == [0, 1, 2, 4, 5]

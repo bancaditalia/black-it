@@ -439,7 +439,7 @@ class Calibrator(BaseSeedable):
                 self.scheduler.update(
                     self.current_batch_index,
                     new_params,
-                    new_losses,  # type: ignore
+                    new_losses,  # type: ignore[arg-type]
                     new_simulated_data,
                 )
 

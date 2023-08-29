@@ -69,8 +69,8 @@ def test_sqlite3_checkpointing() -> None:
             initial_random_seed,
             random_generator_state,
             model_name,
-            samplers,  # type: ignore
-            loss_function,  # type: ignore
+            samplers,  # type: ignore[arg-type]
+            loss_function,  # type: ignore[arg-type]
             current_batch_index,
             params_samp,
             losses_samp,
