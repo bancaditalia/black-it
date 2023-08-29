@@ -25,8 +25,8 @@ from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
 from examples.models.economics.brock_hommes import BH4
 
-# TODO: this is a temporary workaround to make tests to run also on Windows and Mac.
-#       See: https://github.com/bancaditalia/black-it/issues/49
+# This is a temporary workaround to make tests to run also on Windows and Mac.
+#   See: https://github.com/bancaditalia/black-it/issues/49
 if sys.platform == "win32":
     expected_params = np.array([[0.24, 0.26], [0.19, 0.11], [0.13, 0.22], [0.11, 0.05]])
 elif sys.platform == "darwin":

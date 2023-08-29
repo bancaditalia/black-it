@@ -171,10 +171,8 @@ class TestCalibrate:
 
         params, losses = cal.calibrate(14)
 
-        # TODO: this is a temporary workaround to make tests to run also on Windows.
-        #       See: https://github.com/bancaditalia/black-it/issues/49
-        print(params.tolist())
-        print(losses.tolist())
+        # This is a temporary workaround to make tests to run also on Windows.
+        #   See: https://github.com/bancaditalia/black-it/issues/49
         if sys.platform == "darwin":
             assert np.allclose(params, self.darwin_expected_params)
             assert np.allclose(losses, self.darwin_expected_losses)
