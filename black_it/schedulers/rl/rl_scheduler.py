@@ -55,8 +55,8 @@ class RLScheduler(BaseScheduler):
 
         super().__init__(new_samplers, random_state)
 
-        self._in_queue: Queue = self._env._out_queue
-        self._out_queue: Queue = self._env._in_queue
+        self._in_queue: Queue = self._env._out_queue  # noqa: SLF001
+        self._out_queue: Queue = self._env._in_queue  # noqa: SLF001
 
         self._best_param: float | None = None
         self._best_loss: float | None = None
@@ -144,7 +144,7 @@ class RLScheduler(BaseScheduler):
         if self._best_loss is None:
             self._best_loss = best_new_loss
             self._best_param = new_params[np.argmin(new_losses)]
-            self._env._curr_best_loss = best_new_loss
+            self._env._curr_best_loss = best_new_loss  # noqa: SLF001
             return
         if best_new_loss < cast(float, self._best_loss):
             self._best_loss = best_new_loss

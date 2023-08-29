@@ -214,7 +214,7 @@ class Calibrator(BaseSeedable):
 
         """
         # overwrite the list of samplers
-        self.scheduler._samplers = tuple(samplers)
+        self.scheduler._samplers = tuple(samplers)  # noqa: SLF001
         self.update_samplers_id_table(samplers)
 
     def set_scheduler(self, scheduler: BaseScheduler) -> None:

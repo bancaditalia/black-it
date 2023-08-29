@@ -114,7 +114,9 @@ def test_gaussian_process_sample_warning_too_large_dataset() -> None:
     (
         xys,
         losses,
-    ) = TestGaussianProcess2D._construct_fake_grid(n=23)
+    ) = TestGaussianProcess2D._construct_fake_grid(  # noqa: SLF001
+        n=23,
+    )
     with pytest.warns(
         RuntimeWarning,
         match="Standard GP evaluations can be expensive "
