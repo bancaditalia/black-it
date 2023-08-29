@@ -81,13 +81,13 @@ def plot_convergence(saving_folder: str | os.PathLike) -> None:
 
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
-    losses_cummin = df.groupby("batch_num_samp").min()["losses_samp"].cummin()
+    losses_cummin = data_frame.groupby("batch_num_samp").min()["losses_samp"].cummin()
 
     plt.figure()
     g = sns.lineplot(
-        data=df,
+        data=data_frame,
         x="batch_num_samp",
         y="losses_samp",
         hue="method_samp",
@@ -95,7 +95,7 @@ def plot_convergence(saving_folder: str | os.PathLike) -> None:
     )
 
     g = sns.lineplot(
-        x=np.arange(max(df["batch_num_samp"]) + 1),
+        x=np.arange(max(data_frame["batch_num_samp"]) + 1),
         y=losses_cummin,
         color="black",
         ls="--",
@@ -103,7 +103,7 @@ def plot_convergence(saving_folder: str | os.PathLike) -> None:
         label="min loss",
     )
 
-    ids = df["method_samp"].unique()
+    ids = data_frame["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     handles, labels = g.get_legend_handles_labels()
@@ -119,14 +119,14 @@ def plot_losses(saving_folder: str | os.PathLike) -> None:
         saving_folder: the folder where the calibration results were saved
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
-    num_params = sum("params_samp_" in c_str for c_str in df.columns)
+    num_params = sum("params_samp_" in c_str for c_str in data_frame.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
     g = sns.pairplot(
-        df,
+        data_frame,
         hue="losses_samp",
         vars=variables,
         diag_kind="hist",
@@ -149,13 +149,13 @@ def plot_sampling(saving_folder: str | os.PathLike) -> None:
         saving_folder: the folder where the calibration results were saved
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
-    num_params = sum("params_samp_" in c_str for c_str in df.columns)
+    num_params = sum("params_samp_" in c_str for c_str in data_frame.columns)
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
     g = sns.pairplot(
-        df,
+        data_frame,
         hue="method_samp",
         vars=variables,
         diag_kind="hist",
@@ -166,7 +166,7 @@ def plot_sampling(saving_folder: str | os.PathLike) -> None:
             "fill": False,
         },
     )
-    ids = df["method_samp"].unique()
+    ids = data_frame["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
@@ -187,20 +187,20 @@ def plot_losses_method_num(
         method_num: the integer value defining a specific sampling method
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
-    if method_num not in set(df["method_samp"]):
+    if method_num not in set(data_frame["method_samp"]):
         msg = f"Samplers with method_num = {method_num} was never used"
         raise ValueError(msg)
 
-    df = df.loc[df["method_samp"] == method_num]
+    data_frame = data_frame.loc[data_frame["method_samp"] == method_num]
 
-    num_params = sum("params_samp_" in c_str for c_str in df.columns)
+    num_params = sum("params_samp_" in c_str for c_str in data_frame.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
     g = sns.pairplot(
-        df,
+        data_frame,
         hue="losses_samp",
         vars=variables,
         diag_kind="hist",
@@ -225,8 +225,8 @@ def plot_losses_interact(saving_folder: str | os.PathLike) -> None:
         saving_folder: the folder where the calibration results were saved
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
-    method_nums = set(df["method_samp"])
+    data_frame = pd.read_csv(calibration_results_file)
+    method_nums = set(data_frame["method_samp"])
 
     samplers_id_table = _get_samplers_id_table(saving_folder)
 
@@ -254,23 +254,23 @@ def plot_sampling_batch_nums(
         batch_nums: a list of batch number
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
     # deduplicate batch numbers
     batch_nums = set(batch_nums)
 
-    filter_bns = [bn in batch_nums for bn in df["batch_num_samp"]]
+    filter_bns = [bn in batch_nums for bn in data_frame["batch_num_samp"]]
 
-    df["filter_bns"] = filter_bns
+    data_frame["filter_bns"] = filter_bns
 
-    df_ = df.loc[df["filter_bns"] == True]  # noqa
+    data_frame_2 = data_frame.loc[data_frame["filter_bns"] == True]  # noqa
 
-    num_params = sum("params_samp_" in c_str for c_str in df.columns)
+    num_params = sum("params_samp_" in c_str for c_str in data_frame.columns)
 
     variables = ["params_samp_" + str(i) for i in range(num_params)]
 
     g = sns.pairplot(
-        df_,
+        data_frame_2,
         hue="method_samp",
         vars=variables,
         diag_kind="hist",
@@ -280,7 +280,7 @@ def plot_sampling_batch_nums(
         palette="tab10",
     )
 
-    ids = df["method_samp"].unique()
+    ids = data_frame["method_samp"].unique()
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
@@ -299,9 +299,9 @@ def plot_sampling_interact(saving_folder: str | os.PathLike) -> None:
         saving_folder: the folder where the calibration results were saved
     """
     calibration_results_file = Path(saving_folder) / "calibration_results.csv"
-    df = pd.read_csv(calibration_results_file)
+    data_frame = pd.read_csv(calibration_results_file)
 
-    max_bn = int(max(df["batch_num_samp"]))
+    max_bn = int(max(data_frame["batch_num_samp"]))
     all_bns = np.arange(max_bn + 1, dtype=int)
     indices_bns = np.array_split(all_bns, min(max_bn, 3))
 
