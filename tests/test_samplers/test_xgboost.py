@@ -62,7 +62,6 @@ def test_xgboost_2d() -> None:
         verbose=False,
     )
     new_params = sampler.sample(param_grid, xys, losses)
-    print(new_params)
     assert np.allclose(expected_params, new_params)
 
 
