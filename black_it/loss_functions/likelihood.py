@@ -68,7 +68,9 @@ class LikelihoodLoss(BaseLoss):
         return h
 
     def compute_loss(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Compute the loss between simulated and real data.
 
@@ -122,7 +124,7 @@ class LikelihoodLoss(BaseLoss):
             else:
                 raise KeyError(
                     "Select a valid rule of thumb (either 'silverman' or 'scott') "
-                    "or directly a numerical value for the bandwidth"
+                    "or directly a numerical value for the bandwidth",
                 )
         else:
             h = self.h
@@ -130,9 +132,11 @@ class LikelihoodLoss(BaseLoss):
         return h
 
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Compute likelihood loss on a single dimension, not available."""
         raise NotImplementedError(
-            "The likelihood cannot be currently computed on a single dimension."
+            "The likelihood cannot be currently computed on a single dimension.",
         )

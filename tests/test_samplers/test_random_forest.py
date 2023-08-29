@@ -59,6 +59,7 @@ def test_random_forest_candidate_pool_size() -> None:
 
     expected_candidate_pool_size = 32
     sampler2 = RandomForestSampler(
-        batch_size=batch_size, candidate_pool_size=expected_candidate_pool_size
+        batch_size=batch_size,
+        candidate_pool_size=expected_candidate_pool_size,
     )
     assert sampler2.candidate_pool_size == expected_candidate_pool_size

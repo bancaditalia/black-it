@@ -55,7 +55,8 @@ class BoltzmannWealthModel(Model):
         self.mean_init_wealth = mean_init_wealth
         self.schedule = RandomActivation(self)
         self.datacollector = DataCollector(
-            model_reporters={"Gini": compute_gini}, agent_reporters={"Wealth": "wealth"}
+            model_reporters={"Gini": compute_gini},
+            agent_reporters={"Wealth": "wealth"},
         )
         # Create agents
         for i in range(self.num_agents):
@@ -94,7 +95,9 @@ class MoneyAgent(Agent):
     def move(self) -> None:
         """Move the agent."""
         possible_steps = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=False
+            self.pos,
+            moore=True,
+            include_center=False,
         )
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)

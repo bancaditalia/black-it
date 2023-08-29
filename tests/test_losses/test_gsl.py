@@ -70,13 +70,19 @@ class TestDiscretize:
         time_series, nb_values, start_index, stop_index = args
         increasing_time_series = np.sort(time_series)
         increasing_actual = GslDivLoss.discretize(
-            increasing_time_series, nb_values, start_index, stop_index
+            increasing_time_series,
+            nb_values,
+            start_index,
+            stop_index,
         )
         assert is_sorted(increasing_actual, reverse=False)
 
         decreasing_time_series = increasing_time_series[::-1]
         decreasing_actual = GslDivLoss.discretize(
-            decreasing_time_series, nb_values, start_index, stop_index
+            decreasing_time_series,
+            nb_values,
+            start_index,
+            stop_index,
         )
         assert is_sorted(decreasing_actual, reverse=True)
 

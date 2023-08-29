@@ -71,7 +71,9 @@ def SIR(theta: NDArray, N: int, seed: Optional[int]) -> NDArray:  # noqa: N802, 
 
 
 def SIR_w_breaks(  # noqa: N802
-    theta: NDArray, N: int, seed: Optional[int]  # noqa: N803
+    theta: NDArray,
+    N: int,  # noqa: N803
+    seed: Optional[int],
 ) -> NDArray:
     """SIR model with structural breaks.
 

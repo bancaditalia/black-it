@@ -71,10 +71,10 @@ class BaseTestMarkdownDocs:
         markdown_json = json.loads(markdown_parsed)
         cls.blocks = markdown_json["children"]
         cls.code_blocks = list(
-            map(code_block_extractor, filter(code_block_filter, cls.blocks))
+            map(code_block_extractor, filter(code_block_filter, cls.blocks)),
         )
         cls.python_blocks = list(
-            map(code_block_extractor, filter(python_code_block_filter, cls.blocks))
+            map(code_block_extractor, filter(python_code_block_filter, cls.blocks)),
         )
 
 

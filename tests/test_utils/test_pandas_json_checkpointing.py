@@ -38,7 +38,7 @@ def test_save_and_load_calibrator_state() -> None:
     saving_folder = "saving_folder"
     initial_random_seed = 0
     random_generator_state = np.random.default_rng(
-        initial_random_seed
+        initial_random_seed,
     ).bit_generator.state
     model_name = "model"
     samplers = ["method_a", "method_b"]  # list of objects

@@ -69,7 +69,7 @@ class TestPlotLossesMethodNum(BasePlotResultsTest):
     saving_folder = EXAMPLE_SAVING_FOLDER
 
     @pytest.mark.skip(
-        "for this test case, we use the parametrized method 'test_run_by_method_num'"
+        "for this test case, we use the parametrized method 'test_run_by_method_num'",
     )
     def test_run(self) -> None:
         """Run the test."""
@@ -98,7 +98,7 @@ class TestPlotBatchNums(BasePlotResultsTest):
     saving_folder = EXAMPLE_SAVING_FOLDER
 
     @pytest.mark.skip(
-        "for this test case, we use the parametrized method 'test_run_by_batch_num'"
+        "for this test case, we use the parametrized method 'test_run_by_batch_num'",
     )
     def test_run(self) -> None:
         """Run the test."""
@@ -127,7 +127,8 @@ def test_plot_losses_method_num_raises_error_if_method_num_not_known(
     """Test that 'plot_losses_method_num' raises error if the method num is not known."""
     method_num = 1
     with pytest.raises(
-        ValueError, match=f"Samplers with method_num = {method_num} was never used"
+        ValueError,
+        match=f"Samplers with method_num = {method_num} was never used",
     ):
         plot_losses_method_num("dummy_folder", method_num)
 

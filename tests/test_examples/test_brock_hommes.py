@@ -242,7 +242,7 @@ def test_bh4_model() -> None:
             [-0.0171874],
             [-0.01127672],
             [0.0],
-        ]
+        ],
     )
     result = BH4(theta, n, seed=seed)
     assert result.shape == (n, 1)

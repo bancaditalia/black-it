@@ -29,7 +29,7 @@ expected_params = np.array(
         [0.04, 0.61],
         [0.07, 0.98],
         [0.01, 0.73],
-    ]
+    ],
 )
 
 
@@ -57,7 +57,7 @@ def test_random_uniform_uniqueness() -> None:
     # then, sampled_params_after_deduplication will be the next element to be sampled.
     element_after_deduplication = np.array([[0.63, 0.54]])
     expected_params_unique = np.vstack(
-        (element_after_deduplication, expected_params[1:])
+        (element_after_deduplication, expected_params[1:]),
     )
 
     sampler = RandomUniformSampler(batch_size=8, random_state=0)

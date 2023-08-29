@@ -110,7 +110,7 @@ def test_msm_custom_calculator_wrong_shape_covariance_matrix() -> None:
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The size of the covariance matrix (3) and the number of moments (1) should be identical"
+            "The size of the covariance matrix (3) and the number of moments (1) should be identical",
         ),
     ):
         loss_func = MethodOfMomentsLoss(

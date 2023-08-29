@@ -51,7 +51,8 @@ def parse_simulator_output(stdout: str) -> List[Dict[str, int]]:
     regex = re.compile(r"^EPOCH.*(initial status|ended with)")
 
     noise_filtered_out = filter(
-        lambda line: regex.match(line) is not None, stdout.splitlines()
+        lambda line: regex.match(line) is not None,
+        stdout.splitlines(),
     )
     results_as_text = (line.split(":", 1)[1] for line in noise_filtered_out)
     results = (json.loads(text) for text in results_as_text)
@@ -60,7 +61,8 @@ def parse_simulator_output(stdout: str) -> List[Dict[str, int]]:
 
 
 def _build_simulator_cmdline(
-    docker_image_name: str, sim_params: Dict[str, str]
+    docker_image_name: str,
+    sim_params: Dict[str, str],
 ) -> List[str]:
     """Convert a configuration object in a list of command line parameters.
 
@@ -94,15 +96,16 @@ def _build_simulator_cmdline(
             (
                 (f"--{argname}", str(argvalue))
                 for argname, argvalue in sim_params.items()
-            )
-        )
+            ),
+        ),
     )
 
     return args
 
 
 def execute_simulator(
-    path_to_simulator: str, sim_params: Dict[str, str]
+    path_to_simulator: str,
+    sim_params: Dict[str, str],
 ) -> List[Dict[str, int]]:
     """Execute the simulator with the given parameters, and return a structured output.
 

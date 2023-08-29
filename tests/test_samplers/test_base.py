@@ -25,7 +25,7 @@ def test_find_and_get_duplicates() -> None:
     """Test the find_and_get_duplicates method."""
     existing_points = np.array([[0, 1, 2], [0, 1, 2], [3, 4, 5]])
     new_points = np.array(
-        [[0, 1, 2], [0, 1, 2], [3, 4, 5], [9, 10, 11], [12, 13, 14], [12, 13, 14]]
+        [[0, 1, 2], [0, 1, 2], [3, 4, 5], [9, 10, 11], [12, 13, 14], [12, 13, 14]],
     )
 
     BaseSampler.__abstractmethods__ = frozenset()
@@ -62,7 +62,8 @@ class TestSetRandomState:
         self.default_seed = 42
         self.batch_size = 32
         self.sampler = TestSetRandomState.MyCustomSampler(
-            self.batch_size, random_state=self.default_seed
+            self.batch_size,
+            random_state=self.default_seed,
         )
         self.search_space = SearchSpace(self.bounds, self.bounds_step, False)
         # if SearchSpace has been successfully constructed we are assured that
@@ -75,17 +76,25 @@ class TestSetRandomState:
         seed = 11
         self.sampler.random_state = seed
         expected_result_1 = self.sampler.sample(
-            self.search_space, self.existing_points, self.existing_losses
+            self.search_space,
+            self.existing_points,
+            self.existing_losses,
         )
         expected_result_2 = self.sampler.sample(
-            self.search_space, self.existing_points, self.existing_losses
+            self.search_space,
+            self.existing_points,
+            self.existing_losses,
         )
         self.sampler.random_state = seed
         actual_result_1 = self.sampler.sample(
-            self.search_space, self.existing_points, self.existing_losses
+            self.search_space,
+            self.existing_points,
+            self.existing_losses,
         )
         actual_result_2 = self.sampler.sample(
-            self.search_space, self.existing_points, self.existing_losses
+            self.search_space,
+            self.existing_points,
+            self.existing_losses,
         )
         assert (expected_result_1 == actual_result_1).all()
         assert (expected_result_2 == actual_result_2).all()

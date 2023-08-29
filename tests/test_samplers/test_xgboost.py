@@ -78,7 +78,7 @@ def test_clip_losses() -> None:
             -0.2,  # b3
             1.01,  # g4
             0.01,
-        ]
+        ],
     )  # b4
 
     parameter_bounds = [
@@ -120,7 +120,7 @@ def test_clip_losses() -> None:
                 3.40282347e38,
                 3.40282347e38,
                 2.94273501e41,
-            ]
+            ],
         ),
     )
 

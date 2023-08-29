@@ -30,7 +30,8 @@ def ts_stats(time_series_raw: List[float]) -> None:
 
     ts = np.array(time_series_raw, dtype="double")
     sq_diff = np.append(
-        np.absolute(np.diff(ts)), 0
+        np.absolute(np.diff(ts)),
+        0,
     )  # not precise! shouldn't append '0'!
 
     ts_acf = sm.tsa.acf(ts, nlags=20)

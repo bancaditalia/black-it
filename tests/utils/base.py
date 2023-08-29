@@ -38,7 +38,8 @@ class PopenResult:
 
 
 def run_process(
-    command: List[str], timeout: float = DEFAULT_SUBPROCESS_TIMEOUT
+    command: List[str],
+    timeout: float = DEFAULT_SUBPROCESS_TIMEOUT,
 ) -> PopenResult:
     """Run a process, and wait for it to stop.
 
@@ -142,7 +143,8 @@ def pytest_decorator_factory(action: Callable) -> Callable:
 
         @wraps(pytest_func_or_cls)
         def wrapper(  # type: ignore[no-untyped-def] # noqa: ANN202
-            *args, **kwargs  # noqa: ANN002,ANN003
+            *args,  # noqa: ANN002
+            **kwargs,  # noqa: ANN003
         ):
             action()
             return pytest_func_or_cls(*args, **kwargs)
@@ -171,5 +173,6 @@ def pytest_decorator_factory(action: Callable) -> Callable:
 
 
 skip_on_windows = pytest.mark.skipif(
-    sys.platform == "win32", reason="This test cannot be ran on Windows"
+    sys.platform == "win32",
+    reason="This test cannot be ran on Windows",
 )

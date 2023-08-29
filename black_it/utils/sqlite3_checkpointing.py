@@ -182,19 +182,20 @@ def load_calibrator_state(
     """
     checkpoint_path = Path(checkpoint_path)
     connection = sqlite3.connect(
-        checkpoint_path / "checkpoint.sqlite", detect_types=sqlite3.PARSE_DECLTYPES
+        checkpoint_path / "checkpoint.sqlite",
+        detect_types=sqlite3.PARSE_DECLTYPES,
     )
     try:
         cursor = connection.cursor()
 
         checkpoint_schema_version: int = cursor.execute(
-            SQL_LOAD_USER_VERSION
+            SQL_LOAD_USER_VERSION,
         ).fetchone()[0]
         if checkpoint_schema_version != SCHEMA_VERSION:
             raise Exception(
                 f"The checkpoint you want to load has been generated with another version of the code:\n"
                 f"\tCheckpoint schema version:          {checkpoint_schema_version}"
-                f"\tSchema version of the current code: {SCHEMA_VERSION}"
+                f"\tSchema version of the current code: {SCHEMA_VERSION}",
             )
 
         (
@@ -310,7 +311,8 @@ def save_calibrator_state(
     loss_function_pickled = pickle.dumps(loss_function)
 
     connection = sqlite3.connect(
-        checkpoint_path / "checkpoint.sqlite", detect_types=sqlite3.PARSE_DECLTYPES
+        checkpoint_path / "checkpoint.sqlite",
+        detect_types=sqlite3.PARSE_DECLTYPES,
     )
 
     try:

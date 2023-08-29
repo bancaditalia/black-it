@@ -76,8 +76,9 @@ def test_is_symmetric() -> None:
 
 @given(
     hypothesis.extra.numpy.arrays(
-        np.float64, hypothesis.extra.numpy.array_shapes(max_dims=3, max_side=3)
-    )
+        np.float64,
+        hypothesis.extra.numpy.array_shapes(max_dims=3, max_side=3),
+    ),
 )
 def test_numpy_array_json_encoder_for_any_numpy_array(array: NDArray) -> None:
     """Test JSONEncoder 'NumpyArrayEncoder' for any NumPy array."""

@@ -52,7 +52,9 @@ class MinkowskiLoss(BaseLoss):
         super().__init__(coordinate_weights)
 
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Call scipy.spatial.distance.minkowski() on its arguments.
 

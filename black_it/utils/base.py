@@ -58,7 +58,8 @@ def positive_float(arg: float) -> float:
 
 
 def digitize_data(
-    data: NDArray[np.float64], param_grid: List[NDArray[np.float64]]
+    data: NDArray[np.float64],
+    param_grid: List[NDArray[np.float64]],
 ) -> NDArray[np.float64]:
     """Return a discretized version of the input sorted_array.
 

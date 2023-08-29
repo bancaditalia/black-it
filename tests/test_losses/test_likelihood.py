@@ -26,7 +26,8 @@ def test_likelihood_1d() -> None:
     real_data = np.random.normal(0, 1, size=(7, 1))
 
     expected_neg_log_likelihood = -np.sum(
-        -0.5 * np.sum(real_data**2, axis=1) - 0.5 * np.log(2.0 * np.pi), axis=0
+        -0.5 * np.sum(real_data**2, axis=1) - 0.5 * np.log(2.0 * np.pi),
+        axis=0,
     )
     expected_likelihood = np.exp(-expected_neg_log_likelihood)
 
@@ -44,7 +45,8 @@ def test_likelihood_2d() -> None:
     real_data = np.random.normal(0, 1, size=(10, 2))
 
     expected_neg_log_likelihood = -np.sum(
-        -0.5 * np.sum(real_data**2, axis=1) - 2.0 / 2.0 * np.log(2.0 * np.pi), axis=0
+        -0.5 * np.sum(real_data**2, axis=1) - 2.0 / 2.0 * np.log(2.0 * np.pi),
+        axis=0,
     )
     expected_likelihood = np.exp(-expected_neg_log_likelihood)
     sim_data_ensemble = np.random.normal(0, 1, size=(1, 1000000, 2))

@@ -44,7 +44,7 @@ class TestReadme(BaseMainExampleDocs):
 
         # test quickstart body is contained in example script
         quickstart_body = "\n".join(
-            quickstart_code_snippet.splitlines()[nb_import_lines:]
+            quickstart_code_snippet.splitlines()[nb_import_lines:],
         )
         assert indent(quickstart_body, " " * 4) in example_code
 

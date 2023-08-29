@@ -73,7 +73,9 @@ def test_search_space_fails_bounds_of_different_length() -> None:
 
     with pytest.raises(BoundsOfDifferentLengthError) as exc_info:
         _ = SearchSpace(
-            np.array([lower, upper], dtype=object), np.array(precision), True
+            np.array([lower, upper], dtype=object),
+            np.array(precision),
+            True,
         )
     assert exc_info.value.lower_bounds_length == len(lower)
     assert exc_info.value.upper_bounds_length == len(upper)

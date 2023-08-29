@@ -59,7 +59,7 @@ class TestCalibrate:
             [0.8, 0.06],
             [0.99, 1.0],
             [0.06, 0.98],
-        ]
+        ],
     )
 
     expected_losses = [
@@ -95,7 +95,7 @@ class TestCalibrate:
             [0.03, 0.36],
             [0.8, 0.06],
             [0.06, 0.98],
-        ]
+        ],
     )
 
     darwin_expected_losses = [
@@ -183,7 +183,8 @@ class TestCalibrate:
             assert np.allclose(losses, self.expected_losses)
 
     def test_calibrator_with_check_convergence(
-        self, capsys: CaptureFixture[str]
+        self,
+        capsys: CaptureFixture[str],
     ) -> None:
         """Test the Calibrator.calibrate method with convergence check."""
         cal = Calibrator(
@@ -245,7 +246,8 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     _, _ = cal.calibrate(2)
 
     cal_restored = Calibrator.restore_from_checkpoint(
-        saving_folder_path_str, model=model
+        saving_folder_path_str,
+        model=model,
     )
 
     # loop over all attributes of the classes
@@ -254,7 +256,8 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
         # if the attribute is an object just check the equality of their names
         if key == "samplers":
             for method1, method2 in zip(
-                vars_cal["samplers"], cal_restored.scheduler.samplers
+                vars_cal["samplers"],
+                cal_restored.scheduler.samplers,
             ):
                 assert type(method1).__name__ == type(method2).__name__  # noqa
         if key == "scheduler":
@@ -283,7 +286,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     # test the setting of a new sampler to the calibrator object
     best_batch_sampler = BestBatchSampler(batch_size=1)
     cal.set_samplers(
-        [random_sampler, best_batch_sampler]
+        [random_sampler, best_batch_sampler],
     )  # note: only the second sampler is new
     assert len(cal.scheduler.samplers) == 2
     assert type(cal.scheduler.samplers[1]).__name__ == "BestBatchSampler"
@@ -293,7 +296,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
     # test the setting of a new scheduler to the calibrator object
     rsequence = RSequenceSampler(batch_size=1)
     cal.set_scheduler(
-        RoundRobinScheduler([rsequence])
+        RoundRobinScheduler([rsequence]),
     )  # note: only the second sampler is new
     assert len(cal.scheduler.samplers) == 1
     assert type(cal.scheduler.samplers[0]).__name__ == "RSequenceSampler"

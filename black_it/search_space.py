@@ -118,7 +118,7 @@ class SearchSpace:
             )
 
         for i, (lower_bound, upper_bound, precision) in enumerate(
-            zip(parameters_bounds[0], parameters_bounds[1], parameters_precision)
+            zip(parameters_bounds[0], parameters_bounds[1], parameters_precision),
         ):
             # ensure lower bounds and upper bounds do not have the same value
             if lower_bound == upper_bound:
@@ -136,7 +136,10 @@ class SearchSpace:
             # allowed parameter span
             if precision > (upper_bound - lower_bound):
                 raise PrecisionGreaterThanBoundsRangeError(
-                    i, lower_bound, upper_bound, precision
+                    i,
+                    lower_bound,
+                    upper_bound,
+                    precision,
                 )
 
     @property
@@ -186,7 +189,7 @@ class BoundsNotOfSizeTwoError(SearchSpaceError):
     def __init__(self, count_bounds_subarrays: int) -> None:  # noqa: D107
         super().__init__(
             f"parameters_bounds must be a two dimensional array. This one has "
-            f"size {count_bounds_subarrays}."
+            f"size {count_bounds_subarrays}.",
         )
         self.count_bounds_subarrays = count_bounds_subarrays
 
@@ -202,12 +205,14 @@ class BoundsOfDifferentLengthError(SearchSpaceError):
     """
 
     def __init__(  # noqa: D107
-        self, lower_bounds_length: int, upper_bounds_length: int
+        self,
+        lower_bounds_length: int,
+        upper_bounds_length: int,
     ) -> None:
         super().__init__(
             f"parameters_bounds subarrays must be of the same length. Lower "
             f"bounds length: {lower_bounds_length}, upper bounds length: "
-            f"{upper_bounds_length}."
+            f"{upper_bounds_length}.",
         )
         self.lower_bounds_length = lower_bounds_length
         self.upper_bounds_length = upper_bounds_length
@@ -222,11 +227,13 @@ class BadPrecisionLengthError(SearchSpaceError):
     """
 
     def __init__(  # noqa: D107
-        self, precisions_length: int, bounds_length: int
+        self,
+        precisions_length: int,
+        bounds_length: int,
     ) -> None:
         super().__init__(
             f"parameters_precision array has {precisions_length} elements. Its "
-            f"length, instead, has to be {bounds_length}, the same as the bounds'."
+            f"length, instead, has to be {bounds_length}, the same as the bounds'.",
         )
         self.precisions_length = precisions_length
         self.bounds_length = bounds_length
@@ -245,7 +252,7 @@ class SameLowerAndUpperBoundError(SearchSpaceError):
             f"Parameter {param_index}'s lower and upper bounds have the same "
             f"value ({bound_value}). This calibrator cannot handle that. "
             f"Please redefine externally your model in order to hardcode "
-            f"parameter {param_index} to {bound_value}."
+            f"parameter {param_index} to {bound_value}.",
         )
         self.param_index = param_index
         self.bound_value = bound_value
@@ -261,11 +268,14 @@ class LowerBoundGreaterThanUpperBoundError(SearchSpaceError):
     """
 
     def __init__(  # noqa: D107
-        self, param_index: int, lower_bound: float, upper_bound: float
+        self,
+        param_index: int,
+        lower_bound: float,
+        upper_bound: float,
     ) -> None:
         super().__init__(
             f"Parameter {param_index}'s lower bound ({lower_bound}) must be "
-            f"lower than its upper bound ({upper_bound})."
+            f"lower than its upper bound ({upper_bound}).",
         )
         self.param_index = param_index
         self.lower_bound = lower_bound
@@ -296,13 +306,17 @@ class PrecisionGreaterThanBoundsRangeError(SearchSpaceError):
     """
 
     def __init__(  # noqa: D107
-        self, param_index: int, lower_bound: float, upper_bound: float, precision: float
+        self,
+        param_index: int,
+        lower_bound: float,
+        upper_bound: float,
+        precision: float,
     ) -> None:
         super().__init__(
             f"Parameter {param_index}'s allowed range is [{lower_bound}, "
             f"{upper_bound}]. The requested precision is {precision}, but this "
             f"number cannot be greater than the bounds range "
-            f"({upper_bound}-{lower_bound}={upper_bound-lower_bound})."
+            f"({upper_bound}-{lower_bound}={upper_bound-lower_bound}).",
         )
         self.param_index = param_index
         self.lower_bound = lower_bound

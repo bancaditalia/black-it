@@ -24,7 +24,9 @@ from scipy.special import softmax
 
 
 def BH2(  # noqa: N802
-    theta: Sequence[float], N: int, seed: Optional[int]  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: Optional[int],
 ) -> NDArray:
     """Model from Brock and Hommes 1998. 4.1.2. Fundamentalists versus trend chasers.
 
@@ -84,7 +86,9 @@ def BH2(  # noqa: N802
 
 #
 def BH4(  # noqa: N802
-    theta: Sequence[float], N: int, seed: Optional[int]  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: Optional[int],
 ) -> NDArray:
     """Model from Brock and Hommes 1998.
 

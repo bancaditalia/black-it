@@ -45,7 +45,9 @@ def SIR(theta: NDArray, N: int, seed: Optional[int]) -> NDArray:  # noqa: N802, 
 
 
 def SIR_w_breaks(  # noqa: N802
-    theta: NDArray, N: int, seed: Optional[int] = None  # noqa: N803
+    theta: NDArray,
+    N: int,  # noqa: N803
+    seed: Optional[int] = None,
 ) -> NDArray:
     """SIR_docker_w_breaks."""
     breaktime = int(theta[0])
