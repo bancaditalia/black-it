@@ -122,9 +122,12 @@ class LikelihoodLoss(BaseLoss):
             elif self.h == "scott":
                 h = self._get_bandwidth_scott(s, d)
             else:
-                raise KeyError(
+                msg = (
                     "Select a valid rule of thumb (either 'silverman' or 'scott') "
-                    "or directly a numerical value for the bandwidth",
+                    "or directly a numerical value for the bandwidth"
+                )
+                raise KeyError(
+                    msg,
                 )
         else:
             h = self.h
@@ -137,6 +140,7 @@ class LikelihoodLoss(BaseLoss):
         real_data: NDArray[np.float64],
     ) -> float:
         """Compute likelihood loss on a single dimension, not available."""
+        msg = "The likelihood cannot be currently computed on a single dimension."
         raise NotImplementedError(
-            "The likelihood cannot be currently computed on a single dimension.",
+            msg,
         )

@@ -116,7 +116,8 @@ class RLScheduler(BaseScheduler):
     def start_session(self) -> None:
         """Set up the scheduler for a new session."""
         if not self._stopped:
-            raise ValueError("cannot start session: the session has already started")
+            msg = "cannot start session: the session has already started"
+            raise ValueError(msg)
         self._stopped = False
         self._agent_thread = threading.Thread(target=self._train)
         self._agent_thread.start()
@@ -153,7 +154,8 @@ class RLScheduler(BaseScheduler):
     def end_session(self) -> None:
         """Tear down the scheduler at the end of the session."""
         if self._stopped:
-            raise ValueError("cannot start session: the session has not started yet")
+            msg = "cannot start session: the session has not started yet"
+            raise ValueError(msg)
         self._stopped = True
         self._out_queue.put(None)
         cast(threading.Thread, self._agent_thread).join()

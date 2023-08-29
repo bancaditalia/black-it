@@ -69,7 +69,8 @@ def run_process(
         if poll is None:
             # if graceful stop failed, kill the process
             process.terminate()
-        raise RuntimeError(f"command {command} failed with error: {exc}") from exc
+        msg = f"command {command} failed with error: {exc}"
+        raise RuntimeError(msg) from exc
 
     returncode = process.returncode
     stdout = stdout_bytes.decode() if stdout_bytes else ""

@@ -35,7 +35,8 @@ class MABCalibrationEnv(CalibrationEnv[int]):
     def get_reward(self, best_param: NDArray, best_loss: float) -> float:
         """Get the reward."""
         if self._curr_best_loss is None:
-            raise ValueError("cannot get reward, curr_best_loss should be already set")
+            msg = "cannot get reward, curr_best_loss should be already set"
+            raise ValueError(msg)
         reward = 0.0
         if best_loss < self._curr_best_loss:
             reward = (self._curr_best_loss - best_loss) / self._curr_best_loss
