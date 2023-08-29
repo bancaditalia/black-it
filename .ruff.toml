@@ -1,4 +1,4 @@
-select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE","B","A","COM","CPY","C4","DTZ","T10","DJ","EM","EXE","FA","ISC","ICN","G","INP","PIE","PYI","PT","Q","RSE","RET","SLF","SLOT","SIM","TID","TCH","INT","ARG","PTH","TD"]
+select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE","B","A","COM","CPY","C4","DTZ","T10","DJ","EM","EXE","FA","ISC","ICN","G","INP","PIE","PYI","PT","Q","RSE","RET","SLF","SLOT","SIM","TID","TCH","INT","ARG","PTH","TD","FIX","ERA"]
 ignore = ["ANN101", "ANN102", "E203", "S", "FBT", "T20"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
@@ -48,7 +48,8 @@ target-version = "py38"
 [per-file-ignores]
 "examples/docker-sir.py" = ["INP001", "T201"]
 "examples/main.py" = ["INP001", "T201"]
-"examples/models/simple_models.py" = ["INP001"]
+"examples/models/simple_models.py" = ["ERA001", "INP001"]
+"examples/models/economics/brock_hommes.py" = ["ERA001"]
 "examples/models/forest_fire/forest_fire.py" = ["T201"]
 "examples/models/sir/simlib.py" = ["T201"]
 "scripts/check_copyright.py" = ["T201"]
