@@ -86,7 +86,8 @@ class MethodOfMomentsLoss(BaseLoss):
                 default is False.
         """
         MethodOfMomentsLoss._validate_covariance_and_calculator(
-            moment_calculator, covariance_mat
+            moment_calculator,
+            covariance_mat,
         )
 
         super().__init__(coordinate_weights, coordinate_filters)
@@ -121,7 +122,7 @@ class MethodOfMomentsLoss(BaseLoss):
                 _CovarianceMatrixType(covariance_mat)
             except ValueError as exc:
                 raise ValueError(
-                    f"expected one of {list(map(lambda x: x.value, _CovarianceMatrixType))}, got {covariance_mat})"
+                    f"expected one of {list(map(lambda x: x.value, _CovarianceMatrixType))}, got {covariance_mat})",
                 ) from exc
             return
 
@@ -129,21 +130,23 @@ class MethodOfMomentsLoss(BaseLoss):
             # a non null covariance_mat was given
             if not is_symmetric(covariance_mat):
                 raise ValueError(
-                    "the provided covariance matrix is not valid as it is not a symmetric matrix"
+                    "the provided covariance matrix is not valid as it is not a symmetric matrix",
                 )
             if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != 18):
                 raise ValueError(
                     "the provided covariance matrix is not valid as it has a wrong shape: "
-                    f"expected 18, got {covariance_mat.shape[0]}"
+                    f"expected 18, got {covariance_mat.shape[0]}",
                 )
             return
 
         raise ValueError(
-            "please specify a valid covariance matrix, either as a string or directly as a numpy array"
+            "please specify a valid covariance matrix, either as a string or directly as a numpy array",
         )
 
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Compute the loss based on the 'method of moments'.
 
@@ -158,7 +161,7 @@ class MethodOfMomentsLoss(BaseLoss):
         """
         # compute the moments for the simulated ensemble
         ensemble_sim_mom_1d = np.array(
-            [self._moment_calculator(s) for s in sim_data_ensemble]
+            [self._moment_calculator(s) for s in sim_data_ensemble],
         )
 
         # compute moments of the real time series
@@ -179,7 +182,8 @@ class MethodOfMomentsLoss(BaseLoss):
             return loss_1d
         if self._covariance_mat == _CovarianceMatrixType.INVERSE_VARIANCE.value:
             W = np.diag(  # noqa: N806
-                1.0 / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0)
+                1.0
+                / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0),
             )
         else:
             self._covariance_mat = cast(NDArray[np.float64], self._covariance_mat)
@@ -198,7 +202,7 @@ class MethodOfMomentsLoss(BaseLoss):
 
             raise ValueError(
                 f"The size of the covariance matrix ({covariance_size}) "
-                f"and the number of moments ({moments_size}) should be identical"
+                f"and the number of moments ({moments_size}) should be identical",
             ) from e
 
         return loss_1d

@@ -58,7 +58,10 @@ class RandomForestSampler(MLSurrogateSampler):
         )
 
         super().__init__(
-            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+            batch_size,
+            random_state,
+            max_deduplication_passes,
+            candidate_pool_size,
         )
 
         self._n_estimators = n_estimators

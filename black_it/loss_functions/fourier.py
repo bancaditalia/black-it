@@ -120,7 +120,9 @@ class FourierLoss(BaseLoss):
         super().__init__(coordinate_weights, coordinate_filters)
 
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Compute Euclidean distance between the Fourier transform of the two time series.
 

@@ -38,7 +38,8 @@ class BaseMainExampleTestClass:
 
         try:
             process_output: PopenResult = run_process(
-                [sys.executable, str(self.script_path)], timeout=self.timeout
+                [sys.executable, str(self.script_path)],
+                timeout=self.timeout,
             )
         except RuntimeError as exc:
             pytest.fail(str(exc))

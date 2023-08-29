@@ -24,7 +24,9 @@ from numpy.typing import NDArray
 
 
 def forest_fire(
-    theta: NDArray, N: int, seed: Optional[int] = 0  # noqa: N803
+    theta: NDArray,
+    N: int,  # noqa: N803
+    seed: Optional[int] = 0,
 ) -> NDArray:
     """A simple model of a wildfire on a 2D grid.
 

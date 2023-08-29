@@ -47,7 +47,9 @@ class BaseLoss(ABC):
         self.coordinate_filters = coordinate_filters
 
     def compute_loss(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Compute the loss between simulated and real data.
 
@@ -87,7 +89,7 @@ class BaseLoss(ABC):
                     [
                         filter_(sim_data_ensemble[j, :, i])
                         for j in range(sim_data_ensemble.shape[0])
-                    ]
+                    ],
                 )
             filtered_data.append(filtered_data_1d)
 
@@ -136,7 +138,9 @@ class BaseLoss(ABC):
 
     @abstractmethod
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Return the loss between a specific coordinate of two time series.
 

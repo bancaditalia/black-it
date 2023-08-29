@@ -69,7 +69,8 @@ class HaltonSampler(BaseSampler):
     def _reset_sequence_index(self) -> None:
         """Reset the sequence index pointer."""
         self._sequence_index = self.random_generator.integers(
-            _MIN_SEQUENCE_START_INDEX, _MAX_SEQUENCE_START_INDEX
+            _MIN_SEQUENCE_START_INDEX,
+            _MAX_SEQUENCE_START_INDEX,
         )
 
     def sample_batch(
@@ -91,7 +92,8 @@ class HaltonSampler(BaseSampler):
             the parameter sampled
         """
         unit_cube_points: NDArray[np.float64] = self._halton(
-            batch_size, search_space.dims
+            batch_size,
+            search_space.dims,
         )
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
         sampled_points = p_bounds[0] + unit_cube_points * (p_bounds[1] - p_bounds[0])
@@ -112,7 +114,9 @@ class HaltonSampler(BaseSampler):
         bases: NDArray[np.int64] = self._prime_number_generator.get_n_primes(dims)
         # Generate a sample using a Halton sequence.
         sample: NDArray[np.float64] = halton(
-            sample_size=nb_samples, bases=bases, n_start=self._sequence_index
+            sample_size=nb_samples,
+            bases=bases,
+            n_start=self._sequence_index,
         )
 
         # increment sequence start index for the next sampling
@@ -183,7 +187,9 @@ class _CachedPrimesCalculator:
 
 
 def halton(
-    sample_size: int, bases: NDArray[np.int64], n_start: int
+    sample_size: int,
+    bases: NDArray[np.int64],
+    n_start: int,
 ) -> NDArray[np.float64]:
     """Van der Corput sequence, generalized as to accept a starting point in the sequence.
 

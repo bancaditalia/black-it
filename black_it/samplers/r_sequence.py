@@ -83,7 +83,8 @@ class RSequenceSampler(BaseSampler):
     def _reset(self) -> None:
         """Reset the index of the sequence."""
         self._sequence_index = self.random_generator.integers(
-            _MIN_SEQUENCE_START_INDEX, _MAX_SEQUENCE_START_INDEX
+            _MIN_SEQUENCE_START_INDEX,
+            _MAX_SEQUENCE_START_INDEX,
         )
         self._sequence_start = self.random_generator.random()
 
@@ -106,7 +107,8 @@ class RSequenceSampler(BaseSampler):
             the parameter sampled
         """
         unit_cube_points: NDArray[np.float64] = self._r_sequence(
-            batch_size, search_space.dims
+            batch_size,
+            search_space.dims,
         )
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
         sampled_points = p_bounds[0] + unit_cube_points * (p_bounds[1] - p_bounds[0])
@@ -124,7 +126,7 @@ class RSequenceSampler(BaseSampler):
         """
         phi = self.compute_phi(dims)
         alpha: NDArray[np.float64] = np.power(1 / phi, np.arange(1, dims + 1)).reshape(
-            (1, -1)
+            (1, -1),
         )
         end_index = self._sequence_index + nb_samples
         indexes = np.arange(self._sequence_index, end_index).reshape((-1, 1))

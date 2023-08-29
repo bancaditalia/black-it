@@ -46,7 +46,8 @@ def volume_d_dimensional_ball_radius_1(dims: int) -> float:
 
 
 def cubetobox(
-    X: NDArray[np.float64], space_bounds: NDArray  # noqa: N803
+    X: NDArray[np.float64],  # noqa: N803
+    space_bounds: NDArray,
 ) -> NDArray[np.float64]:
     """Go from normalized values (unit cube) to absolute values (box)."""
     box_points = space_bounds[0] + X * (space_bounds[1] - space_bounds[0])
@@ -54,7 +55,8 @@ def cubetobox(
 
 
 def boxtocube(
-    X: NDArray[np.float64], space_bounds: NDArray  # noqa: N803
+    X: NDArray[np.float64],  # noqa: N803
+    space_bounds: NDArray,
 ) -> NDArray[np.float64]:
     """Go from absolute values (box) to normalized values (unit cube)."""
     cube_points = (X - space_bounds[0]) / (space_bounds[1] - space_bounds[0])
@@ -104,7 +106,7 @@ def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:
     except LinAlgError:
         # might help with singular matrices
         print(
-            "Singular matrix occurred during RBF-fit construction. RBF-fit might be inaccurate!"
+            "Singular matrix occurred during RBF-fit construction. RBF-fit might be inaccurate!",
         )
         sol = np.linalg.lstsq(M, v)[0]
 
@@ -146,7 +148,9 @@ class CORSSampler(BaseSampler):
             verbose: activate verbose mode
         """
         super().__init__(
-            batch_size, random_state=random_state, max_deduplication_passes=0
+            batch_size,
+            random_state=random_state,
+            max_deduplication_passes=0,
         )
         self._max_samples = max_samples
         self._rho0 = positive_float(rho0)
@@ -210,7 +214,7 @@ class CORSSampler(BaseSampler):
                 {
                     "type": "ineq",
                     "fun": lambda x, localk=k: np.linalg.norm(
-                        np.subtract(x, current_points[localk])
+                        np.subtract(x, current_points[localk]),
                     )
                     - r,  # noqa: B023
                 }

@@ -70,9 +70,13 @@ class MLSurrogateSampler(BaseSampler):
     ) -> NDArray[np.float64]:
         """Get a large pool of candidate parameters."""
         candidates = RandomUniformSampler(
-            candidate_pool_size, random_state=self._get_random_seed()
+            candidate_pool_size,
+            random_state=self._get_random_seed(),
         ).sample_batch(
-            candidate_pool_size, search_space, existing_points, existing_losses
+            candidate_pool_size,
+            search_space,
+            existing_points,
+            existing_losses,
         )
         return candidates
 
@@ -104,7 +108,10 @@ class MLSurrogateSampler(BaseSampler):
         """
         # Get a large pool of potential candidates
         candidates = self.sample_candidates(
-            self.candidate_pool_size, search_space, existing_points, existing_losses
+            self.candidate_pool_size,
+            search_space,
+            existing_points,
+            existing_losses,
         )
 
         # Train surrogate model

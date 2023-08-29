@@ -41,7 +41,7 @@ def test_sqlite3_checkpointing() -> None:
     saving_file = "test"
     initial_random_seed = 0
     random_generator_state = np.random.default_rng(
-        initial_random_seed
+        initial_random_seed,
     ).bit_generator.state
     model_name = "model"
     samplers = ["method_a", "method_b"]  # list of objects
@@ -114,7 +114,8 @@ def test_sqlite3_checkpointing_loading_when_code_state_version_different(
 @patch.object(black_it.utils.sqlite3_checkpointing, "Path")
 @patch("sqlite3.connect")
 def test_sqlite3_checkpointing_saving_when_error_occurs(
-    connect_mock: MagicMock, *_mocks: MagicMock
+    connect_mock: MagicMock,
+    *_mocks: MagicMock,
 ) -> None:
     """Test saving function when an error occurs."""
     error_message = "error"

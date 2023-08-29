@@ -86,7 +86,10 @@ class BaseSampler(BaseSeedable, ABC):
             the sampled parameters
         """
         samples = self.sample_batch(
-            self.batch_size, search_space, existing_points, existing_losses
+            self.batch_size,
+            search_space,
+            existing_points,
+            existing_losses,
         )
 
         for n in range(self.max_deduplication_passes):
@@ -98,21 +101,25 @@ class BaseSampler(BaseSeedable, ABC):
                 break
 
             new_samples = self.sample_batch(
-                num_duplicates, search_space, existing_points, existing_losses
+                num_duplicates,
+                search_space,
+                existing_points,
+                existing_losses,
             )
             samples[duplicates] = new_samples
 
             if n == self.max_deduplication_passes - 1:
                 print(
                     f"Warning: Repeated samples still found after {self.max_deduplication_passes} duplication passes."
-                    " This is probably due to a small search space."
+                    " This is probably due to a small search space.",
                 )
 
         return samples
 
     @staticmethod
     def find_and_get_duplicates(
-        new_points: NDArray[np.float64], existing_points: NDArray[np.float64]
+        new_points: NDArray[np.float64],
+        existing_points: NDArray[np.float64],
     ) -> List:
         """Find the points in 'new_points' that are already present in 'existing_points'.
 

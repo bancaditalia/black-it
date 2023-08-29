@@ -33,7 +33,8 @@ class TestGaussianProcess2D:
 
     @classmethod
     def _construct_fake_grid(
-        cls, n: int = 3
+        cls,
+        n: int = 3,
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Construct a fake grid of evaluated losses."""
         xs = np.linspace(0, 1, n)

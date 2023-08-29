@@ -30,7 +30,7 @@ expected_params = np.array(
         [0.05, 0.05],
         [0.0, 0.03],
         [0.03, 0.04],
-    ]
+    ],
 )
 
 
@@ -67,7 +67,7 @@ def test_best_batch_clipping() -> None:
     sampler = BestBatchSampler(batch_size=8, random_state=0)
     param_grid = SearchSpace(
         parameters_bounds=np.array(
-            [[lower_bound, upper_bound], [lower_bound, upper_bound]]
+            [[lower_bound, upper_bound], [lower_bound, upper_bound]],
         ).T,
         parameters_precision=np.array([0.001, 0.001]),
         verbose=False,

@@ -134,15 +134,16 @@ class Calibrator(BaseSeedable):
         self.n_jobs = n_jobs if n_jobs is not None else multiprocessing.cpu_count()
 
         print(
-            f"Selecting {self.n_jobs} processes for the parallel evaluation of the model"
+            f"Selecting {self.n_jobs} processes for the parallel evaluation of the model",
         )
 
         self.scheduler = self.__validate_samplers_and_scheduler_constructor_args(
-            samplers, scheduler
+            samplers,
+            scheduler,
         )
 
         self.samplers_id_table = self._construct_samplers_id_table(
-            list(self.scheduler.samplers)
+            list(self.scheduler.samplers),
         )
 
     @classmethod
@@ -156,7 +157,7 @@ class Calibrator(BaseSeedable):
         both_not_none = samplers is not None and scheduler is not None
         if both_none and both_not_none:
             raise ValueError(
-                "only one between 'samplers' and 'scheduler' must be provided"
+                "only one between 'samplers' and 'scheduler' must be provided",
             )
 
         if samplers is not None:
@@ -235,7 +236,9 @@ class Calibrator(BaseSeedable):
 
     @classmethod
     def restore_from_checkpoint(
-        cls, checkpoint_path: str, model: Callable
+        cls,
+        checkpoint_path: str,
+        model: Callable,
     ) -> "Calibrator":
         """Return an instantiated class from a database file and a model simulator.
 
@@ -331,7 +334,8 @@ class Calibrator(BaseSeedable):
         simulated_data = np.array(simulated_data_list)
 
         simulated_data = np.reshape(
-            simulated_data, (params.shape[0], self.ensemble_size, self.N, self.D)
+            simulated_data,
+            (params.shape[0], self.ensemble_size, self.N, self.D),
         )
 
         return simulated_data
@@ -379,7 +383,8 @@ class Calibrator(BaseSeedable):
 
                 for sim_data_ensemble in new_simulated_data:
                     new_loss = self.loss_function.compute_loss(
-                        sim_data_ensemble, self.real_data
+                        sim_data_ensemble,
+                        self.real_data,
                     )
                     new_losses.append(new_loss)
 
@@ -391,14 +396,14 @@ class Calibrator(BaseSeedable):
                     (
                         self.batch_num_samp,
                         [self.current_batch_index] * method.batch_size,
-                    )
+                    ),
                 )
                 self.method_samp = np.hstack(
                     (
                         self.method_samp,
                         [self.samplers_id_table[type(method).__name__]]
                         * method.batch_size,
-                    )
+                    ),
                 )
 
                 # logging
@@ -419,7 +424,7 @@ class Calibrator(BaseSeedable):
                         ----> avg loss exist params: {avg_dist_existing_points}
                         ---->         curr min loss: {np.min(self.losses_samp)}
                         ====>    total elapsed time: {elapsed_tot}s
-                        """
+                        """,
                         ),
                         end="",
                     )
@@ -457,7 +462,9 @@ class Calibrator(BaseSeedable):
 
     @staticmethod
     def check_convergence(
-        losses_samp: NDArray, n_sampled_params: int, convergence_precision: int
+        losses_samp: NDArray,
+        n_sampled_params: int,
+        convergence_precision: int,
     ) -> bool:
         """Check convergence of the calibration.
 

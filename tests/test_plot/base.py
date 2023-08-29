@@ -50,7 +50,9 @@ class BasePlotTest:
                 return
 
             comparison_result = compare_images(
-                str(self.expected_image), str(actual_figure_path), self.tolerance
+                str(self.expected_image),
+                str(actual_figure_path),
+                self.tolerance,
             )
             if comparison_result is not None:
                 logging.warning("%s", comparison_result)

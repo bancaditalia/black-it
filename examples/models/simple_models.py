@@ -35,7 +35,9 @@ from scipy.stats import alpha, bernoulli
 
 
 def NormalM(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Normal samples with adjustable mean."""
     np.random.seed(seed=seed)
@@ -44,7 +46,9 @@ def NormalM(  # noqa: N802
 
 
 def NormalMV(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Normal samples with adjustable mean and variance."""
     np.random.seed(seed=seed)
@@ -54,7 +58,9 @@ def NormalMV(  # noqa: N802
 
 
 def NormalBer_3P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Bernoulli + Normal samples."""
     np.random.seed(seed=seed)
@@ -71,7 +77,9 @@ def NormalBer_3P(  # noqa: N802
 
 
 def NormalBer_5P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Bernoulli + Normal samples."""
     np.random.seed(seed=seed)
@@ -88,7 +96,9 @@ def NormalBer_5P(  # noqa: N802
 
 
 def Alpha(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Alpha iid samples.
 
@@ -104,7 +114,9 @@ def Alpha(  # noqa: N802
 
 
 def MarkovC_2P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
@@ -134,7 +146,9 @@ def MarkovC_2P(  # noqa: N802
 
 
 def MarkovC_3P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
@@ -158,7 +172,9 @@ def MarkovC_3P(  # noqa: N802
 
 
 def MarkovC_KP(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """Markov chain samples."""
     np.random.seed(seed=seed)
@@ -181,7 +197,9 @@ def MarkovC_KP(  # noqa: N802
 
 
 def AR1(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """AR(1) model.
 
@@ -200,7 +218,9 @@ def AR1(  # noqa: N802
 
 
 def AR1Ber_3P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """AR(1) + Bernoulli."""
     np.random.seed(seed=seed)
@@ -223,7 +243,9 @@ def AR1Ber_3P(  # noqa: N802
 
 
 def AR1_2P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """AR(1) with 2 parameters."""
     np.random.seed(seed=seed)
@@ -238,7 +260,9 @@ def AR1_2P(  # noqa: N802
 
 
 def AR1_3P(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """AR(1) with 3 parameters."""
     np.random.seed(seed=seed)
@@ -254,7 +278,9 @@ def AR1_3P(  # noqa: N802
 
 
 def ARMA2(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """ARMA(1, 1) model."""
     np.random.seed(seed=seed)
@@ -268,7 +294,9 @@ def ARMA2(  # noqa: N802
 
 
 def ARMAARCH2(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """ARMA(2,2) ARCH(2) model.
 
@@ -296,7 +324,9 @@ def ARMAARCH2(  # noqa: N802
 
 
 def ARMAARCH4(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """ARMA(2,2) ARCH(2) model.
 
@@ -310,7 +340,7 @@ def ARMAARCH4(  # noqa: N802
     y = np.zeros(N + 2)
     for i in range(2, N + 1):
         s[i] = np.sqrt(
-            theta[2] + theta[3] * (e[i - 1] ** 2) + theta[4] * (e[i - 2] ** 2)
+            theta[2] + theta[3] * (e[i - 1] ** 2) + theta[4] * (e[i - 2] ** 2),
         )
     for i in range(2, N + 1):
         y[i] = (
@@ -326,7 +356,9 @@ def ARMAARCH4(  # noqa: N802
 
 
 def ARMAARCH6(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """ARMA(2,2) ARCH(2).
 
@@ -342,7 +374,7 @@ def ARMAARCH6(  # noqa: N802
         s[i] = np.sqrt(
             theta[2]
             + theta[3] * ((s[i - 1] * e[i - 1]) ** 2)
-            + theta[4] * ((s[i - 2] * e[i - 2]) ** 2)
+            + theta[4] * ((s[i - 2] * e[i - 2]) ** 2),
         )
     for i in range(2, N + 1):
         y[i] = (
@@ -358,7 +390,9 @@ def ARMAARCH6(  # noqa: N802
 
 
 def ARMAARCH4v2(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """ARMA(2,2) ARCH(2).
 
@@ -372,7 +406,7 @@ def ARMAARCH4v2(  # noqa: N802
     y = np.zeros(N + 2)
     for i in range(2, N + 1):
         s[i] = np.sqrt(
-            theta[2] + theta[3] * ((y[i - 1]) ** 2) + theta[4] * ((y[i - 2]) ** 2)
+            theta[2] + theta[3] * ((y[i - 1]) ** 2) + theta[4] * ((y[i - 2]) ** 2),
         )
         y[i] = (
             0
@@ -386,7 +420,9 @@ def ARMAARCH4v2(  # noqa: N802
 
 
 def RWSB1(  # noqa: N802
-    theta: Sequence[int], N: int, seed: int  # noqa: N803
+    theta: Sequence[int],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """RW with structural break.
 
@@ -413,7 +449,9 @@ def RWSB1(  # noqa: N802
 
 
 def RWSB2(  # noqa: N802
-    theta: Sequence[float], N: int, seed: int  # noqa: N803
+    theta: Sequence[float],
+    N: int,  # noqa: N803
+    seed: int,
 ) -> NDArray[np.float64]:
     """RW with structural break.
 

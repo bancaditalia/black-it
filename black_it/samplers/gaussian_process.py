@@ -71,7 +71,10 @@ class GaussianProcessSampler(MLSurrogateSampler):
         self._validate_acquisition(acquisition)
 
         super().__init__(
-            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+            batch_size,
+            random_state,
+            max_deduplication_passes,
+            candidate_pool_size,
         )
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
@@ -95,7 +98,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
             raise ValueError(
                 "expected one of the following acquisition types: "
                 f"[{' '.join(map(str, _AcquisitionTypes))}], "
-                f"got {acquisition}"
+                f"got {acquisition}",
             ) from e
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
@@ -140,7 +143,8 @@ class GaussianProcessSampler(MLSurrogateSampler):
         return candidates_score
 
     def _predict_mean_std(
-        self, X: NDArray[np.float64]  # noqa: N803
+        self,
+        X: NDArray[np.float64],  # noqa: N803
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Predict mean and standard deviation of a fitted GP.
 
@@ -157,7 +161,9 @@ class GaussianProcessSampler(MLSurrogateSampler):
         return m, s
 
     def _predict_EI(  # noqa: N802
-        self, X: NDArray[np.float64], jitter: float = 0.1  # noqa: N803
+        self,
+        X: NDArray[np.float64],  # noqa: N803
+        jitter: float = 0.1,
     ) -> NDArray[np.float64]:
         """Compute the Expected Improvement per unit of cost.
 

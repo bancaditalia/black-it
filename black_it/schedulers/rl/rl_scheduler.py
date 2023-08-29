@@ -45,7 +45,7 @@ class RLScheduler(BaseScheduler):
         """Initialize the scheduler."""
         self._original_samplers = samplers
         new_samplers, self._halton_sampler_id = self._add_or_get_bootstrap_sampler(
-            samplers
+            samplers,
         )
 
         self._agent = agent
@@ -72,7 +72,8 @@ class RLScheduler(BaseScheduler):
 
     @classmethod
     def _add_or_get_bootstrap_sampler(
-        cls, samplers: Sequence[BaseSampler]
+        cls,
+        samplers: Sequence[BaseSampler],
     ) -> Tuple[Sequence[BaseSampler], int]:
         """Add or retrieve a sampler for bootstrapping.
 
@@ -97,7 +98,7 @@ class RLScheduler(BaseScheduler):
 
         new_sampler = HaltonSampler(batch_size=1)
         return tuple(list(samplers) + cast(List[BaseSampler], [new_sampler])), len(
-            samplers
+            samplers,
         )
 
     def _train(self) -> None:

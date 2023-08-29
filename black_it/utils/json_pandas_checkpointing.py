@@ -205,7 +205,10 @@ def save_calibrator_state(
     series_file = tables.open_file(str(series_filepath), mode="w")
     atom = tables.Float64Atom()
     array_c = series_file.create_earray(
-        series_file.root, "data", atom, (0, *series_samp.shape[1:])
+        series_file.root,
+        "data",
+        atom,
+        (0, *series_samp.shape[1:]),
     )
     array_c.append(series_samp)
     series_file.close()

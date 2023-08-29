@@ -86,7 +86,8 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
 
 
 def hp_filter(
-    time_series: NDArray[np.float64], lamb: float = 1600
+    time_series: NDArray[np.float64],
+    lamb: float = 1600,
 ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
     """Apply the HP filter to a time series.
 

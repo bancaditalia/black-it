@@ -96,7 +96,9 @@ class GslDivLoss(BaseLoss):
         self.nb_word_lengths = nb_word_lengths
 
     def compute_loss_1d(
-        self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+        self,
+        sim_data_ensemble: NDArray[np.float64],
+        real_data: NDArray[np.float64],
     ) -> float:
         """Return the GSL-div measure.
 
@@ -141,11 +143,18 @@ class GslDivLoss(BaseLoss):
         for sim_data in sim_data_ensemble:
             # discretize simulated series
             sim_xd = self.discretize(
-                sim_data, nb_values, np.min(sim_data), np.max(sim_data)
+                sim_data,
+                nb_values,
+                np.min(sim_data),
+                np.max(sim_data),
             )
 
             loss = self.gsl_div_1d_1_sample(
-                sim_xd, obs_xd, nb_word_lengths, nb_values, ts_length
+                sim_xd,
+                obs_xd,
+                nb_word_lengths,
+                nb_values,
+                ts_length,
             )
 
             gsl_loss += loss

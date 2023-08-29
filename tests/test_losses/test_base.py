@@ -41,7 +41,9 @@ class TestComputeLoss:
             self.loss_constant = loss_constant
 
         def compute_loss_1d(
-            self, sim_data_ensemble: NDArray[np.float64], real_data: NDArray[np.float64]
+            self,
+            sim_data_ensemble: NDArray[np.float64],
+            real_data: NDArray[np.float64],
         ) -> float:
             """Compute the loss (constant)."""
             return float(np.sum(sim_data_ensemble) * self.loss_constant)
@@ -64,10 +66,12 @@ class TestComputeLoss:
     def setup(self) -> None:
         """Set up the tests."""
         self.loss = TestComputeLoss.MyCustomLoss(
-            self.loss_constant, self.coordinate_weights, self.coordinate_filters
+            self.loss_constant,
+            self.coordinate_weights,
+            self.coordinate_filters,
         )
         self.sim_data = np.ones(
-            (self.nb_sim_ensemble, self.nb_sim_rows, self.nb_sim_coords)
+            (self.nb_sim_ensemble, self.nb_sim_rows, self.nb_sim_coords),
         )
         self.real_data = np.ones((self.nb_real_rows, self.nb_real_coords))
 
@@ -97,7 +101,7 @@ class TestComputeLossWhenCoordWeightsIsNotNone(TestComputeLoss):
         result = self.loss.compute_loss(self.sim_data, self.real_data)
 
         assert result == self.coordinate_weights[0] * np.sum(
-            self.sim_data[:, :, 0]
+            self.sim_data[:, :, 0],
         ) + self.coordinate_weights[1] * np.sum(self.sim_data[:, :, 1])
 
 

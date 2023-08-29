@@ -98,7 +98,7 @@ class BestBatchSampler(BaseSampler):
             raise ValueError(
                 "best-batch sampler requires a number of existing points "
                 f"which is at least the batch size {batch_size}, "
-                f"got {len(existing_points)}"
+                f"got {len(existing_points)}",
             )
 
         # sort existing params
@@ -107,10 +107,12 @@ class BestBatchSampler(BaseSampler):
         ][:batch_size, :]
 
         candidate_point_indexes: NDArray[np.int64] = self.random_generator.integers(
-            0, batch_size, size=batch_size
+            0,
+            batch_size,
+            size=batch_size,
         )
         sampled_points: NDArray[np.float64] = np.copy(
-            candidate_points[candidate_point_indexes]
+            candidate_points[candidate_point_indexes],
         )
 
         beta_binom_rv = betabinom(n=search_space.dims - 1, a=self.a, b=self.b)
@@ -119,11 +121,14 @@ class BestBatchSampler(BaseSampler):
         for sampled_point in sampled_points:
             num_shocks: NDArray[np.int64] = beta_binom_rv.rvs(size=1) + 1
             params_shocked: NDArray[np.int64] = self.random_generator.choice(
-                search_space.dims, tuple(num_shocks), replace=False
+                search_space.dims,
+                tuple(num_shocks),
+                replace=False,
             )
             for index in params_shocked:
                 shock_size: int = self.random_generator.integers(
-                    1, self.perturbation_range
+                    1,
+                    self.perturbation_range,
                 )
                 shock_sign: int = (self.random_generator.integers(0, 2) * 2) - 1
 

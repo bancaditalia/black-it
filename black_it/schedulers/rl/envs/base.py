@@ -63,7 +63,8 @@ class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):
         return self.reset_state(), {}
 
     def step(
-        self, action: np.int64
+        self,
+        action: np.int64,
     ) -> Tuple[ObsType, SupportsFloat, bool, bool, Dict[str, Any]]:
         """Do a step."""
         _assert(self.action_space.contains(action))

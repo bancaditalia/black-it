@@ -64,7 +64,10 @@ class XGBoostSampler(MLSurrogateSampler):
             Lamperti, Roventini, and Sani, "Agent-based model calibration using machine learning surrogates"
         """
         super().__init__(
-            batch_size, random_state, max_deduplication_passes, candidate_pool_size
+            batch_size,
+            random_state,
+            max_deduplication_passes,
+            candidate_pool_size,
         )
 
         self._colsample_bytree = colsample_bytree

@@ -31,7 +31,9 @@ class RoundRobinScheduler(BaseScheduler):
     """
 
     def __init__(  # type: ignore[no-untyped-def]
-        self, *args, **kwargs  # noqa: ANN002,ANN003
+        self,
+        *args,  # noqa: ANN002
+        **kwargs,  # noqa: ANN003
     ) -> None:
         """Initialize the round-robin scheduler."""
         super().__init__(*args, **kwargs)

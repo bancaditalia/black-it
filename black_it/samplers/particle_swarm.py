@@ -78,7 +78,9 @@ class ParticleSwarmSampler(BaseSampler):
         """
         # max_duplication_passes must be zero because the sampler is stateful
         super().__init__(
-            batch_size, random_state=random_state, max_deduplication_passes=0
+            batch_size,
+            random_state=random_state,
+            max_deduplication_passes=0,
         )
 
         # The batch size is the number of sampled parameters per iteration. In a Black-it sampler, each call to
@@ -131,11 +133,11 @@ class ParticleSwarmSampler(BaseSampler):
     def _set_up(self, dims: int) -> None:
         """Set up the sampler."""
         self._curr_particle_positions = self.random_generator.random(
-            size=(self.batch_size, dims)
+            size=(self.batch_size, dims),
         )
         self._curr_particle_velocities = (
             self.random_generator.random(
-                size=cast(NDArray, self._curr_particle_positions).shape
+                size=cast(NDArray, self._curr_particle_positions).shape,
             )
             - 0.5
         )
@@ -205,7 +207,9 @@ class ParticleSwarmSampler(BaseSampler):
         return digitize_data(sampled_points, search_space.param_grid)
 
     def _update_best(
-        self, existing_points: NDArray[np.float64], existing_losses: NDArray[np.float64]
+        self,
+        existing_points: NDArray[np.float64],
+        existing_losses: NDArray[np.float64],
     ) -> None:
         """Update the best local and global positions."""
         _assert(
@@ -224,7 +228,7 @@ class ParticleSwarmSampler(BaseSampler):
         previous_points = existing_points[batch_index_start:batch_index_stop]
         previous_losses = existing_losses[batch_index_start:batch_index_stop]
         for particle_id, (point, loss) in enumerate(
-            zip(previous_points, previous_losses)
+            zip(previous_points, previous_losses),
         ):
             best_particle_positions = cast(NDArray, self._best_particle_positions)
             best_position_losses = cast(NDArray, self._best_position_losses)

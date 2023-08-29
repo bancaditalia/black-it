@@ -46,7 +46,8 @@ def _get_samplers_id_table(saving_folder: Union[str, os.PathLike]) -> Dict[str, 
 
 
 def _get_samplers_names(
-    saving_folder: Union[str, os.PathLike], ids: List[int]
+    saving_folder: Union[str, os.PathLike],
+    ids: List[int],
 ) -> List[str]:
     """Get the names of the samplers from their ids and from the checkpoint of the calibration.
 
@@ -81,7 +82,11 @@ def plot_convergence(saving_folder: Union[str, os.PathLike]) -> None:
 
     plt.figure()
     g = sns.lineplot(
-        data=df, x="batch_num_samp", y="losses_samp", hue="method_samp", palette="tab10"
+        data=df,
+        x="batch_num_samp",
+        y="losses_samp",
+        hue="method_samp",
+        palette="tab10",
     )
 
     g = sns.lineplot(
@@ -165,7 +170,8 @@ def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
 
 
 def plot_losses_method_num(
-    saving_folder: Union[str, os.PathLike], method_num: int
+    saving_folder: Union[str, os.PathLike],
+    method_num: int,
 ) -> None:
     """Plot the parameter sampled by a specific sampling method, and color them according to their loss value.
 
@@ -228,7 +234,8 @@ def plot_losses_interact(saving_folder: Union[str, os.PathLike]) -> None:
 
 
 def plot_sampling_batch_nums(
-    saving_folder: Union[str, os.PathLike], batch_nums: Collection[int]
+    saving_folder: Union[str, os.PathLike],
+    batch_nums: Collection[int],
 ) -> None:
     """Plot the parameter sampled in specific batches colored according to the sampling method used to sample them.
 
