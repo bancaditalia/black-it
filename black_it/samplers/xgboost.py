@@ -15,8 +15,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the XGBoost sampling."""
+from __future__ import annotations
+
 import warnings
-from typing import Optional, cast
+from typing import cast
 
 import numpy as np
 import xgboost as xgb
@@ -35,9 +37,9 @@ class XGBoostSampler(MLSurrogateSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
-        candidate_pool_size: Optional[int] = None,
+        candidate_pool_size: int | None = None,
         colsample_bytree: float = 0.3,
         learning_rate: float = 0.1,
         max_depth: int = 5,
@@ -75,7 +77,7 @@ class XGBoostSampler(MLSurrogateSampler):
         self._max_depth = max_depth
         self._alpha = alpha
         self._n_estimators = n_estimators
-        self._xg_regressor: Optional[xgb.XGBRegressor] = None
+        self._xg_regressor: xgb.XGBRegressor | None = None
 
     @property
     def colsample_bytree(self) -> float:

@@ -15,10 +15,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains utilities for the test_plot package."""
+from __future__ import annotations
+
 import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable
 
 import matplotlib.pyplot as plt
 from matplotlib.testing.compare import compare_images
@@ -29,8 +31,8 @@ class BasePlotTest:
 
     plotting_function: Callable
     expected_image: Path
-    tolerance: Optional[float] = 0.000
-    args: List[Any] = []
+    tolerance: float | None = 0.000
+    args: list[Any] = []
 
     def test_run(self) -> None:
         """Run the test."""

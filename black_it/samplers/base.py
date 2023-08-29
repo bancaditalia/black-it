@@ -15,9 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'BaseSampler' base class."""
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -35,7 +35,7 @@ class BaseSampler(BaseSeedable, ABC):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
     ) -> None:
         """Initialize the sampler.
@@ -120,7 +120,7 @@ class BaseSampler(BaseSeedable, ABC):
     def find_and_get_duplicates(
         new_points: NDArray[np.float64],
         existing_points: NDArray[np.float64],
-    ) -> List:
+    ) -> list:
         """Find the points in 'new_points' that are already present in 'existing_points'.
 
         Args:

@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains utility functions to deal with time series."""
-
-from typing import Tuple
+from __future__ import annotations
 
 import numpy as np
 import scipy.sparse as sps
@@ -88,7 +87,7 @@ def get_mom_ts_1d(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
 def hp_filter(
     time_series: NDArray[np.float64],
     lamb: float = 1600,
-) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
+) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """Apply the HP filter to a time series.
 
     Args:

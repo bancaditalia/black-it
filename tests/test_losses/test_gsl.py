@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the GSL-div loss."""
-
-from typing import Tuple
+from __future__ import annotations
 
 import numpy as np
 from hypothesis import given
@@ -50,12 +49,12 @@ class TestDiscretize:
     """Test the 'discretize' function."""
 
     @given(discretize_args())
-    def test_discretize_time_series_any_args(self, args: Tuple) -> None:
+    def test_discretize_time_series_any_args(self, args: tuple) -> None:
         """Test the case with randomly generated args."""
         GslDivLoss.discretize(*args)
 
     @given(discretize_args())
-    def test_discretize_time_series_partition(self, args: Tuple) -> None:
+    def test_discretize_time_series_partition(self, args: tuple) -> None:
         """Test that discretize computes the right number of partitions."""
         time_series, nb_values, start_index, stop_index = args
         actual = GslDivLoss.discretize(time_series, nb_values, start_index, stop_index)
@@ -65,7 +64,7 @@ class TestDiscretize:
         assert (actual <= max_nb_values).all()
 
     @given(discretize_args())
-    def test_ordering_is_preserved(self, args: Tuple) -> None:
+    def test_ordering_is_preserved(self, args: tuple) -> None:
         """Test that the time series ordering is preserved when discretized."""
         time_series, nb_values, start_index, stop_index = args
         increasing_time_series = np.sort(time_series)
@@ -91,7 +90,7 @@ class TestGetWords:
     """Test the 'get_words' function."""
 
     @given(get_words_args())
-    def test_get_words(self, args: Tuple) -> None:
+    def test_get_words(self, args: tuple) -> None:
         """Test the case with randomly generated args."""
         GslDivLoss.get_words(*args)
 

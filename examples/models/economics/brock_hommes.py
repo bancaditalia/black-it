@@ -15,8 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Implementation of the model in (Brock and Hommes, 1998)."""
+from __future__ import annotations
 
-from typing import Optional, Sequence
+from typing import Sequence
 
 import numpy as np
 from numpy.typing import NDArray
@@ -26,7 +27,7 @@ from scipy.special import softmax
 def BH2(  # noqa: N802
     theta: Sequence[float],
     N: int,  # noqa: N803
-    seed: Optional[int],
+    seed: int | None,
 ) -> NDArray:
     """Model from Brock and Hommes 1998. 4.1.2. Fundamentalists versus trend chasers.
 
@@ -88,7 +89,7 @@ def BH2(  # noqa: N802
 def BH4(  # noqa: N802
     theta: Sequence[float],
     N: int,  # noqa: N803
-    seed: Optional[int],
+    seed: int | None,
 ) -> NDArray:
     """Model from Brock and Hommes 1998.
 

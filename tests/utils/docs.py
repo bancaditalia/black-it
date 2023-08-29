@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains helper function to extract code from the .md files."""
+from __future__ import annotations
 
 import json
 from io import StringIO
 from pathlib import Path
-from typing import Dict, List, Optional
 from unittest.mock import MagicMock
 
 import mistletoe
@@ -27,7 +27,7 @@ from mistletoe.ast_renderer import ASTRenderer
 MISTLETOE_CODE_BLOCK_ID = "CodeFence"
 
 
-def code_block_filter(block_dict: Dict, language: Optional[str] = None) -> bool:
+def code_block_filter(block_dict: dict, language: str | None = None) -> bool:
     """Check Mistletoe block is a code block.
 
     Args:
@@ -42,12 +42,12 @@ def code_block_filter(block_dict: Dict, language: Optional[str] = None) -> bool:
     )
 
 
-def python_code_block_filter(block_dict: Dict) -> bool:
+def python_code_block_filter(block_dict: dict) -> bool:
     """Filter Python code blocks."""
     return code_block_filter(block_dict, language="python")
 
 
-def code_block_extractor(child_dict: Dict) -> str:
+def code_block_extractor(child_dict: dict) -> str:
     """Extract Mistletoe code block from Mistletoe CodeFence child."""
     # we assume that 'children' of CodeFence child has only one child (may be wrong)
     assert len(child_dict["children"]) == 1
@@ -58,9 +58,9 @@ class BaseTestMarkdownDocs:
     """Base test class for testing Markdown documents."""
 
     DOC_PATH: Path
-    blocks: List[Dict]
-    code_blocks: List[str]
-    python_blocks: List[str]
+    blocks: list[dict]
+    code_blocks: list[str]
+    python_blocks: list[str]
 
     @classmethod
     def setup_class(cls) -> None:
@@ -81,8 +81,8 @@ class BaseTestMarkdownDocs:
 class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
     """Test Markdown documentation by running Python snippets in sequence."""
 
-    locals_dict: Dict
-    globals_dict: Dict
+    locals_dict: dict
+    globals_dict: dict
 
     @classmethod
     def setup_class(cls) -> None:
@@ -94,7 +94,7 @@ class BasePythonMarkdownDocs(BaseTestMarkdownDocs):
         cls.locals_dict = {}
         cls.globals_dict = {}
 
-    def _assert(self, locals_: Dict, *mocks: MagicMock) -> None:
+    def _assert(self, locals_: dict, *mocks: MagicMock) -> None:
         """Do assertions after Python code execution."""
 
     def test_python_blocks(self, *mocks: MagicMock) -> None:

@@ -16,9 +16,11 @@
 
 """This module contains the implementation of the Gaussian process-based sampling."""
 
+from __future__ import annotations
+
 import warnings
 from enum import Enum
-from typing import Optional, Tuple, Union, cast
+from typing import cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -50,9 +52,9 @@ class GaussianProcessSampler(MLSurrogateSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
-        candidate_pool_size: Optional[int] = None,
+        candidate_pool_size: int | None = None,
         optimize_restarts: int = 5,
         acquisition: str = "expected_improvement",
         jitter: float = 0.1,
@@ -79,8 +81,8 @@ class GaussianProcessSampler(MLSurrogateSampler):
         self.optimize_restarts = optimize_restarts
         self.acquisition = acquisition
         self.jitter = jitter
-        self._gpmodel: Optional[GaussianProcessRegressor] = None
-        self._fmin: Optional[Union[np.double, float]] = None
+        self._gpmodel: GaussianProcessRegressor | None = None
+        self._fmin: np.double | float | None = None
 
     @staticmethod
     def _validate_acquisition(acquisition: str) -> None:
@@ -147,7 +149,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
     def _predict_mean_std(
         self,
         X: NDArray[np.float64],  # noqa: N803
-    ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
+    ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Predict mean and standard deviation of a fitted GP.
 
         Args:
@@ -192,7 +194,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         fmin: float,
         m: NDArray[np.float64],
         s: NDArray[np.float64],
-    ) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
+    ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
         """Quantiles of the Gaussian distribution useful to determine the acquisition function values.
 
         Args:

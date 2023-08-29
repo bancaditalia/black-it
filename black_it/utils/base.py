@@ -15,9 +15,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains generic utility functions for the library."""
+from __future__ import annotations
+
 import os
 from json import JSONEncoder
-from typing import Any, List, Optional, Type, Union
+from typing import Any, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -27,8 +29,8 @@ PathLike = Union[str, os.PathLike]
 
 def _assert(
     condition: bool,
-    error_message: Optional[str] = None,
-    exception_class: Type[Exception] = Exception,
+    error_message: str | None = None,
+    exception_class: type[Exception] = Exception,
 ) -> None:
     """Check condition; if false, raise exception with the provided error message."""
     if not condition:
@@ -59,7 +61,7 @@ def positive_float(arg: float) -> float:
 
 def digitize_data(
     data: NDArray[np.float64],
-    param_grid: List[NDArray[np.float64]],
+    param_grid: list[NDArray[np.float64]],
 ) -> NDArray[np.float64]:
     """Return a discretized version of the input sorted_array.
 

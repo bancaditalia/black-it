@@ -15,8 +15,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation for the Halton sampler."""
+from __future__ import annotations
+
 import itertools
-from typing import Iterator, List, Optional
+from typing import Iterator
 
 import numpy as np
 from numpy.typing import NDArray
@@ -39,7 +41,7 @@ class HaltonSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
     ) -> None:
         """Initialize the sampler.
@@ -55,7 +57,7 @@ class HaltonSampler(BaseSampler):
         # drop first N entries to avoid linear correlation
         self._reset_sequence_index()
 
-    def _set_random_state(self, random_state: Optional[int]) -> None:
+    def _set_random_state(self, random_state: int | None) -> None:
         """Set the random state (private use).
 
         For the Halton sampler, it also resets the sequence index.
@@ -165,7 +167,7 @@ class _CachedPrimesCalculator:
     def __init__(self) -> None:
         """Initialize the object."""
         self._primes_iterator = _PrimesIterator()
-        self._cached_primes: List[int] = [2]
+        self._cached_primes: list[int] = [2]
 
     def get_n_primes(self, n: int) -> NDArray[np.int64]:
         """Get the first n primes.

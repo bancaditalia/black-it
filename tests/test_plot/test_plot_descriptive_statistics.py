@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This test module contains tests for the plot_descriptive_statistics.py module."""
-from typing import Any, List
+from __future__ import annotations
+
+from typing import Any
 
 import numpy as np
 
@@ -30,7 +32,7 @@ class TestTsStats(BasePlotTest):
     """Test 'ts_stats' plotting function."""
 
     plotting_function = ts_stats
-    args: List[Any] = []
+    args: list[Any] = []
     expected_image = PLOT_DIR / "ts_stats-expected.png"
 
     def setup(self) -> None:

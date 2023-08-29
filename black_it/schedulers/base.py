@@ -15,9 +15,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'BaseScheduler' base class."""
+from __future__ import annotations
+
 import contextlib
 from abc import ABC, abstractmethod
-from typing import Generator, Optional, Sequence, Tuple
+from typing import Generator, Sequence
 
 import numpy as np
 from numpy.typing import NDArray
@@ -35,7 +37,7 @@ class BaseScheduler(BaseSeedable, ABC):
     def __init__(
         self,
         samplers: Sequence[BaseSampler],
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
     ) -> None:
         """Initialize the scheduler.
 
@@ -48,11 +50,11 @@ class BaseScheduler(BaseSeedable, ABC):
         BaseSeedable.__init__(self, random_state)
 
     @property
-    def samplers(self) -> Tuple[BaseSampler, ...]:
+    def samplers(self) -> tuple[BaseSampler, ...]:
         """Get the sequence of samplers."""
         return self._samplers
 
-    def _set_random_state(self, random_state: Optional[int]) -> None:
+    def _set_random_state(self, random_state: int | None) -> None:
         """Set the random state (private use)."""
         super()._set_random_state(random_state)
         for sampler in self.samplers:

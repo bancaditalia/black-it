@@ -15,9 +15,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'BaseLoss' base class."""
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Callable, List, Optional
+from typing import Callable, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -33,8 +34,8 @@ class BaseLoss(ABC):
 
     def __init__(
         self,
-        coordinate_weights: Optional[NDArray] = None,
-        coordinate_filters: Optional[List[Optional[Callable]]] = None,
+        coordinate_weights: NDArray | None = None,
+        coordinate_filters: list[Callable | None] | None = None,
     ) -> None:
         """Initialize the loss function.
 
@@ -75,7 +76,7 @@ class BaseLoss(ABC):
 
     @staticmethod
     def _filter_data(
-        filters: List[Optional[Callable]],
+        filters: list[Callable | None],
         sim_data_ensemble: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """Filter the simulated time series."""
@@ -115,9 +116,9 @@ class BaseLoss(ABC):
 
         return weights
 
-    def _check_coordinate_filters(self, num_coords: int) -> List[Optional[Callable]]:
+    def _check_coordinate_filters(self, num_coords: int) -> list[Callable | None]:
         """Check self.coordinate_filters and return usable filters."""
-        filters: List[Optional[Callable]]
+        filters: list[Callable | None]
 
         if self.coordinate_filters is None:
             # a list of identity functions

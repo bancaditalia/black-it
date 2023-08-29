@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """SIR models written in Python."""
-from typing import Optional
+from __future__ import annotations
 
 import ndlib.models.epidemics as ep
 import networkx as nx
@@ -24,7 +24,7 @@ from ndlib.models import ModelConfig
 from numpy.typing import NDArray
 
 
-def SIR(theta: NDArray, N: int, seed: Optional[int]) -> NDArray:  # noqa: N802, N803
+def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N803
     """SIR model.
 
     0 theta = [#LOC CONNECTIONS,
@@ -73,7 +73,7 @@ def SIR(theta: NDArray, N: int, seed: Optional[int]) -> NDArray:  # noqa: N802, 
 def SIR_w_breaks(  # noqa: N802
     theta: NDArray,
     N: int,  # noqa: N803
-    seed: Optional[int],
+    seed: int | None,
 ) -> NDArray:
     """SIR model with structural breaks.
 

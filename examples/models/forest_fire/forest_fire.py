@@ -15,9 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """A simple model of a wildfire on a 2D grid."""
+from __future__ import annotations
 
 import subprocess
-from typing import Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -26,7 +26,7 @@ from numpy.typing import NDArray
 def forest_fire(
     theta: NDArray,
     N: int,  # noqa: N803
-    seed: Optional[int] = 0,
+    seed: int | None = 0,
 ) -> NDArray:
     """A simple model of a wildfire on a 2D grid.
 

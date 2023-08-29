@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the definition of the search space abstractions."""
-
-from typing import List, Union
+from __future__ import annotations
 
 import numpy as np
 from numpy.typing import NDArray
@@ -27,8 +26,8 @@ class SearchSpace:
 
     def __init__(
         self,
-        parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
-        parameters_precision: Union[NDArray[np.float64], List[float]],
+        parameters_bounds: NDArray[np.float64] | list[list[float]],
+        parameters_precision: NDArray[np.float64] | list[float],
         verbose: bool,
     ) -> None:
         """Initialize the SearchSpace object.
@@ -66,7 +65,7 @@ class SearchSpace:
         self._parameters_precision = np.array(parameters_precision)
 
         # Initialize search grid
-        self._param_grid: List[NDArray[np.float64]] = []
+        self._param_grid: list[NDArray[np.float64]] = []
         self._space_size = 1
         for i in range(self.dims):
             new_col = np.arange(
@@ -86,8 +85,8 @@ class SearchSpace:
 
     @staticmethod
     def _check_bounds(
-        parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
-        parameters_precision: Union[NDArray[np.float64], List[float]],
+        parameters_bounds: NDArray[np.float64] | list[list[float]],
+        parameters_precision: NDArray[np.float64] | list[float],
     ) -> None:
         """Ensure parameter_bounds and parameter_precision have acceptable values.
 
@@ -143,7 +142,7 @@ class SearchSpace:
                 )
 
     @property
-    def param_grid(self) -> List[NDArray[np.float64]]:
+    def param_grid(self) -> list[NDArray[np.float64]]:
         """Discretized parameter space containing all possible candidates for calibration."""
         return self._param_grid
 

@@ -15,13 +15,14 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the main class Calibrator."""
+from __future__ import annotations
 
 import multiprocessing
 import os
 import textwrap
 import time
 import warnings
-from typing import Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
+from typing import Callable, Sequence, cast
 
 import numpy as np
 from joblib import Parallel, delayed
@@ -50,17 +51,17 @@ class Calibrator(BaseSeedable):
         loss_function: BaseLoss,
         real_data: NDArray[np.float64],
         model: Callable,
-        parameters_bounds: Union[NDArray[np.float64], List[List[float]]],
-        parameters_precision: Union[NDArray[np.float64], List[float]],
+        parameters_bounds: NDArray[np.float64] | list[list[float]],
+        parameters_precision: NDArray[np.float64] | list[float],
         ensemble_size: int,
-        samplers: Optional[Sequence[BaseSampler]] = None,
-        scheduler: Optional[BaseScheduler] = None,
-        sim_length: Optional[int] = None,
-        convergence_precision: Optional[int] = None,
+        samplers: Sequence[BaseSampler] | None = None,
+        scheduler: BaseScheduler | None = None,
+        sim_length: int | None = None,
+        convergence_precision: int | None = None,
         verbose: bool = True,
-        saving_folder: Optional[str] = None,
-        random_state: Optional[int] = None,
-        n_jobs: Optional[int] = None,
+        saving_folder: str | None = None,
+        random_state: int | None = None,
+        n_jobs: int | None = None,
     ) -> None:
         """Initialize the Calibrator object.
 
@@ -148,8 +149,8 @@ class Calibrator(BaseSeedable):
     @classmethod
     def __validate_samplers_and_scheduler_constructor_args(
         cls,
-        samplers: Optional[Sequence[BaseSampler]],
-        scheduler: Optional[BaseScheduler],
+        samplers: Sequence[BaseSampler] | None,
+        scheduler: BaseScheduler | None,
     ) -> BaseScheduler:
         """Validate the 'samplers' and the 'scheduler' arguments provided to the constructor."""
         both_none = samplers is None and scheduler is None
@@ -174,7 +175,7 @@ class Calibrator(BaseSeedable):
             self._get_random_seed()
 
     @staticmethod
-    def _construct_samplers_id_table(samplers: List[BaseSampler]) -> Dict[str, int]:
+    def _construct_samplers_id_table(samplers: list[BaseSampler]) -> dict[str, int]:
         """Construct the samplers-by-id table.
 
         Given the list (built-in or user-defined) of samplers a calibration
@@ -203,7 +204,7 @@ class Calibrator(BaseSeedable):
 
         return samplers_id_table
 
-    def set_samplers(self, samplers: List[BaseSampler]) -> None:
+    def set_samplers(self, samplers: list[BaseSampler]) -> None:
         """Set the samplers list of the calibrator.
 
         This method overwrites the samplers of the calibrator object with a custom list of samplers.
@@ -239,7 +240,7 @@ class Calibrator(BaseSeedable):
         cls,
         checkpoint_path: str,
         model: Callable,
-    ) -> "Calibrator":
+    ) -> Calibrator:
         """Return an instantiated class from a database file and a model simulator.
 
         Args:
@@ -340,7 +341,7 @@ class Calibrator(BaseSeedable):
 
         return simulated_data
 
-    def calibrate(self, n_batches: int) -> Tuple[NDArray, NDArray]:
+    def calibrate(self, n_batches: int) -> tuple[NDArray, NDArray]:
         """Run calibration for n batches.
 
         Args:
@@ -482,7 +483,7 @@ class Calibrator(BaseSeedable):
         )
         return converged
 
-    def create_checkpoint(self, file_name: Union[str, os.PathLike]) -> None:
+    def create_checkpoint(self, file_name: str | os.PathLike) -> None:
         """Save the current state of the object.
 
         Args:

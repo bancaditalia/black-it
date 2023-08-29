@@ -51,7 +51,9 @@ Algorithm description:
 **Note**: b,L don't increase much the comp power required (ie from (2,2) to (19,19) +20% time).
 
 """
-from typing import Callable, List, Optional, Union
+from __future__ import annotations
+
+from typing import Callable
 
 import numpy as np
 from numpy.typing import NDArray
@@ -77,10 +79,10 @@ class GslDivLoss(BaseLoss):
 
     def __init__(
         self,
-        nb_values: Optional[int] = None,
-        nb_word_lengths: Optional[int] = None,
-        coordinate_weights: Optional[NDArray] = None,
-        coordinate_filters: Optional[List[Optional[Callable]]] = None,
+        nb_values: int | None = None,
+        nb_word_lengths: int | None = None,
+        coordinate_weights: NDArray | None = None,
+        coordinate_filters: list[Callable | None] | None = None,
     ) -> None:
         """Initialize the GSL-div loss object.
 
@@ -215,8 +217,8 @@ class GslDivLoss(BaseLoss):
     def discretize(
         time_series: NDArray[np.float64],
         nb_values: int,
-        start_index: Union[np.float64, float],
-        stop_index: Union[np.float64, float],
+        start_index: np.float64 | float,
+        stop_index: np.float64 | float,
     ) -> NDArray[np.int64]:
         """Discretize the TS in 'nb_values' finite states.
 

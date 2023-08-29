@@ -15,10 +15,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains serialization and deserialization of calibration state with Pandas."""
+from __future__ import annotations
+
 import json
 import pickle  # nosec B403
 from pathlib import Path
-from typing import Mapping, Optional, Tuple
+from typing import Mapping
 
 import numpy as np
 import pandas as pd
@@ -30,7 +32,7 @@ from black_it.schedulers.base import BaseScheduler
 from black_it.utils.base import NumpyArrayEncoder, PathLike
 
 
-def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -> Tuple:
+def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -> tuple:
     """Load calibrator data from a given folder.
 
     Args:
@@ -100,10 +102,10 @@ def save_calibrator_state(
     ensemble_size: int,
     N: int,  # noqa: N803
     D: int,  # noqa: N803
-    convergence_precision: Optional[float],
+    convergence_precision: float | None,
     verbose: bool,
-    saving_file: Optional[str],
-    initial_random_seed: Optional[int],
+    saving_file: str | None,
+    initial_random_seed: int | None,
     random_generator_state: Mapping,
     model_name: str,
     scheduler: BaseScheduler,

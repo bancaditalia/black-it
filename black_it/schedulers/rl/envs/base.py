@@ -15,9 +15,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This package contains implementations of Gym environments for the RL Scheduler."""
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from queue import Queue
-from typing import Any, Dict, List, Optional, SupportsFloat, Tuple, Union
+from typing import Any, SupportsFloat
 
 import gymnasium as gym
 import numpy as np
@@ -37,7 +39,7 @@ class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):
         self._out_queue: Queue = Queue()
         self._in_queue: Queue = Queue()
 
-        self._curr_best_loss: Optional[float] = None
+        self._curr_best_loss: float | None = None
 
         self.action_space = Discrete(self._nb_samplers)
 
@@ -56,16 +58,16 @@ class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):
     def reset(
         self,
         *,
-        seed: Optional[int] = None,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[ObsType, Dict[str, Any]]:
+        seed: int | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> tuple[ObsType, dict[str, Any]]:
         """Reset the environment."""
         return self.reset_state(), {}
 
     def step(
         self,
         action: np.int64,
-    ) -> Tuple[ObsType, SupportsFloat, bool, bool, Dict[str, Any]]:
+    ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         """Do a step."""
         _assert(self.action_space.contains(action))
         self._out_queue.put(action)
@@ -78,6 +80,6 @@ class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):
         next_obs = self.get_next_observation()
         return next_obs, reward, False, False, {}
 
-    def render(self) -> Optional[Union[RenderFrame, List[RenderFrame]]]:
+    def render(self) -> RenderFrame | list[RenderFrame] | None:
         """Render the environment (not implemented)."""
         raise NotImplementedError

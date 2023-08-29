@@ -14,7 +14,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Gaussian process sampler."""
-from typing import Optional, Tuple, cast
+from __future__ import annotations
+
+from typing import cast
 
 import numpy as np
 import pytest
@@ -35,7 +37,7 @@ class TestGaussianProcess2D:
     def _construct_fake_grid(
         cls,
         n: int = 3,
-    ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
+    ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Construct a fake grid of evaluated losses."""
         xs = np.linspace(0, 1, n)
         ys = np.linspace(0, 1, n)
@@ -81,7 +83,7 @@ class TestGaussianProcess2D:
         self,
         acquisition: str,
         optimize_restarts: int,
-        expected_params: Optional[NDArray],
+        expected_params: NDArray | None,
     ) -> None:
         """Test the Gaussian process sampler, 2d."""
         sampler = GaussianProcessSampler(

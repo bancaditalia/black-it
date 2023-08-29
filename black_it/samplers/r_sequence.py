@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the R-sequence sampler."""
-from typing import Optional
+from __future__ import annotations
 
 import numpy as np
 from numpy.typing import NDArray
@@ -34,7 +34,7 @@ class RSequenceSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
     ) -> None:
         """Initialize the sampler.
@@ -69,7 +69,7 @@ class RSequenceSampler(BaseSampler):
             phi = pow(1 + phi, 1.0 / (nb_dims + 1))
         return phi
 
-    def _set_random_state(self, random_state: Optional[int]) -> None:
+    def _set_random_state(self, random_state: int | None) -> None:
         """Set the random state (private use).
 
         For the RSequence sampler, it also resets the sequence index and the sequence start.

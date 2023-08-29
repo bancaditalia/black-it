@@ -37,16 +37,16 @@ DIRECT USAGE FROM COMMAND LINE:
      {"susceptible": 995, "infectious": 4, "recovered": 1},
      {"susceptible": 995, "infectious": 2, "recovered": 3}]
 """
+from __future__ import annotations
 
 import json
 import re
 import subprocess
 import sys
 from itertools import chain
-from typing import Dict, List
 
 
-def parse_simulator_output(stdout: str) -> List[Dict[str, int]]:
+def parse_simulator_output(stdout: str) -> list[dict[str, int]]:
     """Filter the output of a simulator execution and convert it to a python list."""
     regex = re.compile(r"^EPOCH.*(initial status|ended with)")
 
@@ -62,8 +62,8 @@ def parse_simulator_output(stdout: str) -> List[Dict[str, int]]:
 
 def _build_simulator_cmdline(
     docker_image_name: str,
-    sim_params: Dict[str, str],
-) -> List[str]:
+    sim_params: dict[str, str],
+) -> list[str]:
     """Convert a configuration object in a list of command line parameters.
 
     Accepts a configuration object for the simulation and returns a long term
@@ -105,8 +105,8 @@ def _build_simulator_cmdline(
 
 def execute_simulator(
     path_to_simulator: str,
-    sim_params: Dict[str, str],
-) -> List[Dict[str, int]]:
+    sim_params: dict[str, str],
+) -> list[dict[str, int]]:
     """Execute the simulator with the given parameters, and return a structured output.
 
     - the simulator parameters are converted via _build_simulator_cmdline()
@@ -133,7 +133,7 @@ def execute_simulator(
     return _execute_simulator_subprocess(args)
 
 
-def _execute_simulator_subprocess(args: List[str]) -> List[Dict[str, int]]:
+def _execute_simulator_subprocess(args: list[str]) -> list[dict[str, int]]:
     """Execute the simulator and convert its output in structured form via parse_simulator_output().
 
     REMARKS:

@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the base loss_functions module."""
-from typing import Callable, List, Optional
+from __future__ import annotations
+
+from typing import Callable
 
 import numpy as np
 import pytest
@@ -33,8 +35,8 @@ class TestComputeLoss:
         def __init__(
             self,
             loss_constant: float,
-            coordinate_weights: Optional[NDArray] = None,
-            coordinate_filters: Optional[List[Optional[Callable]]] = None,
+            coordinate_weights: NDArray | None = None,
+            coordinate_filters: list[Callable | None] | None = None,
         ) -> None:
             """Initialize the custom loss."""
             super().__init__(coordinate_weights, coordinate_filters)
@@ -55,8 +57,8 @@ class TestComputeLoss:
     nb_sim_rows: int = 10
     nb_real_rows: int = 10
 
-    coordinate_weights: Optional[NDArray[np.float64]]
-    coordinate_filters: Optional[List[Optional[Callable]]]
+    coordinate_weights: NDArray[np.float64] | None
+    coordinate_filters: list[Callable | None] | None
 
     # instance attributes
     loss: MyCustomLoss

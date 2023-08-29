@@ -15,13 +15,15 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Generic utility functions."""
+from __future__ import annotations
+
 import dataclasses
 import shutil
 import signal
 import subprocess  # nosec B404
 import sys
 from functools import wraps
-from typing import Callable, List, Type, Union
+from typing import Callable
 
 import pytest
 
@@ -38,7 +40,7 @@ class PopenResult:
 
 
 def run_process(
-    command: List[str],
+    command: list[str],
     timeout: float = DEFAULT_SUBPROCESS_TIMEOUT,
 ) -> PopenResult:
     """Run a process, and wait for it to stop.
@@ -132,7 +134,7 @@ def pytest_decorator_factory(action: Callable) -> Callable:
         the Pytest wrapper for functions or classes.
     """
 
-    def decorator(pytest_func_or_cls: Union[Callable, Type]) -> Callable:
+    def decorator(pytest_func_or_cls: Callable | type) -> Callable:
         """Implement the decorator.
 
         Args:

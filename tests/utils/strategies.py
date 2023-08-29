@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Hypothesis strategies for testing."""
-from typing import Callable, Tuple
+from __future__ import annotations
+
+from typing import Callable
 
 import hypothesis.extra.numpy
 import hypothesis.strategies as st
@@ -48,7 +50,7 @@ def discretize_args(
     draw: Callable,
     max_length: int = MAX_TIME_SERIES_LENGTH,
     max_nb_values: int = MAX_NB_VALUES,
-) -> Tuple:
+) -> tuple:
     """Return the strategies for the arguments of the 'discretize' function.
 
     Args:
@@ -71,7 +73,7 @@ def get_words_args(
     draw: Callable,
     max_length: int = MAX_TIME_SERIES_LENGTH,
     max_word_length: int = MAX_WORD_LENGTH,
-) -> Tuple:
+) -> tuple:
     """Return the strategies for the arguments of the 'discretize' function.
 
     Args:
