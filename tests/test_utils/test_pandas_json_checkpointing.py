@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the pandas_json_checkpointing.py module."""
-import glob
 import os
+from pathlib import Path
 
 import numpy as np
 
@@ -108,7 +108,8 @@ def test_save_and_load_calibrator_state() -> None:
     assert np.allclose(loaded_state[21], method_samp)
 
     # remove the test folder
-    files = glob.glob("saving_folder/*")
+    saving_folder_path = Path("saving_folder")
+    files = saving_folder_path.glob("./*")
     for f in files:
-        os.remove(f)
-    os.rmdir("saving_folder")
+        f.unlink(missing_ok=False)
+    saving_folder_path.rmdir()
