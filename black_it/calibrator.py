@@ -22,14 +22,11 @@ import os
 import textwrap
 import time
 import warnings
-from typing import Callable, Sequence, cast
+from typing import TYPE_CHECKING, Callable, Sequence, cast
 
 import numpy as np
 from joblib import Parallel, delayed
-from numpy.typing import NDArray
 
-from black_it.loss_functions.base import BaseLoss
-from black_it.samplers.base import BaseSampler
 from black_it.schedulers.base import BaseScheduler
 from black_it.schedulers.round_robin import RoundRobinScheduler
 from black_it.search_space import SearchSpace
@@ -39,6 +36,12 @@ from black_it.utils.json_pandas_checkpointing import (
     save_calibrator_state,
 )
 from black_it.utils.seedable import BaseSeedable
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+    from black_it.loss_functions.base import BaseLoss
+    from black_it.samplers.base import BaseSampler
 
 
 class Calibrator(BaseSeedable):

@@ -17,8 +17,12 @@
 """This module contains the definition of a 'seedable' base class."""
 from __future__ import annotations
 
-import numpy as np
+from typing import TYPE_CHECKING
+
 from numpy.random import default_rng
+
+if TYPE_CHECKING:
+    import numpy as np
 
 
 class BaseSeedable:

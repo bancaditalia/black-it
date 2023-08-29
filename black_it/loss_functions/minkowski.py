@@ -17,13 +17,15 @@
 """This module contains the implementation of the quadratic loss."""
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
-import numpy as np
-from numpy.typing import NDArray
 from scipy.spatial.distance import minkowski
 
 from black_it.loss_functions.base import BaseLoss
+
+if TYPE_CHECKING:
+    import numpy as np
+    from numpy.typing import NDArray
 
 
 class MinkowskiLoss(BaseLoss):

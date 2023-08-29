@@ -18,13 +18,15 @@
 from __future__ import annotations
 
 import warnings
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import xgboost as xgb
-from numpy.typing import NDArray
 
 from black_it.samplers.surrogate import MLSurrogateSampler
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 MAX_FLOAT32 = np.finfo(np.float32).max
 MIN_FLOAT32 = np.finfo(np.float32).min

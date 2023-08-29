@@ -17,11 +17,15 @@
 """SIR models written in Python."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import ndlib.models.epidemics as ep
 import networkx as nx
 import numpy as np
 from ndlib.models import ModelConfig
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N803

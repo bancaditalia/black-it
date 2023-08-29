@@ -18,14 +18,17 @@
 from __future__ import annotations
 
 import itertools
-from typing import Iterator
+from typing import TYPE_CHECKING, Iterator
 
 import numpy as np
-from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
-from black_it.search_space import SearchSpace
 from black_it.utils.base import check_arg, digitize_data
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+    from black_it.search_space import SearchSpace
 
 _MIN_SEQUENCE_START_INDEX = 20
 _MAX_SEQUENCE_START_INDEX = 2**16

@@ -17,11 +17,13 @@
 """Implementation of the model in (Brock and Hommes, 1998)."""
 from __future__ import annotations
 
-from typing import Sequence
+from typing import TYPE_CHECKING, Sequence
 
 import numpy as np
-from numpy.typing import NDArray
 from scipy.special import softmax
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 def BH2(  # noqa: N802

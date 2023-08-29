@@ -17,11 +17,15 @@
 """This module contains utility functions to deal with time series."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 import scipy.sparse as sps
 import statsmodels.api as sm
-from numpy.typing import NDArray
 from scipy.stats import kurtosis, skew
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 def get_mom_ts(time_series: NDArray[np.float64]) -> NDArray[np.float64]:

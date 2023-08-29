@@ -19,15 +19,17 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from queue import Queue
-from typing import Any, SupportsFloat
+from typing import TYPE_CHECKING, Any, SupportsFloat
 
 import gymnasium as gym
 import numpy as np
 from gymnasium.core import ObsType, RenderFrame
 from gymnasium.spaces import Discrete
-from numpy._typing import NDArray
 
 from black_it.utils.base import _assert
+
+if TYPE_CHECKING:
+    from numpy._typing import NDArray
 
 
 class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):

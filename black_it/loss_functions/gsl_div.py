@@ -53,13 +53,15 @@ Algorithm description:
 """
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 import numpy as np
-from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
 from black_it.utils.base import _assert
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 EPS = 0.00001  # np.finfo(float).eps
 

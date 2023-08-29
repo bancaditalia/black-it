@@ -19,10 +19,12 @@ from __future__ import annotations
 
 import os
 from json import JSONEncoder
-from typing import Any, Union
+from typing import TYPE_CHECKING, Any, Union
 
 import numpy as np
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 PathLike = Union[str, os.PathLike]
 
