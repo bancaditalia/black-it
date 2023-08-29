@@ -259,7 +259,7 @@ class ParticleSwarmSampler(BaseSampler):
             * (best_particle_positions - self._curr_particle_positions)
             + self.c2
             * r2_vec
-            * (self._get_best_position() - self._curr_particle_positions)  # type: ignore
+            * (self._get_best_position() - self._curr_particle_positions)  # type: ignore[operator]
         )
 
         self._curr_particle_positions = np.clip(

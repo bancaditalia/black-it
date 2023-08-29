@@ -32,10 +32,6 @@ class TestReadme(BaseMainExampleDocs):
         example_code = self.extract_example_code()
 
         quickstart_code_snippet = self.python_blocks[0]
-        quickstart_code_snippet = quickstart_code_snippet.replace(
-            "import models.simple_models as md\n",
-            "import models.simple_models as md  # type: ignore\n",
-        )
         # test import lines are equal
         nb_import_lines = 8
         quickstart_import_lines = quickstart_code_snippet.splitlines()[:nb_import_lines]

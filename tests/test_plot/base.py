@@ -42,7 +42,7 @@ class BasePlotTest:
         """Run the plotting and the image comparison."""
         logging.getLogger("matplotlib.font_manager").disabled = True
         plt.close()
-        self.plotting_function.__func__(*self.args)  # type: ignore
+        self.plotting_function.__func__(*self.args)  # type: ignore[attr-defined]
         with TemporaryDirectory() as tmpdir:
             actual_figure_path = Path(tmpdir) / "actual.png"
             plt.savefig(actual_figure_path)

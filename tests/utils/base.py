@@ -156,7 +156,7 @@ def pytest_decorator_factory(action: Callable) -> Callable:
             # here if the wrappee is a test class
             # wrap setup_class with 'action' if setup_class is defined
             if hasattr(pytest_func_or_cls, "setup_class"):
-                new_setup_class = decorator(pytest_func_or_cls.setup_class)  # type: ignore
+                new_setup_class = decorator(pytest_func_or_cls.setup_class)
             else:
                 new_setup_class = action
             # return a new subclass with same name, parent test methods,

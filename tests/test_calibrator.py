@@ -257,20 +257,20 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
                 vars_cal["samplers"],
                 cal_restored.scheduler.samplers,
             ):
-                assert type(method1).__name__ == type(method2).__name__  # noqa
+                assert type(method1).__name__ == type(method2).__name__
         if key == "scheduler":
             t1 = type(vars_cal["scheduler"])
             t2 = type(cal_restored.scheduler)
-            assert t1 == t2  # noqa
+            assert t1 == t2
         elif key == "loss_function":
             assert (
                 type(vars_cal["loss_function"]).__name__
-                == type(cal_restored.loss_function).__name__  # noqa
+                == type(cal_restored.loss_function).__name__
             )
         elif key == "param_grid":
             assert (
                 type(vars_cal["param_grid"]).__name__
-                == type(cal_restored.param_grid).__name__  # noqa
+                == type(cal_restored.param_grid).__name__
             )
         elif key == f"_{BaseSeedable.__name__}__random_generator":
             assert (
