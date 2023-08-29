@@ -70,6 +70,8 @@ def check_copyright(file: Path) -> bool:
 if __name__ == "__main__":
     exclude_files = {
         Path("scripts", "__init__.py"),
+        Path("examples", "docker-sir.py"),
+        Path("examples", "main.py"),
         *Path("scripts", "whitelists/").glob("*.py"),
     }
     python_files = filter(
@@ -78,6 +80,7 @@ if __name__ == "__main__":
             Path("black_it").glob("**/*.py"),
             Path("tests").glob("**/*.py"),
             Path("scripts").glob("**/*.py"),
+            Path("examples").glob("**/*.py"),
         ),
     )
 
