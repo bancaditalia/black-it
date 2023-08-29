@@ -125,7 +125,7 @@ def test_clip_losses() -> None:
 
     # verify that _clip_losses works as expected
     y = np.array([0.0, -1e40, 1e40])
-    y2 = xgboost._clip_losses(y)
+    y2 = xgboost._clip_losses(y)  # noqa: SLF001
 
     assert (
         y2 == np.array([0.0, MIN_FLOAT32 + EPS_FLOAT32, MAX_FLOAT32 - EPS_FLOAT32])

@@ -42,7 +42,7 @@ def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     with open(os.path.join(saving_folder, "samplers_pickled.pickle"), "rb") as f:
         method_list = pickle.load(f)  # nosec B301
 
-    return Calibrator._construct_samplers_id_table(method_list)
+    return Calibrator._construct_samplers_id_table(method_list)  # noqa: SLF001
 
 
 def _get_samplers_names(
@@ -133,7 +133,7 @@ def plot_losses(saving_folder: str | os.PathLike) -> None:
         },
     )
 
-    g._legend.set_bbox_to_anchor((0.8, 0.5))
+    g.legend.set_bbox_to_anchor((0.8, 0.5))
 
 
 def plot_sampling(saving_folder: str | os.PathLike) -> None:
@@ -164,7 +164,7 @@ def plot_sampling(saving_folder: str | os.PathLike) -> None:
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
     handles, _ = g.axes[-1][0].get_legend_handles_labels()
-    g._legend.remove()
+    g.legend.remove()
 
     plt.legend(loc=2, handles=handles, labels=sampler_names, bbox_to_anchor=(0.0, 1.8))
 
@@ -205,7 +205,7 @@ def plot_losses_method_num(
         },
     )
 
-    g._legend.set_bbox_to_anchor((0.8, 0.5))
+    g.legend.set_bbox_to_anchor((0.8, 0.5))
 
 
 def plot_losses_interact(saving_folder: str | os.PathLike) -> None:
@@ -274,7 +274,7 @@ def plot_sampling_batch_nums(
 
     # take legend of the plot in the last row and first column, to be sure it's a scatter plot
     handles, _ = g.axes[-1][0].get_legend_handles_labels()
-    g._legend.remove()
+    g.legend.remove()
 
     plt.legend(loc=2, handles=handles, labels=sampler_names, bbox_to_anchor=(0.0, 1.8))
 
