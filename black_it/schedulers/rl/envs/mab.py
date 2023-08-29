@@ -32,7 +32,11 @@ class MABCalibrationEnv(CalibrationEnv[int]):
         """Get the initial state."""
         return 0
 
-    def get_reward(self, best_param: NDArray, best_loss: float) -> float:
+    def get_reward(
+        self,
+        best_param: NDArray,  # noqa: ARG002
+        best_loss: float,
+    ) -> float:
         """Get the reward."""
         if self._curr_best_loss is None:
             msg = "cannot get reward, curr_best_loss should be already set"

@@ -137,8 +137,8 @@ class LikelihoodLoss(BaseLoss):
 
     def compute_loss_1d(
         self,
-        sim_data_ensemble: NDArray[np.float64],
-        real_data: NDArray[np.float64],
+        sim_data_ensemble: NDArray[np.float64],  # noqa: ARG002
+        real_data: NDArray[np.float64],  # noqa: ARG002
     ) -> float:
         """Compute likelihood loss on a single dimension, not available."""
         msg = "The likelihood cannot be currently computed on a single dimension."

@@ -59,10 +59,10 @@ class MABEpsilonGreedy(Agent[int, int]):
 
     def learn(
         self,
-        state: int,
+        state: int,  # noqa: ARG002
         action: int,
         reward: SupportsFloat,
-        next_state: int,
+        next_state: int,  # noqa: ARG002
     ) -> None:
         """Learn from an agent-environment interaction timestep."""
         self.actions_count[action] += 1

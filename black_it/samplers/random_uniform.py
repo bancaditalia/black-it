@@ -30,8 +30,8 @@ class RandomUniformSampler(BaseSampler):
         self,
         batch_size: int,
         search_space: SearchSpace,
-        existing_points: NDArray[np.float64],
-        existing_losses: NDArray[np.float64],
+        existing_points: NDArray[np.float64],  # noqa: ARG002
+        existing_losses: NDArray[np.float64],  # noqa: ARG002
     ) -> NDArray[np.float64]:
         """Sample uniformly from the search space.
 

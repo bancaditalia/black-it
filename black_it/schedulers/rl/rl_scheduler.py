@@ -138,10 +138,10 @@ class RLScheduler(BaseScheduler):
 
     def update(
         self,
-        batch_id: int,
+        batch_id: int,  # noqa: ARG002
         new_params: NDArray[np.float64],
         new_losses: NDArray[np.float64],
-        new_simulated_data: NDArray[np.float64],
+        new_simulated_data: NDArray[np.float64],  # noqa: ARG002
     ) -> None:
         """Update the RL scheduler."""
         best_new_loss = float(np.min(new_losses))

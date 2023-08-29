@@ -312,10 +312,10 @@ def test_new_sampling_method() -> None:
 
         def sample_batch(
             self,
-            batch_size: int,
-            search_space: SearchSpace,
-            existing_points: NDArray[np.float64],
-            existing_losses: NDArray[np.float64],
+            batch_size: int,  # noqa: ARG002
+            search_space: SearchSpace,  # noqa: ARG002
+            existing_points: NDArray[np.float64],  # noqa: ARG002
+            existing_losses: NDArray[np.float64],  # noqa: ARG002
         ) -> NDArray[np.float64]:
             """Sample a batch of parameters."""
             return []  # type: ignore[return-value]

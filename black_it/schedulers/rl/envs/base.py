@@ -60,8 +60,8 @@ class CalibrationEnv(gym.Env[ObsType, np.int64], ABC):
     def reset(
         self,
         *,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None,
+        seed: int | None = None,  # noqa: ARG002
+        options: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> tuple[ObsType, dict[str, Any]]:
         """Reset the environment."""
         return self.reset_state(), {}
