@@ -15,9 +15,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module implements the 'RLScheduler' scheduler."""
+from __future__ import annotations
+
 import threading
 from queue import Queue
-from typing import List, Optional, Sequence, Tuple, cast
+from typing import List, Sequence, cast
 
 import numpy as np
 from numpy._typing import NDArray
@@ -40,7 +42,7 @@ class RLScheduler(BaseScheduler):
         samplers: Sequence[BaseSampler],
         agent: Agent,
         env: CalibrationEnv,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
     ) -> None:
         """Initialize the scheduler."""
         self._original_samplers = samplers
@@ -56,13 +58,13 @@ class RLScheduler(BaseScheduler):
         self._in_queue: Queue = self._env._out_queue
         self._out_queue: Queue = self._env._in_queue
 
-        self._best_param: Optional[float] = None
-        self._best_loss: Optional[float] = None
+        self._best_param: float | None = None
+        self._best_loss: float | None = None
 
-        self._agent_thread: Optional[threading.Thread] = None
+        self._agent_thread: threading.Thread | None = None
         self._stopped: bool = True
 
-    def _set_random_state(self, random_state: Optional[int]) -> None:
+    def _set_random_state(self, random_state: int | None) -> None:
         """Set the random state (private use)."""
         super()._set_random_state(random_state)
         for sampler in self.samplers:
@@ -74,7 +76,7 @@ class RLScheduler(BaseScheduler):
     def _add_or_get_bootstrap_sampler(
         cls,
         samplers: Sequence[BaseSampler],
-    ) -> Tuple[Sequence[BaseSampler], int]:
+    ) -> tuple[Sequence[BaseSampler], int]:
         """Add or retrieve a sampler for bootstrapping.
 
         Many samplers do require some "bootstrapping" of the calibration process, i.e. a set of parameters

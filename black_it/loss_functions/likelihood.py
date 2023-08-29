@@ -15,8 +15,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'LikelihoodLoss'  class."""
+from __future__ import annotations
+
 import warnings
-from typing import Callable, List, Optional, Union
+from typing import Callable
 
 import numpy as np
 from numpy.typing import NDArray
@@ -40,9 +42,9 @@ class LikelihoodLoss(BaseLoss):
 
     def __init__(
         self,
-        coordinate_weights: Optional[NDArray] = None,
-        coordinate_filters: Optional[List[Optional[Callable]]] = None,
-        h: Union[str, float] = "silverman",
+        coordinate_weights: NDArray | None = None,
+        coordinate_filters: list[Callable | None] | None = None,
+        h: str | float = "silverman",
     ) -> None:
         """Initialize the loss function.
 

@@ -16,14 +16,14 @@
 #
 
 """This module contains helper functions for plotting TS descriptive statistics."""
-from typing import List
+from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
 
 
-def ts_stats(time_series_raw: List[float]) -> None:
+def ts_stats(time_series_raw: list[float]) -> None:
     """Show TS graphical descriptive statistics."""
     color = "darkslateblue"
     alpha = 0.8

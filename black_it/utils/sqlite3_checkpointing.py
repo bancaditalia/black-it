@@ -15,13 +15,15 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains serialization and deserialization of calibration state with SQLite."""
+from __future__ import annotations
+
 import gzip
 import io
 import json
 import pickle  # nosec B403
 import sqlite3
 from pathlib import Path
-from typing import Mapping, Optional, Sequence, Tuple
+from typing import Mapping, Sequence
 
 import numpy as np
 from numpy.typing import NDArray
@@ -167,7 +169,7 @@ class gz_ndarray(NDArray):  # noqa: N801
 
 def load_calibrator_state(
     checkpoint_path: PathLike,
-) -> Tuple:
+) -> tuple:
     """Load the calibration state.
 
     Checks that the schema version stored in checkpoint_path has the same value
@@ -265,10 +267,10 @@ def save_calibrator_state(
     ensemble_size: int,
     N: int,  # noqa: N803
     D: int,  # noqa: N803
-    convergence_precision: Optional[float],
+    convergence_precision: float | None,
     verbose: bool,
-    saving_file: Optional[str],
-    initial_random_seed: Optional[int],
+    saving_file: str | None,
+    initial_random_seed: int | None,
     random_generator_state: Mapping,
     model_name: str,
     samplers: Sequence[BaseSampler],

@@ -19,8 +19,10 @@
 This module contains the implementation of the loss function
 based on the 'method of moments'.
 """
+from __future__ import annotations
+
 from enum import Enum
-from typing import Callable, List, Optional, Union, cast
+from typing import Callable, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -52,10 +54,10 @@ class MethodOfMomentsLoss(BaseLoss):
 
     def __init__(
         self,
-        covariance_mat: Union[str, NDArray[np.float64]] = "identity",
-        coordinate_weights: Optional[NDArray[np.float64]] = None,
+        covariance_mat: str | NDArray[np.float64] = "identity",
+        coordinate_weights: NDArray[np.float64] | None = None,
         moment_calculator: MomentCalculator = get_mom_ts_1d,
-        coordinate_filters: Optional[List[Optional[Callable]]] = None,
+        coordinate_filters: list[Callable | None] | None = None,
         standardise_moments: bool = False,
     ) -> None:
         """Initialize the loss function based on the 'method of moments'.
@@ -98,7 +100,7 @@ class MethodOfMomentsLoss(BaseLoss):
     @staticmethod
     def _validate_covariance_and_calculator(
         moment_calculator: MomentCalculator,
-        covariance_mat: Union[NDArray[np.float64], str],
+        covariance_mat: NDArray[np.float64] | str,
     ) -> None:
         """Validate the covariance matrix.
 

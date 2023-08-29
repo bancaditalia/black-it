@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Implementation of the particle swarm sampler."""
-from typing import Optional, cast
+from __future__ import annotations
+
+from typing import cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -59,7 +61,7 @@ class ParticleSwarmSampler(BaseSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         inertia: float = 0.9,
         c1: float = 0.1,
         c2: float = 0.1,
@@ -95,20 +97,20 @@ class ParticleSwarmSampler(BaseSampler):
         self._global_minimum_across_samplers = global_minimum_across_samplers
 
         # all current particle positions; shape=(nb_particles, space dimensions)
-        self._curr_particle_positions: Optional[NDArray] = None
+        self._curr_particle_positions: NDArray | None = None
         # all current particle velocities; shape=(nb_particles, space dimensions)
-        self._curr_particle_velocities: Optional[NDArray] = None
+        self._curr_particle_velocities: NDArray | None = None
         # best particle positions, i.e. ; shape=(nb_particles, space dimensions)
-        self._best_particle_positions: Optional[NDArray] = None
+        self._best_particle_positions: NDArray | None = None
         # losses of the best positions
-        self._best_position_losses: Optional[NDArray] = None
+        self._best_position_losses: NDArray | None = None
         # particle id of the global best particle position
-        self._global_best_particle_id: Optional[int] = None
+        self._global_best_particle_id: int | None = None
 
         # best point in parameter space - could be the best across samplers
-        self._best_point: Optional[NDArray] = None
+        self._best_point: NDArray | None = None
 
-        self._previous_batch_index_start: Optional[int] = None
+        self._previous_batch_index_start: int | None = None
 
     @property
     def is_set_up(self) -> bool:

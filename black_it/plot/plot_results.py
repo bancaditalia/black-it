@@ -15,9 +15,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains utilities for plotting results."""
+from __future__ import annotations
+
 import os
 import pickle  # nosec B403
-from typing import Collection, Dict, List, Union
+from typing import Collection
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,7 +30,7 @@ from ipywidgets import fixed, interact
 from black_it.calibrator import Calibrator
 
 
-def _get_samplers_id_table(saving_folder: Union[str, os.PathLike]) -> Dict[str, int]:
+def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     """Get the id table of the samplers from the checkpoint.
 
     Args:
@@ -46,9 +48,9 @@ def _get_samplers_id_table(saving_folder: Union[str, os.PathLike]) -> Dict[str, 
 
 
 def _get_samplers_names(
-    saving_folder: Union[str, os.PathLike],
-    ids: List[int],
-) -> List[str]:
+    saving_folder: str | os.PathLike,
+    ids: list[int],
+) -> list[str]:
     """Get the names of the samplers from their ids and from the checkpoint of the calibration.
 
     Args:
@@ -69,7 +71,7 @@ def _get_samplers_names(
     return sampler_names
 
 
-def plot_convergence(saving_folder: Union[str, os.PathLike]) -> None:
+def plot_convergence(saving_folder: str | os.PathLike) -> None:
     """Plot the loss values sampled by the various methods as a function of the batch number.
 
     Args:
@@ -107,7 +109,7 @@ def plot_convergence(saving_folder: Union[str, os.PathLike]) -> None:
     plt.legend(handles, labels, loc="upper right")
 
 
-def plot_losses(saving_folder: Union[str, os.PathLike]) -> None:
+def plot_losses(saving_folder: str | os.PathLike) -> None:
     """Plot the parameter sampled colored according to their loss value.
 
     Args:
@@ -136,7 +138,7 @@ def plot_losses(saving_folder: Union[str, os.PathLike]) -> None:
     g._legend.set_bbox_to_anchor((0.8, 0.5))
 
 
-def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
+def plot_sampling(saving_folder: str | os.PathLike) -> None:
     """Plot the parameter sampled colored according to the sampling method used to sample them.
 
     Args:
@@ -170,7 +172,7 @@ def plot_sampling(saving_folder: Union[str, os.PathLike]) -> None:
 
 
 def plot_losses_method_num(
-    saving_folder: Union[str, os.PathLike],
+    saving_folder: str | os.PathLike,
     method_num: int,
 ) -> None:
     """Plot the parameter sampled by a specific sampling method, and color them according to their loss value.
@@ -208,7 +210,7 @@ def plot_losses_method_num(
     g._legend.set_bbox_to_anchor((0.8, 0.5))
 
 
-def plot_losses_interact(saving_folder: Union[str, os.PathLike]) -> None:
+def plot_losses_interact(saving_folder: str | os.PathLike) -> None:
     """Plot the parameter sampled colored according to their loss value.
 
     This plot allows to interactively choose the sampling method.
@@ -235,7 +237,7 @@ def plot_losses_interact(saving_folder: Union[str, os.PathLike]) -> None:
 
 
 def plot_sampling_batch_nums(
-    saving_folder: Union[str, os.PathLike],
+    saving_folder: str | os.PathLike,
     batch_nums: Collection[int],
 ) -> None:
     """Plot the parameter sampled in specific batches colored according to the sampling method used to sample them.
@@ -279,7 +281,7 @@ def plot_sampling_batch_nums(
     plt.legend(loc=2, handles=handles, labels=sampler_names, bbox_to_anchor=(0.0, 1.8))
 
 
-def plot_sampling_interact(saving_folder: Union[str, os.PathLike]) -> None:
+def plot_sampling_interact(saving_folder: str | os.PathLike) -> None:
     """Plot the parameter sampled colored according to the sampling method used to sample them.
 
     The method allows to interactively choose the batch numbers included in the plot.

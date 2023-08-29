@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the definition of a 'seedable' base class."""
-
-from typing import Optional
+from __future__ import annotations
 
 import numpy as np
 from numpy.random import default_rng
@@ -36,7 +35,7 @@ class BaseSeedable:
 
     def __init__(
         self,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
     ) -> None:
         """Initialize the sampler.
 
@@ -44,23 +43,23 @@ class BaseSeedable:
             random_state: the internal state of the sampler, fixing this numbers the object (e.g. a calibrator,
                 a sampler, or a scheduler) behaves deterministically
         """
-        self.__random_state: Optional[int]
+        self.__random_state: int | None
         self.__random_generator: np.random.Generator
 
         # this triggers the property setter
         self.random_state = random_state
 
     @property
-    def random_state(self) -> Optional[int]:
+    def random_state(self) -> int | None:
         """Get the random state."""
         return self.__random_state
 
     @random_state.setter
-    def random_state(self, random_state: Optional[int]) -> None:
+    def random_state(self, random_state: int | None) -> None:
         """Set the random state."""
         self._set_random_state(random_state)
 
-    def _set_random_state(self, random_state: Optional[int]) -> None:
+    def _set_random_state(self, random_state: int | None) -> None:
         """Set the random state, private use."""
         self.__random_state = random_state
         self.__random_generator = default_rng(self.random_state)

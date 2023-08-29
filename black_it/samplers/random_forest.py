@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the random forest sampling."""
-from typing import Optional, Tuple, cast
+from __future__ import annotations
+
+from typing import cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -31,9 +33,9 @@ class RandomForestSampler(MLSurrogateSampler):
     def __init__(
         self,
         batch_size: int,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         max_deduplication_passes: int = 5,
-        candidate_pool_size: Optional[int] = None,
+        candidate_pool_size: int | None = None,
         n_estimators: int = 500,
         criterion: str = "gini",
         n_classes: int = 10,
@@ -67,7 +69,7 @@ class RandomForestSampler(MLSurrogateSampler):
         self._n_estimators = n_estimators
         self._criterion = criterion
         self._n_classes = n_classes
-        self._classifier: Optional[RandomForestClassifier] = None
+        self._classifier: RandomForestClassifier | None = None
 
     @property
     def n_estimators(self) -> int:
@@ -115,7 +117,7 @@ class RandomForestSampler(MLSurrogateSampler):
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],
         num_bins: int,
-    ) -> Tuple[NDArray[np.float64], NDArray[np.int64], NDArray[np.float64]]:
+    ) -> tuple[NDArray[np.float64], NDArray[np.int64], NDArray[np.float64]]:
         """Prepare data for the classifier.
 
         Args:

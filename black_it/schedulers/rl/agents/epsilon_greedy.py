@@ -15,8 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module includes the implementation of a non-stationary epsilon-greedy agent."""
+from __future__ import annotations
 
-from typing import Optional, SupportsFloat, cast
+from typing import SupportsFloat, cast
 
 import numpy as np
 
@@ -32,7 +33,7 @@ class MABEpsilonGreedy(Agent[int, int]):
         alpha: float,
         eps: float,
         initial_values: float = 0.0,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
     ) -> None:
         """Initialize the agent object.
 

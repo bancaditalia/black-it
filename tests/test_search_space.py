@@ -15,8 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the black_it.SearchSpace class."""
-
-from typing import List
+from __future__ import annotations
 
 import numpy as np
 import pytest
@@ -42,9 +41,9 @@ from black_it.search_space import (
     ],
 )
 def test_search_space_successful(
-    lower: List[float],
-    upper: List[float],
-    precision: List[float],
+    lower: list[float],
+    upper: list[float],
+    precision: list[float],
     expected_num_params: int,
     expected_cardinality: int,
 ) -> None:

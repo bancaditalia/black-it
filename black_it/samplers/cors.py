@@ -20,8 +20,10 @@ Regis, Rommel G., and Christine A. Shoemaker. "Constrained global optimization o
 using radial basis functions." Journal of Global optimization 31.1 (2005): 153-171.
 
 """
+from __future__ import annotations
+
 from math import factorial
-from typing import Callable, Optional, cast
+from typing import Callable, cast
 
 import numpy as np
 import scipy.optimize as op
@@ -134,7 +136,7 @@ class CORSSampler(BaseSampler):
         max_samples: int,
         rho0: float = 0.5,
         p: float = 1.0,
-        random_state: Optional[int] = None,
+        random_state: int | None = None,
         verbose: bool = False,
     ) -> None:
         """Initialize the CORS sampler.

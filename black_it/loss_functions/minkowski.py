@@ -15,7 +15,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the quadratic loss."""
-from typing import Callable, List, Optional
+from __future__ import annotations
+
+from typing import Callable
 
 import numpy as np
 from numpy.typing import NDArray
@@ -30,8 +32,8 @@ class MinkowskiLoss(BaseLoss):
     def __init__(
         self,
         p: int = 2,
-        coordinate_weights: Optional[NDArray] = None,
-        coordinate_filters: Optional[List[Optional[Callable]]] = None,
+        coordinate_weights: NDArray | None = None,
+        coordinate_filters: list[Callable | None] | None = None,
     ) -> None:
         """Loss computed using a Minkowski distance.
 
