@@ -61,7 +61,7 @@ class RSequenceSampler(BaseSampler):
         Returns:
             phi^nb_dims
         """
-        check_arg(1 <= nb_dims, f"nb_dims should be greater than 0, got {nb_dims}")
+        check_arg(nb_dims >= 1, f"nb_dims should be greater than 0, got {nb_dims}")
         phi: float = 2.0
         old_phi = None
         while old_phi != phi:

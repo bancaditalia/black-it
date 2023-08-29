@@ -39,10 +39,7 @@ def is_sorted(array: np.ndarray, *, reverse: bool = False) -> bool:
     def fail_check(left: float, right: float) -> bool:
         return left > right if not reverse else left < right
 
-    for i in range(array.size - 1):
-        if fail_check(array[i], array[i + 1]):
-            return False
-    return True
+    return all(not fail_check(array[i], array[i + 1]) for i in range(array.size - 1))
 
 
 class TestDiscretize:

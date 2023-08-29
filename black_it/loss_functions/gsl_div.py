@@ -121,15 +121,15 @@ class GslDivLoss(BaseLoss):
         ts_length = len(real_data)
         ensemble_size = sim_data_ensemble.shape[0]
 
-        if self.nb_values is None:
-            nb_values = int((ts_length - 1) / 2.0)
-        else:
-            nb_values = self.nb_values
+        nb_values = (
+            int((ts_length - 1) / 2.0) if self.nb_values is None else self.nb_values
+        )
 
-        if self.nb_word_lengths is None:
-            nb_word_lengths = int((ts_length - 1) / 2.0)
-        else:
-            nb_word_lengths = self.nb_word_lengths
+        nb_word_lengths = (
+            int((ts_length - 1) / 2.0)
+            if self.nb_word_lengths is None
+            else self.nb_word_lengths
+        )
 
         # discretize real time series
         obs_xd = self.discretize(
