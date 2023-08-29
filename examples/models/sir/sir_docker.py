@@ -39,9 +39,7 @@ def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N80
     }
 
     res = simlib.execute_simulator("bancaditalia/abmsimulator", sim_params)
-    ret = np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])
-
-    return ret
+    return np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])
 
 
 def SIR_w_breaks(  # noqa: N802
@@ -68,6 +66,4 @@ def SIR_w_breaks(  # noqa: N802
     }
 
     res = simlib.execute_simulator("bancaditalia/abmsimulator", sim_params)
-    ret = np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])
-
-    return ret
+    return np.array([(x["susceptible"], x["infectious"], x["recovered"]) for x in res])

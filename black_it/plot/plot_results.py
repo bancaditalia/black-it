@@ -42,9 +42,7 @@ def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     with open(os.path.join(saving_folder, "samplers_pickled.pickle"), "rb") as f:
         method_list = pickle.load(f)  # nosec B301
 
-    samplers_id_table = Calibrator._construct_samplers_id_table(method_list)
-
-    return samplers_id_table
+    return Calibrator._construct_samplers_id_table(method_list)
 
 
 def _get_samplers_names(

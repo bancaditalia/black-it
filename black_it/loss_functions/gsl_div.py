@@ -287,8 +287,7 @@ class GslDivLoss(BaseLoss):
             estimate of probabilities
         """
         _, count = np.unique(time_series, return_counts=True)
-        est_p = np.divide(count, np.sum(count))
-        return est_p
+        return np.divide(count, np.sum(count))
 
     @staticmethod
     def get_sh_entr(probs: NDArray[np.float64], log_base: float) -> float:

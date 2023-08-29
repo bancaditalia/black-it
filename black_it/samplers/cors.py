@@ -52,8 +52,7 @@ def cubetobox(
     space_bounds: NDArray,
 ) -> NDArray[np.float64]:
     """Go from normalized values (unit cube) to absolute values (box)."""
-    box_points = space_bounds[0] + X * (space_bounds[1] - space_bounds[0])
-    return box_points
+    return space_bounds[0] + X * (space_bounds[1] - space_bounds[0])
 
 
 def boxtocube(
@@ -61,8 +60,7 @@ def boxtocube(
     space_bounds: NDArray,
 ) -> NDArray[np.float64]:
     """Go from absolute values (box) to normalized values (unit cube)."""
-    cube_points = (X - space_bounds[0]) / (space_bounds[1] - space_bounds[0])
-    return cube_points
+    return (X - space_bounds[0]) / (space_bounds[1] - space_bounds[0])
 
 
 def rbf(points: NDArray[np.float64], losses: NDArray[np.float64]) -> Callable:

@@ -86,8 +86,7 @@ def test_msm_custom_calculator() -> None:
     series_real = np.array([[1, 2]]).T
 
     def custom_moment_calculator(time_series: NDArray) -> NDArray:
-        moments = np.array([np.mean(time_series)])
-        return moments
+        return np.array([np.mean(time_series)])
 
     loss_func = MethodOfMomentsLoss(moment_calculator=custom_moment_calculator)
     loss = loss_func.compute_loss(series_sim[None, :, :], series_real)
@@ -100,8 +99,7 @@ def test_msm_custom_calculator_wrong_shape_covariance_matrix() -> None:
     series_real = np.array([[1, 2]]).T
 
     def custom_moment_calculator(time_series: NDArray) -> NDArray:
-        moments = np.array([np.mean(time_series)])
-        return moments
+        return np.array([np.mean(time_series)])
 
     dimension = 3
     random_mat = np.random.rand(dimension, dimension)

@@ -69,7 +69,7 @@ class MLSurrogateSampler(BaseSampler):
         existing_losses: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """Get a large pool of candidate parameters."""
-        candidates = RandomUniformSampler(
+        return RandomUniformSampler(
             candidate_pool_size,
             random_state=self._get_random_seed(),
         ).sample_batch(
@@ -78,7 +78,6 @@ class MLSurrogateSampler(BaseSampler):
             existing_points,
             existing_losses,
         )
-        return candidates
 
     @abstractmethod
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803

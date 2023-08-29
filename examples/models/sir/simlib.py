@@ -91,7 +91,7 @@ def _build_simulator_cmdline(
     Returns:
         the arguments for the Docker CLI
     """
-    args = ["docker", "run", "--rm", docker_image_name] + list(
+    return ["docker", "run", "--rm", docker_image_name] + list(
         chain.from_iterable(
             (
                 (f"--{argname}", str(argvalue))
@@ -99,8 +99,6 @@ def _build_simulator_cmdline(
             ),
         ),
     )
-
-    return args
 
 
 def execute_simulator(
@@ -157,9 +155,7 @@ def _execute_simulator_subprocess(args: list[str]) -> list[dict[str, int]]:
 
         exit(res.returncode)
 
-    simulation_output = parse_simulator_output(res.stdout)
-
-    return simulation_output
+    return parse_simulator_output(res.stdout)
 
 
 def run_single_simulation() -> None:

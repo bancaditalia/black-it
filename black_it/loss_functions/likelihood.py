@@ -28,8 +28,7 @@ from black_it.loss_functions.base import BaseLoss
 
 def kernel(sq_dist: NDArray[np.float64], h: float, d: int) -> NDArray[np.float64]:
     """Compute a kernel density estimation using a Gaussian kernel."""
-    k = np.exp(-(sq_dist / (2 * h**2))) / (h**d * (2 * np.pi) ** (d / 2.0))
-    return k
+    return np.exp(-(sq_dist / (2 * h**2))) / (h**d * (2 * np.pi) ** (d / 2.0))
 
 
 class LikelihoodLoss(BaseLoss):
@@ -60,14 +59,12 @@ class LikelihoodLoss(BaseLoss):
     @staticmethod
     def _get_bandwidth_silverman(n: int, d: int) -> float:
         """Return a reasonable bandwidth value computed using the Silverman's rule of thumb."""
-        h = ((n * (d + 2)) / 4) ** (-1 / (d + 4))
-        return h
+        return ((n * (d + 2)) / 4) ** (-1 / (d + 4))
 
     @staticmethod
     def _get_bandwidth_scott(n: int, d: int) -> float:
         """Return a reasonable bandwidth value computed using the Scott's rule of thumb."""
-        h = n ** (-1 / (d + 4))
-        return h
+        return n ** (-1 / (d + 4))
 
     def compute_loss(
         self,

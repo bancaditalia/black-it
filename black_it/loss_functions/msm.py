@@ -186,8 +186,7 @@ class MethodOfMomentsLoss(BaseLoss):
         g = real_mom_1d - sim_mom_1d
 
         if self._covariance_mat == _CovarianceMatrixType.IDENTITY.value:
-            loss_1d = g.dot(g)
-            return loss_1d
+            return g.dot(g)
         if self._covariance_mat == _CovarianceMatrixType.INVERSE_VARIANCE.value:
             W = np.diag(  # noqa: N806
                 1.0

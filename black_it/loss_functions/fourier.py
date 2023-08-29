@@ -55,9 +55,7 @@ def ideal_low_pass_filter(
     # ideal low-pass filter
     mask = np.zeros(signal_frequencies.shape[0])
     mask[:n] = 1.0
-    filtered_frequencies = signal_frequencies * mask
-
-    return filtered_frequencies
+    return signal_frequencies * mask
 
 
 def gaussian_low_pass_filter(
@@ -80,9 +78,7 @@ def gaussian_low_pass_filter(
 
     # gaussian low-pass filter
     mask = np.exp(-np.arange(signal_frequencies.shape[0]) ** 2 / (2 * sigma**2))
-    filtered_frequencies = signal_frequencies * mask
-
-    return filtered_frequencies
+    return signal_frequencies * mask
 
 
 class FourierLoss(BaseLoss):
@@ -147,6 +143,4 @@ class FourierLoss(BaseLoss):
 
         f_sim_data = np.array(f_sim_data).mean(0)
 
-        loss_1d = np.sqrt(np.sum((abs(f_sim_data - f_real_data)) ** 2) / ts_length)
-
-        return loss_1d
+        return np.sqrt(np.sum((abs(f_sim_data - f_real_data)) ** 2) / ts_length)
