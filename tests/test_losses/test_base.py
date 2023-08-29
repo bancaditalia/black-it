@@ -47,7 +47,7 @@ class TestComputeLoss:
         def compute_loss_1d(
             self,
             sim_data_ensemble: NDArray[np.float64],
-            real_data: NDArray[np.float64],
+            real_data: NDArray[np.float64],  # noqa: ARG002
         ) -> float:
             """Compute the loss (constant)."""
             return float(np.sum(sim_data_ensemble) * self.loss_constant)

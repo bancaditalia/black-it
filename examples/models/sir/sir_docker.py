@@ -27,7 +27,11 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N803
+def SIR(  # noqa: N802
+    theta: NDArray,
+    N: int,  # noqa: N803
+    seed: int | None,  # noqa: ARG001
+) -> NDArray:
     """SIR_docker.
 
     C++ SIR model run in Docker container.
@@ -49,7 +53,7 @@ def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N80
 def SIR_w_breaks(  # noqa: N802
     theta: NDArray,
     N: int,  # noqa: N803
-    seed: int | None = None,
+    seed: int | None = None,  # noqa: ARG001
 ) -> NDArray:
     """SIR_docker_w_breaks."""
     breaktime = int(theta[0])

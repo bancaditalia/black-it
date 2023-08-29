@@ -35,7 +35,7 @@ class MinkowskiLoss(BaseLoss):
         self,
         p: int = 2,
         coordinate_weights: NDArray | None = None,
-        coordinate_filters: list[Callable | None] | None = None,
+        coordinate_filters: list[Callable | None] | None = None,  # noqa: ARG002
     ) -> None:
         """Loss computed using a Minkowski distance.
 

@@ -185,7 +185,7 @@ class ParticleSwarmSampler(BaseSampler):
 
     def sample_batch(
         self,
-        batch_size: int,
+        batch_size: int,  # noqa: ARG002
         search_space: SearchSpace,
         existing_points: NDArray[np.float64],
         existing_losses: NDArray[np.float64],

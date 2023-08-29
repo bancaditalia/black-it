@@ -49,8 +49,8 @@ class TestSetRandomState:
             self,
             batch_size: int,
             search_space: SearchSpace,
-            existing_points: NDArray[np.float64],
-            existing_losses: NDArray[np.float64],
+            existing_points: NDArray[np.float64],  # noqa: ARG002
+            existing_losses: NDArray[np.float64],  # noqa: ARG002
         ) -> NDArray[np.float64]:
             """Sample a batch of parameters."""
             return self.random_generator.random(size=(batch_size, search_space.dims))

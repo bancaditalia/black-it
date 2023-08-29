@@ -46,10 +46,10 @@ class RoundRobinScheduler(BaseScheduler):
 
     def update(
         self,
-        batch_id: int,
-        new_params: NDArray[np.float64],
-        new_losses: NDArray[np.float64],
-        new_simulated_data: NDArray[np.float64],
+        batch_id: int,  # noqa: ARG002
+        new_params: NDArray[np.float64],  # noqa: ARG002
+        new_losses: NDArray[np.float64],  # noqa: ARG002
+        new_simulated_data: NDArray[np.float64],  # noqa: ARG002
     ) -> None:
         """Update the state of the scheduler after each batch."""
         self._batch_id += 1
