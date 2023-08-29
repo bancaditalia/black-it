@@ -122,7 +122,7 @@ class MethodOfMomentsLoss(BaseLoss):
                 _CovarianceMatrixType(covariance_mat)
             except ValueError as exc:
                 raise ValueError(
-                    f"expected one of {list(map(lambda x: x.value, _CovarianceMatrixType))}, got {covariance_mat})",
+                    f"expected one of {[x.value for x in _CovarianceMatrixType]}, got {covariance_mat})",
                 ) from exc
             return
 
