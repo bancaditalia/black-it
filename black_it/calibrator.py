@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Black-box ABM Calibration Kit (Black-it)
 # Copyright (C) 2021-2023 Banca d'Italia
 #
