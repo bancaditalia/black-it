@@ -55,11 +55,7 @@ class MABEpsilonGreedy(Agent[int, int]):
 
     def get_step_size(self, action: int) -> float:
         """Get the step size."""
-        if self.alpha == -1:
-            step_size = 1 / self.actions_count[action]
-        else:
-            step_size = self.alpha
-        return step_size
+        return 1 / self.actions_count[action] if self.alpha == -1 else self.alpha
 
     def learn(
         self,
