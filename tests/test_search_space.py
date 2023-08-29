@@ -33,7 +33,7 @@ from black_it.search_space import (
 
 
 @pytest.mark.parametrize(
-    "lower,upper,precision,expected_num_params,expected_cardinality",
+    ("lower", "upper", "precision", "expected_num_params", "expected_cardinality"),
     [
         pytest.param([0], [1], [0.5], 1, 3, id="single_param"),
         pytest.param([0], [100], [1], 1, 101, id="show_that_size_is_off_by_one"),

@@ -55,28 +55,28 @@ class TestGaussianProcess2D:
         return np.asarray(xys_list), np.asarray(losses_list)
 
     @pytest.mark.parametrize(
-        "acquisition,optimize_restarts,expected_params",
+        ("acquisition", "optimize_restarts", "expected_params"),
         [
-            [
+            (
                 "mean",
                 1,
                 np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.0]]),
-            ],
-            [
+            ),
+            (
                 "mean",
                 3,
                 np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.0]]),
-            ],
-            [
+            ),
+            (
                 "expected_improvement",
                 1,
                 np.array([[0.0, 0.01], [0.0, 0.02], [0.01, 0.01], [0.01, 0.0]]),
-            ],
-            [
+            ),
+            (
                 "expected_improvement",
                 3,
                 np.array([[0.0, 0.01], [0.0, 0.02], [0.01, 0.01], [0.01, 0.0]]),
-            ],
+            ),
         ],
     )
     def test_gaussian_process_2d(

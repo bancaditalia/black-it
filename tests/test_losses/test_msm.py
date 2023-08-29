@@ -107,14 +107,14 @@ def test_msm_custom_calculator_wrong_shape_covariance_matrix() -> None:
     random_mat = np.random.rand(dimension, dimension)
     wrong_covariance_matrix = random_mat.T.dot(random_mat)
 
+    loss_func = MethodOfMomentsLoss(
+        moment_calculator=custom_moment_calculator,
+        covariance_mat=wrong_covariance_matrix,
+    )
     with pytest.raises(
         ValueError,
         match=re.escape(
             "The size of the covariance matrix (3) and the number of moments (1) should be identical",
         ),
     ):
-        loss_func = MethodOfMomentsLoss(
-            moment_calculator=custom_moment_calculator,
-            covariance_mat=wrong_covariance_matrix,
-        )
         loss_func.compute_loss(series_sim[None, :, :], series_real)
