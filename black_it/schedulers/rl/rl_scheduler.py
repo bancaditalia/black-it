@@ -130,8 +130,7 @@ class RLScheduler(BaseScheduler):
             # first call, return halton sampler
             return self.samplers[self._halton_sampler_id]
         chosen_sampler_id = self._in_queue.get()
-        chosen_sampler = self.samplers[chosen_sampler_id]
-        return chosen_sampler
+        return self.samplers[chosen_sampler_id]
 
     def update(
         self,

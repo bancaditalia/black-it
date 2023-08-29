@@ -76,8 +76,7 @@ def forest_fire(
         splitted_line = line.split()
         results.append(float(splitted_line[-1]))
 
-    results = np.array([results]).T
-    return results
+    return np.array([results]).T
 
 
 if __name__ == "__main__":

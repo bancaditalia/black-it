@@ -184,9 +184,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
 
         phi, Phi, u = self.get_quantiles(jitter, fmin, m, s)  # noqa: N806
 
-        f_acqu = s * (u * Phi + phi)
-
-        return f_acqu
+        return s * (u * Phi + phi)
 
     @staticmethod
     def get_quantiles(

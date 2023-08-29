@@ -150,6 +150,4 @@ class XGBoostSampler(MLSurrogateSampler):
         _ = xgb.DMatrix(data=X)
 
         self._xg_regressor = cast(xgb.XGBRegressor, self._xg_regressor)
-        predictions = self._xg_regressor.predict(X)
-
-        return predictions
+        return self._xg_regressor.predict(X)

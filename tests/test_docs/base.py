@@ -42,6 +42,4 @@ class BaseMainExampleDocs(BaseTestMarkdownDocs):
         example_code = re.sub('""".*"""\n', "", example_code)
 
         # remove if __name__ == "__main__":
-        example_code = example_code.replace('if __name__ == "__main__":\n', "")
-
-        return example_code
+        return example_code.replace('if __name__ == "__main__":\n', "")

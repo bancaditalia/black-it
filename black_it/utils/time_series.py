@@ -134,10 +134,7 @@ def log_and_hp_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
     Returns:
         the filtered time series
     """
-    transformed_series = (
-        np.log(time_series) - hp_filter(np.log(time_series), lamb=1600)[1]
-    )
-    return transformed_series
+    return np.log(time_series) - hp_filter(np.log(time_series), lamb=1600)[1]
 
 
 def diff_log_demean_filter(time_series: NDArray[np.float64]) -> NDArray[np.float64]:
@@ -151,5 +148,4 @@ def diff_log_demean_filter(time_series: NDArray[np.float64]) -> NDArray[np.float
     """
     log = np.log(time_series)
     diff_log = np.diff(log, prepend=log[0])
-    transformed_series = diff_log - np.mean(diff_log)
-    return transformed_series
+    return diff_log - np.mean(diff_log)

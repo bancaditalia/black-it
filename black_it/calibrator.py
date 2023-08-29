@@ -334,12 +334,10 @@ class Calibrator(BaseSeedable):
 
         simulated_data = np.array(simulated_data_list)
 
-        simulated_data = np.reshape(
+        return np.reshape(
             simulated_data,
             (params.shape[0], self.ensemble_size, self.N, self.D),
         )
-
-        return simulated_data
 
     def calibrate(self, n_batches: int) -> tuple[NDArray, NDArray]:
         """Run calibration for n batches.
@@ -477,11 +475,10 @@ class Calibrator(BaseSeedable):
         Returns:
             True if the calibration converged, False otherwise.
         """
-        converged = (
+        return (
             np.round(np.min(losses_samp[:n_sampled_params]), convergence_precision)
             == 0.0
         )
-        return converged
 
     def create_checkpoint(self, file_name: str | os.PathLike) -> None:
         """Save the current state of the object.

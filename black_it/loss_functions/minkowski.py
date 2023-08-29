@@ -70,6 +70,4 @@ class MinkowskiLoss(BaseLoss):
         # average simulated time series
         sim_data_ensemble = sim_data_ensemble.mean(axis=0)
 
-        loss_1d = minkowski(sim_data_ensemble, real_data, p=self.p)
-
-        return loss_1d
+        return minkowski(sim_data_ensemble, real_data, p=self.p)
