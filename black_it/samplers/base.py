@@ -18,12 +18,16 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
 import numpy as np
-from numpy.typing import NDArray
 
-from black_it.search_space import SearchSpace
 from black_it.utils.seedable import BaseSeedable
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+    from black_it.search_space import SearchSpace
 
 
 class BaseSampler(BaseSeedable, ABC):

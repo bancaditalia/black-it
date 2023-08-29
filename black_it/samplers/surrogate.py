@@ -18,14 +18,18 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 
 import numpy as np
-from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
 from black_it.samplers.random_uniform import RandomUniformSampler
-from black_it.search_space import SearchSpace
 from black_it.utils.base import digitize_data
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+    from black_it.search_space import SearchSpace
 
 
 class MLSurrogateSampler(BaseSampler):

@@ -20,14 +20,16 @@ from __future__ import annotations
 
 import warnings
 from enum import Enum
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from numpy.typing import NDArray
 from scipy.special import erfc
 from sklearn.gaussian_process import GaussianProcessRegressor, kernels
 
 from black_it.samplers.surrogate import MLSurrogateSampler
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class _AcquisitionTypes(Enum):

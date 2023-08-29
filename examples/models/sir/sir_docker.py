@@ -17,10 +17,14 @@
 """SIR models written in C and run in Docker containers."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
-from numpy.typing import NDArray
 
 from . import simlib
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N803

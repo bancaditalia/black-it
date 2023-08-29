@@ -23,7 +23,7 @@ using radial basis functions." Journal of Global optimization 31.1 (2005): 153-1
 from __future__ import annotations
 
 from math import factorial
-from typing import Callable, cast
+from typing import TYPE_CHECKING, Callable, cast
 
 import numpy as np
 import scipy.optimize as op
@@ -31,8 +31,10 @@ from numpy.linalg import LinAlgError
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
-from black_it.search_space import SearchSpace
 from black_it.utils.base import digitize_data, positive_float
+
+if TYPE_CHECKING:
+    from black_it.search_space import SearchSpace
 
 
 def volume_d_dimensional_ball_radius_1(dims: int) -> float:

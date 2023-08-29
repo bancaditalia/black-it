@@ -18,12 +18,14 @@
 from __future__ import annotations
 
 import warnings
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 import numpy as np
-from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 def kernel(sq_dist: NDArray[np.float64], h: float, d: int) -> NDArray[np.float64]:

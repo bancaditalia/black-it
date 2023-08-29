@@ -18,17 +18,21 @@
 from __future__ import annotations
 
 import threading
-from queue import Queue
-from typing import List, Sequence, cast
+from typing import TYPE_CHECKING, List, Sequence, cast
 
 import numpy as np
-from numpy._typing import NDArray
 
 from black_it.samplers.base import BaseSampler
 from black_it.samplers.halton import HaltonSampler
 from black_it.schedulers.base import BaseScheduler
-from black_it.schedulers.rl.agents.base import Agent
-from black_it.schedulers.rl.envs.base import CalibrationEnv
+
+if TYPE_CHECKING:
+    from queue import Queue
+
+    from numpy._typing import NDArray
+
+    from black_it.schedulers.rl.agents.base import Agent
+    from black_it.schedulers.rl.envs.base import CalibrationEnv
 
 
 class RLScheduler(BaseScheduler):

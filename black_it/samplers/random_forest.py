@@ -17,14 +17,16 @@
 """This module contains the implementation of the random forest sampling."""
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from numpy.typing import NDArray
 from sklearn.ensemble import RandomForestClassifier
 
 from black_it.samplers.surrogate import MLSurrogateSampler
 from black_it.utils.base import _assert
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class RandomForestSampler(MLSurrogateSampler):

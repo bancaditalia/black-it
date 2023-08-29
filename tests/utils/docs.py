@@ -18,11 +18,14 @@ from __future__ import annotations
 
 import json
 from io import StringIO
-from pathlib import Path
-from unittest.mock import MagicMock
+from typing import TYPE_CHECKING
 
 import mistletoe
 from mistletoe.ast_renderer import ASTRenderer
+
+if TYPE_CHECKING:
+    from pathlib import Path
+    from unittest.mock import MagicMock
 
 MISTLETOE_CODE_BLOCK_ID = "CodeFence"
 

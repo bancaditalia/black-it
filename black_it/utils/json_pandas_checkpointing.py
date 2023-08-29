@@ -20,16 +20,19 @@ from __future__ import annotations
 import json
 import pickle  # nosec B403
 from pathlib import Path
-from typing import Mapping
+from typing import TYPE_CHECKING, Mapping
 
 import numpy as np
 import pandas as pd
 import tables
-from numpy.typing import NDArray
 
-from black_it.loss_functions.base import BaseLoss
-from black_it.schedulers.base import BaseScheduler
 from black_it.utils.base import NumpyArrayEncoder, PathLike
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+    from black_it.loss_functions.base import BaseLoss
+    from black_it.schedulers.base import BaseScheduler
 
 
 def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -> tuple:

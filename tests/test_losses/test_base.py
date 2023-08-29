@@ -17,13 +17,15 @@
 """This module contains tests for the base loss_functions module."""
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 import numpy as np
 import pytest
-from numpy.typing import NDArray
 
 from black_it.loss_functions.base import BaseLoss
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class TestComputeLoss:

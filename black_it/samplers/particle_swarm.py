@@ -17,14 +17,16 @@
 """Implementation of the particle swarm sampler."""
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
-from black_it.search_space import SearchSpace
 from black_it.utils.base import _assert, digitize_data, positive_float
+
+if TYPE_CHECKING:
+    from black_it.search_space import SearchSpace
 
 
 class ParticleSwarmSampler(BaseSampler):
