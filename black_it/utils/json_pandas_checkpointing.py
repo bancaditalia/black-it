@@ -46,7 +46,7 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
         all the data needed to reconstruct the calibrator state
     """
     checkpoint_path = Path(checkpoint_path)
-    with open(checkpoint_path / "calibration_params.json") as f:
+    with (checkpoint_path / "calibration_params.json").open() as f:
         cp = json.load(f)
 
     cr = pd.read_csv(checkpoint_path / "calibration_results.csv")
@@ -58,10 +58,10 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     params_samp = np.vstack(params_samp_list).T
 
-    with open(checkpoint_path / "scheduler_pickled.pickle", "rb") as fb:
+    with (checkpoint_path / "scheduler_pickled.pickle").open("rb") as fb:
         scheduler = pickle.load(fb)  # nosec B301
 
-    with open(checkpoint_path / "loss_function_pickled.pickle", "rb") as fb:
+    with (checkpoint_path / "loss_function_pickled.pickle").open("rb") as fb:
         loss_function = pickle.load(fb)  # nosec B301
 
     series_filename = checkpoint_path / "series_samp.h5"
@@ -172,14 +172,14 @@ def save_calibrator_state(
         "n_jobs": n_jobs,
     }
     # save calibration parameters in a json dictionary
-    with open(checkpoint_path / "calibration_params.json", "w") as f:
+    with (checkpoint_path / "calibration_params.json").open("w") as f:
         json.dump(calibration_params, f, cls=NumpyArrayEncoder)
 
     # save instantiated scheduler and loss functions
-    with open(checkpoint_path / "scheduler_pickled.pickle", "wb") as fb:
+    with (checkpoint_path / "scheduler_pickled.pickle").open("wb") as fb:
         pickle.dump(scheduler, fb)
 
-    with open(checkpoint_path / "loss_function_pickled.pickle", "wb") as fb:
+    with (checkpoint_path / "loss_function_pickled.pickle").open("wb") as fb:
         pickle.dump(loss_function, fb)
 
     # save calibration results into pandas dataframe

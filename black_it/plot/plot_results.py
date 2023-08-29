@@ -17,9 +17,9 @@
 """This module contains utilities for plotting results."""
 from __future__ import annotations
 
-import os
 import pickle  # nosec B403
-from typing import Collection
+from pathlib import Path
+from typing import TYPE_CHECKING, Collection
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,6 +28,9 @@ import seaborn as sns
 from ipywidgets import fixed, interact
 
 from black_it.calibrator import Calibrator
+
+if TYPE_CHECKING:
+    import os
 
 
 def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
@@ -39,7 +42,8 @@ def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     Returns:
         the id table of the samplers
     """
-    with open(os.path.join(saving_folder, "samplers_pickled.pickle"), "rb") as f:
+    output_file = Path(saving_folder) / "samplers_pickled.pickle"
+    with output_file.open("rb") as f:
         method_list = pickle.load(f)  # nosec B301
 
     return Calibrator._construct_samplers_id_table(method_list)  # noqa: SLF001
@@ -76,7 +80,8 @@ def plot_convergence(saving_folder: str | os.PathLike) -> None:
         saving_folder: the folder where the calibration results were saved
 
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
 
     losses_cummin = df.groupby("batch_num_samp").min()["losses_samp"].cummin()
 
@@ -113,7 +118,8 @@ def plot_losses(saving_folder: str | os.PathLike) -> None:
     Args:
         saving_folder: the folder where the calibration results were saved
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
 
     num_params = sum("params_samp_" in c_str for c_str in df.columns)
 
@@ -142,7 +148,8 @@ def plot_sampling(saving_folder: str | os.PathLike) -> None:
     Args:
         saving_folder: the folder where the calibration results were saved
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
 
     num_params = sum("params_samp_" in c_str for c_str in df.columns)
     variables = ["params_samp_" + str(i) for i in range(num_params)]
@@ -179,7 +186,8 @@ def plot_losses_method_num(
         saving_folder: the folder where the calibration results were saved
         method_num: the integer value defining a specific sampling method
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
 
     if method_num not in set(df["method_samp"]):
         msg = f"Samplers with method_num = {method_num} was never used"
@@ -216,7 +224,8 @@ def plot_losses_interact(saving_folder: str | os.PathLike) -> None:
     Args:
         saving_folder: the folder where the calibration results were saved
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
     method_nums = set(df["method_samp"])
 
     samplers_id_table = _get_samplers_id_table(saving_folder)
@@ -244,9 +253,11 @@ def plot_sampling_batch_nums(
         saving_folder: the folder where the calibration results were saved
         batch_nums: a list of batch number
     """
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
+
     # deduplicate batch numbers
     batch_nums = set(batch_nums)
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
 
     filter_bns = [bn in batch_nums for bn in df["batch_num_samp"]]
 
@@ -287,7 +298,9 @@ def plot_sampling_interact(saving_folder: str | os.PathLike) -> None:
     Args:
         saving_folder: the folder where the calibration results were saved
     """
-    df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
+    calibration_results_file = Path(saving_folder) / "calibration_results.csv"
+    df = pd.read_csv(calibration_results_file)
+
     max_bn = int(max(df["batch_num_samp"]))
     all_bns = np.arange(max_bn + 1, dtype=int)
     indices_bns = np.array_split(all_bns, min(max_bn, 3))

@@ -18,10 +18,10 @@
 from __future__ import annotations
 
 import multiprocessing
-import os
 import textwrap
 import time
 import warnings
+from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Sequence, cast
 
 import numpy as np
@@ -38,6 +38,8 @@ from black_it.utils.json_pandas_checkpointing import (
 from black_it.utils.seedable import BaseSeedable
 
 if TYPE_CHECKING:
+    import os
+
     from numpy.typing import NDArray
 
     from black_it.loss_functions.base import BaseLoss
@@ -489,7 +491,7 @@ class Calibrator(BaseSeedable):
         Args:
             file_name: the name of the folder where the data will be saved
         """
-        checkpoint_path: str = os.path.join(os.path.realpath(file_name))
+        checkpoint_path: Path = Path(file_name).resolve()
 
         t_start = time.time()
 
