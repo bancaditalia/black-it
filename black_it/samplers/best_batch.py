@@ -95,10 +95,12 @@ class BestBatchSampler(BaseSampler):
             the sampled parameters (an array of shape `(self.batch_size, search_space.dims)`)
         """
         if len(existing_points) < batch_size:
-            raise ValueError(
+            msg = (
                 "best-batch sampler requires a number of existing points "
-                f"which is at least the batch size {batch_size}, "
-                f"got {len(existing_points)}",
+                f"which is at least the batch size {batch_size}, got {len(existing_points)}"
+            )
+            raise ValueError(
+                msg,
             )
 
         # sort existing params

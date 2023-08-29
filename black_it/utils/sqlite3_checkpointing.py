@@ -192,10 +192,14 @@ def load_calibrator_state(
             SQL_LOAD_USER_VERSION,
         ).fetchone()[0]
         if checkpoint_schema_version != SCHEMA_VERSION:
+            msg = (
+                "The checkpoint you want to load has been generated with another version of the code"
+                ":\n\tCheckpoint schema version:"
+                f"          {checkpoint_schema_version}"
+                f"\tSchema version of the current code: {SCHEMA_VERSION}"
+            )
             raise Exception(
-                f"The checkpoint you want to load has been generated with another version of the code:\n"
-                f"\tCheckpoint schema version:          {checkpoint_schema_version}"
-                f"\tSchema version of the current code: {SCHEMA_VERSION}",
+                msg,
             )
 
         (

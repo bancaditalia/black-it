@@ -156,8 +156,9 @@ class Calibrator(BaseSeedable):
         both_none = samplers is None and scheduler is None
         both_not_none = samplers is not None and scheduler is not None
         if both_none and both_not_none:
+            msg = "only one between 'samplers' and 'scheduler' must be provided"
             raise ValueError(
-                "only one between 'samplers' and 'scheduler' must be provided",
+                msg,
             )
 
         if samplers is not None:

@@ -182,7 +182,8 @@ def plot_losses_method_num(
     df = pd.read_csv(os.path.join(saving_folder, "calibration_results.csv"))
 
     if method_num not in set(df["method_samp"]):
-        raise ValueError(f"Samplers with method_num = {method_num} was never used")
+        msg = f"Samplers with method_num = {method_num} was never used"
+        raise ValueError(msg)
 
     df = df.loc[df["method_samp"] == method_num]
 

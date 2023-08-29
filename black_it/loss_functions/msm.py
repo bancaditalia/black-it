@@ -121,26 +121,32 @@ class MethodOfMomentsLoss(BaseLoss):
             try:
                 _CovarianceMatrixType(covariance_mat)
             except ValueError as exc:
+                msg = f"expected one of {[x.value for x in _CovarianceMatrixType]}, got {covariance_mat})"
                 raise ValueError(
-                    f"expected one of {[x.value for x in _CovarianceMatrixType]}, got {covariance_mat})",
+                    msg,
                 ) from exc
             return
 
         if isinstance(covariance_mat, np.ndarray):
             # a non null covariance_mat was given
             if not is_symmetric(covariance_mat):
+                msg = "the provided covariance matrix is not valid as it is not a symmetric matrix"
                 raise ValueError(
-                    "the provided covariance matrix is not valid as it is not a symmetric matrix",
+                    msg,
                 )
             if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != 18):
-                raise ValueError(
+                msg = (
                     "the provided covariance matrix is not valid as it has a wrong shape: "
-                    f"expected 18, got {covariance_mat.shape[0]}",
+                    f"expected 18, got {covariance_mat.shape[0]}"
+                )
+                raise ValueError(
+                    msg,
                 )
             return
 
+        msg = "please specify a valid covariance matrix, either as a string or directly as a numpy array"
         raise ValueError(
-            "please specify a valid covariance matrix, either as a string or directly as a numpy array",
+            msg,
         )
 
     def compute_loss_1d(
@@ -200,9 +206,12 @@ class MethodOfMomentsLoss(BaseLoss):
                 # original error.
                 raise
 
-            raise ValueError(
+            msg = (
                 f"The size of the covariance matrix ({covariance_size}) "
-                f"and the number of moments ({moments_size}) should be identical",
+                f"and the number of moments ({moments_size}) should be identical"
+            )
+            raise ValueError(
+                msg,
             ) from e
 
         return loss_1d

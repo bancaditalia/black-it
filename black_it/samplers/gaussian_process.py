@@ -95,10 +95,12 @@ class GaussianProcessSampler(MLSurrogateSampler):
         try:
             _AcquisitionTypes(acquisition)
         except ValueError as e:
-            raise ValueError(
+            msg = (
                 "expected one of the following acquisition types: "
-                f"[{' '.join(map(str, _AcquisitionTypes))}], "
-                f"got {acquisition}",
+                f"[{' '.join(map(str, _AcquisitionTypes))}], got {acquisition}"
+            )
+            raise ValueError(
+                msg,
             ) from e
 
     def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> None:  # noqa: N803
