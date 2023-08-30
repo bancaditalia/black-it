@@ -55,7 +55,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
     Note: this class is a wrapper of the GaussianProcessRegressor model of the scikit-learn package.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         batch_size: int,
         random_state: int | None = None,

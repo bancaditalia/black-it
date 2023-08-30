@@ -260,7 +260,7 @@ def load_calibrator_state(
         connection.close()
 
 
-def save_calibrator_state(
+def save_calibrator_state(  # noqa: PLR0913
     checkpoint_path: PathLike,
     parameters_bounds: NDArray[np.float64],
     parameters_precision: NDArray[np.float64],

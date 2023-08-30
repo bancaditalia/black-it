@@ -58,7 +58,7 @@ def forest_fire(
 
     command = f"julia forest_fire_julia.jl {density} {n} {xsize} {ysize} {seed}"
 
-    res = subprocess.run(
+    res = subprocess.run(  # noqa: PLW1510
         command.split(),
         shell=False,
         stdout=subprocess.PIPE,

@@ -136,7 +136,7 @@ class LikelihoodLoss(BaseLoss):
         return h
 
     def compute_loss_1d(
-        self,
+        self,  # noqa: PLR6301
         sim_data_ensemble: NDArray[np.float64],  # noqa: ARG002
         real_data: NDArray[np.float64],  # noqa: ARG002
     ) -> float:

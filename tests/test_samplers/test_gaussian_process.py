@@ -47,10 +47,10 @@ class TestGaussianProcess2D:
         np.random.seed(0)
         for x in xs:
             for y in ys:
-                x = x + np.random.normal(0, 1e-2)
-                y = y + np.random.normal(0, 1e-2)
-                xys_list.append([x, y])
-                losses_list.append(x**2 + y**2)
+                px = x + np.random.normal(0, 1e-2)
+                py = y + np.random.normal(0, 1e-2)
+                xys_list.append([px, py])
+                losses_list.append(px**2 + py**2)
 
         return np.asarray(xys_list), np.asarray(losses_list)
 
