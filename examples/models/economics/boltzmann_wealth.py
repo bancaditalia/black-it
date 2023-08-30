@@ -90,7 +90,10 @@ class MoneyAgent(Agent):
     def __init__(self, unique_id: int, model: BoltzmannWealthModel) -> None:
         """Initialize the agent."""
         super().__init__(unique_id, model)
-        self.wealth = np.random.binomial(n=2 * self.model.mean_init_wealth, p=0.5)
+        self.wealth = np.random.binomial(  # noqa: NPY002
+            n=2 * self.model.mean_init_wealth,
+            p=0.5,
+        )
 
     def move(self) -> None:
         """Move the agent."""
