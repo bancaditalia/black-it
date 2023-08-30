@@ -15,7 +15,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Test the main example."""
-import pytest
 
 from tests.conftest import DEFAULT_SUBPROCESS_TIMEOUT, ROOT_DIR
 from tests.test_examples.base import BaseMainExampleTestClass
@@ -27,7 +26,6 @@ TRUE_PARAMETERS_STR = "True parameters:       [0.2, 0.2, 0.75]"
 BEST_PARAMETERS_STR = "Best parameters found: [0.19 0.19 0.74]"
 
 
-@pytest.mark.e2e
 class TestMainExample(  # pylint: disable=too-few-public-methods
     BaseMainExampleTestClass
 ):
