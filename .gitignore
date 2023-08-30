@@ -362,3 +362,5 @@ Java\ model/
 
 examples/output
 
+!tests/fixtures/data/test_sir_python.npy
+!tests/fixtures/data/test_sir_python_w_breaks_python.npy

@@ -46,12 +46,10 @@ def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N80
     Returns:
         simulated series
     """
-    np.random.seed(seed=seed)
-
     num_agents = 100000
     g = nx.watts_strogatz_graph(num_agents, int(theta[0]), theta[1], seed=theta[5])
 
-    model = ep.SIRModel(g)
+    model = ep.SIRModel(g, seed=seed)
 
     cfg = ModelConfig.Configuration()
     cfg.add_model_parameter("beta", theta[3])  # infection rate
@@ -102,12 +100,10 @@ def SIR_w_breaks(  # noqa: N802
     Returns:
         simulated series
     """
-    np.random.seed(seed=seed)
-
     num_agents = 100000
     g = nx.watts_strogatz_graph(num_agents, int(theta[0]), theta[1], seed=theta[11])
 
-    model = ep.SIRModel(g)
+    model = ep.SIRModel(g, seed=seed)
 
     cfg = ModelConfig.Configuration()
     cfg.add_model_parameter("beta", theta[3])  # infection rate
