@@ -49,7 +49,7 @@ def BH2(  # noqa: N802
     Returns:
         simulated series
     """
-    np.random.seed(seed=seed)
+    rng = np.random.default_rng(seed=seed)
 
     R = 1.10  # noqa: N806
     beta = 3.6
@@ -78,7 +78,7 @@ def BH2(  # noqa: N802
 
     for t in range(2, N + 1):
         x[t] = n[1] * g[1] * x[t - 1] / R
-        x[t] = x[t] + np.random.uniform(low=div_eps_min, high=div_eps_max, size=1)
+        x[t] = x[t] + rng.uniform(low=div_eps_min, high=div_eps_max, size=1)
 
         n[0] = np.exp(bsa * (R * x[t - 1] * (R * x[t - 1] - x[t])) - beta * C)
         n[1] = np.exp(bsa * (x[t] - R * x[t - 1]) * (g[1] * x[t - 2] - R * x[t - 1]))
@@ -115,10 +115,10 @@ def BH4(  # noqa: N802
     Returns:
         simulated series
     """
-    np.random.seed(seed=seed)
+    rng = np.random.default_rng(seed=seed)
 
-    R = 1.01  # noqa: N806
-    beta = 120
+    R = 1.0 + theta[-2]  # noqa: N806
+    beta = theta[-1]
     sigma = 0.04
 
     # BH noise:
@@ -133,7 +133,7 @@ def BH4(  # noqa: N802
     x[0] = x_lag2
     x[1] = x_lag1
 
-    for i in range(min(int(len(theta) / 2), 4)):
+    for i in range((len(theta) // 2) - 1):
         g[i] = theta[i * 2]
         b[i] = theta[i * 2 + 1]
 
@@ -150,7 +150,7 @@ def BH4(  # noqa: N802
         # divEpsMax = 0  # 0.05
         # dividend_noise = np.random.uniform(low=divEpsMin, high=divEpsMax, size=1)
         # DP noise:
-        dividend_noise = np.random.normal(0, sigma, 1)
+        dividend_noise = rng.normal(0, sigma, 1)
         x[t] = (np.sum(weighted_exp) + dividend_noise) / R
 
         left_factor = x[t] - R * x[t - 1]
