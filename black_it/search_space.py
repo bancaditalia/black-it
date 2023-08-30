@@ -101,7 +101,7 @@ class SearchSpace:
             parameters_precision: resolution of the grid of parameters
         """
         # ensure parameters_bounds is a two-elements array
-        if len(parameters_bounds) != 2:
+        if len(parameters_bounds) != 2:  # noqa: PLR2004
             raise BoundsNotOfSizeTwoError(len(parameters_bounds))
 
         # ensure the two sub-arrays of parameter_bounds (which are the min and

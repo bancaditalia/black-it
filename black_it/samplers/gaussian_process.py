@@ -32,6 +32,10 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
+_BIG_DATASET_SIZE_WARNING_THRESHOLD = 500
+_SMALL_VARIANCE_VALUES = 1e-5
+
+
 class _AcquisitionTypes(Enum):
     """Enumeration of allowed acquisition types."""
 
@@ -111,7 +115,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         """Fit a gaussian process surrogate model."""
         y = np.atleast_2d(y).T
 
-        if X.shape[0] > 500:
+        if X.shape[0] > _BIG_DATASET_SIZE_WARNING_THRESHOLD:
             warnings.warn(  # noqa: B028
                 "Standard GP evaluations can be expensive for large datasets, consider implementing a sparse GP",
                 RuntimeWarning,
@@ -207,7 +211,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
             the quantiles.
         """
         # remove values of variance that are too small
-        s[s < 1e-5] = 1e-5
+        s[s < _SMALL_VARIANCE_VALUES] = _SMALL_VARIANCE_VALUES
 
         u: NDArray[np.float64] = (fmin - m - acquisition_par) / s
         phi: NDArray[np.float64] = np.exp(-0.5 * u**2) / np.sqrt(2 * np.pi)
