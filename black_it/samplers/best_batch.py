@@ -63,11 +63,11 @@ class BestBatchSampler(BaseSampler):
                 plus/minus the perturbation_range times the precision of the specific parameter coordinate
         """
         _assert(
-            a > 0.0,
+            a > 0,
             "'a' should be greater than zero",
         )
         _assert(
-            b > 0.0,
+            b > 0,
             "'b' should be greater than zero",
         )
         _assert(

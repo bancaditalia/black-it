@@ -51,7 +51,7 @@ class Calibrator(BaseSeedable):
 
     STATE_VERSION = 0
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         loss_function: BaseLoss,
         real_data: NDArray[np.float64],
@@ -481,8 +481,7 @@ class Calibrator(BaseSeedable):
             True if the calibration converged, False otherwise.
         """
         return (
-            np.round(np.min(losses_samp[:n_sampled_params]), convergence_precision)
-            == 0.0
+            np.round(np.min(losses_samp[:n_sampled_params]), convergence_precision) == 0
         )
 
     def create_checkpoint(self, file_name: str | os.PathLike) -> None:

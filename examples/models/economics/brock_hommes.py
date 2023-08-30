@@ -137,9 +137,9 @@ def BH4(  # noqa: N802
         g[i] = theta[i * 2]
         b[i] = theta[i * 2 + 1]
 
-    if len(theta) >= 9:
+    if len(theta) >= 9:  # noqa: PLR2004
         R = 1.0 + theta[8]  # noqa: N806
-    if len(theta) >= 10:
+    if len(theta) >= 10:  # noqa: PLR2004
         beta = theta[9]
 
     for t in range(2, N + 1):

@@ -29,6 +29,9 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
+_MIN_RF_CLASSES = 2
+
+
 class RandomForestSampler(MLSurrogateSampler):
     """This class implements random forest sampling."""
 
@@ -57,7 +60,7 @@ class RandomForestSampler(MLSurrogateSampler):
                 of the distribution of loss values.
         """
         _assert(
-            n_classes > 2,
+            n_classes > _MIN_RF_CLASSES,
             "'n_classes' should be at least 2 to provide meaningful results",
         )
 

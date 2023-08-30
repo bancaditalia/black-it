@@ -37,6 +37,8 @@ Type of a custom moment calculator: a function that takes an NDArray and returns
 an NDArray.
 """
 
+_NB_MOMENTS = 18
+
 
 class _CovarianceMatrixType(Enum):
     """Enumeration of allowed covariance matrix types."""
@@ -136,10 +138,12 @@ class MethodOfMomentsLoss(BaseLoss):
                 raise ValueError(
                     msg,
                 )
-            if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != 18):
+            if (moment_calculator is get_mom_ts_1d) and (
+                covariance_mat.shape[0] != _NB_MOMENTS
+            ):
                 msg = (
                     "the provided covariance matrix is not valid as it has a wrong shape: "
-                    f"expected 18, got {covariance_mat.shape[0]}"
+                    f"expected {_NB_MOMENTS}, got {covariance_mat.shape[0]}"
                 )
                 raise ValueError(
                     msg,

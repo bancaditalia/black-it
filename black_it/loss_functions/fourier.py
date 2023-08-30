@@ -110,7 +110,7 @@ class FourierLoss(BaseLoss):
                 the loss computation.
         """
         _assert(
-            0.0 < f <= 1.0,
+            0 < f <= 1,
             "'f' must be in the interval (0.0, 1.0]",
         )
         self.frequency_filter = frequency_filter
