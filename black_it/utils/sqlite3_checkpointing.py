@@ -168,6 +168,31 @@ class gz_ndarray(NDArray):  # noqa: N801
     """
 
 
+class SchemaVersionMismatchError(Exception):
+    """Exception raised when the schema version of the checkpoint does not match the current schema version."""
+
+    def __init__(
+        self,
+        checkpoint_schema_version: int,
+        current_schema_version: int,
+    ) -> None:
+        """Initialize the exception.
+
+        Args:
+            checkpoint_schema_version: the schema version of the checkpoint
+            current_schema_version: the schema version of the current code
+        """
+        self.checkpoint_schema_version = checkpoint_schema_version
+        self.current_schema_version = current_schema_version
+        self.message = (
+            "The checkpoint you want to load has been generated with another version of the code"
+            ":\n\tCheckpoint schema version:"
+            f"          {checkpoint_schema_version}"
+            f"\tSchema version of the current code: {current_schema_version}"
+        )
+        super().__init__(self.message)
+
+
 def load_calibrator_state(
     checkpoint_path: PathLike,
 ) -> tuple:
@@ -195,14 +220,9 @@ def load_calibrator_state(
             SQL_LOAD_USER_VERSION,
         ).fetchone()[0]
         if checkpoint_schema_version != SCHEMA_VERSION:
-            msg = (
-                "The checkpoint you want to load has been generated with another version of the code"
-                ":\n\tCheckpoint schema version:"
-                f"          {checkpoint_schema_version}"
-                f"\tSchema version of the current code: {SCHEMA_VERSION}"
-            )
-            raise Exception(
-                msg,
+            raise SchemaVersionMismatchError(  # noqa: TRY301
+                checkpoint_schema_version,
+                SCHEMA_VERSION,
             )
 
         (
