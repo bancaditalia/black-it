@@ -165,7 +165,7 @@ class GslDivLoss(BaseLoss):
 
         return gsl_loss / ensemble_size
 
-    def gsl_div_1d_1_sample(
+    def gsl_div_1d_1_sample(  # noqa: PLR0913
         self,
         sim_xd: NDArray,
         obs_xd: NDArray,

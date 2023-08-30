@@ -36,7 +36,7 @@ EPS_FLOAT32 = np.finfo(np.float32).eps
 class XGBoostSampler(MLSurrogateSampler):
     """This class implements xgboost sampling."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         batch_size: int,
         random_state: int | None = None,

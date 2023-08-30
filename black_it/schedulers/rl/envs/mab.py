@@ -24,11 +24,11 @@ from black_it.schedulers.rl.envs.base import CalibrationEnv
 class MABCalibrationEnv(CalibrationEnv[int]):
     """A calibration environment for MAB algorithms."""
 
-    def get_next_observation(self) -> int:
+    def get_next_observation(self) -> int:  # noqa: PLR6301
         """Get the next observation."""
         return 0
 
-    def reset_state(self) -> int:
+    def reset_state(self) -> int:  # noqa: PLR6301
         """Get the initial state."""
         return 0
 

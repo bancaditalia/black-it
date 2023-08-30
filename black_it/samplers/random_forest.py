@@ -35,7 +35,7 @@ _MIN_RF_CLASSES = 2
 class RandomForestSampler(MLSurrogateSampler):
     """This class implements random forest sampling."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         batch_size: int,
         random_state: int | None = None,

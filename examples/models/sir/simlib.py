@@ -144,7 +144,7 @@ def _execute_simulator_subprocess(args: list[str]) -> list[dict[str, int]]:
     Returns:
         the simulation output
     """
-    res = subprocess.run(args, text=True, capture_output=True)
+    res = subprocess.run(args, text=True, capture_output=True)  # noqa: PLW1510
 
     if res.returncode != 0:
         # bail out in case of error. In a mature system we should return &
@@ -153,7 +153,7 @@ def _execute_simulator_subprocess(args: list[str]) -> list[dict[str, int]]:
         print(f"stdout:\n{res.stdout}")
         print(f"stderr:\n{res.stderr}")
 
-        exit(res.returncode)
+        sys.exit(res.returncode)
 
     return parse_simulator_output(res.stdout)
 
