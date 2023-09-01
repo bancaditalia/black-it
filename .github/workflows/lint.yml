@@ -27,6 +27,7 @@ jobs:
       run:  pip install tox
     - name: Code style check
       run: |
+        tox -e ruff-check
         tox -e black-check
         tox -e vulture
         tox -e darglint
