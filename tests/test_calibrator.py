@@ -79,7 +79,7 @@ class TestCalibrate:
         5.79615295,
     ]
 
-    win32_expected_params = np.array(
+    win32_expected_params: NDArray = np.array(
         [
             [0.15, 0.35],
             [0.56, 0.37],

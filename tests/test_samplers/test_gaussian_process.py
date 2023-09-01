@@ -31,24 +31,25 @@ class TestGaussianProcess2D:
 
     def setup(self) -> None:
         """Set up the test."""
-        self.xys, self.losses = self._construct_fake_grid()
+        self.xys, self.losses = self._construct_fake_grid(seed=0)
 
     @classmethod
     def _construct_fake_grid(
         cls,
+        seed: int = 0,
         n: int = 3,
     ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Construct a fake grid of evaluated losses."""
+        rng = np.random.default_rng(seed)
         xs = np.linspace(0, 1, n)
         ys = np.linspace(0, 1, n)
         xys_list = []
         losses_list = []
 
-        np.random.seed(0)
         for x in xs:
             for y in ys:
-                px = x + np.random.normal(0, 1e-2)
-                py = y + np.random.normal(0, 1e-2)
+                px = x + rng.normal(0, 1e-2)
+                py = y + rng.normal(0, 1e-2)
                 xys_list.append([px, py])
                 losses_list.append(px**2 + py**2)
 
@@ -115,6 +116,7 @@ def test_gaussian_process_sample_warning_too_large_dataset() -> None:
         xys,
         losses,
     ) = TestGaussianProcess2D._construct_fake_grid(  # noqa: SLF001
+        seed=0,
         n=23,
     )
     with pytest.warns(

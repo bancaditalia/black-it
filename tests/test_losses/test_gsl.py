@@ -98,13 +98,12 @@ class TestGetWords:
         GslDivLoss.get_words(*args)
 
 
-def test_gsl_default() -> None:
+def test_gsl_default(rng: np.random.Generator) -> None:
     """Test the Gsl-div loss function."""
-    expected_loss = 0.39737637181336855
+    expected_loss = 0.3972285978726733
 
-    np.random.seed(11)
-    series_sim = np.random.normal(0, 1, (100, 3))
-    series_real = np.random.normal(0, 1, (100, 3))
+    series_sim = rng.normal(0, 1, (100, 3))
+    series_real = rng.normal(0, 1, (100, 3))
 
     loss_func = GslDivLoss()
     loss = loss_func.compute_loss(series_sim[None, :, :], series_real)
@@ -112,13 +111,12 @@ def test_gsl_default() -> None:
     assert np.isclose(expected_loss, loss)
 
 
-def test_gsl_with_nb_values() -> None:
+def test_gsl_with_nb_values(rng: np.random.Generator) -> None:
     """Test the Gsl-div loss function with nb_values set."""
-    expected_loss = 0.4353415724764564
+    expected_loss = 0.4354049587629579
 
-    np.random.seed(11)
-    series_sim = np.random.normal(0, 1, (2, 100, 3))
-    series_real = np.random.normal(0, 1, (100, 3))
+    series_sim = rng.normal(0, 1, (2, 100, 3))
+    series_real = rng.normal(0, 1, (100, 3))
 
     loss_func = GslDivLoss(nb_values=10)
     loss = loss_func.compute_loss(series_sim, series_real)
@@ -126,13 +124,12 @@ def test_gsl_with_nb_values() -> None:
     assert np.isclose(expected_loss, loss)
 
 
-def test_gsl_with_nb_word_lengths() -> None:
+def test_gsl_with_nb_word_lengths(rng: np.random.Generator) -> None:
     """Test the Gsl-div loss function with nb_word_lengths set."""
-    expected_loss = 0.7210261201578492
+    expected_loss = 0.7177347914787273
 
-    np.random.seed(11)
-    series_sim = np.random.normal(0, 1, (100, 3))
-    series_real = np.random.normal(0, 1, (100, 3))
+    series_sim = rng.normal(0, 1, (100, 3))
+    series_real = rng.normal(0, 1, (100, 3))
 
     loss_func = GslDivLoss(nb_word_lengths=10)
     loss = loss_func.compute_loss(series_sim[None, :, :], series_real)

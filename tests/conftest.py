@@ -18,6 +18,9 @@
 import inspect
 from pathlib import Path
 
+import numpy as np
+import pytest
+
 CUR_PATH = Path(inspect.getfile(inspect.currentframe())).parent  # type: ignore[arg-type]
 ROOT_DIR = Path(CUR_PATH, "..").resolve().absolute()
 DOCS_DIR = ROOT_DIR / "docs"
@@ -27,3 +30,9 @@ PLOT_DIR = FIXTURES_DIR / "plots"
 EXAMPLE_SAVING_FOLDER = ROOT_DIR / "examples" / "saving_folder"
 
 DEFAULT_SUBPROCESS_TIMEOUT = 100.0
+
+
+@pytest.fixture()
+def rng() -> np.random.Generator:
+    """Return random number generator."""
+    return np.random.default_rng(seed=11)
