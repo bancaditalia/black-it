@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Callable, Optional
+from typing import Callable, Optional, Sequence
 
 import numpy as np
 from numpy.typing import NDArray
@@ -35,7 +35,7 @@ class BaseLoss(ABC):
     def __init__(
         self,
         coordinate_weights: NDArray | None = None,
-        coordinate_filters: list[Callable | None] | None = None,
+        coordinate_filters: Sequence[Callable | None] | None = None,
     ) -> None:
         """Initialize the loss function.
 
@@ -76,7 +76,7 @@ class BaseLoss(ABC):
 
     @staticmethod
     def _filter_data(
-        filters: list[Callable | None],
+        filters: Sequence[Callable | None],
         sim_data_ensemble: NDArray[np.float64],
     ) -> NDArray[np.float64]:
         """Filter the simulated time series."""
@@ -116,9 +116,9 @@ class BaseLoss(ABC):
 
         return weights
 
-    def _check_coordinate_filters(self, num_coords: int) -> list[Callable | None]:
+    def _check_coordinate_filters(self, num_coords: int) -> Sequence[Callable | None]:
         """Check self.coordinate_filters and return usable filters."""
-        filters: list[Callable | None]
+        filters: Sequence[Callable | None]
 
         if self.coordinate_filters is None:
             # a list of identity functions

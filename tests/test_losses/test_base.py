@@ -38,7 +38,7 @@ class TestComputeLoss:
             self,
             loss_constant: float,
             coordinate_weights: NDArray | None = None,
-            coordinate_filters: list[Callable | None] | None = None,
+            coordinate_filters: tuple[Callable | None, ...] | None = None,
         ) -> None:
             """Initialize the custom loss."""
             super().__init__(coordinate_weights, coordinate_filters)
@@ -60,7 +60,7 @@ class TestComputeLoss:
     nb_real_rows: int = 10
 
     coordinate_weights: NDArray[np.float64] | None
-    coordinate_filters: list[Callable | None] | None
+    coordinate_filters: tuple[Callable | None, ...] | None
 
     # instance attributes
     loss: MyCustomLoss
@@ -129,7 +129,7 @@ class TestComputeLossWhenCoordFiltersIsNotNone(TestComputeLoss):
     """Test BaseLoss.compute_loss when coordinate filters is not None."""
 
     coordinate_weights = None
-    coordinate_filters = [lambda x: x * 0, lambda x: x * 0]
+    coordinate_filters = (lambda x: x * 0, lambda x: x * 0)
 
     def test_run(self) -> None:
         """Test BaseLoss.compute_loss when coordinate filters is not None."""
@@ -141,7 +141,7 @@ class TestComputeLossWhenNbCoordFiltersIsWrong(TestComputeLoss):
     """Test BaseLoss.compute_loss when number of coordinate weights does not match data."""
 
     coordinate_weights = None
-    coordinate_filters = [lambda x: x]
+    coordinate_filters: tuple[Callable] = (lambda x: x,)
 
     def test_run(self) -> None:
         """Test BaseLoss.compute_loss when number of coordinate filters does not match data."""
