@@ -23,14 +23,13 @@ from numpy.typing import NDArray
 from black_it.loss_functions.msm import MethodOfMomentsLoss
 
 
-def test_msm_default() -> None:
+def test_msm_default(rng: np.random.Generator) -> None:
     """Test the 'method of moments' loss."""
-    expected_loss = 2.830647081075395
+    expected_loss = 2.054721024744742
 
-    np.random.seed(11)
     # ensemble size 2, time series length 100, number of variables 3
-    series_sim = np.random.normal(0, 1, (2, 100, 3))
-    series_real = np.random.normal(0, 1, (100, 3))
+    series_sim = rng.normal(0, 1, (2, 100, 3))
+    series_real = rng.normal(0, 1, (100, 3))
 
     loss_func = MethodOfMomentsLoss()
 
@@ -39,15 +38,16 @@ def test_msm_default() -> None:
     assert np.isclose(expected_loss, loss)
 
 
-def test_msm_default_calculator_custom_covariance_matrix() -> None:
+def test_msm_default_calculator_custom_covariance_matrix(
+    rng: np.random.Generator,
+) -> None:
     """Test the MSM loss when the covariance matrix is not None."""
-    expected_loss = 16.49853079135471
+    expected_loss = 7.569748247731355
 
-    np.random.seed(11)
-    series_sim = np.random.normal(0, 1, (2, 100, 3))
-    series_real = np.random.normal(0, 1, (100, 3))
+    series_sim = rng.normal(0, 1, (2, 100, 3))
+    series_real = rng.normal(0, 1, (100, 3))
 
-    random_mat = np.random.rand(18, 18)
+    random_mat = rng.random(size=(18, 18))
     covariance_matrix = random_mat.T.dot(random_mat)
 
     loss_func = MethodOfMomentsLoss(covariance_mat=covariance_matrix)
@@ -57,19 +57,23 @@ def test_msm_default_calculator_custom_covariance_matrix() -> None:
     assert np.isclose(expected_loss, loss)
 
 
-def test_msm_default_calculator_non_symmetric_covariance_matrix() -> None:
+def test_msm_default_calculator_non_symmetric_covariance_matrix(
+    rng: np.random.Generator,
+) -> None:
     """Test the MSM loss raises error when the provided matrix is not symmetric."""
     with pytest.raises(
         ValueError,
         match="the provided covariance matrix is not valid as it is not a symmetric matrix",
     ):
-        MethodOfMomentsLoss(covariance_mat=np.random.rand(2, 3))
+        MethodOfMomentsLoss(covariance_mat=rng.random(size=(2, 3)))
 
 
-def test_msm_default_calculator_wrong_shape_covariance_matrix() -> None:
+def test_msm_default_calculator_wrong_shape_covariance_matrix(
+    rng: np.random.Generator,
+) -> None:
     """Test the MSM loss raises error when the covariance matrix has wrong shape."""
     dimension = 20
-    random_mat = np.random.rand(dimension, dimension)
+    random_mat = rng.random(size=(dimension, dimension))
     wrong_covariance_matrix = random_mat.T.dot(random_mat)
     with pytest.raises(
         ValueError,
@@ -93,7 +97,9 @@ def test_msm_custom_calculator() -> None:
     assert np.isclose(expected_loss, loss)
 
 
-def test_msm_custom_calculator_wrong_shape_covariance_matrix() -> None:
+def test_msm_custom_calculator_wrong_shape_covariance_matrix(
+    rng: np.random.Generator,
+) -> None:
     """Test the 'method of moments' loss with a custom calculator and a custom covariance of the wrong shape."""
     series_sim = np.array([[0, 1]]).T
     series_real = np.array([[1, 2]]).T
@@ -102,7 +108,7 @@ def test_msm_custom_calculator_wrong_shape_covariance_matrix() -> None:
         return np.array([np.mean(time_series)])
 
     dimension = 3
-    random_mat = np.random.rand(dimension, dimension)
+    random_mat = rng.random(size=(dimension, dimension))
     wrong_covariance_matrix = random_mat.T.dot(random_mat)
 
     loss_func = MethodOfMomentsLoss(

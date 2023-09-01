@@ -37,6 +37,6 @@ class TestTsStats(BasePlotTest):
 
     def setup(self) -> None:
         """Set up the test."""
-        np.random.seed(42)
-        data = np.random.rand(100)
+        rng = np.random.default_rng(42)
+        data = rng.random(100)
         self.args = [data]

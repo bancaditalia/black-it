@@ -25,11 +25,13 @@ from black_it.utils.json_pandas_checkpointing import (
 )
 
 
-def test_save_and_load_calibrator_state() -> None:  # noqa: PLR0915
+def test_save_and_load_calibrator_state(  # noqa: PLR0915
+    rng: np.random.Generator,
+) -> None:
     """Test the 'save_calibrator_state' and 'load_calibrator_state' functions."""
     parameters_bounds = np.array([[0, 1], [0, 1]]).T
     parameters_precision = np.array([0.01, 0.01])
-    real_data = np.random.randn(100, 5)
+    real_data = rng.standard_normal(size=(100, 5))
     ensemble_size = 5
     N = 30  # noqa: N806
     D = 2  # noqa: N806
@@ -47,9 +49,9 @@ def test_save_and_load_calibrator_state() -> None:  # noqa: PLR0915
     n_sampled_params = 10
     n_jobs = 1
 
-    params_samp = np.random.rand(10, 2)
-    losses_samp = np.random.rand(10)
-    series_samp = np.random.rand(10, 100, 5)
+    params_samp = rng.random(size=(10, 2))
+    losses_samp = rng.random(size=10)
+    series_samp = rng.random(size=(10, 100, 5))
     batch_num_samp = np.arange(10)
     method_samp = np.arange(10)
 

@@ -61,7 +61,7 @@ def test_best_batch_2d() -> None:
     assert np.allclose(expected_params, new_params)
 
 
-def test_best_batch_clipping() -> None:
+def test_best_batch_clipping(rng: np.random.Generator) -> None:
     """Test the best-batch clipping when sampling."""
     lower_bound, upper_bound = 0.499, 0.5
     sampler = BestBatchSampler(batch_size=8, random_state=0)
@@ -73,19 +73,21 @@ def test_best_batch_clipping() -> None:
         verbose=False,
     )
 
-    existing_points = np.random.rand(8, 2)
-    existing_losses = np.random.rand(8)
+    existing_points = rng.random(size=(8, 2))
+    existing_losses = rng.random(8)
 
     new_params = sampler.sample(param_grid, existing_points, existing_losses)
     assert (new_params == lower_bound).any() or (new_params == upper_bound).any()
 
 
-def test_best_batch_sample_requires_batch_size_existing_points() -> None:
+def test_best_batch_sample_requires_batch_size_existing_points(
+    rng: np.random.Generator,
+) -> None:
     """Test that BestBatch.sample must be greater or equal than batch size."""
     nb_points = 8
     batch_size = 16
-    existing_points = np.random.rand(nb_points, 2)
-    existing_losses = np.random.rand(nb_points)
+    existing_points = rng.random(size=(nb_points, 2))
+    existing_losses = rng.random(size=nb_points)
     param_grid = SearchSpace(
         parameters_bounds=np.array([[0, 1], [0, 1]]).T,
         parameters_precision=np.array([0.01, 0.01]),

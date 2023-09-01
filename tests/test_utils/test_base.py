@@ -65,13 +65,13 @@ def test_digitize_data() -> None:
     assert output_array == pytest.approx(expected_output)
 
 
-def test_is_symmetric() -> None:
+def test_is_symmetric(rng: np.random.Generator) -> None:
     """Test the 'is_symmetric' function."""
     assert is_symmetric(np.zeros((0, 0)))
     assert is_symmetric(np.zeros((4, 4)))
     assert is_symmetric(np.ones((4, 4)))
 
-    assert not is_symmetric(np.random.rand(4, 4))
+    assert not is_symmetric(rng.random(size=(4, 4)))
 
 
 @given(
