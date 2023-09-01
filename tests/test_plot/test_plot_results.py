@@ -31,6 +31,7 @@ from black_it.plot.plot_results import (
 )
 from tests.conftest import EXAMPLE_SAVING_FOLDER, PLOT_DIR
 from tests.test_plot.base import BasePlotResultsTest
+from tests.utils.base import skip_on_windows
 
 
 class TestPlotConvergence(
@@ -44,6 +45,7 @@ class TestPlotConvergence(
     tolerance = None
 
 
+@skip_on_windows()
 class TestPlotLosses(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
     """Test the 'plot_losses' function."""
 
@@ -60,6 +62,7 @@ class TestPlotSampling(BasePlotResultsTest):  # pylint: disable=too-few-public-m
     expected_image = PLOT_DIR / "plot_sampling-expected.png"
 
 
+@skip_on_windows()
 class TestPlotLossesMethodNum(
     BasePlotResultsTest
 ):  # pylint: disable=too-few-public-methods
