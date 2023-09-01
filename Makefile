@@ -97,12 +97,12 @@ black-check-files: ## check black formatting for specific files (specified with 
 
 PHONY.: ruff
 ruff: ## run ruff linter
-	ruff check --fix .
+	ruff check --fix --show-fixes .
 
 PHONY.: ruff-files
 ruff-files: ## run ruff linter for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
-	ruff check --fix $(files)
+	ruff check --fix --show-fixes $(files)
 
 PHONY.: ruff-check
 ruff-check: ## check ruff linter rules
