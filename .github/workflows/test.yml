@@ -43,11 +43,21 @@ jobs:
         pyver=`echo ${{ matrix.python-version }} | tr -d "."`
         tox -e py${pyver} -- -m 'not e2e'
         tox -e py${pyver}-nb
+    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-latest') }}
+      name: Notebook tests (ubuntu-latest, macos-latest)
+      run: |
+        pyver=`echo ${{ matrix.python-version }} | tr -d "."`
+        tox -e py${pyver}-nb
     - if: matrix.os == 'windows-latest'
       name: Unit tests and coverage (windows-latest)
       run: |
         $pyver = "${{ matrix.python-version }}" -replace '\.'
         tox -e "py$pyver" -- -m 'not e2e'
+    - if: matrix.os == 'windows-latest'
+      name: Notebook tests (windows-latest)
+      run: |
+        $pyver = "${{ matrix.python-version }}" -replace '\.'
+        tox -e "py$pyver-nb"
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
