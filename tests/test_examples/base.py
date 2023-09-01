@@ -47,7 +47,7 @@ class BaseMainExampleTestClass:
 
         assert (
             process_output.returncode == 0
-        ), f"{str(self.script_path)} exited with error code {process_output.returncode}"
+        ), f"{self.script_path!s} exited with error code {process_output.returncode}"
 
         assert all(
             line in process_output.stdout for line in self.expected_lines

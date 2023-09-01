@@ -91,14 +91,18 @@ def _build_simulator_cmdline(
     Returns:
         the arguments for the Docker CLI
     """
-    return ["docker", "run", "--rm", docker_image_name] + list(
-        chain.from_iterable(
-            (
+    return [
+        "docker",
+        "run",
+        "--rm",
+        docker_image_name,
+        *list(
+            chain.from_iterable(
                 (f"--{argname}", str(argvalue))
                 for argname, argvalue in sim_params.items()
             ),
         ),
-    )
+    ]
 
 
 def execute_simulator(

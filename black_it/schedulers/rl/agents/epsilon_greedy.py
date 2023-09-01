@@ -27,7 +27,7 @@ from black_it.schedulers.rl.agents.base import Agent
 class MABEpsilonGreedy(Agent[int, int]):
     """Implementation of a MAB eps-greedy algorithm."""
 
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         n_actions: int,
         alpha: float,

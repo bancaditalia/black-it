@@ -128,5 +128,5 @@ def compute_gini(model: BoltzmannWealthModel) -> float:
     agent_wealths = [cast(MoneyAgent, agent).wealth for agent in model.schedule.agents]
     x = sorted(agent_wealths)
     n = model.num_agents
-    b = sum(xi * (n - i) for i, xi in enumerate(x)) / (n * sum(x))  # noqa: N806
+    b = sum(xi * (n - i) for i, xi in enumerate(x)) / (n * sum(x))
     return 1 + (1 / n) - 2 * b
