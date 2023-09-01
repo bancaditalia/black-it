@@ -51,10 +51,9 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     cr = pd.read_csv(checkpoint_path / "calibration_results.csv")
 
-    params_samp_list = []
-
-    for i in range(len(cp["parameters_precision"])):
-        params_samp_list.append(cr[f"params_samp_{i}"])
+    params_samp_list = [
+        cr[f"params_samp_{i}"] for i in range(len(cp["parameters_precision"]))
+    ]
 
     params_samp = np.vstack(params_samp_list).T
 

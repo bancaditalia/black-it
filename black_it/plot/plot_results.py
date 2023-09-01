@@ -66,11 +66,7 @@ def _get_samplers_names(
 
     inv_samplers_id_table = {v: k for k, v in samplers_id_table.items()}
 
-    sampler_names = []
-    for sampler_id in ids:
-        sampler_names.append(inv_samplers_id_table[sampler_id])
-
-    return sampler_names
+    return [inv_samplers_id_table[sampler_id] for sampler_id in ids]
 
 
 def plot_convergence(saving_folder: str | os.PathLike) -> None:
@@ -234,7 +230,7 @@ def plot_losses_interact(saving_folder: str | os.PathLike) -> None:
 
     for sampler, sampler_id in samplers_id_table.items():
         if sampler_id in method_nums:
-            id_samplers_cal[sampler] = sampler_id
+            id_samplers_cal[sampler] = sampler_id  # noqa: PERF403
 
     interact(
         plot_losses_method_num,

@@ -143,6 +143,6 @@ class BaseSampler(BaseSeedable, ABC):
             for repeated_group in repeated_groups:
                 repeated_idx = np.argwhere(np.all(new_points == repeated_group, axis=1))
                 for index in repeated_idx:
-                    repeated_pos.append(index[0])
+                    repeated_pos.append(index[0])  # noqa: PERF401
 
         return repeated_pos

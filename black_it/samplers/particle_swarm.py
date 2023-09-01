@@ -40,7 +40,7 @@ class ParticleSwarmSampler(BaseSampler):
 
     In a particle swarm optimizer, there is a set of particles that are "evolved" by cooperation and competition
     among the individuals themselves through generations. Each particle adjusts its flying  according to its own
-    flying experience and its companions’ flying experience. Each particle, in fact, represents a potential solution
+    flying experience and its companions' flying experience. Each particle, in fact, represents a potential solution
     to a problem. Each particle is treated as a point in a D-dimensional space.  The ith particle is represented as
     Xi = (x_{i1},...,x_{iD}). The best previous position (the position giving the best fitness value) of any particle
     is recorded and represented as Pi = (p_{i1},...,p_{iD}). The index of the best particle among all the particles
