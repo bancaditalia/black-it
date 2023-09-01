@@ -95,6 +95,7 @@ class TestPlotLossesMethodNum(
         self.args = []
 
 
+@skip_on_windows()
 class TestPlotBatchNums(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
     """Test the 'plot_sampling_batch_nums' function."""
 
