@@ -17,7 +17,7 @@
 """This test module contains tests for the plot_descriptive_statistics.py module."""
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Sequence
 
 import numpy as np
 
@@ -32,11 +32,11 @@ class TestTsStats(BasePlotTest):
     """Test 'ts_stats' plotting function."""
 
     plotting_function = ts_stats
-    args: list[Any] = []
+    args: Sequence[Any] = ()
     expected_image = PLOT_DIR / "ts_stats-expected.png"
 
     def setup(self) -> None:
         """Set up the test."""
         rng = np.random.default_rng(42)
         data = rng.random(100)
-        self.args = [data]
+        self.args = (data,)

@@ -20,7 +20,7 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable
+from typing import Any, Callable, Sequence
 
 import matplotlib.pyplot as plt
 from matplotlib.testing.compare import compare_images
@@ -32,7 +32,7 @@ class BasePlotTest:
     plotting_function: Callable
     expected_image: Path
     tolerance: float | None = 0.000
-    args: list[Any] = []
+    args: Sequence[Any] = ()
 
     def test_run(self) -> None:
         """Run the test."""

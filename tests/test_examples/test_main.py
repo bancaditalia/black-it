@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Test the main example."""
+from __future__ import annotations
 
 from tests.conftest import DEFAULT_SUBPROCESS_TIMEOUT, ROOT_DIR
 from tests.test_examples.base import BaseMainExampleTestClass
@@ -32,7 +33,7 @@ class TestMainExample(BaseMainExampleTestClass):
     script_path = EXAMPLE_MAIN_SCRIPT_PATH
     timeout = DEFAULT_SUBPROCESS_TIMEOUT
     nb_batches = 5
-    expected_lines = [
+    expected_lines: tuple[str, ...] = (
         "PARAMS SAMPLED: 0",
         "METHOD: HaltonSampler",
         "METHOD: RandomForestSampler",
@@ -40,4 +41,4 @@ class TestMainExample(BaseMainExampleTestClass):
         *[f"BATCH NUMBER:   {i}" for i in range(1, nb_batches + 1)],
         TRUE_PARAMETERS_STR,
         BEST_PARAMETERS_STR,
-    ]
+    )
