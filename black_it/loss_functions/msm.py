@@ -54,7 +54,7 @@ class _CovarianceMatrixType(Enum):
 class MethodOfMomentsLoss(BaseLoss):
     """Class for the 'method of moments' loss."""
 
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         covariance_mat: str | NDArray[np.float64] = "identity",
         coordinate_weights: NDArray[np.float64] | None = None,

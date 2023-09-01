@@ -103,7 +103,7 @@ def plot_convergence(saving_folder: str | os.PathLike) -> None:
     sampler_names = _get_samplers_names(saving_folder, ids)
 
     handles, labels = g.get_legend_handles_labels()
-    labels = sampler_names + [labels[-1]]
+    labels = [*sampler_names, labels[-1]]
 
     plt.legend(handles, labels, loc="upper right")
 

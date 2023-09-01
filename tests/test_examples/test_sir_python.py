@@ -23,7 +23,7 @@ try:
     from examples.models.sir.sir_python import SIR, SIR_w_breaks
 except ModuleNotFoundError as e:
     pytest.skip(
-        f"skipping tests for SIR python models, reason: {str(e)}",
+        f"skipping tests for SIR python models, reason: {e!s}",
         allow_module_level=True,
     )
 
