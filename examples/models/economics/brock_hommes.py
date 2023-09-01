@@ -104,7 +104,7 @@ def BH4(  # noqa: N802
 
     From Donovan Platt 2019: (experiments run)
     [g2, b2] and [g2, b2, g3, b3], with all parameters assumed to lie in the
-    interval [0, 1], with the exception of b3, which we assume lies in the interval [−1, 0].
+    interval [0, 1], with the exception of b3, which we assume lies in the interval [-1, 0].
     [g1,b1,  g2,b2,  g3,b3,  g4,b4,  r,β] = [0,0,  0.9,0.2,  0.9,-0.2,  1.01,0,  0.01,1]
 
     Args:

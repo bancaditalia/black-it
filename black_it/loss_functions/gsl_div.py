@@ -111,7 +111,7 @@ class GslDivLoss(BaseLoss):
         > The information loss about the behaviour of the stochastic process
           due to the symbolization becomes smaller and smaller as b increases.
           On the other side, low values of b would likely wash away
-          processes’ noise the modeller might not be interested in.
+          processes' noise the modeller might not be interested in.
 
         Args:
             sim_data_ensemble: the ensemble of simulated data

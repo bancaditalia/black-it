@@ -1,4 +1,4 @@
-select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE","B","A","COM","CPY","C4","DTZ","T10","DJ","EM","EXE","FA","ISC","ICN","G","INP","PIE","PYI","PT","Q","RSE","RET","SLF","SLOT","SIM","TID","TCH","INT","ARG","PTH","TD","FIX","ERA","PD","PGH","PL","TRY","FLY","NPY"]
+select = ["F","W","E","C90","I","N","D","UP","YTT","ANN","ASYNC","BLE","B","A","COM","CPY","C4","DTZ","T10","DJ","EM","EXE","FA","ISC","ICN","G","INP","PIE","PYI","PT","Q","RSE","RET","SLF","SLOT","SIM","TID","TCH","INT","ARG","PTH","TD","FIX","ERA","PD","PGH","PL","TRY","FLY","NPY","AIR","PERF"]
 ignore = ["ANN101", "ANN102", "E203", "S", "FBT", "T20"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
