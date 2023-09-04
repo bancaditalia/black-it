@@ -52,12 +52,14 @@ jobs:
       name: Unit tests and coverage (windows-latest)
       run: |
         $pyver = "${{ matrix.python-version }}" -replace '\.'
-        tox -e "py$pyver" -- -m 'not e2e'
+        tox -e "py$pyver" -- -m 'not e2e' | Tee-Object output.txt -ErrorAction SilentlyContinue
+        .\scripts\check-tox-output.ps1 output.txt
     - if: matrix.os == 'windows-latest'
       name: Notebook tests (windows-latest)
       run: |
         $pyver = "${{ matrix.python-version }}" -replace '\.'
-        tox -e "py$pyver-nb"
+        tox -e "py$pyver-nb" | Tee-Object output.txt -ErrorAction SilentlyContinue
+        .\scripts\check-tox-output.ps1 output.txt
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
