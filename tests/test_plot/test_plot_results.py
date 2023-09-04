@@ -55,6 +55,7 @@ class TestPlotLosses(BasePlotResultsTest):  # pylint: disable=too-few-public-met
     expected_image = PLOT_DIR / "plot_losses-expected.png"
 
 
+@skip_on_windows()
 class TestPlotSampling(BasePlotResultsTest):  # pylint: disable=too-few-public-methods
     """Test the 'plot_sampling' function."""
 
