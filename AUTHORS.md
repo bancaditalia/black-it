@@ -1,9 +1,5 @@
 # Credits
 
-## Original Author
- 
-- [Gennaro Catapano](https://github.com/CatapanoG) <[gennaro.catapano@bancaditalia.it](mailto:gennaro.catapano@bancaditalia.it)>
-
 ## Co-authors/Maintainers
 
 - [Marco Benedetti](https://github.com/mabene-BI) <[marco.benedetti@bancaditalia.it](mailto:marco.benedetti@bancaditalia.it)>
@@ -15,4 +11,10 @@
 
 ## Contributors
 
-None yet. [Why not be the first](./CONTRIBUTING.md)? 
+- [Jonathan Chassot](https://github.com/JLDC) <[jonathan.chassot@unisg.ch](mailto:jonathan.chassot@unisg.ch)> for the moment newtork modules
+
+If you are interested in contributing, check [this guide](./CONTRIBUTING.md)? 
+
+## Original Author
+ 
+- [Gennaro Catapano](https://github.com/CatapanoG) <[gennaro.catapano@bancaditalia.it](mailto:gennaro.catapano@bancaditalia.it)>

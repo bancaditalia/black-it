@@ -16,6 +16,7 @@
 
 """Module containing simple models used for testing."""
 
+from typing import Optional, Union, List
 import numpy as np
 from numpy.typing import NDArray
 
@@ -97,3 +98,20 @@ def BH4(theta: NDArray, N: int, seed: int) -> NDArray:
         n = softmax(beta * left_factor * right_factor)
 
     return np.atleast_2d(x[2:]).T
+
+
+def AR1(theta: Union[List, NDArray], N: int, seed: Optional[int]) -> NDArray[np.float64]:
+    """AR(1) model.
+
+    Model 1 in Platt (2019)
+    """
+    np.random.seed(seed=seed)
+
+    # AR(1)
+    # Y_t = p0*Y_t-1 + eps
+    y:NDArray = np.zeros(N)
+    y[0] = np.random.normal(0, 1, 1)
+    for i in range(1, N):
+        y[i] = theta[0] * y[i - 1] + np.random.normal(0, 1, 1)
+
+    return np.atleast_2d(y).T
