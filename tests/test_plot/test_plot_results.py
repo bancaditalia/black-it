@@ -34,6 +34,7 @@ from tests.test_plot.base import BasePlotResultsTest
 from tests.utils.base import skip_on_windows
 
 
+@skip_on_windows()
 class TestPlotConvergence(
     BasePlotResultsTest
 ):  # pylint: disable=too-few-public-methods
