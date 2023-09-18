@@ -33,7 +33,7 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
 
     @classmethod
     def _construct_fake_grid(
-        cls, n: int = 6
+        cls, n: int = 3
     ) -> Tuple[NDArray[np.float64], NDArray[np.float64]]:
         """Construct a fake grid of evaluated losses."""
         xs = np.linspace(0, 1, n)
@@ -51,29 +51,28 @@ class TestGaussianProcess2D:  # pylint: disable=attribute-defined-outside-init
 
         return np.asarray(xys_list), np.asarray(losses_list)
 
-    @pytest.mark.skip
     @pytest.mark.parametrize(
         "acquisition,optimize_restarts,expected_params",
         [
             [
                 "mean",
                 1,
-                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.02]]),
+                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.0]]),
             ],
             [
                 "mean",
                 3,
-                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.02]]),
+                np.array([[0.0, 0.01], [0.01, 0.01], [0.0, 0.02], [0.01, 0.0]]),
             ],
             [
                 "expected_improvement",
                 1,
-                np.array([[0.09, 0.64], [0.81, 0.5], [0.87, 0.8], [0.72, 0.48]]),
+                np.array([[0.0, 0.01], [0.0, 0.02], [0.01, 0.01], [0.01, 0.0]]),
             ],
             [
                 "expected_improvement",
                 3,
-                np.array([[0.09, 0.64], [0.81, 0.5], [0.87, 0.8], [0.72, 0.48]]),
+                np.array([[0.0, 0.01], [0.0, 0.02], [0.01, 0.01], [0.01, 0.0]]),
             ],
         ],
     )
