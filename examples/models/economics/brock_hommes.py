@@ -127,9 +127,14 @@ def BH4(theta: Sequence[float], N: int, seed: int):
     x[0] = x_lag2
     x[1] = x_lag1
 
-    for i in range(int(len(theta) / 2)):
+    for i in range(min(int(len(theta) / 2), 4)):
         g[i] = theta[i * 2]
         b[i] = theta[i * 2 + 1]
+
+    if len(theta) >= 9:
+        R = 1.0 + theta[8]
+    if len(theta) >= 10:
+        beta = theta[9]
 
     for t in range(2, N + 1):
         expectation = np.add(g * x[t - 1], b)
