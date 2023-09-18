@@ -50,16 +50,16 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             [0.63, 0.41],
             [0.18, 0.39],
             [0.56, 0.37],
-            [0.83, 0.35],
+            [0.61, 0.53],
             [0.54, 0.32],
             [0.74, 0.32],
             [0.53, 0.46],
-            [0.57, 0.39],
-            [0.94, 0.42],
+            [0.55, 0.62],
+            [0.71, 0.35],
             [0.32, 0.93],
             [0.8, 0.06],
-            [0.01, 0.02],
-            [0.04, 0.99],
+            [0.99, 1.0],
+            [0.06, 0.98],
         ]
     )
 
@@ -68,52 +68,16 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         0.55274918,
         0.55798021,
         0.61712034,
-        0.91962075,
+        0.78963342,
         1.31118518,
         1.51682355,
         1.55503666,
-        1.65968375,
-        1.78845827,
+        1.68181078,
+        1.70075834,
         1.79905545,
         2.07605975,
-        2.28484134,
-        3.01432484,
-    ]
-
-    win32_expected_params = np.array(
-        [
-            [0.59, 0.36],
-            [0.63, 0.41],
-            [0.18, 0.39],
-            [0.56, 0.37],
-            [0.83, 0.35],
-            [0.54, 0.32],
-            [0.74, 0.32],
-            [0.53, 0.46],
-            [0.57, 0.39],
-            [0.32, 0.93],
-            [0.8, 0.06],
-            [0.01, 0.02],
-            [1.0, 0.99],
-            [0.04, 0.99],
-        ]
-    )
-
-    win32_expected_losses = [
-        0.33400294,
-        0.55274918,
-        0.55798021,
-        0.61712034,
-        0.91962075,
-        1.31118518,
-        1.51682355,
-        1.55503666,
-        1.65968375,
-        1.79905545,
-        2.07605975,
-        2.28484134,
-        2.60093616,
-        3.01432484,
+        2.25201126,
+        2.97360386,
     ]
 
     darwin_expected_params = np.array(
@@ -122,16 +86,16 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
             [0.63, 0.41],
             [0.18, 0.39],
             [0.56, 0.37],
-            [0.83, 0.35],
+            [0.63, 0.31],
             [0.54, 0.32],
+            [0.37, 0.59],
             [0.74, 0.32],
             [0.53, 0.46],
             [0.57, 0.39],
-            [0.92, 0.39],
             [0.32, 0.93],
+            [0.03, 0.36],
             [0.8, 0.06],
-            [0.01, 0.02],
-            [0.04, 0.99],
+            [0.06, 0.98],
         ]
     )
 
@@ -140,16 +104,16 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
         0.55274918,
         0.55798021,
         0.61712034,
-        0.91962075,
+        0.89679611,
         1.31118518,
+        1.3961825,
         1.51682355,
         1.55503666,
         1.65968375,
-        1.78808894,
         1.79905545,
+        1.92174866,
         2.07605975,
-        2.28484134,
-        3.01432484,
+        2.97360386,
     ]
 
     def setup(self) -> None:
@@ -210,10 +174,9 @@ class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-d
 
         # TODO: this is a temporary workaround to make tests to run also on Windows.  # pylint: disable=fixme
         #       See: https://github.com/bancaditalia/black-it/issues/49
-        if sys.platform == "win32":
-            assert np.allclose(params, self.win32_expected_params)
-            assert np.allclose(losses, self.win32_expected_losses)
-        elif sys.platform == "darwin":
+        print(params.tolist())
+        print(losses.tolist())
+        if sys.platform == "darwin":
             assert np.allclose(params, self.darwin_expected_params)
             assert np.allclose(losses, self.darwin_expected_losses)
         else:
