@@ -1,4 +1,3 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -26,11 +25,14 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
+PHONY.: help
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+PHONY.: clean
 clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, coverage and Python artifacts
 
+PHONY.: clean-build
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
@@ -38,17 +40,20 @@ clean-build: ## remove build artifacts
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
 
+PHONY.: clean-pyc
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
+PHONY.: clean-docs
 clean-docs:  ## remove MkDocs products.
 	mkdocs build --clean
 	rm -fr site/
 
 
+PHONY.: clean-test
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -f .coverage
@@ -57,45 +62,58 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .mypy_cache
 	rm -fr coverage.xml
 
+PHONY.: lint-all
 lint-all: black isort flake8 static bandit safety vulture darglint pylint ## run all linters
 
+PHONY.: lint-all-files
 lint-all-files: black-files isort-files flake8-files static-files bandit-files vulture-files darglint-files pylint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
+PHONY.: flake8
 flake8: ## check style with flake8
 	flake8 black_it tests scripts examples
 
+PHONY.: flake8-files
 flake8-files: ## check style with flake8 for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	flake8 $(files)
 
+PHONY.: static
 static: ## static type checking with mypy
 	mypy black_it tests scripts examples
 
+PHONY.: static-files
 static-files: ## static type checking with mypy for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	mypy $(files)
 
+PHONY.: isort
 isort: ## sort import statements with isort
 	isort black_it tests scripts examples
 
+PHONY.: isort-files
 isort-files: ## sort import statements with isort for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	isort $(files)
 
+PHONY.: isort-check
 isort-check: ## check import statements order with isort
 	isort --check-only black_it tests scripts examples
 
+PHONY.: isort-check-files
 isort-check-files: ## check import statements order with isort for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	isort --check-only $(files)
 
+PHONY.: black
 black: ## apply black formatting
 	black black_it tests scripts examples
 
+PHONY.: black-files
 black-files: ## apply black formatting for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	black $(files)
 
+PHONY.: black-check
 black-check: ## check black formatting
 	black --check --verbose black_it tests scripts examples
 
@@ -103,39 +121,49 @@ black-check-files: ## check black formatting for specific files (specified with 
 	$(call check_defined, files)
 	black --check --verbose $(files)
 
+PHONY.: bandit
 bandit: ## run bandit
 	bandit --configfile .bandit.yaml --recursive black_it tests scripts examples
 
+PHONY.: bandit-files
 bandit-files: ## run bandit for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	bandit $(files)
 
+PHONY.: safety
 safety: ## run safety
 	safety check
 
+PHONY.: safety-files
 pylint: ## run pylint
 	pylint black_it tests scripts examples
 
+PHONY.: pylint-files
 pylint-files: ## run pylint for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	pylint $(files)
 
+PHONY.: vulture
 vulture: ## run vulture
 	vulture black_it scripts/whitelists/package_whitelist.py
 	vulture examples scripts/whitelists/examples_whitelist.py
 	vulture tests scripts/whitelists/tests_whitelist.py
 
+PHONY.: vulture-files
 vulture-files: ## run vulture for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	vulture $(files) scripts/whitelists/package_whitelist.py scripts/whitelists/examples_whitelist.py scripts/whitelists/tests_whitelist.py
 
+PHONY.: darglint
 darglint: ## run darglint
 	darglint black_it
 
+PHONY.: darglint-files
 darglint-files: ## run darglint for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	darglint $(files)
 
+PHONY.: test
 test: ## run tests quickly with the default Python
 	pytest                              \
 		tests/                          \
@@ -146,6 +174,7 @@ test: ## run tests quickly with the default Python
 		--cov-report=term               \
 		-m 'not e2e'
 
+PHONY.: test-e2e
 test-e2e:
 	pytest tests                        \
 		--cov=black_it                  \
@@ -154,6 +183,7 @@ test-e2e:
 		--cov-report=term               \
 		-m 'e2e'
 
+PHONY.: test-nb
 test-nb:
 	pytest examples --nbmake --nbmake-timeout=300
 
@@ -177,34 +207,42 @@ test-sub:
 	find . -name ".coverage*" -not -name ".coveragerc" -exec rm -fr "{}" \;
 
 
+.PHONY: test-all
 test-all: ## run tests on every Python version with tox
 	tox
 
+.PHONY: coverage
 coverage: ## check code coverage quickly with the default Python, omitting example models (not really part of black-it)
 	coverage run --source black_it --omit="*/examples/models*,*/black_it/plot*" -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
+.PHONY: docs
 docs: ## generate MkDocs HTML documentation, including API docs
 	mkdocs build --clean
 	$(BROWSER) site/index.html
 
+.PHONY: servedocs
 servedocs: docs ## compile the docs watching for changes
 	mkdocs build --clean
 	python -c 'print("###### Starting local server. Press Control+C to stop server ######")'
 	mkdocs serve
 
+.PHONY: release
 release: dist ## package and upload a release
 	twine upload dist/*
 
+.PHONY: dist
 dist: clean ## builds source and wheel package
 	poetry build
 	ls -l dist
 
+.PHONY: install
 install: clean ## install the package to the active Python's site-packages
 	poetry install
 
+.PHONY: develop
 develop: clean ## install the package in development mode
 	echo "Not supported by Poetry yet!"
 
