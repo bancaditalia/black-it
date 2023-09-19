@@ -37,8 +37,7 @@ from black_it.samplers.xgboost import XGBoostSampler
 from black_it.schedulers.round_robin import RoundRobinScheduler
 from black_it.search_space import SearchSpace
 from black_it.utils.seedable import BaseSeedable
-
-from .fixtures.test_models import NormalMV  # type: ignore
+from examples.models.simple_models import NormalMV
 
 
 class TestCalibrate:  # pylint: disable=too-many-instance-attributes,attribute-defined-outside-init

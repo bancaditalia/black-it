@@ -23,8 +23,7 @@ from black_it.loss_functions.msm import MethodOfMomentsLoss
 from black_it.samplers.halton import HaltonSampler
 from black_it.samplers.xgboost import XGBoostSampler
 from black_it.search_space import SearchSpace
-
-from ..fixtures.test_models import BH4  # type: ignore
+from examples.models.economics.brock_hommes import BH4
 
 # TODO: this is a temporary workaround to make tests to run also on Windows and Mac.  # pylint: disable=fixme
 #       See: https://github.com/bancaditalia/black-it/issues/49
