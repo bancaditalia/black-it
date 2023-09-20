@@ -22,8 +22,10 @@ import numpy as np
 from black_it.plot.plot_descriptive_statistics import ts_stats
 from tests.conftest import PLOT_DIR
 from tests.test_plot.base import BasePlotTest
+from tests.utils.base import skip_on_windows
 
 
+@skip_on_windows()
 class TestTsStats(BasePlotTest):
     """Test 'ts_stats' plotting function."""
 
