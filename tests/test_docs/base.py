@@ -35,6 +35,9 @@ class BaseMainExampleDocs(BaseTestMarkdownDocs):
         # remove shebang
         example_code = example_code.replace("#!/usr/bin/env python3\n", "")
 
+        # remove copyright notice and license
+        example_code = re.sub("^#.*\n(\n?)", "", example_code, flags=re.MULTILINE)
+
         # remove docstring
         example_code = re.sub('""".*"""\n', "", example_code)
 
