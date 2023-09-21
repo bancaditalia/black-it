@@ -21,11 +21,11 @@ import pickle  # nosec B403
 from pathlib import Path
 from typing import TYPE_CHECKING, Collection
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore[import]
 import numpy as np
-import pandas as pd
-import seaborn as sns
-from ipywidgets import fixed, interact
+import pandas as pd  # type: ignore[import]
+import seaborn as sns  # type: ignore[import]
+from ipywidgets import fixed, interact  # type: ignore[import]
 
 from black_it.calibrator import Calibrator
 

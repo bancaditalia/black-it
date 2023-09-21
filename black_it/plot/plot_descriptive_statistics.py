@@ -18,9 +18,9 @@
 """This module contains helper functions for plotting TS descriptive statistics."""
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore[import]
 import numpy as np
-import statsmodels.api as sm
+import statsmodels.api as sm  # type: ignore[import]
 
 
 def ts_stats(time_series_raw: list[float]) -> None:

@@ -20,7 +20,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from scipy.stats import betabinom
+from scipy.stats import betabinom  # type: ignore[import]
 
 from black_it.samplers.base import BaseSampler
 from black_it.utils.base import _assert

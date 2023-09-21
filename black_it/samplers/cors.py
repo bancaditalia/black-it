@@ -26,7 +26,7 @@ from math import factorial
 from typing import TYPE_CHECKING, Callable, cast
 
 import numpy as np
-import scipy.optimize as op
+import scipy.optimize as op  # type: ignore[import]
 from numpy.linalg import LinAlgError
 from numpy.typing import NDArray
 
