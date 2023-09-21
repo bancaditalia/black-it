@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable
 
-from scipy.spatial.distance import minkowski
+from scipy.spatial.distance import minkowski  # type: ignore[import]
 
 from black_it.loss_functions.base import BaseLoss
 

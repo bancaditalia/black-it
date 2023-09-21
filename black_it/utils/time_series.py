@@ -20,9 +20,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-import scipy.sparse as sps
-import statsmodels.api as sm
-from scipy.stats import kurtosis, skew
+import scipy.sparse as sps  # type: ignore[import]
+import statsmodels.api as sm  # type: ignore[import]
+from scipy.stats import kurtosis, skew  # type: ignore[import]
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

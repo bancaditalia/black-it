@@ -23,8 +23,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Mapping
 
 import numpy as np
-import pandas as pd
-import tables
+import pandas as pd  # type: ignore[import]
+import tables  # type: ignore[import]
 
 from black_it.utils.base import NumpyArrayEncoder, PathLike
 

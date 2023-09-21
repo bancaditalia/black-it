@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Sequence, cast
 
 import numpy as np
-from joblib import Parallel, delayed
+from joblib import Parallel, delayed  # type: ignore[import]
 
 from black_it.schedulers.base import BaseScheduler
 from black_it.schedulers.round_robin import RoundRobinScheduler

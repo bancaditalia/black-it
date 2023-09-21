@@ -22,8 +22,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Callable, Sequence
 
-import matplotlib.pyplot as plt
-from matplotlib.testing.compare import compare_images
+import matplotlib.pyplot as plt  # type: ignore[import]
+from matplotlib.testing.compare import compare_images  # type: ignore[import]
 
 
 class BasePlotTest:

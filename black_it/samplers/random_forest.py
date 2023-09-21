@@ -20,7 +20,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier  # type: ignore[import]
 
 from black_it.samplers.surrogate import MLSurrogateSampler
 from black_it.utils.base import _assert

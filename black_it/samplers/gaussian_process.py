@@ -23,8 +23,8 @@ from enum import Enum
 from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from scipy.special import erfc
-from sklearn.gaussian_process import GaussianProcessRegressor, kernels
+from scipy.special import erfc  # type: ignore[import]  # pylint: disable=no-name-in-module
+from sklearn.gaussian_process import GaussianProcessRegressor, kernels  # type: ignore[import]
 
 from black_it.samplers.surrogate import MLSurrogateSampler
 
