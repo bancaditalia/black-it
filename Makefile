@@ -79,7 +79,7 @@ static-files: ## static type checking with mypy for specific files (specified wi
 
 PHONY.: black
 black: ## apply black formatting
-	black black_it tests scripts examples
+	black .
 
 PHONY.: black-files
 black-files: ## apply black formatting for specific files (specified with files="file1 file2 somedir ...")
@@ -88,7 +88,7 @@ black-files: ## apply black formatting for specific files (specified with files=
 
 PHONY.: black-check
 black-check: ## check black formatting
-	black --check --verbose black_it tests scripts examples
+	black --check --verbose .
 
 PHONY.: black-check-files
 black-check-files: ## check black formatting for specific files (specified with files="file1 file2 somedir ...")
