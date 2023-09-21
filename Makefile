@@ -70,7 +70,7 @@ lint-all-files: black-files ruff-files static-files bandit-files vulture-files d
 
 PHONY.: static
 static: ## static type checking with mypy
-	mypy black_it tests scripts examples
+	mypy
 
 PHONY.: static-files
 static-files: ## static type checking with mypy for specific files (specified with files="file1 file2 somedir ...")
