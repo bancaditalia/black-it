@@ -20,8 +20,8 @@ import json
 from io import StringIO
 from typing import TYPE_CHECKING
 
-import mistletoe
-from mistletoe.ast_renderer import ASTRenderer
+import mistletoe  # type: ignore[import]
+from mistletoe.ast_renderer import ASTRenderer  # type: ignore[import]
 
 if TYPE_CHECKING:
     from pathlib import Path
