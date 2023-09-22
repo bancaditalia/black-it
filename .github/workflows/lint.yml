@@ -27,15 +27,11 @@ jobs:
       run:  pip install tox
     - name: Code style check
       run: |
-        tox -e ruff-check
-        tox -e black-check
-        tox -e vulture
-        tox -e darglint
+        tox -e black-check,ruff-check,vulture,darglint
     - name: Static type check
       run: tox -e mypy
     - name: Check copyright
       run: tox -e check-copyright
     - name: Misc checks
       run: |
-        tox -e bandit
-        tox -e safety
+        tox -e bandit,safety
