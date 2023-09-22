@@ -68,6 +68,10 @@ lint-all: black ruff static bandit safety vulture darglint ## run all linters
 .PHONY: lint-all-files
 lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
+.PHONY: poetry-lock-check
+poetry-lock-check: ## check if poetry.lock is consistent with pyproject.toml
+	poetry check --lock
+
 .PHONY: static
 static: ## static type checking with mypy
 	mypy

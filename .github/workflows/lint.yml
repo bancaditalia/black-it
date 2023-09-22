@@ -24,7 +24,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run:  pip install tox
+      run:  pip install poetry tox
+    - name: Check Poetry lock file
+      run: make poetry-lock-check
     - name: Code style check
       run: |
         tox -e black-check,ruff-check,vulture,darglint
