@@ -25,14 +25,14 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
-PHONY.: help
+.PHONY: help
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-PHONY.: clean
+.PHONY: clean
 clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, coverage and Python artifacts
 
-PHONY.: clean-build
+.PHONY: clean-build
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
@@ -40,20 +40,20 @@ clean-build: ## remove build artifacts
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
 
-PHONY.: clean-pyc
+.PHONY: clean-pyc
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-PHONY.: clean-docs
+.PHONY: clean-docs
 clean-docs:  ## remove MkDocs products.
 	mkdocs build --clean
 	rm -fr site/
 
 
-PHONY.: clean-test
+.PHONY: clean-test
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -f .coverage
@@ -62,91 +62,91 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .mypy_cache
 	rm -fr coverage.xml
 
-PHONY.: lint-all
+.PHONY: lint-all
 lint-all: black ruff static bandit safety vulture darglint ## run all linters
 
-PHONY.: lint-all-files
+.PHONY: lint-all-files
 lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
-PHONY.: static
+.PHONY: static
 static: ## static type checking with mypy
 	mypy
 
-PHONY.: static-files
+.PHONY: static-files
 static-files: ## static type checking with mypy for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	mypy $(files)
 
-PHONY.: black
+.PHONY: black
 black: ## apply black formatting
 	black .
 
-PHONY.: black-files
+.PHONY: black-files
 black-files: ## apply black formatting for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	black $(files)
 
-PHONY.: black-check
+.PHONY: black-check
 black-check: ## check black formatting
 	black --check --verbose .
 
-PHONY.: black-check-files
+.PHONY: black-check-files
 black-check-files: ## check black formatting for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	black --check --verbose $(files)
 
-PHONY.: ruff
+.PHONY: ruff
 ruff: ## run ruff linter
 	ruff check --fix --show-fixes .
 
-PHONY.: ruff-files
+.PHONY: ruff-files
 ruff-files: ## run ruff linter for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	ruff check --fix --show-fixes $(files)
 
-PHONY.: ruff-check
+.PHONY: ruff-check
 ruff-check: ## check ruff linter rules
 	ruff check .
 
-PHONY.: ruff-check-files
+.PHONY: ruff-check-files
 ruff-check-files: ## check ruff linter rules for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	ruff check $(files)
 
-PHONY.: bandit
+.PHONY: bandit
 bandit: ## run bandit
 	bandit --configfile .bandit.yaml --recursive black_it tests scripts examples
 
-PHONY.: bandit-files
+.PHONY: bandit-files
 bandit-files: ## run bandit for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	bandit $(files)
 
-PHONY.: safety
+.PHONY: safety
 safety: ## run safety
 	safety check
 
-PHONY.: vulture
+.PHONY: vulture
 vulture: ## run vulture
 	vulture black_it scripts/whitelists/package_whitelist.py
 	vulture examples scripts/whitelists/examples_whitelist.py
 	vulture tests scripts/whitelists/tests_whitelist.py
 
-PHONY.: vulture-files
+.PHONY: vulture-files
 vulture-files: ## run vulture for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	vulture $(files) scripts/whitelists/package_whitelist.py scripts/whitelists/examples_whitelist.py scripts/whitelists/tests_whitelist.py
 
-PHONY.: darglint
+.PHONY: darglint
 darglint: ## run darglint
 	darglint black_it
 
-PHONY.: darglint-files
+.PHONY: darglint-files
 darglint-files: ## run darglint for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
 	darglint $(files)
 
-PHONY.: test
+.PHONY: test
 test: ## run tests quickly with the default Python
 	pytest                              \
 		tests/                          \
@@ -157,7 +157,7 @@ test: ## run tests quickly with the default Python
 		--cov-report=term               \
 		-m 'not e2e'
 
-PHONY.: test-e2e
+.PHONY: test-e2e
 test-e2e:
 	pytest tests                        \
 		--cov=black_it                  \
@@ -166,7 +166,7 @@ test-e2e:
 		--cov-report=term               \
 		-m 'e2e'
 
-PHONY.: test-nb
+.PHONY: test-nb
 test-nb:
 	pytest examples --nbmake --nbmake-timeout=300
 
