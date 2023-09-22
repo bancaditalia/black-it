@@ -214,7 +214,7 @@ def halton(
     for index in range(n_start + 1, sample_size + n_start + 1):
         n_th_numbers: NDArray[np.float64] = np.zeros(shape=nb_bases)
         denoms: NDArray[np.float64] = np.ones(shape=nb_bases)
-        done: NDArray[np.bool8] = np.zeros(shape=nb_bases, dtype=np.bool8)
+        done: NDArray[np.bool_] = np.zeros(shape=nb_bases, dtype=np.bool_)
         i = np.repeat(np.int64(index), repeats=nb_bases)
         while (i > 0).any():
             i, remainders = np.divmod(i, bases)
