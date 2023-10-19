@@ -43,7 +43,7 @@ fi
 
 echo "Found 'mdspell' executable at ${MDSPELL_PATH}"
 
-mdspell_ignore_strings_args=('!docs/losses.md' '!docs/calibrator.md' '!docs/samplers.md' '!docs/search_space.md')
+mdspell_ignore_strings_args=('!docs/losses.md' '!docs/calibrator.md' '!docs/samplers.md' '!docs/search_space.md' '!HISTORY.md')
 if [ $# == 0 ] || [ $# -gt 1 ] || { [ $# == 1 ] && { [ "$1" == "-h" ] || [ "$1" == "--help" ]; }; }; then
   echo "${USAGE}"
   exit 1
