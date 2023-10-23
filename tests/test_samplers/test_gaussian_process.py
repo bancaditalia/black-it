@@ -24,6 +24,9 @@ from numpy.typing import NDArray
 
 from black_it.samplers.gaussian_process import GaussianProcessSampler, _AcquisitionTypes
 from black_it.search_space import SearchSpace
+from tests.utils.base import no_gpy_installed, no_python311_for_gpy
+
+pytestmark = [no_python311_for_gpy, no_gpy_installed]
 
 
 class TestGaussianProcess2D:

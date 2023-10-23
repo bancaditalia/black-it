@@ -39,7 +39,12 @@ from black_it.search_space import SearchSpace
 from black_it.utils.seedable import BaseSeedable
 from examples.models.simple_models import NormalMV
 
+from .utils.base import no_gpy_installed, no_python311_for_gpy, no_xgboost_installed
 
+
+@no_python311_for_gpy
+@no_gpy_installed
+@no_xgboost_installed
 class TestCalibrate:
     """Test the Calibrator.calibrate method."""
 

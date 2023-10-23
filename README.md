@@ -38,18 +38,33 @@ matter of days, with no need to reimplement all the plumbings from scratch.
 
 This project requires Python v3.8 or later.
 
-To install the latest version of the package from [PyPI](https://pypi.org/project/black-it/):
+To install the latest version of the package from [PyPI](https://pypi.org/project/black-it/), with all the extra dependencies (recommended):
 ```
-pip install black-it
+pip install "black-it[all]"
 ```
 
 Or, directly from GitHub:
 
 ```
-pip install git+https://github.com/bancaditalia/black-it.git#egg=black-it
+pip install git+https://github.com/bancaditalia/black-it.git#egg="black-it[all]"
 ```
 
 If you'd like to contribute to the package, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) guide.
+
+### Feature-specific Package Dependencies
+
+We use the [optional dependencies mechanism of `setuptools`](https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#optional-dependencies) 
+(also called _extras_) to allow users to avoid dependencies for features they don't use.
+
+For the basic features of the package, you can install the `black-it` package without extras, e.g. `pip install black-it`.
+However, for certain components, you will need to install some more extras using the syntax `pip install black-it[extra-1,extra-2,...]`.
+
+For example, the [Gaussian Process Sampler](https://bancaditalia.github.io/black-it/samplers/#black_it.samplers.gaussian_process.GaussianProcessSampler)
+depends on the Python package [`GPy`](https://github.com/SheffieldML/GPy/).
+If the Gaussian Process sampler is not needed by your application, you can avoid its installation by just installing `black-it` as explained above. 
+However, if you need the sampler, you must install `black-it` with the `gp-sampler` extra: `pip install black-it[gp-sampler]`. 
+
+The special extra `all` will install all the dependencies.
 
 ## Quick Example
 
