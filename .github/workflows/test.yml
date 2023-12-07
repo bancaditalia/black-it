@@ -10,11 +10,13 @@ jobs:
   run:
     continue-on-error: True
     runs-on: ${{ matrix.os }}
+    env:
+      OSX_VERSION: ""
 
     strategy:
       matrix:
-        # on macos-11 instead of macos-latest, see https://github.com/bancaditalia/black-it/issues/79
-        os: [ubuntu-latest, macos-11, windows-latest]
+        # on macos-latest instead of macos-latest, see https://github.com/bancaditalia/black-it/issues/79
+        os: [macos-latest]
         python-version: [3.8, 3.9, "3.10", "3.11"]
 
     timeout-minutes: 30
@@ -38,23 +40,35 @@ jobs:
 #      env:
 #        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 #      run: ...
-    - if: matrix.os == 'macos-11'
-      name: Install dependencies (macos-11)
+    - if: matrix.os == 'macos-latest'
+      name: Read MacOS version
+      shell: bash
       run: |
+        VERSION=$(sw_vers -productVersion)
+        echo "MacOS version is $VERSION"
+        echo "OSX_VERSION=${VERSION}" >> $GITHUB_ENV
+    - if: env.OSX_VERSION == '12.7.1'
+      name: Install dependencies (macos-latest)
+      shell: bash
+      run: |
+        pip install cython==0.29.36
         # for some reason this seems to be a necessary step for MacOS images, but not for Ubuntu and Windows
         brew install hdf5
         brew install c-blosc
         # https://stackoverflow.com/questions/73029883/could-not-find-hdf5-installation-for-pytables-on-m1-mac
-        echo "HDF5_DIR=/usr/local/" >> $GITHUB_ENV
-        echo "BLOSC_DIR=/usr/local/" >> $GITHUB_ENV
-    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-11') }}
-      name: Unit tests and coverage (ubuntu-latest, macos-11)
+        echo "$(brew --prefix hdf5)"
+        echo "$(brew --prefix c-blosc)"
+        echo "HDF5_DIR=$(brew --prefix hdf5)" >> $GITHUB_ENV
+        echo "BLOSC_DIR=$(brew --prefix c-blosc)" >> $GITHUB_ENV
+        pip install --no-cache-dir --no-binary=tables tables==3.8.0
+    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-latest') }}
+      name: Unit tests and coverage (ubuntu-latest, macos-latest)
       run: |
         pyver=`echo ${{ matrix.python-version }} | tr -d "."`
         tox -e py${pyver} -- -m 'not e2e'
         tox -e py${pyver}-nb
-    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-11') }}
-      name: Notebook tests (ubuntu-latest, macos-11)
+    - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-latest') }}
+      name: Notebook tests (ubuntu-latest, macos-latest)
       run: |
         pyver=`echo ${{ matrix.python-version }} | tr -d "."`
         tox -e py${pyver}-nb
