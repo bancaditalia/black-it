@@ -37,6 +37,15 @@ jobs:
 #      env:
 #        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 #      run: ...
+    - if: matrix.os == 'macos-latest'
+      name: Install dependencies (macos-latest)
+      run: |
+        # for some reason this seems to be a necessary step for MacOS images, but not for Ubuntu and Windows
+        brew install hdf5
+        brew install c-blosc
+        # https://stackoverflow.com/questions/73029883/could-not-find-hdf5-installation-for-pytables-on-m1-mac
+        echo "HDF5_DIR=/opt/homebrew/opt/hdf5" >> $GITHUB_ENV
+        echo "BLOSC_DIR=/opt/homebrew/opt/c-blosc" >> $GITHUB_ENV
     - if: ${{ (matrix.os == 'ubuntu-latest') || (matrix.os == 'macos-latest') }}
       name: Unit tests and coverage (ubuntu-latest, macos-latest)
       run: |
