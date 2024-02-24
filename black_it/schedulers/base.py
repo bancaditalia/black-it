@@ -19,11 +19,13 @@ from __future__ import annotations
 
 import contextlib
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generator, Sequence
+from typing import TYPE_CHECKING
 
 from black_it.utils.seedable import BaseSeedable
 
 if TYPE_CHECKING:
+    from collections.abc import Generator, Sequence
+
     import numpy as np
     from numpy.typing import NDArray
 

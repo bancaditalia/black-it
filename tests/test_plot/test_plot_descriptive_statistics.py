@@ -17,7 +17,7 @@
 """This test module contains tests for the plot_descriptive_statistics.py module."""
 from __future__ import annotations
 
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -25,6 +25,9 @@ from black_it.plot.plot_descriptive_statistics import ts_stats
 from tests.conftest import PLOT_DIR
 from tests.test_plot.base import BasePlotTest
 from tests.utils.base import skip_on_windows
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 @skip_on_windows()

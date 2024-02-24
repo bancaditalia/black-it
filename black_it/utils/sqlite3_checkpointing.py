@@ -23,12 +23,14 @@ import json
 import pickle  # nosec B403
 import sqlite3
 from pathlib import Path
-from typing import TYPE_CHECKING, Mapping, Sequence
+from typing import TYPE_CHECKING
 
 import numpy as np
 from numpy.typing import NDArray
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+
     from black_it.loss_functions.base import BaseLoss
     from black_it.samplers.base import BaseSampler
     from black_it.utils.base import PathLike
