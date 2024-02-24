@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import pickle  # nosec B403
 from pathlib import Path
-from typing import TYPE_CHECKING, Collection
+from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt  # type: ignore[import]
 import numpy as np
@@ -31,6 +31,7 @@ from black_it.calibrator import Calibrator
 
 if TYPE_CHECKING:
     import os
+    from collections.abc import Collection
 
     from numpy.typing import NDArray
 

@@ -20,10 +20,13 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, Sequence
+from typing import TYPE_CHECKING, Any, Callable
 
 import matplotlib.pyplot as plt  # type: ignore[import]
 from matplotlib.testing.compare import compare_images  # type: ignore[import]
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class BasePlotTest:

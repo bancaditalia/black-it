@@ -18,12 +18,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Callable, Optional, Sequence
+from typing import TYPE_CHECKING, Callable, Optional
 
 import numpy as np
 from numpy.typing import NDArray
 
 from black_it.utils.base import _assert
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 TimeSeriesFilter = Optional[Callable[[NDArray[np.float64]], NDArray[np.float64]]]
 """A filter that receives a time series and returns its filtered version. Used by the BaseLoss constructor."""
