@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -26,6 +26,8 @@ from black_it.samplers.base import BaseSampler
 from black_it.utils.base import check_arg, digitize_data
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from numpy.typing import NDArray
 
     from black_it.search_space import SearchSpace

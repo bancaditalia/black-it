@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, List, Sequence, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
@@ -27,6 +27,7 @@ from black_it.samplers.halton import HaltonSampler
 from black_it.schedulers.base import BaseScheduler
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from queue import Queue
 
     from numpy._typing import NDArray
@@ -103,7 +104,7 @@ class RLScheduler(BaseScheduler):
             return samplers, sampler_types[HaltonSampler]
 
         new_sampler = HaltonSampler(batch_size=1)
-        return tuple(list(samplers) + cast(List[BaseSampler], [new_sampler])), len(
+        return tuple(list(samplers) + cast(list[BaseSampler], [new_sampler])), len(
             samplers,
         )
 
