@@ -1,5 +1,5 @@
 # Black-box ABM Calibration Kit (Black-it)
-# Copyright (C) 2021-2023 Banca d'Italia
+# Copyright (C) 2021-2024 Banca d'Italia
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
