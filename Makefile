@@ -29,6 +29,10 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+.PHONY: check-copyright
+check-copyright: ## check that the copyright notice is consistent across the code base
+	scripts/check_copyright.py
+
 .PHONY: clean
 clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, coverage and Python artifacts
 
@@ -63,7 +67,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 .PHONY: lint-all
-lint-all: black ruff static bandit safety vulture darglint ## run all linters
+lint-all: black check-copyright ruff static bandit safety vulture darglint ## run all linters
 
 .PHONY: lint-all-files
 lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
