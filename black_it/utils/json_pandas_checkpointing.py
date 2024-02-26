@@ -20,7 +20,7 @@ from __future__ import annotations
 import json
 import pickle  # nosec B403
 from pathlib import Path
-from typing import TYPE_CHECKING, Mapping
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd  # type: ignore[import]
@@ -29,6 +29,8 @@ import tables  # type: ignore[import]
 from black_it.utils.base import NumpyArrayEncoder, PathLike
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from numpy.typing import NDArray
 
     from black_it.loss_functions.base import BaseLoss

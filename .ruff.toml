@@ -42,8 +42,8 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # Whether to enable preview mode. When preview mode is enabled, Ruff will use unstable rules and fixes.
 preview = true
 
-# Assume Python 3.8
-target-version = "py38"
+# Assume Python 3.9
+target-version = "py39"
 
 [per-file-ignores]
 "examples/docker-sir.py" = ["INP001", "T201"]
