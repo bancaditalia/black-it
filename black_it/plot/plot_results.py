@@ -32,6 +32,8 @@ from black_it.calibrator import Calibrator
 if TYPE_CHECKING:
     import os
 
+    from numpy.typing import NDArray
+
 
 def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     """Get the id table of the samplers from the checkpoint.
@@ -298,7 +300,7 @@ def plot_sampling_interact(saving_folder: str | os.PathLike) -> None:
     data_frame = pd.read_csv(calibration_results_file)
 
     max_bn = int(max(data_frame["batch_num_samp"]))
-    all_bns = np.arange(max_bn + 1, dtype=int)
+    all_bns: NDArray[np.int64] = np.arange(max_bn + 1, dtype=int)
     indices_bns = np.array_split(all_bns, min(max_bn, 3))
 
     dict_bns = {}

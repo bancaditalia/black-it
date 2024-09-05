@@ -28,9 +28,9 @@ from black_it.samplers.surrogate import MLSurrogateSampler
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
-MAX_FLOAT32 = np.finfo(np.float32).max
-MIN_FLOAT32 = np.finfo(np.float32).min
-EPS_FLOAT32 = np.finfo(np.float32).eps
+MAX_FLOAT32: float = cast(float, np.finfo(np.float32).max)
+MIN_FLOAT32: float = cast(float, np.finfo(np.float32).min)
+EPS_FLOAT32: float = cast(float, np.finfo(np.float32).eps)
 
 
 class XGBoostSampler(MLSurrogateSampler):

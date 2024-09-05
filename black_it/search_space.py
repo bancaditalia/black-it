@@ -72,7 +72,7 @@ class SearchSpace:
         self._param_grid: list[NDArray[np.float64]] = []
         self._space_size = 1
         for i in range(self.dims):
-            new_col = np.arange(
+            new_col: NDArray[np.float64] = np.arange(
                 parameters_bounds[0][i],
                 parameters_bounds[1][i] + 0.0000001,
                 parameters_precision[i],

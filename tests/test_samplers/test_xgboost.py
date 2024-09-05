@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the xgboost sampler."""
 import sys
+from typing import cast
 
 import numpy as np
 
@@ -34,9 +35,9 @@ elif sys.platform == "darwin":
 else:
     expected_params = np.array([[0.24, 0.26], [0.37, 0.21], [0.43, 0.14], [0.11, 0.04]])
 
-MAX_FLOAT32 = np.finfo(np.float32).max
-MIN_FLOAT32 = np.finfo(np.float32).min
-EPS_FLOAT32 = np.finfo(np.float32).eps
+MAX_FLOAT32: float = cast(float, np.finfo(np.float32).max)
+MIN_FLOAT32: float = cast(float, np.finfo(np.float32).min)
+EPS_FLOAT32: float = cast(float, np.finfo(np.float32).eps)
 
 
 def test_xgboost_2d() -> None:

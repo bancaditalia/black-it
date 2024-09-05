@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, Callable, cast
 
 import numpy as np
 
@@ -82,9 +82,13 @@ class LikelihoodLoss(BaseLoss):
         Returns:
             The loss value.
         """
-        r = sim_data_ensemble.shape[0]  # number of repetitions
-        s = sim_data_ensemble.shape[1]  # simulation length
-        d = sim_data_ensemble.shape[2]  # number of dimensions
+        sim_data_ensemble_shape: tuple[int, int, int] = cast(
+            tuple[int, int, int],
+            sim_data_ensemble.shape,
+        )
+        r = sim_data_ensemble_shape[0]  # number of repetitions
+        s = sim_data_ensemble_shape[1]  # simulation length
+        d = sim_data_ensemble_shape[2]  # time series dimension
 
         if self.coordinate_weights is not None:
             warnings.warn(  # noqa: B028
