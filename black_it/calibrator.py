@@ -127,9 +127,11 @@ class Calibrator(BaseSeedable):
         # initialize arrays
         self.params_samp = np.zeros((0, self.param_grid.dims))
         self.losses_samp = np.zeros(0)
-        self.batch_num_samp = np.zeros(0, dtype=int)
-        self.method_samp = np.zeros(0, dtype=int)
-        self.series_samp = np.zeros((0, self.ensemble_size, self.N, self.D))
+        self.batch_num_samp: NDArray[np.int64] = np.zeros(0, dtype=int)
+        self.method_samp: NDArray[np.int64] = np.zeros(0, dtype=int)
+        self.series_samp: NDArray[np.float64] = np.zeros(
+            (0, self.ensemble_size, self.N, self.D),
+        )
 
         # initialize variables before calibration
         self.n_sampled_params = 0

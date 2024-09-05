@@ -270,7 +270,7 @@ class GslDivLoss(BaseLoss):
             "the chosen word length is too high",
             exception_class=ValueError,
         )
-        tsw = np.zeros(shape=(tswlen,), dtype=np.int32)
+        tsw: NDArray[np.float64] = np.zeros(shape=(tswlen,), dtype=np.int32)
 
         for i in range(length):
             k = 10 ** (length - i - 1)
