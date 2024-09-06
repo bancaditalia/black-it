@@ -26,7 +26,7 @@ EXAMPLE_MAIN_SCRIPT_PATH = ROOT_DIR / "examples" / "main.py"
 
 
 TRUE_PARAMETERS_STR = "True parameters:       [0.2, 0.2, 0.75]"
-BEST_PARAMETERS_STR = "Best parameters found: [0.19 0.21 0.68]"
+BEST_PARAMETERS_STR = "Best parameters found: [0.11 0.13 0.87]"
 
 
 class TestMainExample(BaseMainExampleTestClass):
