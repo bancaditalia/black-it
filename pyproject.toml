@@ -55,7 +55,7 @@ gymnasium = "^0.27.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.5"
-black = "^23.9.1"
+black = "^24.8.0"
 codecov = "^2.1.13"
 darglint = "^1.8.1"
 hypothesis = "^6.86.2"
