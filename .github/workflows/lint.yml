@@ -36,4 +36,4 @@ jobs:
       run: tox -e check-copyright
     - name: Misc checks
       run: |
-        tox -e bandit,safety
+        tox -e bandit

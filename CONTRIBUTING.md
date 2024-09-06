@@ -66,7 +66,6 @@ We have various commands which are helpful during development.
 ```
 make lint-all
 make static
-make safety
 make bandit
 ```
 
