@@ -379,12 +379,16 @@ class Calibrator(BaseSeedable):
                     self.params_samp,
                     self.losses_samp,
                 )
+                print(f"Parameters sampled by {method.__class__}")
+                print(new_params)
 
                 t_eval = time.time()
 
                 # simulate an ensemble of models for different parameters
 
                 new_simulated_data = self.simulate_model(new_params)
+                print(f"New simulated data: ")
+                print(new_simulated_data)
 
                 new_losses = []
 

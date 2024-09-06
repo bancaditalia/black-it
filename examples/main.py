@@ -16,6 +16,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This is a simple example showing the main features of the library."""
+import sys
+
+import numpy as np
+
 import models.simple_models as md
 
 from black_it.calibrator import Calibrator
@@ -23,6 +27,8 @@ from black_it.loss_functions.msm import MethodOfMomentsLoss
 from black_it.samplers.best_batch import BestBatchSampler
 from black_it.samplers.halton import HaltonSampler
 from black_it.samplers.random_forest import RandomForestSampler
+
+np.set_printoptions(threshold=sys.maxsize)
 
 if __name__ == "__main__":
     true_params = [0.20, 0.20, 0.75]
@@ -44,6 +50,7 @@ if __name__ == "__main__":
     N = 2000
     seed = 1
     real_data = model(true_params, N, seed)
+    print("Real data:", real_data)
 
     # define a loss
     loss = MethodOfMomentsLoss()

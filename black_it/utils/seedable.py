@@ -75,7 +75,9 @@ class BaseSeedable:
 
     def _get_random_seed(self) -> int:
         """Get new random seed from the current random generator."""
-        return get_random_seed(self.__random_generator)
+        seed = get_random_seed(self.__random_generator)
+        print("Generated seed: ", seed)
+        return seed
 
 
 def get_random_seed(random_generator: np.random.Generator) -> int:
