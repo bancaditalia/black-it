@@ -38,7 +38,7 @@ class TestTsStats(BasePlotTest):
     args: Sequence[Any] = ()
     expected_image = PLOT_DIR / "ts_stats-expected.png"
 
-    def setup(self) -> None:
+    def setup_method(self) -> None:
         """Set up the test."""
         rng = np.random.default_rng(42)
         data = rng.random(100)

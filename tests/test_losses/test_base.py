@@ -67,7 +67,7 @@ class TestComputeLoss:
     sim_data: NDArray[np.float64]
     real_data: NDArray[np.float64]
 
-    def setup(self) -> None:
+    def setup_method(self) -> None:
         """Set up the tests."""
         self.loss = TestComputeLoss.MyCustomLoss(
             self.loss_constant,

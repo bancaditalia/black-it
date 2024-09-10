@@ -119,7 +119,7 @@ class TestCalibrate:
         ],
     )
 
-    def setup(self) -> None:
+    def setup_method(self) -> None:
         """Set up the tests."""
         self.true_params = np.array([0.50, 0.50])
         self.bounds = [

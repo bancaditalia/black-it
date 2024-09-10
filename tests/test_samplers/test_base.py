@@ -55,7 +55,7 @@ class TestSetRandomState:
             """Sample a batch of parameters."""
             return self.random_generator.random(size=(batch_size, search_space.dims))
 
-    def setup(self) -> None:
+    def setup_method(self) -> None:
         """Set up the tests."""
         self.bounds = [[0.10, 0.10, 0.10], [1.00, 1.00, 1.00]]
         self.bounds_step = [0.01, 0.01, 0.01]
