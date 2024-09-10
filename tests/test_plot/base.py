@@ -44,6 +44,7 @@ class BasePlotTest:
     def run(self) -> None:
         """Run the plotting and the image comparison."""
         logging.getLogger("matplotlib.font_manager").disabled = True
+        logging.getLogger("PIL.PngImagePlugin").setLevel(logging.INFO)
         plt.close()
         self.plotting_function.__func__(*self.args)  # type: ignore[attr-defined]
         with TemporaryDirectory() as tmpdir:
