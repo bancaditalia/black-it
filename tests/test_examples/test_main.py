@@ -17,6 +17,8 @@
 """Test the main example."""
 from __future__ import annotations
 
+import sys
+
 from tests.conftest import DEFAULT_SUBPROCESS_TIMEOUT, ROOT_DIR
 from tests.test_examples.base import BaseMainExampleTestClass
 
@@ -33,6 +35,13 @@ class TestMainExample(BaseMainExampleTestClass):
     script_path = EXAMPLE_MAIN_SCRIPT_PATH
     timeout = DEFAULT_SUBPROCESS_TIMEOUT
     nb_batches = 5
+    if sys.platform == "darwin":
+        # 2024-09-10: MethodOfMomentsLoss started giving slightly different
+        # values on MacOS when statsmodels was updated from 0.13 to 0.14. This
+        # captures the change, so that when a fix arrives upstream we can update
+        # the test again.
+        BEST_PARAMETERS_STR = "Best parameters found: [0.21 0.19 0.76]"
+
     expected_lines: tuple[str, ...] = (
         "PARAMS SAMPLED: 0",
         "METHOD: HaltonSampler",
