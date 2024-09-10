@@ -23,7 +23,7 @@ import numpy as np
 import models.simple_models as md
 
 from black_it.calibrator import Calibrator
-from black_it.loss_functions.minkowski import MinkowskiLoss
+from black_it.loss_functions.msm import MethodOfMomentsLoss
 from black_it.samplers.best_batch import BestBatchSampler
 from black_it.samplers.halton import HaltonSampler
 from black_it.samplers.random_forest import RandomForestSampler
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print("Real data:", real_data)
 
     # define a loss
-    loss = MinkowskiLoss()
+    loss = MethodOfMomentsLoss()
 
     # define the calibration seed
     calibration_seed = 1
