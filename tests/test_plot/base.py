@@ -69,6 +69,6 @@ class BasePlotResultsTest(BasePlotTest):
     saving_folder: Path
 
     @classmethod
-    def setup(cls) -> None:
+    def setup_method(cls) -> None:
         """Set up the test."""
         cls.args = [cls.saving_folder, *cls.args]

@@ -83,7 +83,7 @@ class TestPlotLossesMethodNum(BasePlotResultsTest):
         self.args = [self.saving_folder, method_num]
         super().run()
 
-    def teardown(self) -> None:
+    def teardown_method(self) -> None:
         """Tear down the test."""
         # restore default attributes
         delattr(self, "expected_image")
@@ -113,7 +113,7 @@ class TestPlotBatchNums(BasePlotResultsTest):
         self.args = [self.saving_folder, list(range(batch_num))]
         super().run()
 
-    def teardown(self) -> None:
+    def teardown_method(self) -> None:
         """Tear down the test."""
         # restore default attributes
         delattr(self, "expected_image")

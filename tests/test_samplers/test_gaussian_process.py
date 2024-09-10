@@ -29,7 +29,7 @@ from black_it.search_space import SearchSpace
 class TestGaussianProcess2D:
     """Test GaussianProcess sampling."""
 
-    def setup(self) -> None:
+    def setup_method(self) -> None:
         """Set up the test."""
         self.xys, self.losses = self._construct_fake_grid(seed=0)
 
