@@ -1,6 +1,11 @@
 Release History
 ===============
 
+0.3.1 (2024-09-11)
+------------------
+* tests: add missing "311" env in tox.ini by @muxator in https://github.com/bancaditalia/black-it/pull/81
+* RFC: support python 3.12 (but drop 3.8) by @muxator in https://github.com/bancaditalia/black-it/pull/82
+
 0.3.0 (2023-10-19)
 ------------------
 * losses: add likelihood loss and test, improve base loss by @AldoGl in https://github.com/bancaditalia/black-it/pull/38

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "black-it"
-version = "0.3.0"
+version = "0.3.1"
 description = "black-it: Black-box abm calibration kit"
 authors = [
     "Applied Research Team <appliedresearchteam@bancaditalia.it>",
