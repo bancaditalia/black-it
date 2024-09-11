@@ -47,7 +47,7 @@ class TestDiscretize:
 
     @given(discretize_args())
     def test_discretize_time_series_any_args(
-        self,  # noqa: PLR6301
+        self,
         args: tuple,
     ) -> None:
         """Test the case with randomly generated args."""
@@ -55,7 +55,7 @@ class TestDiscretize:
 
     @given(discretize_args())
     def test_discretize_time_series_partition(
-        self,  # noqa: PLR6301
+        self,
         args: tuple,
     ) -> None:
         """Test that discretize computes the right number of partitions."""
