@@ -154,7 +154,7 @@ darglint-files: ## run darglint for specific files (specified with files="file1 
 test: ## run tests quickly with the default Python
 	pytest                              \
 		tests/                          \
-		--doctest-modules black_it      \
+		black_it                        \
 		--cov=black_it                  \
 		--cov-report=xml                \
 		--cov-report=html               \
