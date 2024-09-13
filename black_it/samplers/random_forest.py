@@ -148,6 +148,6 @@ class RandomForestSampler(MLSurrogateSampler):
         quantiles[-1] = np.max(y)
 
         y_cat: NDArray[np.int64] = np.digitize(y, quantiles, right=True)
-        y_cat = y_cat - 1
+        y_cat -= 1
 
         return x, y_cat, quantiles

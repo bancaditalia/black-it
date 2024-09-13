@@ -80,11 +80,11 @@ def BH2(  # noqa: N802
 
     for t in range(2, N + 1):
         x[t] = n[1] * g[1] * x[t - 1] / R
-        x[t] = x[t] + rng.uniform(low=div_eps_min, high=div_eps_max, size=1)
+        x[t] += rng.uniform(low=div_eps_min, high=div_eps_max, size=1)
 
         n[0] = np.exp(bsa * (R * x[t - 1] * (R * x[t - 1] - x[t])) - beta * C)
         n[1] = np.exp(bsa * (x[t] - R * x[t - 1]) * (g[1] * x[t - 2] - R * x[t - 1]))
-        n = n / np.sum(n)
+        n /= np.sum(n)
 
     return np.atleast_2d(x[2:]).T
 

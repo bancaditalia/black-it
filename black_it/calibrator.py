@@ -208,7 +208,7 @@ class Calibrator(BaseSeedable):
                 continue
 
             samplers_id_table[sampler_name] = sampler_id
-            sampler_id = sampler_id + 1
+            sampler_id += 1
 
         return samplers_id_table
 
@@ -241,7 +241,7 @@ class Calibrator(BaseSeedable):
                 continue
 
             self.samplers_id_table[sampler_name] = sampler_id
-            sampler_id = sampler_id + 1
+            sampler_id += 1
 
     @classmethod
     def restore_from_checkpoint(
@@ -437,7 +437,7 @@ class Calibrator(BaseSeedable):
                     )
 
                 # update count of number of params sampled
-                self.n_sampled_params = self.n_sampled_params + len(new_params)
+                self.n_sampled_params += len(new_params)
 
                 self.scheduler.update(
                     self.current_batch_index,

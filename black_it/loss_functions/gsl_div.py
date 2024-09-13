@@ -203,14 +203,14 @@ class GslDivLoss(BaseLoss):
             m_entr = self.get_sh_entr(m_xp, base)
 
             # update weight
-            weight = weight + 2 / (nb_word_lengths * (nb_word_lengths + 1))
+            weight += 2 / (nb_word_lengths * (nb_word_lengths + 1))
 
             # correction
             corr = ((len(m_xp) - 1) - (len(sim_xp) - 1)) / (2 * ts_length)
 
             # add to measure
             gsl_divl = 2 * m_entr - sim_entr + corr
-            gsl_div = gsl_div + weight * gsl_divl
+            gsl_div += weight * gsl_divl
 
         # end of cycle, return
         return gsl_div
@@ -274,7 +274,7 @@ class GslDivLoss(BaseLoss):
 
         for i in range(length):
             k = 10 ** (length - i - 1)
-            tsw = tsw + time_series[i : tswlen + i] * k
+            tsw += time_series[i:tswlen + i] * k
 
         return tsw
 

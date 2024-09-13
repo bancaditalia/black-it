@@ -167,7 +167,7 @@ def MarkovC_3P(  # noqa: N802
     for i in range(N):
         b = bernoulli.rvs(theta[s], size=1, random_state=rng)
         if b == 1:
-            s = s + 1
+            s += 1
             if s == len(x):
                 s = 0
 
@@ -192,7 +192,7 @@ def MarkovC_KP(  # noqa: N802
     for i in range(N):
         b = bernoulli.rvs(theta[s], size=1, random_state=rng)
         if b == 1:
-            s = s + 1
+            s += 1
             if s == len(theta):
                 s = 0
 

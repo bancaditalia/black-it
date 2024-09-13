@@ -153,7 +153,7 @@ class _PrimesIterator:
     def __next__(self) -> int:
         """Get the next prime number."""
         while True:
-            self._candidate = self._candidate + 1
+            self._candidate += 1
             for i in self._primes:
                 while self._candidate > i[1]:
                     i[1] = i[0] + i[1]
