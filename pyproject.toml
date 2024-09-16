@@ -66,7 +66,13 @@ darglint = "^1.8.1"
 codecov = "^2.1.13"
 ipython = "^8.12.2"
 jupyter = "^1.0.0"
-Markdown = "^3.4.4"
+ndlib = "^5.1.1"
+pydocstyle = "^6.3.0"
+tox = "^4.4.12"
+twine = "^4.0.2"
+
+[tool.poetry.group.docs.dependencies]
+markdown = "^3.4.4"
 markdown-include = "^0.8.1"
 mkdocs = "^1.5.3"
 mkdocs-autorefs = "^0.5.0"
@@ -75,11 +81,7 @@ mkdocs-material-extensions = "^1.2"
 mkdocstrings = "^0.22.0"
 mkdocstrings-python-legacy = "^0.2.3"
 mknotebooks = "^0.8.0"
-ndlib = "^5.1.1"
-pydocstyle = "^6.3.0"
 pymdown-extensions = "^10.3"
-tox = "^4.4.12"
-twine = "^4.0.2"
 
 [tool.poetry.group.mypy.dependencies]
 # in order to use the mypy group, you'll also have to install testenv.
