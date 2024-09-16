@@ -1353,6 +1353,7 @@ files = [
 [package.dependencies]
 attrs = ">=22.2.0"
 exceptiongroup = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
+numpy = {version = ">=1.19.3", optional = true, markers = "extra == \"numpy\""}
 sortedcontainers = ">=2.1.0,<3.0.0"
 
 [package.extras]
@@ -5317,4 +5318,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "696c71cbeb61cb3a9992c2fd8a9d9a273ce8949db11838639003a032db833b8a"
+content-hash = "3ae31aa1cb316f062640bb1b77e35550ee0a9eaba4ffd4cc36d11bf730604710"
