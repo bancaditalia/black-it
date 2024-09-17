@@ -68,6 +68,7 @@ ipython = "^8.12.2"
 jupyter = "^1.0.0"
 ndlib = "^5.1.1"
 pydocstyle = "^6.3.0"
+tomli = { version = "^2.2.1", python = "<3.11" } # TODO: remove the dependency on tomli once the minimum supported python version becomes 3.11
 tox = "^4.4.12"
 twine = "^4.0.2"
 

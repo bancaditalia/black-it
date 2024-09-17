@@ -46,6 +46,8 @@ jobs:
       run: tox -e mypy
     - name: Check copyright
       run: tox -e check-copyright
+    - name: Check that mypy.cfg and .ruff.toml target the same python version
+      run: tox -e check-uniform-python-version
     - name: Misc checks
       run: |
         tox -e bandit

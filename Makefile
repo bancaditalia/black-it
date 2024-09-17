@@ -33,6 +33,10 @@ help:
 check-copyright: ## check that the copyright notice is consistent across the code base
 	scripts/check_copyright.py
 
+.PHONY: check-uniform-python-version
+check-uniform-python-version: ## check that mypy.cfg and .ruff.toml target the same python version
+	if scripts/check_uniform_python_version.py; then (echo "the versions should have been different!"; exit 1); else echo "The versions are different, as expected"; fi
+
 .PHONY: clean
 clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, coverage and Python artifacts
 
@@ -67,7 +71,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 .PHONY: lint-all
-lint-all: black check-copyright poetry-lock-check ruff static bandit vulture darglint ## run all linters
+lint-all: black check-copyright check-uniform-python-version poetry-lock-check ruff static bandit vulture darglint ## run all linters
 
 .PHONY: lint-all-files
 lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
