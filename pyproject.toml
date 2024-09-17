@@ -53,11 +53,13 @@ joblib = "^1.3.2"
 gymnasium = "^0.27.1"
 h5py = "^3.13.0"
 
+[tool.poetry.group.bandit.dependencies]
+bandit = "^1.7.5"
+
 [tool.poetry.group.black.dependencies]
 black = "^24.8.0"
 
 [tool.poetry.group.dev.dependencies]
-bandit = "^1.7.5"
 codecov = "^2.1.13"
 darglint = "^1.8.1"
 ipython = "^8.12.2"
