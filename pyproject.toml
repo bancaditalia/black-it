@@ -71,7 +71,6 @@ ndlib = "^5.1.1"
 pydocstyle = "^6.3.0"
 tox = "^4.4.12"
 twine = "^4.0.2"
-vulture = "^2.9.1"
 
 [tool.poetry.group.docs.dependencies]
 markdown-include = "^0.8.1"
@@ -94,6 +93,9 @@ mistletoe = "^1.2.1"
 pytest = "^7.4.2"
 pytest-cov = "^4.1.0"
 pytest-randomly = "^3.15.0"
+
+[tool.poetry.group.vulture.dependencies]
+vulture = "^2.9.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
