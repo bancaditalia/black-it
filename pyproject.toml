@@ -59,9 +59,11 @@ bandit = "^1.7.5"
 [tool.poetry.group.black.dependencies]
 black = "^24.8.0"
 
+[tool.poetry.group.darglint.dependencies]
+darglint = "^1.8.1"
+
 [tool.poetry.group.dev.dependencies]
 codecov = "^2.1.13"
-darglint = "^1.8.1"
 ipython = "^8.12.2"
 jupyter = "^1.0.0"
 Markdown = "^3.4.4"
