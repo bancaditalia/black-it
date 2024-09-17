@@ -67,7 +67,6 @@ codecov = "^2.1.13"
 ipython = "^8.12.2"
 jupyter = "^1.0.0"
 Mesa = "^2.1.1"
-mypy = "^1.5.1"
 nbmake = "^1.5.4"
 ndlib = "^5.1.1"
 pydocstyle = "^6.3.0"
@@ -85,6 +84,12 @@ mkdocstrings-python-legacy = "^0.2.3"
 mkdocstrings = "^0.22.0"
 mknotebooks = "^0.8.0"
 pymdown-extensions = "^10.3"
+
+[tool.poetry.group.mypy.dependencies]
+#    importlib-metadata==6.8.0
+mypy = "^1.5.1"
+#    types-backports==0.1.3
+#    types-setuptools==68.2.0.0
 
 [tool.poetry.group.ruff.dependencies]
 ruff = "^0.0.290"
