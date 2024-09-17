@@ -211,7 +211,7 @@ docs: ## generate MkDocs HTML documentation, including API docs
 	$(BROWSER) site/index.html
 
 .PHONY: servedocs
-servedocs: docs ## compile the docs watching for changes
+servedocs: ## compile the docs watching for changes
 	mkdocs build --clean
 	python -c 'print("###### Starting local server. Press Control+C to stop server ######")'
 	mkdocs serve
