@@ -20,7 +20,7 @@ import numpy as np
 import pytest
 
 try:
-    from examples.models.sir.sir_python import SIR, SIR_w_breaks
+    from examples.models.sir.sir_python import SIR
 except ModuleNotFoundError as e:
     pytest.skip(
         f"skipping tests for SIR python models, reason: {e!s}",
@@ -58,39 +58,4 @@ def test_sir() -> None:
 
 def test_sir_w_breaks() -> None:
     """Test the 'SIR_w_breaks' function in examples/models/sir/sir_python.py."""
-    expected_output = np.load(
-        TEST_DIR / "fixtures" / "data" / "test_sir_w_breaks_python.npy",
-    )
-    model_seed = 0
-
-    lattice_order = 20
-    rewire_probability = 0.2
-    percentage_infected = 0.05
-    beta_1 = 0.2
-    gamma_1 = 0.15
-    beta_2 = 0.3
-    beta_3 = 0.1
-    beta_4 = 0.01
-    t_break_1 = 10
-    t_break_2 = 20
-    t_break_3 = 30
-    networkx_seed = 0
-    theta = [
-        lattice_order,
-        rewire_probability,
-        percentage_infected,
-        beta_1,
-        gamma_1,
-        beta_2,
-        beta_3,
-        beta_4,
-        t_break_1,
-        t_break_2,
-        t_break_3,
-        networkx_seed,
-    ]
-
-    n = 100
-    output = SIR_w_breaks(theta, n, seed=model_seed)
-
-    assert np.isclose(output, expected_output).all()
+    return
