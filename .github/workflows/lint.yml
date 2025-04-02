@@ -24,7 +24,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
-      run:  pip install poetry
+      # We deduce the Poetry version from the lockfile. Please note that we have
+      # to prepend "python" because PowerShell is not able to execute directly a
+      # python script with a shebang.
+      # In fact, this workflow is never run on Windows, but let's prioritize
+      # consistency with the test.yml workflow.
+      run:  pip install poetry==$(python scripts/estimate_poetry_version.py)
     - name: Install tox
       run:  pip install tox
     - name: Check Poetry lock file
