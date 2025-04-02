@@ -45,7 +45,7 @@ def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     Returns:
         the id table of the samplers
     """
-    output_file = Path(saving_folder) / "samplers_pickled.pickle"
+    output_file = Path(saving_folder) / "scheduler_pickled.pickle"
     with output_file.open("rb") as f:
         method_list = pickle.load(f)  # nosec B301
 
