@@ -23,8 +23,10 @@ jobs:
     - uses: actions/setup-python@master
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run:  pip install poetry tox
+    - name: Install Poetry
+      run:  pip install poetry
+    - name: Install tox
+      run:  pip install tox
     - name: Check Poetry lock file
       run: make poetry-lock-check
     - name: Code style check
