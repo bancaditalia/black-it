@@ -36,7 +36,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip install tox
+        # Strictly, We just need tox, but in order to deduce its version from
+        # the lockfile we also need Poetry.
+        # This snippet uses the same trick used in test.yml.
+        pip install poetry==$(python scripts/estimate_poetry_version.py)
+        pip install tox==$(poetry export --only=dev --without-hashes | python scripts/estimate_tox_version.py)
 
         # Install markdown-spellcheck
         sudo npm install -g markdown-spellcheck

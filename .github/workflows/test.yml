@@ -29,7 +29,12 @@ jobs:
       # python script with a shebang.
       run:  pip install poetry==$(python scripts/estimate_poetry_version.py)
     - name: Install tox
-      run:  pip install tox
+      # We deduce the tox version from the lockfile. Please note that we have
+      # to prepend "python" because PowerShell is not able to execute directly a
+      # python script with a shebang.
+      # In fact, this workflow is never run on Windows, but let's prioritize
+      # consistency with the test.yml workflow.
+      run:  pip install tox==$(poetry export --only=dev --without-hashes | python scripts/estimate_tox_version.py)
 #    # set up environment depending on the platform in use
 #    - if: matrix.os == 'ubuntu-latest'
 #      name: Install dependencies (ubuntu-latest)
