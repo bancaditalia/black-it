@@ -58,7 +58,7 @@ SQL_LOAD_QUERY = """
         initial_random_seed,
         random_generator_state_json,
         model_name,
-        samplers_pickled,
+        scheduler_pickled,
         loss_function_pickled,
         current_batch_index,
         params_samp,
@@ -83,7 +83,7 @@ SQL_SAVE_QUERY = """
         initial_random_seed,
         random_generator_state_json,
         model_name,
-        samplers_pickled,
+        scheduler_pickled,
         loss_function_pickled,
         current_batch_index,
         params_samp,
@@ -138,7 +138,7 @@ SQL_DDL = """
         initial_random_seed          INTEGER,
         random_generator_state_json  TEXT,
         model_name                   TEXT,
-        samplers_pickled             BLOB,
+        scheduler_pickled             BLOB,
         loss_function_pickled        BLOB,
         -- arrays resulting from calibration
         current_batch_index          INTEGER,
@@ -240,7 +240,7 @@ def load_calibrator_state(
             initial_random_seed,
             random_generator_state_json,
             model_name,
-            samplers_pickled,
+            scheduler_pickled,
             loss_function_pickled,
             current_batch_index,
             params_samp,
@@ -250,7 +250,7 @@ def load_calibrator_state(
             method_samp,
         ) = cursor.execute(SQL_LOAD_QUERY).fetchone()
 
-        samplers = pickle.loads(samplers_pickled)  # nosec B301
+        samplers = pickle.loads(scheduler_pickled)  # nosec B301
         loss_function = pickle.loads(loss_function_pickled)  # nosec B301
 
         return (
@@ -336,7 +336,7 @@ def save_calibrator_state(  # noqa: PLR0913
         checkpoint_path.mkdir(parents=True)
 
     # pickle some files
-    samplers_pickled = pickle.dumps(samplers)
+    scheduler_pickled = pickle.dumps(samplers)
     loss_function_pickled = pickle.dumps(loss_function)
 
     connection = sqlite3.connect(
@@ -364,7 +364,7 @@ def save_calibrator_state(  # noqa: PLR0913
                 initial_random_seed,
                 json.dumps(random_generator_state),
                 model_name,
-                samplers_pickled,
+                scheduler_pickled,
                 loss_function_pickled,
                 current_batch_index,
                 params_samp,
