@@ -22,9 +22,9 @@ import pickle  # nosec B403
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import h5py  # type: ignore[import]
 import numpy as np
 import pandas as pd  # type: ignore[import]
-import tables  # type: ignore[import]
 
 from black_it.utils.base import NumpyArrayEncoder, PathLike
 
@@ -66,9 +66,9 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
         loss_function = pickle.load(fb)  # nosec B301
 
     series_filename = checkpoint_path / "series_samp.h5"
-    series_file = tables.open_file(str(series_filename), mode="r")
-    series_samp = series_file.root.data[:]
-    series_file.close()
+    with h5py.File(series_filename, mode="r") as series_file:
+        # Read the entire dataset into memory
+        series_samp = series_file["data"][:]
 
     return (
         # initialization parameters
@@ -199,23 +199,35 @@ def save_calibrator_state(  # noqa: PLR0913
 
     series_filename = "series_samp.h5"
     series_filepath = checkpoint_path / series_filename
+
+    # If the HDF5 file already exists, open in append mode and add only new rows.
     if series_filepath.exists():
-        series_file = tables.open_file(str(series_filepath), mode="a")
-        previous_shape = series_file.root.data.shape
-        nb_rows = previous_shape[0]
-        to_append = series_samp[nb_rows:]
-        series_file.root.data.append(to_append)
-        series_file.close()
+        with h5py.File(series_filepath, mode="a") as series_file:
+            data = series_file["data"]  # Get the existing dataset
+            previous_shape = data.shape  # E.g., (num_rows, dim2, dim3, ...)
+            nb_rows = previous_shape[0]
+            to_append = series_samp[nb_rows:]  # Slicing out only the new part
+
+            # Resize the first dimension so there's room for the new data
+            new_num_rows = nb_rows + to_append.shape[0]
+            data.resize((new_num_rows,) + previous_shape[1:])
+
+            # Write the appended portion
+            data[nb_rows:new_num_rows] = to_append
+
         return
 
-    series_file = tables.open_file(str(series_filepath), mode="w")
-    atom = tables.Float64Atom()
-    array_c = series_file.create_earray(
-        series_file.root,
-        "data",
-        atom,
-        (0, *series_samp.shape[1:]),
-    )
-    array_c.append(series_samp)
-    series_file.close()
+    # If the file does not exist, create it and store the entire dataset in one shot.
+    with h5py.File(series_filepath, mode="w") as series_file:
+        # Create a resizable (maxshape=None along axis 0) dataset
+        data = series_file.create_dataset(
+            name="data",
+            data=series_samp,
+            maxshape=(
+                None,
+                *series_samp.shape[1:],
+            ),  # Resizable along the first dimension
+            dtype="float64",
+        )
+
     return
