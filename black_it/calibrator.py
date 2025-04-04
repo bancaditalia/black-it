@@ -22,7 +22,6 @@ import multiprocessing
 import textwrap
 import time
 import warnings
-from collections.abc import Callable
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
@@ -40,7 +39,7 @@ from black_it.utils.seedable import BaseSeedable
 
 if TYPE_CHECKING:
     import os
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from numpy.typing import NDArray
 
