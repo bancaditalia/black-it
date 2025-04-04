@@ -18,7 +18,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import hypothesis.extra.numpy
 import hypothesis.strategies as st
