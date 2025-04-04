@@ -64,7 +64,7 @@ p_1
 p_2
  - docs/index.md
 v3
-v3.9
+v3.10
 simulator_interface
 poetry.lock
 muxator
