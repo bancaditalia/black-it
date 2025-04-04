@@ -51,7 +51,7 @@ def check_arg(condition: bool, message: str) -> None:
 
 def ensure_float(arg: Any) -> None:  # noqa: ANN401
     """Check that the argument is a float."""
-    check_arg(isinstance(arg, (float, np.float64)), f"expected a float, got {arg}")
+    check_arg(isinstance(arg, float | np.float64), f"expected a float, got {arg}")
 
 
 def positive_float(arg: float) -> float:
