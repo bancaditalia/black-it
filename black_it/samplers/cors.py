@@ -23,8 +23,9 @@ using radial basis functions." Journal of Global optimization 31.1 (2005): 153-1
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from math import factorial
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import scipy.optimize as op  # type: ignore[import]
