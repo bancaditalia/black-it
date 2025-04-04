@@ -23,8 +23,8 @@ import shutil
 import signal
 import subprocess  # nosec B404
 import sys
+from collections.abc import Callable
 from functools import wraps
-from typing import Callable
 
 import pytest
 

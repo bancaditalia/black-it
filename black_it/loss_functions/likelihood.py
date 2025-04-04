@@ -19,7 +19,8 @@
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING, Callable, cast
+from collections.abc import Callable
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
