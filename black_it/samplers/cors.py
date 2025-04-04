@@ -23,7 +23,6 @@ using radial basis functions." Journal of Global optimization 31.1 (2005): 153-1
 
 from __future__ import annotations
 
-from collections.abc import Callable
 from math import factorial
 from typing import TYPE_CHECKING, cast
 
@@ -35,6 +34,8 @@ from black_it.samplers.base import BaseSampler
 from black_it.utils.base import digitize_data, positive_float
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import NDArray
 
     from black_it.search_space import SearchSpace

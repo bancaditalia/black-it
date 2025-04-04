@@ -23,12 +23,15 @@ import shutil
 import signal
 import subprocess  # nosec B404
 import sys
-from collections.abc import Callable
 from functools import wraps
+from typing import TYPE_CHECKING
 
 import pytest
 
 from tests.conftest import DEFAULT_SUBPROCESS_TIMEOUT
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 @dataclasses.dataclass(frozen=True)
