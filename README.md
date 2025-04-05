@@ -51,10 +51,6 @@ pip install git+https://github.com/bancaditalia/black-it.git#egg=black-it
 
 If you'd like to contribute to the package, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) guide.
 
-#### Installation on Apple Silicon machines
-
-Due to a dependency on the `tables` package, installing *Black-it* on Apple Silicon machines can sometimes require specifying the path to the HDF5 executable as explained [here](https://stackoverflow.com/questions/73029883/could-not-find-hdf5-installation-for-pytables-on-m1-mac).
-
 ## Quick Example
 
 The GitHub repo of Black-it contains a series ready-to-run calibration examples.
