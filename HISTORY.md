@@ -1,6 +1,22 @@
 Release History
 ===============
 
+0.3.2 (2025-04-05)
+------------------
+
+* Fix PytestRemovedIn8Warning ("support for nose tests is deprecated and will be removed in a future release") by @muxator in https://github.com/bancaditalia/black-it/pull/84
+* tests: improve the signal/noise ratio of the test logs by 63% by @muxator in https://github.com/bancaditalia/black-it/pull/85
+* tests: centralize --doctest-modules option in pytest.ini by @muxator in https://github.com/bancaditalia/black-it/pull/86
+* dev: use poetry's post 1.2 format for specifying dev dependencies by @muxator in https://github.com/bancaditalia/black-it/pull/88
+* ci: extract poetry and tox versions from the lockfile by @muxator in https://github.com/bancaditalia/black-it/pull/92
+* plot bugfix: samplers pickle to scheduler_pickled by @AldoGl in https://github.com/bancaditalia/black-it/pull/93
+* checkpointing: migrate from tables to h5py by @AldoGl in https://github.com/bancaditalia/black-it/pull/94
+* ci: remove MacOS-specific trick that was needed for tables by @muxator in https://github.com/bancaditalia/black-it/pull/95
+* tox: use commands from the Makefile where possible, without duplicating them by @muxator in https://github.com/bancaditalia/black-it/pull/96
+* chore: update pandas dependency to version 2.2.3 by @AldoGl in https://github.com/bancaditalia/black-it/pull/98
+
+**Full Changelog**: https://github.com/bancaditalia/black-it/compare/v0.3.1...v0.3.2
+
 0.3.1 (2024-09-11)
 ------------------
 * tests: add missing "311" env in tox.ini by @muxator in https://github.com/bancaditalia/black-it/pull/81
