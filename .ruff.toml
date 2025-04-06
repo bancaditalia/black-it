@@ -10,7 +10,6 @@
 
 select = [
     "A",     # flake8-builtins
-    "AIR",   # Airflow
     "ANN",   # flake8-annotations
     "ARG",   # flake8-unused-arguments
     "ASYNC", # flake8-async
