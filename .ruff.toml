@@ -66,6 +66,8 @@ lint.select = [
 lint.ignore = [
     "E203",    # whitespace-before-punctuation
     "FBT",     # flake8-boolean-trap
+    "PLR0914", # Too many local variables
+    "PLR0917", # Too many positional arguments
     "S",       # flake8-bandit
     "T20",     # flake8-print
 ]
