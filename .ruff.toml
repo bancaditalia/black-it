@@ -2,6 +2,7 @@
 # (ruff 0.11.12, 2025-06-05), but our pyproject.toml does not use them, either
 # for our explicit choice or because they did not exist in ruff 0.0.290.
 #
+# AIR  --> Airflow (explicit choice: not needed for black-it)
 # DOC  --> pydoclint
 # FAST --> FastAPI
 # FBT  --> flake8-boolean-trap
@@ -15,7 +16,6 @@
 
 select = [
   "A",     # flake8-builtins
-  "AIR",   # Airflow
   "ANN",   # flake8-annotations
   "ARG",   # flake8-unused-arguments
   "ASYNC", # flake8-async
