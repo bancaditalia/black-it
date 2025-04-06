@@ -1,66 +1,66 @@
 select = [
-  "F",
-  "W",
-  "E",
-  "C90",
-  "I",
-  "N",
-  "D",
-  "UP",
-  "YTT",
-  "ANN",
-  "ASYNC",
-  "BLE",
-  "B",
   "A",
+  "AIR",
+  "ANN",
+  "ARG",
+  "ASYNC",
+  "B",
+  "BLE",
+  "C4",
+  "C90",
   "COM",
   "CPY",
-  "C4",
-  "DTZ",
-  "T10",
+  "D",
   "DJ",
+  "DTZ",
+  "E",
   "EM",
+  "ERA",
   "EXE",
+  "F",
   "FA",
-  "ISC",
-  "ICN",
+  "FIX",
+  "FLY",
+  "FURB",
   "G",
+  "I",
+  "ICN",
   "INP",
+  "INT",
+  "ISC",
+  "LOG",
+  "N",
+  "NPY",
+  "PD",
+  "PERF",
+  "PGH",
   "PIE",
-  "PYI",
+  "PL",
   "PT",
+  "PTH",
+  "PYI",
   "Q",
-  "RSE",
   "RET",
+  "RSE",
+  "RUF",
+  "SIM",
   "SLF",
   "SLOT",
-  "SIM",
-  "TID",
+  "T10",
   "TCH",
-  "INT",
-  "ARG",
-  "PTH",
   "TD",
-  "FIX",
-  "ERA",
-  "PD",
-  "PGH",
-  "PL",
+  "TID",
   "TRY",
-  "FLY",
-  "NPY",
-  "AIR",
-  "PERF",
-  "FURB",
-  "LOG",
-  "RUF",
+  "UP",
+  "W",
+  "YTT",
 ]
 ignore = [
   "ANN101",
   "ANN102",
   "E203",
-  "S",
   "FBT",
+  "S",
   "T20",
 ]
 
@@ -70,9 +70,9 @@ ignore = [
 
 include = [
   "black_it/**/*.py",
-  "tests/**/*.py",
-  "scripts/**/*.py",
   "examples/**/*.py",
+  "scripts/**/*.py",
+  "tests/**/*.py",
 ]
 
 # Exclude a variety of commonly ignored directories.
@@ -97,8 +97,8 @@ exclude = [
   "build",
   "dist",
   "node_modules",
-  "venv",
   "scripts/whitelists/*",
+  "venv",
 ]
 
 # Same as Black.
@@ -116,9 +116,9 @@ target-version = "py39"
 [per-file-ignores]
 "examples/docker-sir.py" = ["INP001", "T201"]
 "examples/main.py" = ["INP001", "T201"]
-"examples/models/simple_models.py" = ["ERA001", "INP001"]
 "examples/models/economics/brock_hommes.py" = ["ERA001"]
 "examples/models/forest_fire/forest_fire.py" = ["T201"]
+"examples/models/simple_models.py" = ["ERA001", "INP001"]
 "examples/models/sir/simlib.py" = ["T201"]
 "scripts/check_copyright.py" = ["T201"]
 "tests/**.py" = ["PLR2004"]
