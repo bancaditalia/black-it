@@ -203,7 +203,7 @@ class MethodOfMomentsLoss(BaseLoss):
                 / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0),
             )
         else:
-            self._covariance_mat = cast(NDArray[np.float64], self._covariance_mat)
+            self._covariance_mat = cast("NDArray[np.float64]", self._covariance_mat)
             W = self._covariance_mat  # noqa: N806
         try:
             loss_1d = g.dot(W).dot(g)

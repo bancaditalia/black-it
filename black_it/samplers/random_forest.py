@@ -112,7 +112,7 @@ class RandomForestSampler(MLSurrogateSampler):
     def predict(self, X: NDArray[np.float64]) -> NDArray[np.float64]:  # noqa: N803
         """Predict using a random forest surrogate model."""
         # Predict quantiles
-        self._classifier = cast(RandomForestClassifier, self._classifier)
+        self._classifier = cast("RandomForestClassifier", self._classifier)
         predicted_points_quantiles: NDArray[np.float64] = self._classifier.predict(X)
 
         return predicted_points_quantiles
