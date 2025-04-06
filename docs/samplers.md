@@ -21,7 +21,7 @@
     handler: python
     rendering:
       show_root_heading: true
-      show_source: true
+      show_source:
 
 ::: black_it.samplers.best_batch.BestBatchSampler
     handler: python
@@ -36,6 +36,18 @@
       show_source: true
 
 ::: black_it.samplers.random_forest.RandomForestSampler
+    handler: python
+    rendering:
+      show_root_heading: true
+      show_source: true
+
+::: black_it.samplers.xgboost.XGBoostSampler
+    handler: python
+    rendering:
+      show_root_heading: true
+      show_source: true
+
+::: black_it.samplers.particle_swarm.ParticleSwarmSampler
     handler: python
     rendering:
       show_root_heading: true
