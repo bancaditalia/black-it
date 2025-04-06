@@ -89,7 +89,6 @@ def BH2(  # noqa: N802
     return np.atleast_2d(x[2:]).T
 
 
-#
 def BH4(  # noqa: N802
     theta: Sequence[float],
     N: int,  # noqa: N803
