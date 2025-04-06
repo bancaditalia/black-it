@@ -313,7 +313,7 @@ def test_new_sampling_method() -> None:
         """Custom sampler."""
 
         def sample_batch(
-            self,  # noqa: PLR6301
+            self,
             batch_size: int,  # noqa: ARG002
             search_space: SearchSpace,  # noqa: ARG002
             existing_points: NDArray[np.float64],  # noqa: ARG002
