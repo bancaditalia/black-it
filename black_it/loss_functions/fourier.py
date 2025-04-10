@@ -17,7 +17,7 @@
 """This module contains the implementation of the Fast Fourier Transform loss."""
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 from numpy.typing import NDArray
