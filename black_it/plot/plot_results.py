@@ -47,7 +47,8 @@ def _get_samplers_id_table(saving_folder: str | os.PathLike) -> dict[str, int]:
     """
     output_file = Path(saving_folder) / "scheduler_pickled.pickle"
     with output_file.open("rb") as f:
-        method_list = pickle.load(f)  # nosec B301
+        scheduler = pickle.load(f)  # nosec B301
+        method_list = scheduler.samplers
 
     return Calibrator._construct_samplers_id_table(method_list)  # noqa: SLF001
 

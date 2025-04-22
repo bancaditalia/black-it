@@ -31,6 +31,49 @@ if TYPE_CHECKING:
 def SIR(theta: NDArray, N: int, seed: int | None) -> NDArray:  # noqa: N802, N803
     """SIR model.
 
+    0 theta = [ INF.RATE,REC.RATE]
+
+    Args:
+        theta: parameters
+        N: length of simulation
+        seed: random seed
+
+    Returns:
+        simulated series
+    """
+    num_agents = 100000
+    g = nx.watts_strogatz_graph(num_agents, 20, 0.2)
+
+    model = ep.SIRModel(g, seed=seed)
+
+    cfg = ModelConfig.Configuration()
+    cfg.add_model_parameter("beta", theta[0])  # infection rate
+    cfg.add_model_parameter("gamma", theta[1])  # recovery rate
+    cfg.add_model_parameter("percentage_infected", 0.1)
+    model.set_initial_status(cfg)
+
+    iterations = model.iteration_bunch(N, node_status=True)
+
+    output_np = np.zeros((N, 3))
+
+    for i in range(len(iterations)):
+        entry = iterations[i]["node_count"]
+
+        for j in range(3):
+            output_np[i, j] = entry[j]
+
+    g.clear()
+
+    return output_np
+
+
+def SIR_extended(  # noqa: N802
+    theta: NDArray,
+    N: int,  # noqa: N803
+    seed: int | None,
+) -> NDArray:
+    """SIR model.
+
     0 theta = [#LOC CONNECTIONS,
     1           %NON-LOC.CONNECTIONS,
     2           COND INIZIALE TOPOLOGIA,
