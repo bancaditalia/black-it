@@ -19,6 +19,7 @@ nav:
 - Extending Black-it: contributing.md
 - Code Reference:
   - Calibrator: calibrator.md
+  - Schedulers: schedulers.md
   - Samplers: samplers.md
   - Loss functions: losses.md
   - Search space: search_space.md
