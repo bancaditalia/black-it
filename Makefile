@@ -35,7 +35,7 @@ check-copyright: ## check that the copyright notice is consistent across the cod
 
 .PHONY: check-uniform-python-version
 check-uniform-python-version: ## check that mypy.cfg and .ruff.toml target the same python version
-	if scripts/check_uniform_python_version.py; then (echo "the versions should have been different!"; exit 1); else echo "The versions are different, as expected"; fi
+	scripts/check_uniform_python_version.py
 
 .PHONY: clean
 clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, coverage and Python artifacts
