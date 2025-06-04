@@ -67,7 +67,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 .PHONY: lint-all
-lint-all: black check-copyright ruff static bandit vulture darglint ## run all linters
+lint-all: black check-copyright poetry-lock-check ruff static bandit vulture darglint ## run all linters
 
 .PHONY: lint-all-files
 lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
