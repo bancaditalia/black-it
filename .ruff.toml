@@ -1,67 +1,82 @@
+# The rules in the following comment are listed in https://docs.astral.sh/ruff/rules/
+# (ruff 0.11.12, 2025-06-05), but our pyproject.toml does not use them, either
+# for our explicit choice or because they did not exist in ruff 0.0.290.
+#
+# DOC  --> pydoclint
+# FAST --> FastAPI
+# FBT  --> flake8-boolean-trap
+# PLC  --> Pylint Convention
+# PLE  --> Pylint Error
+# PLR  --> Pylint Refactor
+# PLW  --> Pylint Warning
+# S    --> flake8-bandit
+# T20  --> flake8-print
+# TC   --> flake8-type-checking (the old name was TCH: replace it)
+
 select = [
-  "A",
-  "AIR",
-  "ANN",
-  "ARG",
-  "ASYNC",
-  "B",
-  "BLE",
-  "C4",
-  "C90",
-  "COM",
-  "CPY",
-  "D",
-  "DJ",
-  "DTZ",
-  "E",
-  "EM",
-  "ERA",
-  "EXE",
-  "F",
-  "FA",
-  "FIX",
-  "FLY",
-  "FURB",
-  "G",
-  "I",
-  "ICN",
-  "INP",
-  "INT",
-  "ISC",
-  "LOG",
-  "N",
-  "NPY",
-  "PD",
-  "PERF",
-  "PGH",
-  "PIE",
-  "PL",
-  "PT",
-  "PTH",
-  "PYI",
-  "Q",
-  "RET",
-  "RSE",
-  "RUF",
-  "SIM",
-  "SLF",
-  "SLOT",
-  "T10",
-  "TCH",
-  "TD",
-  "TID",
-  "TRY",
-  "UP",
-  "W",
-  "YTT",
+  "A",     # flake8-builtins
+  "AIR",   # Airflow
+  "ANN",   # flake8-annotations
+  "ARG",   # flake8-unused-arguments
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "BLE",   # flake8-blind-except
+  "C4",    # flake8-comprehensions
+  "C90",   # mccabe
+  "COM",   # flake8-commas
+  "CPY",   # flake8-copyright
+  "D",     # pydocstyle
+  "DJ",    # flake8-django
+  "DTZ",   # flake8-datetimez
+  "E",     # pycodestyle Error
+  "EM",    # flake8-errmsg
+  "ERA",   # eradicate
+  "EXE",   # flake8-executable
+  "F",     # Pyflakes
+  "FA",    # flake8-future-annotations
+  "FIX",   # flake8-fixme
+  "FLY",   # flynt
+  "FURB",  # refurb
+  "G",     # flake8-logging-format
+  "I",     # isort
+  "ICN",   # flake8-import-conventions
+  "INP",   # flake8-no-pep420
+  "INT",   # flake8-gettext
+  "ISC",   # flake8-implicit-str-concat
+  "LOG",   # flake8-logging
+  "N",     # pep8-naming
+  "NPY",   # NumPy-specific rules
+  "PD",    # pandas-vet
+  "PERF",  # Perflint
+  "PGH",   # pygrep-hooks
+  "PIE",   # flake8-pie
+  "PL",    # Pylint
+  "PT",    # flake8-pytest-style
+  "PTH",   # flake8-use-pathlib
+  "PYI",   # flake8-pyi
+  "Q",     # flake8-quotes
+  "RET",   # flake8-return
+  "RSE",   # flake8-raise
+  "RUF",   # Ruff-specific rules
+  "SIM",   # flake8-simplify
+  "SLF",   # flake8-self
+  "SLOT",  # flake8-slots
+  "T10",   # flake8-debugger
+  "TCH",   # TCH (flake8-type-checking) is the old name for "TC". Replace TCH with TC when upgrading ruff
+  "TD",    # flake8-todos
+  "TID",   # flake8-tidy-imports
+  "TRY",   # tryceratops
+  "UP",    # pyupgrade
+  "W",     # pycodestyle Warning
+  "YTT",   # flake8-2020
 ]
 ignore = [
-  "ANN101",
-  "ANN102",
-  "E203",
-  "FBT",
-  "S",
-  "T20",
+  "ANN101",  # missing-type-self (rule removed from ruff: delete)
+  "ANN102",  # missing-type-self (rule removed from ruff: delete)
+  "E203",    # whitespace-before-punctuation
+  "FBT",     # flake8-boolean-trap
+  "S",       # flake8-bandit
+  "T20",     # flake8-print
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
