@@ -14,7 +14,7 @@
 # T20  --> flake8-print
 # TC   --> flake8-type-checking (the old name was TCH: replace it)
 
-select = [
+lint.select = [
   "A",     # flake8-builtins
   "ANN",   # flake8-annotations
   "ARG",   # flake8-unused-arguments
@@ -62,7 +62,7 @@ select = [
   "SLF",   # flake8-self
   "SLOT",  # flake8-slots
   "T10",   # flake8-debugger
-  "TCH",   # TCH (flake8-type-checking) is the old name for "TC". Replace TCH with TC when upgrading ruff
+  "TC",    # flake8-type-checking
   "TD",    # flake8-todos
   "TID",   # flake8-tidy-imports
   "TRY",   # tryceratops
@@ -70,9 +70,7 @@ select = [
   "W",     # pycodestyle Warning
   "YTT",   # flake8-2020
 ]
-ignore = [
-  "ANN101",  # missing-type-self (rule removed from ruff: delete)
-  "ANN102",  # missing-type-self (rule removed from ruff: delete)
+lint.ignore = [
   "E203",    # whitespace-before-punctuation
   "FBT",     # flake8-boolean-trap
   "S",       # flake8-bandit
@@ -120,7 +118,7 @@ exclude = [
 line-length = 120
 
 # Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Whether to enable preview mode. When preview mode is enabled, Ruff will use unstable rules and fixes.
 preview = true
@@ -128,7 +126,7 @@ preview = true
 # Assume Python 3.9
 target-version = "py39"
 
-[per-file-ignores]
+[lint.per-file-ignores]
 "examples/docker-sir.py" = ["INP001", "T201"]
 "examples/main.py" = ["INP001", "T201"]
 "examples/models/economics/brock_hommes.py" = ["ERA001"]
@@ -139,12 +137,12 @@ target-version = "py39"
 "tests/**.py" = ["PLR2004"]
 
 
-[mccabe]
+[lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 
-[pydocstyle]
+[lint.pydocstyle]
 convention = "google"
 
-[pylint]
+[lint.pylint]
 max-args = 7
