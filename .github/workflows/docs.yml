@@ -17,6 +17,9 @@ on:
       - 'CONTRIBUTING.md'
       - 'HISTORY.md'
       - 'README.md'
+  # workflow_dispatch allows a user to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
   run:
     continue-on-error: True
