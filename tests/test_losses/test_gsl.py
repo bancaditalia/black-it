@@ -46,7 +46,7 @@ class TestDiscretize:
     """Test the 'discretize' function."""
 
     @given(discretize_args())
-    def test_discretize_time_series_any_args(
+    def test_discretize_time_series_any_args(  # noqa: PLR6301
         self,
         args: tuple,
     ) -> None:
@@ -54,7 +54,7 @@ class TestDiscretize:
         GslDivLoss.discretize(*args)
 
     @given(discretize_args())
-    def test_discretize_time_series_partition(
+    def test_discretize_time_series_partition(  # noqa: PLR6301
         self,
         args: tuple,
     ) -> None:
