@@ -32,7 +32,7 @@ EXAMPLE_SAVING_FOLDER = ROOT_DIR / "examples" / "saving_folder"
 DEFAULT_SUBPROCESS_TIMEOUT = 100.0
 
 
-@pytest.fixture()
+@pytest.fixture
 def rng() -> np.random.Generator:
     """Return random number generator."""
     return np.random.default_rng(seed=11)
