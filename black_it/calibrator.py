@@ -27,7 +27,6 @@ from typing import TYPE_CHECKING, Callable, cast
 import numpy as np
 from joblib import Parallel, delayed  # type: ignore[import]
 
-from black_it.schedulers.base import BaseScheduler
 from black_it.schedulers.round_robin import RoundRobinScheduler
 from black_it.search_space import SearchSpace
 from black_it.utils.base import _assert
@@ -45,6 +44,7 @@ if TYPE_CHECKING:
 
     from black_it.loss_functions.base import BaseLoss
     from black_it.samplers.base import BaseSampler
+    from black_it.schedulers.base import BaseScheduler
 
 
 class Calibrator(BaseSeedable):
