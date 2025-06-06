@@ -141,7 +141,7 @@ class ParticleSwarmSampler(BaseSampler):
         )
         self._curr_particle_velocities = (
             self.random_generator.random(
-                size=cast(NDArray, self._curr_particle_positions).shape,
+                size=cast("NDArray", self._curr_particle_positions).shape,
             )
             - 0.5
         )
@@ -165,9 +165,9 @@ class ParticleSwarmSampler(BaseSampler):
             a Numpy array
         """
         if not self._global_minimum_across_samplers:
-            best_particle_positions = cast(NDArray, self._best_particle_positions)
+            best_particle_positions = cast("NDArray", self._best_particle_positions)
             return best_particle_positions[self._global_best_particle_id]
-        return cast(NDArray, self._best_point)
+        return cast("NDArray", self._best_point)
 
     def reset(self) -> None:
         """Reset the sampler."""
@@ -195,7 +195,7 @@ class ParticleSwarmSampler(BaseSampler):
             self._set_up(search_space.dims)
             self._previous_batch_index_start = len(existing_points)
             return digitize_data(
-                cast(NDArray[np.float64], self._best_particle_positions),
+                cast("NDArray[np.float64]", self._best_particle_positions),
                 search_space.param_grid,
             )
 
@@ -227,15 +227,15 @@ class ParticleSwarmSampler(BaseSampler):
         self._best_point = existing_points[best_point_index]
 
         # set best particle position
-        batch_index_start = cast(int, self._previous_batch_index_start)
+        batch_index_start = cast("int", self._previous_batch_index_start)
         batch_index_stop = batch_index_start + self.batch_size
         previous_points = existing_points[batch_index_start:batch_index_stop]
         previous_losses = existing_losses[batch_index_start:batch_index_stop]
         for particle_id, (point, loss) in enumerate(
             zip(previous_points, previous_losses),
         ):
-            best_particle_positions = cast(NDArray, self._best_particle_positions)
-            best_position_losses = cast(NDArray, self._best_position_losses)
+            best_particle_positions = cast("NDArray", self._best_particle_positions)
+            best_position_losses = cast("NDArray", self._best_position_losses)
             if best_position_losses[particle_id] > loss:
                 best_particle_positions[particle_id] = point
                 best_position_losses[particle_id] = loss
@@ -247,9 +247,9 @@ class ParticleSwarmSampler(BaseSampler):
 
     def _do_step(self) -> None:
         """Do a step by updating particle positions and velocities."""
-        curr_particle_positions = cast(NDArray, self._curr_particle_positions)
-        curr_particle_velocities = cast(NDArray, self._curr_particle_velocities)
-        best_particle_positions = cast(NDArray, self._best_particle_positions)
+        curr_particle_positions = cast("NDArray", self._curr_particle_positions)
+        curr_particle_velocities = cast("NDArray", self._curr_particle_velocities)
+        best_particle_positions = cast("NDArray", self._best_particle_positions)
         r1_vec = self.random_generator.random(size=curr_particle_positions.shape)
         r2_vec = self.random_generator.random(size=curr_particle_positions.shape)
         new_particle_velocities = (

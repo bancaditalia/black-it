@@ -28,9 +28,9 @@ from black_it.samplers.surrogate import MLSurrogateSampler
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
-MAX_FLOAT32: float = cast(float, np.finfo(np.float32).max)
-MIN_FLOAT32: float = cast(float, np.finfo(np.float32).min)
-EPS_FLOAT32: float = cast(float, np.finfo(np.float32).eps)
+MAX_FLOAT32: float = cast("float", np.finfo(np.float32).max)
+MIN_FLOAT32: float = cast("float", np.finfo(np.float32).min)
+EPS_FLOAT32: float = cast("float", np.finfo(np.float32).eps)
 
 
 class XGBoostSampler(MLSurrogateSampler):
@@ -151,5 +151,5 @@ class XGBoostSampler(MLSurrogateSampler):
         # predict over large pool of candidates
         _ = xgb.DMatrix(data=X)
 
-        self._xg_regressor = cast(xgb.XGBRegressor, self._xg_regressor)
+        self._xg_regressor = cast("xgb.XGBRegressor", self._xg_regressor)
         return self._xg_regressor.predict(X)
