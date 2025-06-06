@@ -29,6 +29,9 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
 
+logger = logging.getLogger(__name__)
+
+
 class BasePlotTest:
     """Base test class for plotting functions."""
 
@@ -52,7 +55,7 @@ class BasePlotTest:
             plt.savefig(actual_figure_path)
 
             if self.tolerance is None:
-                logging.warning("Test run with tolerance=None, skipping the test")
+                logger.warning("Test run with tolerance=None, skipping the test")
                 return
 
             comparison_result = compare_images(
@@ -61,7 +64,7 @@ class BasePlotTest:
                 self.tolerance,
             )
             if comparison_result is not None:
-                logging.warning("%s", comparison_result)
+                logger.warning("%s", comparison_result)
 
 
 class BasePlotResultsTest(BasePlotTest):
