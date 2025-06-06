@@ -28,12 +28,13 @@ from typing import TYPE_CHECKING, Callable, cast
 import numpy as np
 import scipy.optimize as op  # type: ignore[import]
 from numpy.linalg import LinAlgError
-from numpy.typing import NDArray
 
 from black_it.samplers.base import BaseSampler
 from black_it.utils.base import digitize_data, positive_float
 
 if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
     from black_it.search_space import SearchSpace
 
 
