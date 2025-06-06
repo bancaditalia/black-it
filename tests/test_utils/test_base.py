@@ -22,7 +22,12 @@ import pytest
 from hypothesis import given
 from numpy.typing import NDArray
 
-from black_it.utils.base import NumpyArrayEncoder, _assert, digitize_data, is_symmetric
+from black_it.utils.base import (
+    NumpyArrayEncoder,
+    _assert,  # noqa: PLC2701
+    digitize_data,
+    is_symmetric,
+)
 
 
 def test_assert_default() -> None:

@@ -21,7 +21,10 @@ from typing import TYPE_CHECKING, cast
 import numpy as np
 import pytest
 
-from black_it.samplers.gaussian_process import GaussianProcessSampler, _AcquisitionTypes
+from black_it.samplers.gaussian_process import (
+    GaussianProcessSampler,
+    _AcquisitionTypes,  # noqa: PLC2701
+)
 from black_it.search_space import SearchSpace
 
 if TYPE_CHECKING:
