@@ -22,7 +22,6 @@ from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
-from black_it.samplers.base import BaseSampler
 from black_it.samplers.halton import HaltonSampler
 from black_it.schedulers.base import BaseScheduler
 
@@ -32,6 +31,7 @@ if TYPE_CHECKING:
 
     from numpy._typing import NDArray
 
+    from black_it.samplers.base import BaseSampler
     from black_it.schedulers.rl.agents.base import Agent
     from black_it.schedulers.rl.envs.base import CalibrationEnv
 
