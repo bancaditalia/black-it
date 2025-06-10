@@ -24,7 +24,7 @@ from gymnasium.core import ActType, ObsType
 from black_it.utils.seedable import BaseSeedable
 
 
-class Agent(Generic[ObsType, ActType], BaseSeedable, ABC):
+class Agent(BaseSeedable, ABC, Generic[ObsType, ActType]):
     """Interface for RL agents."""
 
     @abstractmethod
