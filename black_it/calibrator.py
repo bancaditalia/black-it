@@ -172,7 +172,7 @@ class Calibrator(BaseSeedable):
         if samplers is not None:
             return RoundRobinScheduler(samplers)
 
-        return cast(BaseScheduler, scheduler)
+        return cast("BaseScheduler", scheduler)
 
     def _set_samplers_seeds(self) -> None:
         """Set the calibration seed."""

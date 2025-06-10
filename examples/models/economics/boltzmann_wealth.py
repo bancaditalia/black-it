@@ -110,7 +110,7 @@ class MoneyAgent(Agent):
         cellmates = self.model.grid.get_cell_list_contents([self.pos])
         if len(cellmates) > 1:
             other = self.random.choice(cellmates)
-            other = cast(MoneyAgent, other)
+            other = cast("MoneyAgent", other)
 
             if other.wealth <= self.wealth * self.model.generosity_ratio:
                 other.wealth += 1
@@ -125,7 +125,9 @@ class MoneyAgent(Agent):
 
 def compute_gini(model: BoltzmannWealthModel) -> float:
     """Compute the Gini index."""
-    agent_wealths = [cast(MoneyAgent, agent).wealth for agent in model.schedule.agents]
+    agent_wealths = [
+        cast("MoneyAgent", agent).wealth for agent in model.schedule.agents
+    ]
     x = sorted(agent_wealths)
     n = model.num_agents
     b = sum(xi * (n - i) for i, xi in enumerate(x)) / (n * sum(x))

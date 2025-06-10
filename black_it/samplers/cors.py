@@ -188,11 +188,11 @@ class CORSSampler(BaseSampler):
         current_losses = existing_losses / fmax
 
         # fit RBF to all data
-        fit = rbf(cast(NDArray[np.float64], current_points), current_losses)
+        fit = rbf(cast("NDArray[np.float64]", current_points), current_losses)
 
         # enlarge array for new points
         current_points = np.append(
-            cast(NDArray[np.float64], current_points),
+            cast("NDArray[np.float64]", current_points),
             np.zeros((batch_size, search_space.dims)),
             axis=0,
         )
