@@ -24,7 +24,7 @@ from tests.utils.base import requires_docker, skip_on_windows
 EXAMPLE_DOCKER_SIR_SCRIPT_PATH = ROOT_DIR / "examples" / "docker-sir.py"
 
 
-@pytest.mark.e2e()
+@pytest.mark.e2e
 @requires_docker
 @skip_on_windows
 class TestDockerSirMainExample(BaseMainExampleTestClass):
