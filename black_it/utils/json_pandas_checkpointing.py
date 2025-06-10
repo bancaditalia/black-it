@@ -210,7 +210,7 @@ def save_calibrator_state(  # noqa: PLR0913
 
             # Resize the first dimension so there's room for the new data
             new_num_rows = nb_rows + to_append.shape[0]
-            data.resize((new_num_rows,) + previous_shape[1:])
+            data.resize((new_num_rows, *previous_shape[1:]))
 
             # Write the appended portion
             data[nb_rows:new_num_rows] = to_append
