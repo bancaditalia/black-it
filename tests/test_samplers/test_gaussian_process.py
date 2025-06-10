@@ -103,7 +103,7 @@ class TestGaussianProcess2D:
         )
         new_params = sampler.sample(param_grid, self.xys, self.losses)
 
-        assert np.allclose(cast(NDArray, expected_params), new_params)
+        assert np.allclose(cast("NDArray", expected_params), new_params)
 
 
 def test_gaussian_process_sample_warning_too_large_dataset() -> None:

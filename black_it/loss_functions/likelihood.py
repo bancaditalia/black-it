@@ -83,7 +83,7 @@ class LikelihoodLoss(BaseLoss):
             The loss value.
         """
         sim_data_ensemble_shape: tuple[int, int, int] = cast(
-            tuple[int, int, int],
+            "tuple[int, int, int]",
             sim_data_ensemble.shape,
         )
         r = sim_data_ensemble_shape[0]  # number of repetitions

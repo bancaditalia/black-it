@@ -104,7 +104,7 @@ class RLScheduler(BaseScheduler):
             return samplers, sampler_types[HaltonSampler]
 
         new_sampler = HaltonSampler(batch_size=1)
-        return tuple(list(samplers) + cast(list[BaseSampler], [new_sampler])), len(
+        return tuple(list(samplers) + cast("list[BaseSampler]", [new_sampler])), len(
             samplers,
         )
 
@@ -151,7 +151,7 @@ class RLScheduler(BaseScheduler):
             self._best_param = new_params[np.argmin(new_losses)]
             self._env._curr_best_loss = best_new_loss  # noqa: SLF001
             return
-        if best_new_loss < cast(float, self._best_loss):
+        if best_new_loss < cast("float", self._best_loss):
             self._best_loss = best_new_loss
             self._best_param = new_params[np.argmin(new_losses)]
 
@@ -164,4 +164,4 @@ class RLScheduler(BaseScheduler):
             raise ValueError(msg)
         self._stopped = True
         self._out_queue.put(None)
-        cast(threading.Thread, self._agent_thread).join()
+        cast("threading.Thread", self._agent_thread).join()

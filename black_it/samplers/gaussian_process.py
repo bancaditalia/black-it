@@ -164,7 +164,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         Returns:
             The pair (mean, std).
         """
-        gpmodel = cast(GaussianProcessRegressor, self._gpmodel)
+        gpmodel = cast("GaussianProcessRegressor", self._gpmodel)
         X = X[None, :] if X.ndim == 1 else X  # noqa: N806
         m, s = gpmodel.predict(X, return_std=True, return_cov=False)
         s = np.clip(s, 1e-5, np.inf)
@@ -186,7 +186,7 @@ class GaussianProcessSampler(MLSurrogateSampler):
         """
         m, s = self._predict_mean_std(X)
 
-        fmin = cast(float, self._fmin)
+        fmin = cast("float", self._fmin)
 
         phi, Phi, u = self.get_quantiles(jitter, fmin, m, s)  # noqa: N806
 

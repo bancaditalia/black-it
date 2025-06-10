@@ -70,7 +70,7 @@ class MABEpsilonGreedy(Agent[int, int]):
         step_size = self.get_step_size(action)
 
         # do the learning
-        self.Q[action] += step_size * (cast(float, reward) - self.Q[action])
+        self.Q[action] += step_size * (cast("float", reward) - self.Q[action])
 
     def policy(self, _obs: int) -> int:
         """Get the action for this observation."""
