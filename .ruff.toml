@@ -73,6 +73,7 @@ lint.select = [
 lint.ignore = [
   "E203",    # whitespace-before-punctuation
   "FBT",     # flake8-boolean-trap
+  "PLR6104", # use `+=` to perform an augmented assignment directly. WARNING: as of 2025-06-10, "x = x + y" is not equivalent to "x += y" in this project. We would break the code base.
   "S",       # flake8-bandit
   "T20",     # flake8-print
 ]
