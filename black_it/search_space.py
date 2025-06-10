@@ -319,7 +319,7 @@ class PrecisionGreaterThanBoundsRangeError(SearchSpaceError):
             f"Parameter {param_index}'s allowed range is [{lower_bound}, "
             f"{upper_bound}]. The requested precision is {precision}, but this "
             f"number cannot be greater than the bounds range "
-            f"({upper_bound}-{lower_bound}={upper_bound-lower_bound}).",
+            f"({upper_bound}-{lower_bound}={upper_bound - lower_bound}).",
         )
         self.param_index = param_index
         self.lower_bound = lower_bound
