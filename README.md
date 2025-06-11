@@ -36,7 +36,7 @@ matter of days, with no need to reimplement all the plumbings from scratch.
 
 ## Installation
 
-This project requires Python v3.8 or later.
+This project requires Python v3.9 or later.
 
 To install the latest version of the package from [PyPI](https://pypi.org/project/black-it/):
 ```
