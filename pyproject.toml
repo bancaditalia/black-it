@@ -80,7 +80,7 @@ mkdocs-autorefs = "^1.4.2"
 mkdocs-material = "^9.4.1"
 mkdocs-material-extensions = "^1.2"
 mkdocstrings = "^0.29.1"
-mkdocstrings-python-legacy = "^0.2.3"
+mkdocstrings-python-legacy = "^0.2.7"
 mknotebooks = "^0.8.0"
 pymdown-extensions = "^10.3"
 

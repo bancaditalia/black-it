@@ -2691,17 +2691,18 @@ python-legacy = ["mkdocstrings-python-legacy (>=0.2.1)"]
 
 [[package]]
 name = "mkdocstrings-python-legacy"
-version = "0.2.3"
+version = "0.2.7"
 description = "A legacy Python handler for mkdocstrings."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.9"
 files = [
-    {file = "mkdocstrings-python-legacy-0.2.3.tar.gz", hash = "sha256:3fb58fdabe19c6b52b8bb1d3bb1540b1cd527b562865468d6754e8cd1201050c"},
-    {file = "mkdocstrings_python_legacy-0.2.3-py3-none-any.whl", hash = "sha256:1b04d71a4064b0bb8ea9448debab89868a752c7e7bfdd11de480dfbcb9751a00"},
+    {file = "mkdocstrings_python_legacy-0.2.7-py3-none-any.whl", hash = "sha256:c24a0a5867749fd826dfa190e10afcbd4c415cbcb2f805fc4791472b4bf221e9"},
+    {file = "mkdocstrings_python_legacy-0.2.7.tar.gz", hash = "sha256:1aa8a277a332fb0d49be3786de3fa18af7d8792e8d611f6ba8d550dc3a1ff8a1"},
 ]
 
 [package.dependencies]
-mkdocstrings = ">=0.19"
+mkdocs-autorefs = ">=1.1"
+mkdocstrings = ">=0.28.3"
 pytkdocs = ">=0.14"
 
 [[package]]
@@ -5377,4 +5378,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "ac2c2cc33e9cc6245d796822d1630343ca1a3a4c6f0594f9a1831650512ef5c7"
+content-hash = "45d6706089f51cdd1fb189e0779a80d3fab0f648535fcd81428a516abfb289e1"
