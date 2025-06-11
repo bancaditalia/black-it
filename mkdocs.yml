@@ -36,8 +36,9 @@ plugins:
           filters:
             - "!^_"  # exlude all members starting with _
             - "^__init__$"  # but always include __init__ modules and methods
-    watch:
-      - black_it
+
+watch:
+    - black_it
 
 theme:
   name: material
