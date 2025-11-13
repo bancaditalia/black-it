@@ -57,15 +57,11 @@ def test_consecutive_random_state_sets(random_seed: int) -> None:
 
     # reset random state, first time
     seedable.random_state = random_seed
-    expected_values_1 = [
-        seedable.random_generator.random() for _ in range(nb_iterations)
-    ]
+    expected_values_1 = [seedable.random_generator.random() for _ in range(nb_iterations)]
 
     # reset random state, second time
     seedable.random_state = random_seed
-    expected_values_2 = [
-        seedable.random_generator.random() for _ in range(nb_iterations)
-    ]
+    expected_values_2 = [seedable.random_generator.random() for _ in range(nb_iterations)]
 
     assert expected_values_1 == expected_values_2
 
@@ -79,12 +75,14 @@ def test_get_random_seed(random_seed: int) -> None:
 
     seedable.random_state = random_seed
     expected_values_1 = [
-        seedable._get_random_seed() for _ in range(nb_iterations)  # noqa: SLF001
+        seedable._get_random_seed()  # noqa: SLF001
+        for _ in range(nb_iterations)
     ]
 
     seedable.random_state = random_seed
     expected_values_2 = [
-        seedable._get_random_seed() for _ in range(nb_iterations)  # noqa: SLF001
+        seedable._get_random_seed()  # noqa: SLF001
+        for _ in range(nb_iterations)
     ]
 
     assert expected_values_1 == expected_values_2

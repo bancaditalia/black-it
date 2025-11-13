@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the best-batch sampler."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -108,9 +109,7 @@ class BestBatchSampler(BaseSampler):
             )
 
         # sort existing params
-        candidate_points: NDArray[np.float64] = existing_points[
-            np.argsort(existing_losses)
-        ][:batch_size, :]
+        candidate_points: NDArray[np.float64] = existing_points[np.argsort(existing_losses)][:batch_size, :]
 
         candidate_point_indexes: NDArray[np.int64] = self.random_generator.integers(
             0,

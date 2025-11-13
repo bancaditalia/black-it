@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the xgboost sampler."""
+
 import sys
 from typing import cast
 
@@ -121,6 +122,4 @@ def test_clip_losses() -> None:
     y = np.array([0.0, -1e40, 1e40])
     y2 = xgboost._clip_losses(y)  # noqa: SLF001
 
-    assert (
-        y2 == np.array([0.0, MIN_FLOAT32 + EPS_FLOAT32, MAX_FLOAT32 - EPS_FLOAT32])
-    ).all()
+    assert (y2 == np.array([0.0, MIN_FLOAT32 + EPS_FLOAT32, MAX_FLOAT32 - EPS_FLOAT32])).all()

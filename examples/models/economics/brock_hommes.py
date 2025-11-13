@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Implementation of the model in (Brock and Hommes, 1998)."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

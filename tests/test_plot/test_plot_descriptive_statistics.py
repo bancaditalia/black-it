@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This test module contains tests for the plot_descriptive_statistics.py module."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any

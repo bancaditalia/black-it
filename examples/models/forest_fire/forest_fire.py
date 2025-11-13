@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """A simple model of a wildfire on a 2D grid."""
+
 from __future__ import annotations
 
 import subprocess

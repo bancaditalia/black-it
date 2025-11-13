@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Fourier loss."""
+
 import numpy as np
 
 from black_it.loss_functions.fourier import (

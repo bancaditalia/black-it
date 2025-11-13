@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the samplers.base module."""
+
 import numpy as np
 
 from black_it.samplers.r_sequence import RSequenceSampler

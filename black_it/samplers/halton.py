@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation for the Halton sampler."""
+
 from __future__ import annotations
 
 import itertools

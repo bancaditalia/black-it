@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module implements the 'RLScheduler' scheduler."""
+
 from __future__ import annotations
 
 import threading

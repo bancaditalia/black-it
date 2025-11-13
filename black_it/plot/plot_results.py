@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains utilities for plotting results."""
+
 from __future__ import annotations
 
 import pickle  # nosec B403

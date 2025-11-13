@@ -37,6 +37,7 @@ DIRECT USAGE FROM COMMAND LINE:
      {"susceptible": 995, "infectious": 4, "recovered": 1},
      {"susceptible": 995, "infectious": 2, "recovered": 3}]
 """
+
 from __future__ import annotations
 
 import json
@@ -97,10 +98,7 @@ def _build_simulator_cmdline(
         "--rm",
         docker_image_name,
         *list(
-            chain.from_iterable(
-                (f"--{argname}", str(argvalue))
-                for argname, argvalue in sim_params.items()
-            ),
+            chain.from_iterable((f"--{argname}", str(argvalue)) for argname, argvalue in sim_params.items()),
         ),
     ]
 

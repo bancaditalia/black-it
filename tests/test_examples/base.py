@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Base module for example tests."""
+
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -45,10 +46,10 @@ class BaseMainExampleTestClass:
             pytest.fail(str(exc))
             return
 
-        assert (
-            process_output.returncode == 0
-        ), f"{self.script_path!s} exited with error code {process_output.returncode}"
+        assert process_output.returncode == 0, (
+            f"{self.script_path!s} exited with error code {process_output.returncode}"
+        )
 
-        assert all(
-            line in process_output.stdout for line in self.expected_lines
-        ), f"could not find {self.expected_lines} in stdout={process_output.stdout}"
+        assert all(line in process_output.stdout for line in self.expected_lines), (
+            f"could not find {self.expected_lines} in stdout={process_output.stdout}"
+        )

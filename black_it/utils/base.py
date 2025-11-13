@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains generic utility functions for the library."""
+
 from __future__ import annotations
 
 import os

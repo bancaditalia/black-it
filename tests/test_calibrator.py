@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the Calibrator.calibrate method."""
+
 import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -267,20 +268,11 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
             t2 = type(cal_restored.scheduler)
             assert t1 == t2
         elif key == "loss_function":
-            assert (
-                type(vars_cal["loss_function"]).__name__
-                == type(cal_restored.loss_function).__name__
-            )
+            assert type(vars_cal["loss_function"]).__name__ == type(cal_restored.loss_function).__name__
         elif key == "param_grid":
-            assert (
-                type(vars_cal["param_grid"]).__name__
-                == type(cal_restored.param_grid).__name__
-            )
+            assert type(vars_cal["param_grid"]).__name__ == type(cal_restored.param_grid).__name__
         elif key == f"_{BaseSeedable.__name__}__random_generator":
-            assert (
-                vars_cal[key].bit_generator.state
-                == cal_restored.random_generator.bit_generator.state
-            )
+            assert vars_cal[key].bit_generator.state == cal_restored.random_generator.bit_generator.state
         # otherwise check the equality of numerical values
         else:
             assert vars_cal[key] == pytest.approx(getattr(cal_restored, key))

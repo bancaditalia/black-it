@@ -71,6 +71,7 @@ lint.select = [
   "YTT",   # flake8-2020
 ]
 lint.ignore = [
+  "COM812",  # missing-trailing-comma
   "E203",    # whitespace-before-punctuation
   "FBT",     # flake8-boolean-trap
   "PLR0914", # Too many local variables

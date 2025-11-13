@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Base module for docs tests."""
+
 import re
 from pathlib import Path
 
@@ -39,7 +40,7 @@ class BaseMainExampleDocs(BaseTestMarkdownDocs):
         example_code = re.sub(r"^#.*\n(\n?)", "", example_code, flags=re.MULTILINE)
 
         # remove docstring
-        example_code = re.sub(r'""".*"""\n', "", example_code)
+        example_code = re.sub(r'""".*"""\n\n', "", example_code)
 
         # remove if __name__ == "__main__":
         return example_code.replace('if __name__ == "__main__":\n', "")

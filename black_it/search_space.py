@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the definition of the search space abstractions."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -191,8 +192,7 @@ class BoundsNotOfSizeTwoError(SearchSpaceError):
 
     def __init__(self, count_bounds_subarrays: int) -> None:  # noqa: D107
         super().__init__(
-            f"parameters_bounds must be a two dimensional array. This one has "
-            f"size {count_bounds_subarrays}.",
+            f"parameters_bounds must be a two dimensional array. This one has size {count_bounds_subarrays}.",
         )
         self.count_bounds_subarrays = count_bounds_subarrays
 
