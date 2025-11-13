@@ -96,7 +96,7 @@ hypothesis = {extras = ["numpy"], version = "^6.86.2"}
 mistletoe = "^1.2.1"
 pytest = "^8.4.0"
 pytest-cov = "^7.0.0"
-pytest-randomly = "^3.15.0"
+pytest-randomly = "^4.0.1"
 
 [tool.poetry.group.testenv_notebooks.dependencies]
 Mesa = "^2.1.1"
