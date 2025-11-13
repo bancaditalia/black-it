@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains serialization and deserialization of calibration state with SQLite."""
+
 from __future__ import annotations
 
 import gzip

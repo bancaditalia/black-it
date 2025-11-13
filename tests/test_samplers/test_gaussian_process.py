@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Gaussian process sampler."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
@@ -126,9 +127,7 @@ def test_gaussian_process_sample_warning_too_large_dataset() -> None:
     )
     with pytest.warns(
         RuntimeWarning,
-        match="Standard GP evaluations can be expensive "
-        "for large datasets, consider implementing "
-        "a sparse GP",
+        match="Standard GP evaluations can be expensive for large datasets, consider implementing a sparse GP",
     ):
         sampler.sample(param_grid, xys, losses)
 

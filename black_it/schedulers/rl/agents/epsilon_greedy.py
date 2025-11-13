@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module includes the implementation of a non-stationary epsilon-greedy agent."""
+
 from __future__ import annotations
 
 from typing import SupportsFloat, cast

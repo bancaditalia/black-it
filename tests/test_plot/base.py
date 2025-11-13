@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains utilities for the test_plot package."""
+
 from __future__ import annotations
 
 import logging

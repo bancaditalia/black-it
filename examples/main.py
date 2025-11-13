@@ -16,6 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This is a simple example showing the main features of the library."""
+
 import models.simple_models as md
 
 from black_it.calibrator import Calibrator

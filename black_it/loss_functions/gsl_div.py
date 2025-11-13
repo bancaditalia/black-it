@@ -51,6 +51,7 @@ Algorithm description:
 **Note**: b,L don't increase much the comp power required (ie from (2,2) to (19,19) +20% time).
 
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable
@@ -123,15 +124,9 @@ class GslDivLoss(BaseLoss):
         ts_length = len(real_data)
         ensemble_size = sim_data_ensemble.shape[0]
 
-        nb_values = (
-            int((ts_length - 1) / 2.0) if self.nb_values is None else self.nb_values
-        )
+        nb_values = int((ts_length - 1) / 2.0) if self.nb_values is None else self.nb_values
 
-        nb_word_lengths = (
-            int((ts_length - 1) / 2.0)
-            if self.nb_word_lengths is None
-            else self.nb_word_lengths
-        )
+        nb_word_lengths = int((ts_length - 1) / 2.0) if self.nb_word_lengths is None else self.nb_word_lengths
 
         # discretize real time series
         obs_xd = self.discretize(

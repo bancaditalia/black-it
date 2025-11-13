@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'MLSurrogateSampler' base class."""
+
 from __future__ import annotations
 
 from abc import abstractmethod

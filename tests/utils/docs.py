@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains helper function to extract code from the .md files."""
+
 from __future__ import annotations
 
 import json
@@ -40,9 +41,7 @@ def code_block_filter(block_dict: dict, language: str | None = None) -> bool:
     Returns:
         True if the block satistifes the conditions, False otherwise
     """
-    return block_dict["type"] == MISTLETOE_CODE_BLOCK_ID and (
-        language is None or block_dict["language"] == language
-    )
+    return block_dict["type"] == MISTLETOE_CODE_BLOCK_ID and (language is None or block_dict["language"] == language)
 
 
 def python_code_block_filter(block_dict: dict) -> bool:

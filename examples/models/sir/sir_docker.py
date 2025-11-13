@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """SIR models written in C and run in Docker containers."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module defines the 'BaseLoss' base class."""
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -90,10 +91,7 @@ class BaseLoss(ABC):
                 filtered_data_1d = sim_data_ensemble[:, :, i]
             else:
                 filtered_data_1d = np.array(
-                    [
-                        filter_(sim_data_ensemble[j, :, i])
-                        for j in range(sim_data_ensemble.shape[0])
-                    ],
+                    [filter_(sim_data_ensemble[j, :, i]) for j in range(sim_data_ensemble.shape[0])],
                 )
             filtered_data.append(filtered_data_1d)
 

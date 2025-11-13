@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This test module contains tests for the plot_results module."""
+
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -77,9 +78,7 @@ class TestPlotLossesMethodNum(BasePlotResultsTest):
     @pytest.mark.parametrize("method_num", list(range(5)))
     def test_run_by_method_num(self, method_num: int) -> None:
         """Run the test for all method numbers."""
-        self.expected_image = (
-            PLOT_DIR / f"plot_losses_method_num_{method_num}-expected.png"
-        )
+        self.expected_image = PLOT_DIR / f"plot_losses_method_num_{method_num}-expected.png"
         self.args = [self.saving_folder, method_num]
         super().run()
 
@@ -106,9 +105,7 @@ class TestPlotBatchNums(BasePlotResultsTest):
     @pytest.mark.parametrize("batch_num", list(range(0, 13, 3)))
     def test_run_by_batch_num(self, batch_num: int) -> None:
         """Run the test for all method numbers."""
-        self.expected_image = (
-            PLOT_DIR / f"plot_sampling_batch_nums_{batch_num:03d}-expected.png"
-        )
+        self.expected_image = PLOT_DIR / f"plot_sampling_batch_nums_{batch_num:03d}-expected.png"
         # gather batches up to batch_num
         self.args = [self.saving_folder, list(range(batch_num))]
         super().run()

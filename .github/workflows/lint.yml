@@ -43,7 +43,7 @@ jobs:
       run: make poetry-lock-check
     - name: Code style check
       run: |
-        tox -e black-check,ruff-check,vulture,darglint
+        tox -e format-check,ruff-check,vulture,darglint
     - name: Static type check
       run: tox -e mypy
     - name: Check copyright

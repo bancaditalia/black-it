@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 """This module contains tests for the Likelihood loss."""
+
 import numpy as np
 
 from black_it.loss_functions.likelihood import LikelihoodLoss
@@ -61,8 +62,7 @@ def test_likelihood_2d_wsigma(rng: np.random.Generator) -> None:
     real_data = rng.normal(0, sigma, size=(10, d))
 
     expected_neg_log_likelihood = -np.sum(
-        -0.5 / sigma**2 * np.sum(real_data**2, axis=1)
-        - d / 2.0 * np.log(2.0 * np.pi * sigma**2),
+        -0.5 / sigma**2 * np.sum(real_data**2, axis=1) - d / 2.0 * np.log(2.0 * np.pi * sigma**2),
         axis=0,
     )
     expected_likelihood = np.exp(-expected_neg_log_likelihood)

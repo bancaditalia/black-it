@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Test the README content."""
+
 from textwrap import indent
 
 from tests.conftest import DOCS_DIR

@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Implementation of the particle swarm sampler."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
@@ -204,9 +205,7 @@ class ParticleSwarmSampler(BaseSampler):
         self._do_step()
 
         p_bounds: NDArray[np.float64] = search_space.parameters_bounds
-        sampled_points = p_bounds[0] + self._curr_particle_positions * (
-            p_bounds[1] - p_bounds[0]
-        )
+        sampled_points = p_bounds[0] + self._curr_particle_positions * (p_bounds[1] - p_bounds[0])
         self._previous_batch_index_start = len(existing_points)
 
         return digitize_data(sampled_points, search_space.param_grid)
@@ -255,12 +254,8 @@ class ParticleSwarmSampler(BaseSampler):
         r2_vec = self.random_generator.random(size=curr_particle_positions.shape)
         new_particle_velocities = (
             self.inertia * curr_particle_velocities
-            + self.c1
-            * r1_vec
-            * (best_particle_positions - self._curr_particle_positions)
-            + self.c2
-            * r2_vec
-            * (self._get_best_position() - self._curr_particle_positions)  # type: ignore[operator]
+            + self.c1 * r1_vec * (best_particle_positions - self._curr_particle_positions)
+            + self.c2 * r2_vec * (self._get_best_position() - self._curr_particle_positions)  # type: ignore[operator]
         )
 
         self._curr_particle_positions = np.clip(

@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Hypothesis strategies for testing."""
+
 from __future__ import annotations
 
 from typing import Callable

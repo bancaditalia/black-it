@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the GSL-div loss."""
+
 from __future__ import annotations
 
 import numpy as np

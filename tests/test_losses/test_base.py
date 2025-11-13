@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the base loss_functions module."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable

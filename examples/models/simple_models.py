@@ -26,6 +26,7 @@ List of models:
 - RWSB1
 - RWSB2
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -377,9 +378,7 @@ def ARMAARCH6(  # noqa: N802
     y = np.zeros(N + 2)
     for i in range(2, N + 1):
         s[i] = np.sqrt(
-            theta[2]
-            + theta[3] * ((s[i - 1] * e[i - 1]) ** 2)
-            + theta[4] * ((s[i - 2] * e[i - 2]) ** 2),
+            theta[2] + theta[3] * ((s[i - 1] * e[i - 1]) ** 2) + theta[4] * ((s[i - 2] * e[i - 2]) ** 2),
         )
     for i in range(2, N + 1):
         y[i] = (

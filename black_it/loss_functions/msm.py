@@ -19,6 +19,7 @@
 This module contains the implementation of the loss function
 based on the 'method of moments'.
 """
+
 from __future__ import annotations
 
 from enum import Enum
@@ -138,9 +139,7 @@ class MethodOfMomentsLoss(BaseLoss):
                 raise ValueError(
                     msg,
                 )
-            if (moment_calculator is get_mom_ts_1d) and (
-                covariance_mat.shape[0] != _NB_MOMENTS
-            ):
+            if (moment_calculator is get_mom_ts_1d) and (covariance_mat.shape[0] != _NB_MOMENTS):
                 msg = (
                     "the provided covariance matrix is not valid as it has a wrong shape: "
                     f"expected {_NB_MOMENTS}, got {covariance_mat.shape[0]}"
@@ -189,18 +188,14 @@ class MethodOfMomentsLoss(BaseLoss):
 
         g = real_mom_1d - sim_mom_1d
 
-        if (
-            isinstance(self._covariance_mat, str)
-            and self._covariance_mat == _CovarianceMatrixType.IDENTITY.value
-        ):
+        if isinstance(self._covariance_mat, str) and self._covariance_mat == _CovarianceMatrixType.IDENTITY.value:
             return g.dot(g)
         if (
             isinstance(self._covariance_mat, str)
             and self._covariance_mat == _CovarianceMatrixType.INVERSE_VARIANCE.value
         ):
             W = np.diag(  # noqa: N806
-                1.0
-                / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0),
+                1.0 / np.mean((real_mom_1d[None, :] - ensemble_sim_mom_1d) ** 2, axis=0),
             )
         else:
             self._covariance_mat = cast("NDArray[np.float64]", self._covariance_mat)

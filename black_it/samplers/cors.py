@@ -20,6 +20,7 @@ Regis, Rommel G., and Christine A. Shoemaker. "Constrained global optimization o
 using radial basis functions." Journal of Global optimization 31.1 (2005): 153-171.
 
 """
+
 from __future__ import annotations
 
 from math import factorial
@@ -42,12 +43,7 @@ def volume_d_dimensional_ball_radius_1(dims: int) -> float:
     """Compute the volume of a d-dimensional ball with radius 1."""
     if dims % 2 == 0:
         return np.pi ** (dims / 2) / factorial(int(dims / 2))
-    return (
-        2
-        * (4 * np.pi) ** ((dims - 1) / 2)
-        * factorial(int((dims - 1) / 2))
-        / factorial(dims)
-    )
+    return 2 * (4 * np.pi) ** ((dims - 1) / 2) * factorial(int((dims - 1) / 2)) / factorial(dims)
 
 
 def cubetobox(
@@ -202,10 +198,7 @@ class CORSSampler(BaseSampler):
             r = (
                 (
                     self.rho0
-                    * (
-                        (self._max_samples - 1.0 - (self._batch_id * batch_size + j))
-                        / (self._max_samples - 1.0)
-                    )
+                    * ((self._max_samples - 1.0 - (self._batch_id * batch_size + j)) / (self._max_samples - 1.0))
                     ** self.p
                 )
                 / (v1 * (nb_seed_points + self._batch_id * batch_size + j))

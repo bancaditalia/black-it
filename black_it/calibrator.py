@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the main class Calibrator."""
+
 from __future__ import annotations
 
 import multiprocessing
@@ -116,9 +117,7 @@ class Calibrator(BaseSeedable):
         self.D = self.real_data.shape[1]
         self.verbose = verbose
         self.convergence_precision = (
-            self._validate_convergence_precision(convergence_precision)
-            if convergence_precision is not None
-            else None
+            self._validate_convergence_precision(convergence_precision) if convergence_precision is not None else None
         )
         self.saving_folder = saving_folder
 
@@ -285,10 +284,7 @@ class Calibrator(BaseSeedable):
 
         _assert(
             model_name == model.__name__,
-            (
-                "Error: the model provided appears to be different from the one present "
-                "in the database"
-            ),
+            ("Error: the model provided appears to be different from the one present in the database"),
         )
 
         calibrator = cls(
@@ -336,8 +332,7 @@ class Calibrator(BaseSeedable):
         rep_params = np.repeat(params, self.ensemble_size, axis=0)
 
         simulated_data_list = Parallel(n_jobs=self.n_jobs)(
-            delayed(self.model)(param, self.N, self._get_random_seed())
-            for i, param in enumerate(rep_params)
+            delayed(self.model)(param, self.N, self._get_random_seed()) for i, param in enumerate(rep_params)
         )
 
         simulated_data = np.array(simulated_data_list)
@@ -408,8 +403,7 @@ class Calibrator(BaseSeedable):
                 self.method_samp = np.hstack(
                     (
                         self.method_samp,
-                        [self.samplers_id_table[type(method).__name__]]
-                        * method.batch_size,
+                        [self.samplers_id_table[type(method).__name__]] * method.batch_size,
                     ),
                 )
 
@@ -483,9 +477,7 @@ class Calibrator(BaseSeedable):
         Returns:
             True if the calibration converged, False otherwise.
         """
-        return (
-            np.round(np.min(losses_samp[:n_sampled_params]), convergence_precision) == 0
-        )
+        return np.round(np.min(losses_samp[:n_sampled_params]), convergence_precision) == 0
 
     def create_checkpoint(self, file_name: str | os.PathLike) -> None:
         """Save the current state of the object.

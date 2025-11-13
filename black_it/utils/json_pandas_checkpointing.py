@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains serialization and deserialization of calibration state with Pandas."""
+
 from __future__ import annotations
 
 import json
@@ -53,9 +54,7 @@ def load_calibrator_state(checkpoint_path: PathLike, _code_state_version: int) -
 
     cr = pd.read_csv(checkpoint_path / "calibration_results.csv")
 
-    params_samp_list = [
-        cr[f"params_samp_{i}"] for i in range(len(cp["parameters_precision"]))
-    ]
+    params_samp_list = [cr[f"params_samp_{i}"] for i in range(len(cp["parameters_precision"]))]
 
     params_samp = np.vstack(params_samp_list).T
 

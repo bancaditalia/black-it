@@ -16,6 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """SIR model calibration example using a Docker-based simulator."""
+
 from models.sir.sir_docker import SIR
 
 from black_it.calibrator import Calibrator

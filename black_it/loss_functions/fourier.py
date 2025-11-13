@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains the implementation of the Fast Fourier Transform loss."""
+
 from __future__ import annotations
 
 from typing import Callable
@@ -77,7 +78,7 @@ def gaussian_low_pass_filter(
     sigma = np.round(f * signal_frequencies.shape[0])
 
     # gaussian low-pass filter
-    mask = np.exp(-np.arange(signal_frequencies.shape[0]) ** 2 / (2 * sigma**2))
+    mask = np.exp(-(np.arange(signal_frequencies.shape[0]) ** 2) / (2 * sigma**2))
     return signal_frequencies * mask
 
 

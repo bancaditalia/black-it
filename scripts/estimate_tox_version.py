@@ -69,7 +69,9 @@ if __name__ == "__main__":
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
-    msg = f"this program is intended to be invoked like this: `poetry export --only=dev --without-hashes | {sys.argv[0]}`"  # noqa: E501
+    msg = (
+        f"this program is intended to be invoked like this: `poetry export --only=dev --without-hashes | {sys.argv[0]}`"
+    )
     logger.info(msg)
     logger.info("reading from stdin...")
     try:

@@ -15,6 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """This module contains tests for the utils.time_series module."""
+
 import numpy as np
 
 from black_it.utils.time_series import get_mom_ts

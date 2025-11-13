@@ -71,10 +71,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr coverage.xml
 
 .PHONY: lint-all
-lint-all: black check-copyright check-uniform-python-version poetry-lock-check ruff static bandit vulture darglint ## run all linters
+lint-all: format check-copyright check-uniform-python-version poetry-lock-check ruff static bandit vulture darglint ## run all linters
 
 .PHONY: lint-all-files
-lint-all-files: black-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
+lint-all-files: format-files ruff-files static-files bandit-files vulture-files darglint-files ## run all linters for specific files (specified with files="file1 file2 somedir ...")
 
 .PHONY: poetry-lock-check
 poetry-lock-check: ## check if poetry.lock is consistent with pyproject.toml
@@ -89,23 +89,23 @@ static-files: ## static type checking with mypy for specific files (specified wi
 	$(call check_defined, files)
 	mypy $(files)
 
-.PHONY: black
-black: ## apply black formatting
-	black .
+.PHONY: format
+format: ## format the code base via ruff
+	ruff format .
 
-.PHONY: black-files
-black-files: ## apply black formatting for specific files (specified with files="file1 file2 somedir ...")
+.PHONY: format-files
+format-files: ## format the code base via ruff, but only for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
-	black $(files)
+	ruff format $(files)
 
-.PHONY: black-check
-black-check: ## check black formatting
-	black --check --verbose .
+.PHONY: format-check
+format-check: ## check code base formatting via ruff
+	ruff format --check .
 
 .PHONY: black-check-files
-black-check-files: ## check black formatting for specific files (specified with files="file1 file2 somedir ...")
+format-check-files: ## check code base formatting via ruff, but only for specific files (specified with files="file1 file2 somedir ...")
 	$(call check_defined, files)
-	black --check --verbose $(files)
+	ruff format --check $(files)
 
 .PHONY: ruff
 ruff: ## run ruff linter
