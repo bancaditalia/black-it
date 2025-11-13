@@ -89,7 +89,7 @@ pymdown-extensions = "^10.3"
 mypy = "^1.5.1"
 
 [tool.poetry.group.ruff.dependencies]
-ruff = "^0.11.13"
+ruff = "^0.14.5"
 
 [tool.poetry.group.testenv.dependencies]
 hypothesis = {extras = ["numpy"], version = "^6.86.2"}
