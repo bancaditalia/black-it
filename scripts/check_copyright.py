@@ -63,7 +63,7 @@ def check_copyright(file: Path) -> bool:
     Returns:
         True if the file is compliant with the checks, False otherwise.
     """
-    content = file.read_text()
+    content = file.read_text(encoding="utf-8")
     return re.match(HEADER_REGEX, content) is not None
 
 
