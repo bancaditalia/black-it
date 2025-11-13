@@ -70,7 +70,7 @@ ndlib = "^5.1.1"
 pydocstyle = "^6.3.0"
 tomli = { version = "^2.2.1", python = "<3.11" } # TODO: remove the dependency on tomli once the minimum supported python version becomes 3.11
 tox = "^4.4.12"
-twine = "^4.0.2"
+twine = "^6.2.0"
 
 [tool.poetry.group.docs.dependencies]
 markdown = "^3.4.4"
