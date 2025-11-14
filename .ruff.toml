@@ -81,6 +81,11 @@ lint.ignore = [
   "T20",     # flake8-print
 ]
 
+# Do no apply linting to Jupyter Notebooks for now. Just format them.
+#
+# source: https://docs.astral.sh/ruff/configuration/#jupyter-notebook-discovery
+lint.exclude = ["examples/*.ipynb"]
+
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 #fixable = ["ALL"]
 #unfixable = []
@@ -88,6 +93,7 @@ lint.ignore = [
 include = [
   "black_it/**/*.py",
   "examples/**/*.py",
+  "examples/*.ipynb",
   "scripts/**/*.py",
   "tests/**/*.py",
 ]
