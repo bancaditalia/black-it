@@ -22,8 +22,9 @@ based on the 'method of moments'.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from enum import Enum
-from typing import Callable, cast
+from typing import cast
 
 import numpy as np
 from numpy.typing import NDArray

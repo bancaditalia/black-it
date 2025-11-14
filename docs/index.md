@@ -15,7 +15,7 @@ While this tool can be used as a general optimizer for any built-in or custom mo
 
 ## Installation
 
-This project requires Python v3.9 or later and [Poetry](https://python-poetry.org).
+This project requires Python v3.10 or later and [Poetry](https://python-poetry.org).
 
 To install the package simply run
 

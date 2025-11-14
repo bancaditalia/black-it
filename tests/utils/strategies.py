@@ -18,13 +18,16 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import hypothesis.extra.numpy
 import hypothesis.strategies as st
 from hypothesis import assume
 from hypothesis.extra.numpy import floating_dtypes
 from hypothesis.strategies import composite, floats, integers
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 MAX_TIME_SERIES_LENGTH = 100
 MAX_NB_VALUES = 10
