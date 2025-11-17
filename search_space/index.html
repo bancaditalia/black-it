@@ -8,8 +8,18 @@
       
       
       
+      
+        <link rel="prev" href="../losses/">
+      
+      
+        <link rel="next" href="../citing_black_it/">
+      
+      
+        
+      
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
@@ -17,13 +27,17 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
-        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
+      
+
+
     
+    
+      
     
     
       
@@ -43,7 +57,7 @@
     
       <link rel="stylesheet" href="../css/pandas-dataframe.css">
     
-    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -59,11 +73,8 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -83,7 +94,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="black-it documentation" class="md-header__button md-logo" aria-label="black-it documentation" data-md-component="logo">
       
@@ -91,7 +104,8 @@
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -110,69 +124,83 @@
       </div>
     </div>
     
-      <form class="md-header__option" data-md-component="palette">
-        
-          
-          
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-          
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
-            </label>
-          
-        
-          
-          
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
-            </label>
-          
-        
-      </form>
+      
+        <form class="md-header__option" data-md-component="palette">
+  
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
       </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
   </div>
 </div>
+      
     
     
       <div class="md-header__source">
         <a href="https://github.com/bancaditalia/black-it" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     bancaditalia/black-it
@@ -202,6 +230,7 @@
                     
 
 
+
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="black-it documentation" class="md-nav__button md-logo" aria-label="black-it documentation" data-md-component="logo">
@@ -216,7 +245,7 @@
       <a href="https://github.com/bancaditalia/black-it" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     bancaditalia/black-it
@@ -228,14 +257,26 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Home
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -243,14 +284,26 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../description/" class="md-nav__link">
-        How it works
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -258,160 +311,304 @@
     
       
       
-      
-
+  
   
   
   
     
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          Examples and tutorials
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Examples and tutorials" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Examples and tutorials
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
           
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples and tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples and tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../examples/" class="md-nav__link">
-        Overview
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../tests_on_toy_model/" class="md-nav__link">
-        Toy model
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Toy model
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../slack_stock_price_shock/" class="md-nav__link">
-        Simple shock model
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simple shock model
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../finding_the_parameters_of_a_SIR_model/" class="md-nav__link">
-        SIR model
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIR model
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../boltzmann_wealth_model/" class="md-nav__link">
-        Boltzmann wealth model
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boltzmann wealth model
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../overview_of_the_different_samplers/" class="md-nav__link">
-        Different samplers
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Different samplers
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../benchmarking_samplers/" class="md-nav__link">
-        Benchmarking samplers
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarking samplers
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../overview_of_plotting_functions/" class="md-nav__link">
-        Plotting tutorial
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plotting tutorial
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../simulator_interface/" class="md-nav__link">
-        Interface with simulators
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface with simulators
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -419,14 +616,26 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../checkpointing_parallelisation/" class="md-nav__link">
-        Checkpointing and parallelisation
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checkpointing and parallelisation
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -434,14 +643,26 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../contributing/" class="md-nav__link">
-        Extending Black-it
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending Black-it
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -449,96 +670,212 @@
     
       
       
-      
-
   
   
     
   
   
+  
+    
+    
+    
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7">
-          Code Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_7">
-          <span class="md-nav__icon md-icon"></span>
-          Code Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
           
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Code Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../calibrator/" class="md-nav__link">
-        Calibrator
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibrator
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedulers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../samplers/" class="md-nav__link">
-        Samplers
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Samplers
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../losses/" class="md-nav__link">
-        Loss functions
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss functions
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
   
   
     
   
   
+  
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Search space
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search space
+  
+
+    
+  </span>
+  
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Search space
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search space
+  
+
+    
+  </span>
+  
+  
+
       </a>
       
         
@@ -556,104 +893,154 @@
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace" class="md-nav__link">
-    SearchSpace
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SearchSpace
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="SearchSpace">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.dims" class="md-nav__link">
-    dims
+    <span class="md-ellipsis">
+      
+        dims
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.param_grid" class="md-nav__link">
-    param_grid
+    <span class="md-ellipsis">
+      
+        param_grid
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.parameters_bounds" class="md-nav__link">
-    parameters_bounds
+    <span class="md-ellipsis">
+      
+        parameters_bounds
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.parameters_precision" class="md-nav__link">
-    parameters_precision
+    <span class="md-ellipsis">
+      
+        parameters_precision
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.space_size" class="md-nav__link">
-    space_size
+    <span class="md-ellipsis">
+      
+        space_size
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.__init__" class="md-nav__link">
-    __init__()
+    <span class="md-ellipsis">
+      
+        __init__()
+      
+    </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpaceError" class="md-nav__link">
-    SearchSpaceError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SearchSpaceError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BadPrecisionLengthError" class="md-nav__link">
-    BadPrecisionLengthError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BadPrecisionLengthError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BoundsNotOfSizeTwoError" class="md-nav__link">
-    BoundsNotOfSizeTwoError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BoundsNotOfSizeTwoError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BoundsOfDifferentLengthError" class="md-nav__link">
-    BoundsOfDifferentLengthError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BoundsOfDifferentLengthError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.LowerBoundGreaterThanUpperBoundError" class="md-nav__link">
-    LowerBoundGreaterThanUpperBoundError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.LowerBoundGreaterThanUpperBoundError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.PrecisionZeroError" class="md-nav__link">
-    PrecisionZeroError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.PrecisionZeroError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SameLowerAndUpperBoundError" class="md-nav__link">
-    SameLowerAndUpperBoundError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SameLowerAndUpperBoundError
+      
+    </span>
   </a>
   
 </li>
@@ -665,24 +1052,37 @@
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../citing_black_it/" class="md-nav__link">
-        Citing Black-it
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citing Black-it
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -714,104 +1114,154 @@
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace" class="md-nav__link">
-    SearchSpace
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SearchSpace
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="SearchSpace">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.dims" class="md-nav__link">
-    dims
+    <span class="md-ellipsis">
+      
+        dims
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.param_grid" class="md-nav__link">
-    param_grid
+    <span class="md-ellipsis">
+      
+        param_grid
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.parameters_bounds" class="md-nav__link">
-    parameters_bounds
+    <span class="md-ellipsis">
+      
+        parameters_bounds
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.parameters_precision" class="md-nav__link">
-    parameters_precision
+    <span class="md-ellipsis">
+      
+        parameters_precision
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.space_size" class="md-nav__link">
-    space_size
+    <span class="md-ellipsis">
+      
+        space_size
+      
+    </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpace.__init__" class="md-nav__link">
-    __init__()
+    <span class="md-ellipsis">
+      
+        __init__()
+      
+    </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SearchSpaceError" class="md-nav__link">
-    SearchSpaceError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SearchSpaceError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BadPrecisionLengthError" class="md-nav__link">
-    BadPrecisionLengthError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BadPrecisionLengthError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BoundsNotOfSizeTwoError" class="md-nav__link">
-    BoundsNotOfSizeTwoError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BoundsNotOfSizeTwoError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.BoundsOfDifferentLengthError" class="md-nav__link">
-    BoundsOfDifferentLengthError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.BoundsOfDifferentLengthError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.LowerBoundGreaterThanUpperBoundError" class="md-nav__link">
-    LowerBoundGreaterThanUpperBoundError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.LowerBoundGreaterThanUpperBoundError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.PrecisionZeroError" class="md-nav__link">
-    PrecisionZeroError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.PrecisionZeroError
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#black_it.search_space.SameLowerAndUpperBoundError" class="md-nav__link">
-    SameLowerAndUpperBoundError
+    <span class="md-ellipsis">
+      
+        black_it.search_space.SameLowerAndUpperBoundError
+      
+    </span>
   </a>
   
 </li>
@@ -824,47 +1274,39 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
+          
+            <div class="md-content" data-md-component="content">
               
+              <article class="md-content__inner md-typeset">
                 
-  <a href="https://github.com/bancaditalia/black-it/edit/master/docs/search_space.md" title="Edit this page" class="md-content__button md-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+                  
 
+
+  
+  
 
 
   <h1>Search space</h1>
 
 <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.SearchSpace" class="doc doc-heading">
-        <code>
-black_it.search_space.SearchSpace        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.SearchSpace"></a>
     <div class="doc doc-contents first">
 
       <p>A class that contains information on the search grid of explorable parameters.</p>
 
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SearchSpace</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-few-public-methods</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SearchSpace</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A class that contains information on the search grid of explorable parameters.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
-        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the SearchSpace object.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the SearchSpace object.</span>
 
 <span class="sd">        The values of parameters_bounds and parameters_precision parameters have</span>
 <span class="sd">        to satisfy the following constraints, otherwise an exception (subclass</span>
@@ -899,10 +1341,10 @@ black_it.search_space.SearchSpace        </code>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters_precision</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters_precision</span><span class="p">)</span>
 
         <span class="c1"># Initialize search grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_space_size</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
-            <span class="n">new_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">new_col</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
                 <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
                 <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.0000001</span><span class="p">,</span>
                 <span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -918,12 +1360,11 @@ black_it.search_space.SearchSpace        </code>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;***</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_bounds</span><span class="p">(</span>
-        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
-        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_bounds</span><span class="p">(</span>
+        <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ensure parameter_bounds and parameter_precision have acceptable values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure parameter_bounds and parameter_precision have acceptable values.</span>
 
 <span class="sd">        This is an helper function for SearchSpace.__init__().</span>
 
@@ -932,7 +1373,7 @@ black_it.search_space.SearchSpace        </code>
 <span class="sd">            parameters_precision: resolution of the grid of parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># ensure parameters_bounds is a two-elements array</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters_bounds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters_bounds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># noqa: PLR2004</span>
             <span class="k">raise</span> <span class="n">BoundsNotOfSizeTwoError</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parameters_bounds</span><span class="p">))</span>
 
         <span class="c1"># ensure the two sub-arrays of parameter_bounds (which are the min and</span>
@@ -952,7 +1393,7 @@ black_it.search_space.SearchSpace        </code>
             <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="nb">zip</span><span class="p">(</span><span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">parameters_precision</span><span class="p">)</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">parameters_precision</span><span class="p">),</span>
         <span class="p">):</span>
             <span class="c1"># ensure lower bounds and upper bounds do not have the same value</span>
             <span class="k">if</span> <span class="n">lower_bound</span> <span class="o">==</span> <span class="n">upper_bound</span><span class="p">:</span>
@@ -970,31 +1411,34 @@ black_it.search_space.SearchSpace        </code>
             <span class="c1"># allowed parameter span</span>
             <span class="k">if</span> <span class="n">precision</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">upper_bound</span> <span class="o">-</span> <span class="n">lower_bound</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">PrecisionGreaterThanBoundsRangeError</span><span class="p">(</span>
-                    <span class="n">i</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">precision</span>
+                    <span class="n">i</span><span class="p">,</span>
+                    <span class="n">lower_bound</span><span class="p">,</span>
+                    <span class="n">upper_bound</span><span class="p">,</span>
+                    <span class="n">precision</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">param_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">param_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Discretized parameter space containing all possible candidates for calibration.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">parameters_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parameters_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Two dimensional array containing lower and upper bounds for each parameter.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters_bounds</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">parameters_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parameters_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;One dimensional array containing the precisions for each parameter.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters_precision</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of model parameters configured for calibration.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters_precision</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">space_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">space_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cardinality of the potential parameter space to be searched.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_space_size</span>
 </code></pre></div>
@@ -1013,7 +1457,7 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.dims" class="doc doc-heading">
+<h2 id="black_it.search_space.SearchSpace.dims" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">dims</span><span class="p">:</span> <span class="nb">int</span></code>
 
   <span class="doc doc-properties">
@@ -1021,7 +1465,7 @@ black_it.search_space.SearchSpace        </code>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1036,15 +1480,15 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.param_grid" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">param_grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">]]]</span></code>
+<h2 id="black_it.search_space.SearchSpace.param_grid" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">param_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1059,15 +1503,15 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.parameters_bounds" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">ndarray</span></code>
+<h2 id="black_it.search_space.SearchSpace.parameters_bounds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1082,15 +1526,15 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.parameters_precision" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">parameters_precision</span><span class="p">:</span> <span class="n">ndarray</span></code>
+<h2 id="black_it.search_space.SearchSpace.parameters_precision" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1105,7 +1549,7 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.space_size" class="doc doc-heading">
+<h2 id="black_it.search_space.SearchSpace.space_size" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">space_size</span><span class="p">:</span> <span class="nb">int</span></code>
 
   <span class="doc doc-properties">
@@ -1113,7 +1557,7 @@ black_it.search_space.SearchSpace        </code>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1131,14 +1575,14 @@ black_it.search_space.SearchSpace        </code>
 
 
 
-<h3 id="black_it.search_space.SearchSpace.__init__" class="doc doc-heading">
+<h2 id="black_it.search_space.SearchSpace.__init__" class="doc doc-heading">
 <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters_bounds</span><span class="p">,</span> <span class="n">parameters_precision</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
   </span>
 
-</h3>
+</h2>
 
     <div class="doc doc-contents ">
 
@@ -1178,13 +1622,13 @@ of SearchSpaceError) is raised:</p>
   <tbody>
       <tr>
         <td><code>parameters_bounds</code></td>
-        <td><code>Union[numpy.ndarray[Any, numpy.dtype[numpy.float64]], List[List[float]]]</code></td>
+        <td><code>NDArray[np.float64] | list[list[float]]</code></td>
         <td><p>lower and upper bounds of the parameters.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>parameters_precision</code></td>
-        <td><code>Union[numpy.ndarray[Any, numpy.dtype[numpy.float64]], List[float]]</code></td>
+        <td><code>NDArray[np.float64] | list[float]</code></td>
         <td><p>resolution of the grid of parameters.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1198,14 +1642,13 @@ of SearchSpaceError) is raised:</p>
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
-    <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">parameters_bounds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">parameters_precision</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initialize the SearchSpace object.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the SearchSpace object.</span>
 
 <span class="sd">    The values of parameters_bounds and parameters_precision parameters have</span>
 <span class="sd">    to satisfy the following constraints, otherwise an exception (subclass</span>
@@ -1240,10 +1683,10 @@ of SearchSpaceError) is raised:</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_parameters_precision</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters_precision</span><span class="p">)</span>
 
     <span class="c1"># Initialize search grid</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_param_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_space_size</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
-        <span class="n">new_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+        <span class="n">new_col</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
             <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
             <span class="n">parameters_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.0000001</span><span class="p">,</span>
             <span class="n">parameters_precision</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -1277,17 +1720,7 @@ of SearchSpaceError) is raised:</p>
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.SearchSpaceError" class="doc doc-heading">
-        <code>
-black_it.search_space.SearchSpaceError            (<span title="ValueError">ValueError</span>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.SearchSpaceError"></a>
     <div class="doc doc-contents first">
 
       <p>Base class for the exceptions raised by SearchSpace when its construction fails.</p>
@@ -1298,7 +1731,7 @@ each subtype exposes (for example: BadPrecisionLengthError.bounds_length)</p>
 
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SearchSpaceError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SearchSpaceError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for the exceptions raised by SearchSpace when its construction fails.</span>
 
 <span class="sd">    If you need to distinguish a specific error, please do not rely on parsing</span>
@@ -1318,17 +1751,7 @@ each subtype exposes (for example: BadPrecisionLengthError.bounds_length)</p>
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.BadPrecisionLengthError" class="doc doc-heading">
-        <code>
-black_it.search_space.BadPrecisionLengthError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.BadPrecisionLengthError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when the parameters_precision array has a different length than the bounds'.</p>
@@ -1357,7 +1780,7 @@ black_it.search_space.BadPrecisionLengthError            (<a class="autorefs aut
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BadPrecisionLengthError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BadPrecisionLengthError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the parameters_precision array has a different length than the bounds&#39;.</span>
 
 <span class="sd">    Attributes:</span>
@@ -1365,12 +1788,14 @@ black_it.search_space.BadPrecisionLengthError            (<a class="autorefs aut
 <span class="sd">        bounds_length (int): number of elements of the two bounds subbarrays</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">precisions_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bounds_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">precisions_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">bounds_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;parameters_precision array has </span><span class="si">{</span><span class="n">precisions_length</span><span class="si">}</span><span class="s2"> elements. Its &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;length, instead, has to be </span><span class="si">{</span><span class="n">bounds_length</span><span class="si">}</span><span class="s2">, the same as the bounds&#39;.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;length, instead, has to be </span><span class="si">{</span><span class="n">bounds_length</span><span class="si">}</span><span class="s2">, the same as the bounds&#39;.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precisions_length</span> <span class="o">=</span> <span class="n">precisions_length</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bounds_length</span> <span class="o">=</span> <span class="n">bounds_length</span>
@@ -1402,17 +1827,7 @@ black_it.search_space.BadPrecisionLengthError            (<a class="autorefs aut
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.BoundsNotOfSizeTwoError" class="doc doc-heading">
-        <code>
-black_it.search_space.BoundsNotOfSizeTwoError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.BoundsNotOfSizeTwoError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when bounds are not a two-dimensional array.</p>
@@ -1437,7 +1852,7 @@ parameter_bounds array was made of. It will be different than 2.</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BoundsNotOfSizeTwoError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BoundsNotOfSizeTwoError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when bounds are not a two-dimensional array.</span>
 
 <span class="sd">    Attributes:</span>
@@ -1445,10 +1860,9 @@ parameter_bounds array was made of. It will be different than 2.</p></td>
 <span class="sd">            parameter_bounds array was made of. It will be different than 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count_bounds_subarrays</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count_bounds_subarrays</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;parameters_bounds must be a two dimensional array. This one has &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;size </span><span class="si">{</span><span class="n">count_bounds_subarrays</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;parameters_bounds must be a two dimensional array. This one has size </span><span class="si">{</span><span class="n">count_bounds_subarrays</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count_bounds_subarrays</span> <span class="o">=</span> <span class="n">count_bounds_subarrays</span>
 </code></pre></div>
@@ -1479,17 +1893,7 @@ parameter_bounds array was made of. It will be different than 2.</p></td>
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.BoundsOfDifferentLengthError" class="doc doc-heading">
-        <code>
-black_it.search_space.BoundsOfDifferentLengthError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.BoundsOfDifferentLengthError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when the lower and upper bounds do not have the same number of elements.</p>
@@ -1520,7 +1924,7 @@ be different than lower_bounds_length</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BoundsOfDifferentLengthError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BoundsOfDifferentLengthError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the lower and upper bounds do not have the same number of elements.</span>
 
 <span class="sd">    Attributes:</span>
@@ -1530,13 +1934,15 @@ be different than lower_bounds_length</p></td>
 <span class="sd">            be different than lower_bounds_length</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">lower_bounds_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper_bounds_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">lower_bounds_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">upper_bounds_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;parameters_bounds subarrays must be of the same length. Lower &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;bounds length: </span><span class="si">{</span><span class="n">lower_bounds_length</span><span class="si">}</span><span class="s2">, upper bounds length: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">upper_bounds_length</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">upper_bounds_length</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds_length</span> <span class="o">=</span> <span class="n">lower_bounds_length</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds_length</span> <span class="o">=</span> <span class="n">upper_bounds_length</span>
@@ -1568,17 +1974,7 @@ be different than lower_bounds_length</p></td>
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.LowerBoundGreaterThanUpperBoundError" class="doc doc-heading">
-        <code>
-black_it.search_space.LowerBoundGreaterThanUpperBoundError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.LowerBoundGreaterThanUpperBoundError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when the lower bound of a parameter is greater than its upper bound.</p>
@@ -1612,7 +2008,7 @@ black_it.search_space.LowerBoundGreaterThanUpperBoundError            (<a class=
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">LowerBoundGreaterThanUpperBoundError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LowerBoundGreaterThanUpperBoundError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the lower bound of a parameter is greater than its upper bound.</span>
 
 <span class="sd">    Attributes:</span>
@@ -1621,12 +2017,15 @@ black_it.search_space.LowerBoundGreaterThanUpperBoundError            (<a class=
 <span class="sd">        upper_bound (float): upper bound. It will be lower than lower bound</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">lower_bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">upper_bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Parameter </span><span class="si">{</span><span class="n">param_index</span><span class="si">}</span><span class="s2">&#39;s lower bound (</span><span class="si">{</span><span class="n">lower_bound</span><span class="si">}</span><span class="s2">) must be &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;lower than its upper bound (</span><span class="si">{</span><span class="n">upper_bound</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;lower than its upper bound (</span><span class="si">{</span><span class="n">upper_bound</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param_index</span> <span class="o">=</span> <span class="n">param_index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">lower_bound</span>
@@ -1659,17 +2058,7 @@ black_it.search_space.LowerBoundGreaterThanUpperBoundError            (<a class=
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.PrecisionZeroError" class="doc doc-heading">
-        <code>
-black_it.search_space.PrecisionZeroError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.PrecisionZeroError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when a parameter precision is set to 0.</p>
@@ -1693,14 +2082,14 @@ black_it.search_space.PrecisionZeroError            (<a class="autorefs autorefs
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">PrecisionZeroError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PrecisionZeroError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a parameter precision is set to 0.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        param_index (int): 0-based index of the parameter presenting the error</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter </span><span class="si">{</span><span class="n">param_index</span><span class="si">}</span><span class="s2">&#39;s precision cannot be zero.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param_index</span> <span class="o">=</span> <span class="n">param_index</span>
 </code></pre></div>
@@ -1731,17 +2120,7 @@ black_it.search_space.PrecisionZeroError            (<a class="autorefs autorefs
 
   <div class="doc doc-object doc-class">
 
-
-
-<h2 id="black_it.search_space.SameLowerAndUpperBoundError" class="doc doc-heading">
-        <code>
-black_it.search_space.SameLowerAndUpperBoundError            (<a class="autorefs autorefs-internal" title="black_it.search_space.SearchSpaceError" href="#black_it.search_space.SearchSpaceError">SearchSpaceError</a>)
-        </code>
-
-
-
-</h2>
-
+<a id="black_it.search_space.SameLowerAndUpperBoundError"></a>
     <div class="doc doc-contents first">
 
       <p>Raised when the lower and the upper bound of a parameter have the same value.</p>
@@ -1770,7 +2149,7 @@ black_it.search_space.SameLowerAndUpperBoundError            (<a class="autorefs
 </table>
         <details class="quote">
           <summary>Source code in <code>black_it/search_space.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SameLowerAndUpperBoundError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SameLowerAndUpperBoundError</span><span class="p">(</span><span class="n">SearchSpaceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the lower and the upper bound of a parameter have the same value.</span>
 
 <span class="sd">    Attributes:</span>
@@ -1778,12 +2157,12 @@ black_it.search_space.SameLowerAndUpperBoundError            (<a class="autorefs
 <span class="sd">        bound_value (float): common value of the parameter bound</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bound_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bound_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Parameter </span><span class="si">{</span><span class="n">param_index</span><span class="si">}</span><span class="s2">&#39;s lower and upper bounds have the same &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;value (</span><span class="si">{</span><span class="n">bound_value</span><span class="si">}</span><span class="s2">). This calibrator cannot handle that. &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Please redefine externally your model in order to hardcode &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;parameter </span><span class="si">{</span><span class="n">param_index</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">bound_value</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;parameter </span><span class="si">{</span><span class="n">param_index</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">bound_value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param_index</span> <span class="o">=</span> <span class="n">param_index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bound_value</span> <span class="o">=</span> <span class="n">bound_value</span>
@@ -1811,49 +2190,28 @@ black_it.search_space.SameLowerAndUpperBoundError            (<a class="autorefs
 
   </div>
 
-              
-            </article>
-          </div>
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
       
         <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../losses/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Loss functions" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Loss functions
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../citing_black_it/" class="md-footer__link md-footer__link--next" aria-label="Next: Citing Black-it" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Citing Black-it
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1875,10 +2233,15 @@ black_it.search_space.SameLowerAndUpperBoundError            (<a class="autorefs
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       
