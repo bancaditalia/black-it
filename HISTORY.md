@@ -1,9 +1,31 @@
 Release History
 ===============
 
+0.3.3 (2025-11-17)
+------------------
+* Fix plotting from samplers to scheduler by @aldoglielmo in https://github.com/bancaditalia/black-it/pull/101
+* deps: regenerate poetry.lock by @muxator in https://github.com/bancaditalia/black-it/pull/102
+* scripts: show that setup.cfg and .ruff.toml currently target different python versions by @muxator in https://github.com/bancaditalia/black-it/pull/103
+* target uniform python version by @muxator in https://github.com/bancaditalia/black-it/pull/104
+* ci: allow maintainers to run workflows manually from the Actions tab by @muxator in https://github.com/bancaditalia/black-it/pull/105
+* ruff: document rules by @muxator in https://github.com/bancaditalia/black-it/pull/106
+* ruff: update v0.0.290 (2023-09-15) -> v0.11.13 (2025-06-05) by @muxator in https://github.com/bancaditalia/black-it/pull/107
+* readme: the minimum supported python version is currently 3.9 and not 3.8 by @muxator in https://github.com/bancaditalia/black-it/pull/108
+* update major versions for documentation packages by @muxator in https://github.com/bancaditalia/black-it/pull/109
+* update major versions of test dependencies by @muxator in https://github.com/bancaditalia/black-it/pull/110
+* deps: regenerate poetry.lock by @muxator in https://github.com/bancaditalia/black-it/pull/112
+* Perform major updates to dev dependencies by @muxator in https://github.com/bancaditalia/black-it/pull/113
+* Remove black. Replace with "ruff format" by @muxator in https://github.com/bancaditalia/black-it/pull/114
+* documentation update with extra samplers, losses and the scheduler by @aldoglielmo in https://github.com/bancaditalia/black-it/pull/99
+* apply ruff formatting to Jupyter notebooks, too by @muxator in https://github.com/bancaditalia/black-it/pull/115
+* deps: remove twine by @muxator in https://github.com/bancaditalia/black-it/pull/116
+
+
+**Full Changelog**: https://github.com/bancaditalia/black-it/compare/v0.3.2...v0.3.3
+
+
 0.3.2 (2025-04-05)
 ------------------
-
 * Fix PytestRemovedIn8Warning ("support for nose tests is deprecated and will be removed in a future release") by @muxator in https://github.com/bancaditalia/black-it/pull/84
 * tests: improve the signal/noise ratio of the test logs by 63% by @muxator in https://github.com/bancaditalia/black-it/pull/85
 * tests: centralize --doctest-modules option in pytest.ini by @muxator in https://github.com/bancaditalia/black-it/pull/86
