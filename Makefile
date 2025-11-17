@@ -220,10 +220,6 @@ servedocs: ## compile the docs watching for changes
 	python -c 'print("###### Starting local server. Press Control+C to stop server ######")'
 	mkdocs serve
 
-.PHONY: release
-release: dist ## package and upload a release
-	twine upload dist/*
-
 .PHONY: dist
 dist: clean ## builds source and wheel package
 	poetry build
