@@ -232,7 +232,7 @@ class ParticleSwarmSampler(BaseSampler):
         previous_points = existing_points[batch_index_start:batch_index_stop]
         previous_losses = existing_losses[batch_index_start:batch_index_stop]
         for particle_id, (point, loss) in enumerate(
-            zip(previous_points, previous_losses),
+            zip(previous_points, previous_losses, strict=True),
         ):
             best_particle_positions = cast("NDArray", self._best_particle_positions)
             best_position_losses = cast("NDArray", self._best_position_losses)

@@ -21,13 +21,13 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 
 import matplotlib.pyplot as plt  # type: ignore[import]
 from matplotlib.testing.compare import compare_images  # type: ignore[import]
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
 
 logger = logging.getLogger(__name__)

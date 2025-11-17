@@ -23,7 +23,7 @@ import textwrap
 import time
 import warnings
 from pathlib import Path
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 from joblib import Parallel, delayed  # type: ignore[import]
@@ -39,7 +39,7 @@ from black_it.utils.seedable import BaseSeedable
 
 if TYPE_CHECKING:
     import os
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from numpy.typing import NDArray
 

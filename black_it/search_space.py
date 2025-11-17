@@ -122,7 +122,7 @@ class SearchSpace:
             )
 
         for i, (lower_bound, upper_bound, precision) in enumerate(
-            zip(parameters_bounds[0], parameters_bounds[1], parameters_precision),
+            zip(parameters_bounds[0], parameters_bounds[1], parameters_precision, strict=True),
         ):
             # ensure lower bounds and upper bounds do not have the same value
             if lower_bound == upper_bound:

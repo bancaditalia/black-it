@@ -261,6 +261,7 @@ def test_calibrator_restore_from_checkpoint_and_set_sampler(tmp_path: Path) -> N
             for method1, method2 in zip(
                 vars_cal["samplers"],
                 cal_restored.scheduler.samplers,
+                strict=True,
             ):
                 assert type(method1).__name__ == type(method2).__name__
         if key == "scheduler":
