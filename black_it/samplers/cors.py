@@ -24,7 +24,7 @@ using radial basis functions." Journal of Global optimization 31.1 (2005): 153-1
 from __future__ import annotations
 
 from math import factorial
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import scipy.optimize as op  # type: ignore[import]
@@ -34,6 +34,8 @@ from black_it.samplers.base import BaseSampler
 from black_it.utils.base import digitize_data, positive_float
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import NDArray
 
     from black_it.search_space import SearchSpace
@@ -209,10 +211,12 @@ class CORSSampler(BaseSampler):
             cons = [
                 {
                     "type": "ineq",
-                    "fun": lambda x, localk=k: np.linalg.norm(
-                        np.subtract(x, current_points[localk]),
-                    )
-                    - r,  # noqa: B023
+                    "fun": lambda x, localk=k: (
+                        np.linalg.norm(
+                            np.subtract(x, current_points[localk]),
+                        )
+                        - r,  # noqa: B023
+                    ),
                 }
                 for k in range(nb_seed_points + j)
             ]

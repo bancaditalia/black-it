@@ -85,7 +85,7 @@ class TestPlotLossesMethodNum(BasePlotResultsTest):
     def teardown_method(self) -> None:
         """Tear down the test."""
         # restore default attributes
-        delattr(self, "expected_image")
+        del self.expected_image
         self.args = []
 
 
@@ -113,7 +113,7 @@ class TestPlotBatchNums(BasePlotResultsTest):
     def teardown_method(self) -> None:
         """Tear down the test."""
         # restore default attributes
-        delattr(self, "expected_image")
+        del self.expected_image
         self.args = []
 
 

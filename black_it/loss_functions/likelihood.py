@@ -19,13 +19,15 @@
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
 from black_it.loss_functions.base import BaseLoss
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import NDArray
 
 
