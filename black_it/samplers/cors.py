@@ -209,10 +209,12 @@ class CORSSampler(BaseSampler):
             cons = [
                 {
                     "type": "ineq",
-                    "fun": lambda x, localk=k: np.linalg.norm(
-                        np.subtract(x, current_points[localk]),
-                    )
-                    - r,  # noqa: B023
+                    "fun": lambda x, localk=k: (
+                        np.linalg.norm(
+                            np.subtract(x, current_points[localk]),
+                        )
+                        - r,  # noqa: B023
+                    ),
                 }
                 for k in range(nb_seed_points + j)
             ]
